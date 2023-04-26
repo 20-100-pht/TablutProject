@@ -26,12 +26,15 @@ public class Interface {
             @Override
             public void run() {
                 build();
+                startRefreshLoop();
             }
         });
     }
 
     public void build(){
         window = new JFrame("Tablut");
+
+        //setAppLookAndFeel();
 
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,6 +49,20 @@ public class Interface {
         gameFrame = new GameFrame(this);    //JComponent on which we will draw the game
 
         changePage(page);
+    }
+
+    public void setAppLookAndFeel(){
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedLookAndFeelException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void startRefreshLoop(){

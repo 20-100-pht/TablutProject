@@ -8,16 +8,18 @@ import java.io.IOException;
 
 public class Button extends JButton {
 
+    final int SELECTOR_SIZE = 16;
     boolean selector;
     boolean hovered = false;
-    Image selectorImage;
+    Interface ui;
 
     public Button(String name) {
-        this(name, false);
+        this(name, false, null);
     }
-    public Button(String name, boolean selector){
+    public Button(String name, boolean selector, Interface ui){
         super(name);
         this.selector = selector;
+        this.ui = ui;
 
         this.addMouseListener(new MouseAdapter(){
             @Override
@@ -29,30 +31,30 @@ public class Button extends JButton {
                 mouseExitedhandler(e);
             }
         });
-
-        try{
-            ImageIO.read(new File("assets/arrow.png"));
-        } catch(IOException exp){
-            exp.printStackTrace();
-        }
     }
 
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        //System.out.println(hovered);
-
-        if(hovered){
-            g.drawImage(selectorImage, 50/*-getWidth()/2-40*/, 50/*+getHeight()/2*/, null);
-        }
     }
 
     public void mouseEnteredHandler(MouseEvent e){
+        if(!hovered){
+            ui.menuFrame.setVisibleSelector(true);
+
+            int x = this.getX() - 50;
+            int y = this.getY() + this.getHeight()/2 - SELECTOR_SIZE/2;
+
+            ui.menuFrame.setSelectorPos(new Position(x, y));
+        }
         hovered = true;
     }
 
     public void mouseExitedhandler(MouseEvent e){
+        if(hovered){
+            //ui.menuFrame.setVisibleSelector(false);
+        }
         hovered = false;
     }
 }
