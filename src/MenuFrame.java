@@ -48,7 +48,7 @@ public class MenuFrame extends JComponent {
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 1;
-        c.ipady = (int) ((double) window.getWidth()*1);
+        c.ipady = (int) ((double) window.getWidth()*0.7);
         gLayout.setConstraints(space, c);
         this.add(space);
 
@@ -65,7 +65,7 @@ public class MenuFrame extends JComponent {
 
         Button bttnLoadGame = new Button("Charger une partie", true, ui);
         //c.fill = GridBagConstraints.NONE;
-        bttnNewGame.setBorder(new RoundBtn(10));
+        bttnLoadGame.setBorder(new RoundBtn(10));
         c.gridx = 1;
         c.gridy = 3;
         gLayout.setConstraints(bttnLoadGame, c);
@@ -73,7 +73,7 @@ public class MenuFrame extends JComponent {
 
         Button bttnStatistics = new Button("Statistiques", true, ui);
         // c.fill = GridBagConstraints.NONE;
-        bttnNewGame.setBorder(new RoundBtn(10));
+        bttnStatistics.setBorder(new RoundBtn(10));
         c.gridx = 1;
         c.gridy = 4;
         gLayout.setConstraints(bttnStatistics, c);
@@ -81,7 +81,7 @@ public class MenuFrame extends JComponent {
 
         Button bttnOption = new Button("Options", true, ui);
         //c.fill = GridBagConstraints.NONE;
-        bttnNewGame.setBorder(new RoundBtn(10));
+        bttnOption.setBorder(new RoundBtn(10));
         c.gridx = 1;
         c.gridy = 5;
         gLayout.setConstraints(bttnOption, c);
