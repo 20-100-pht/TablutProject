@@ -1,5 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import static java.awt.Font.BOLD;
 import static javax.swing.BoxLayout.Y_AXIS;
@@ -8,10 +12,16 @@ public class MenuFrame extends JComponent {
 
     Interface ui;
     Menu menu;
+    Image selectorImage;
+    boolean selectorDisplayed;
+    Position selectorPos;
 
     public MenuFrame(Interface ui){
         this.ui = ui;
         menu = new Menu();
+        loadAssets();
+
+        selectorDisplayed = false;
     }
 
     public void build() {
@@ -43,28 +53,28 @@ public class MenuFrame extends JComponent {
         c.ipady = 0;
         c.insets = new Insets(20, 20, 20, 20);
 
-        Button bttnNewGame = new Button("Nouvelle partie", true);
+        Button bttnNewGame = new Button("Nouvelle partie", true, ui);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 2;
         gLayout.setConstraints(bttnNewGame, c);
         this.add(bttnNewGame);
 
-        Button bttnLoadGame = new Button("Charger une partie", true);
+        Button bttnLoadGame = new Button("Charger une partie", true, ui);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 3;
         gLayout.setConstraints(bttnLoadGame, c);
         this.add(bttnLoadGame);
 
-        Button bttnStatistics = new Button("Statistiques", true);
+        Button bttnStatistics = new Button("Statistiques", true, ui);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 4;
         gLayout.setConstraints(bttnStatistics, c);
         this.add(bttnStatistics);
 
-        Button bttnOption = new Button("Options", true);
+        Button bttnOption = new Button("Options", true, ui);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 5;
@@ -85,6 +95,27 @@ public class MenuFrame extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g){
+        super.paintComponent(g);
 
+        if(selectorDisplayed){
+            g.drawImage(selectorImage, selectorPos.GetX(), selectorPos.GetY(), null);
+        }
+    }
+
+    public void loadAssets(){
+        try{
+            selectorImage = ImageIO.read(new File("assets/arrow.png"));
+            selectorImage= GraphicUtils.resizeImage(selectorImage, 16, 16);
+        } catch(IOException exp){
+            exp.printStackTrace();
+        }
+    }
+
+    public void setVisibleSelector(boolean isVisible){
+        selectorDisplayed = isVisible;
+    }
+
+    public void setSelectorPos(Position pos){
+        selectorPos = pos;
     }
 }
