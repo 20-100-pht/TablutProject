@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 import static java.awt.Font.BOLD;
@@ -17,7 +19,6 @@ public class MenuFrame extends JComponent {
     public void build() {
 
         JFrame window = ui.getWindow();
-
         Font fontArial45 = new Font("Arial", BOLD, 45);
 
         GridBagLayout gLayout = new GridBagLayout();
@@ -25,6 +26,7 @@ public class MenuFrame extends JComponent {
 
         JLabel labelTitle = new JLabel("Tablut");
         labelTitle.setFont(fontArial45);
+
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 0;
@@ -43,29 +45,34 @@ public class MenuFrame extends JComponent {
         c.ipady = 0;
         c.insets = new Insets(20, 20, 20, 20);
 
+
         Button bttnNewGame = new Button("Nouvelle partie", true);
-        c.fill = GridBagConstraints.NONE;
+        //c.fill = GridBagConstraints.NONE;
+        bttnNewGame.setBorder(new RoundBtn(10));
         c.gridx = 1;
         c.gridy = 2;
         gLayout.setConstraints(bttnNewGame, c);
         this.add(bttnNewGame);
 
         Button bttnLoadGame = new Button("Charger une partie", true);
-        c.fill = GridBagConstraints.NONE;
+        //c.fill = GridBagConstraints.NONE;
+        bttnLoadGame.setBorder(new RoundBtn(10));
         c.gridx = 1;
         c.gridy = 3;
         gLayout.setConstraints(bttnLoadGame, c);
         this.add(bttnLoadGame);
 
         Button bttnStatistics = new Button("Statistiques", true);
-        c.fill = GridBagConstraints.NONE;
+        //c.fill = GridBagConstraints.NONE;
+        bttnStatistics.setBorder(new RoundBtn(10));
         c.gridx = 1;
         c.gridy = 4;
         gLayout.setConstraints(bttnStatistics, c);
         this.add(bttnStatistics);
 
         Button bttnOption = new Button("Options", true);
-        c.fill = GridBagConstraints.NONE;
+        //c.fill = GridBagConstraints.NONE;
+        bttnOption.setBorder(new RoundBtn(10));
         c.gridx = 1;
         c.gridy = 5;
         gLayout.setConstraints(bttnOption, c);
@@ -81,10 +88,29 @@ public class MenuFrame extends JComponent {
         int height = (int) (sizeScreen.height * 0.6);
         int width = (int) (sizeScreen.width * 0.4);
         window.setSize(width, height);
+        window.setLocationRelativeTo(null);
     }
 
     @Override
     protected void paintComponent(Graphics g){
 
+    }
+
+    // Rounding buttons
+    class RoundBtn implements Border {
+        private int r;
+        RoundBtn(int r) {
+            this.r = r;
+        }
+        public Insets getBorderInsets(Component c) {
+            return new Insets(this.r+1, this.r+1, this.r+2, this.r);
+        }
+        public boolean isBorderOpaque() {
+            return true;
+        }
+        public void paintBorder(Component c, Graphics g, int x, int y,
+                                int width, int height) {
+            g.drawRoundRect(x, y, width-1, height-1, r, r);
+        }
     }
 }
