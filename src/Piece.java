@@ -44,15 +44,16 @@ public class Piece {
         int currentRow = getRow();
         int currentCol = getCol();
 
-        if (grid.getPieceAtPosition(destRow, destCol) != null) {
-            return false;
-        }
+        if (grid.getPieceAtPosition(destRow, destCol) != null) return false;
+        if(destCol != currentCol && destRow != currentRow) return false;
 
         int dirRow = Integer.compare(destRow, currentRow);
         int dirCol = Integer.compare(destCol, currentCol);
 
         int nextRow = currentRow + dirRow;
         int nextCol = currentCol + dirCol;
+
+
 
         while (nextRow != destRow || nextCol != destCol) {
             if (grid.getPieceAtPosition(nextRow, nextCol) != null) {
