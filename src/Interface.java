@@ -4,14 +4,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+enum InterfacePage {
+    INTRO,
+    MENU,
+    GAME
+}
+
 public class Interface {
 
     JFrame window;
     Timer refreshTimer;
     GameFrame gameFrame;
     MenuFrame menuFrame;
+    InterfacePage page;
 
     public Interface(){
+
+        page = InterfacePage.MENU;
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -19,16 +28,10 @@ public class Interface {
                 build();
             }
         });
-
     }
 
     public void build(){
         window = new JFrame("Tablut");
-
-        Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int) (sizeScreen.height * 0.6);
-        int width = (int) (sizeScreen.width * 0.6);
-        window.setSize(width, height);
 
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,10 +40,12 @@ public class Interface {
         window.addMouseListener(new AdapterMouse(this));
         window.addKeyListener(new AdapterKeyboard(this));
 
-        menuFrame = new MenuFrame();    //JComponent on which we will draw the menu
-        gameFrame = new GameFrame();    //JComponent on which we will draw the game
+        menuFrame = new MenuFrame(this);    //JComponent on which we will draw the menu
+        menuFrame.build();
 
-        window.add(gameFrame);
+        gameFrame = new GameFrame(this);    //JComponent on which we will draw the game
+
+        changePage(page);
     }
 
     private void startRefreshLoop(){
@@ -58,5 +63,22 @@ public class Interface {
     public void refresh(){
         window.revalidate();
         window.repaint();
+    }
+
+    public JFrame getWindow(){
+        return window;
+    }
+
+    public void changePage(InterfacePage newPage){
+        //window.removeAll();
+        if(newPage == InterfacePage.MENU){
+            menuFrame.adaptWindow();
+            window.add(menuFrame);
+        }
+        else if(newPage == InterfacePage.GAME){
+            gameFrame.adaptWindow();
+            window.add(gameFrame);
+        }
+        page = newPage;
     }
 }

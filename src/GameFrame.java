@@ -5,11 +5,20 @@ public class GameFrame extends JComponent {
 
     Interface ui;
     Game game;
-    public void GameFrame(Interface ui){
+    public GameFrame(Interface ui){
 
         this.ui = ui;
         game = new Game();
         game.grid.print();
+    }
+
+    public void adaptWindow(){
+        JFrame window = ui.getWindow();
+
+        Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = (int) (sizeScreen.height * 0.8);
+        int width = (int) (sizeScreen.width * 0.8);
+        window.setSize(width, height);
     }
 
     @Override
