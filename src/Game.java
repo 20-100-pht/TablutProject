@@ -55,10 +55,16 @@ public class Game {
     public void playTurnAttacker(){
         System.out.println("Attaquant, à vous de jouer !");
 
+
         Piece pieceMove = move();
 
+        //Check if the king has been captured while on or next to the throne
+        capture();
+
+        /*
+        * Regarder dans attack si la piece tuée est le ROI !
+        * */
         attack(pieceMove);
-        //capture();
     }
 
 
@@ -171,10 +177,9 @@ public class Game {
     }
 
     public void capture(){
-        //Pour le roi
 
-        if(isCapturedOnThrone() || isCapturedNextToThrone() ){
-            //Captured
+        if(isCapturedOnThrone() || isCapturedNextToThrone()){
+            //King is captured : end Game
             System.out.println("King has been captured!");
         }
 
@@ -184,32 +189,34 @@ public class Game {
         int x = king.getCol();
         int y = king.getRow();
 
-        //Is next to throne
+        //If king is next to throne
         if((x==4 && (y==3 || y==5)) || y==4 && (x==3 || x==5)){
 
+            //Get all pieces adjacent to the king
             Piece leftPiece = grid.getPieceAtPosition(y,x-1);
             Piece rightPiece = grid.getPieceAtPosition(y,x+1);
             Piece topPiece = grid.getPieceAtPosition(y-1,x);
             Piece bottomPiece = grid.getPieceAtPosition(y+1,x);
 
+            //If piece is attacker or throne
+            if( (leftPiece != null && leftPiece.isDefender()) || (y==4 && x+1==4 && leftPiece == null)){
+                return false;
+            }
+            if((rightPiece != null && rightPiece.isDefender()) || (y==4 && x-1==4 && rightPiece == null)){
+                return false;
+            }
+            if((topPiece != null && topPiece.isDefender()) || (y+1==4 && x==4 && topPiece == null)){
+                return false;
+            }
+            if((bottomPiece != null && bottomPiece.isDefender()) || (y-1==4 && x==4 && bottomPiece == null)){
+                return false;
+            }
 
-            if( (leftPiece != null && leftPiece.isDefender()) || !(y==4 && x-1==4 && leftPiece == null)){
-                return false;
-            }
-            if((rightPiece != null && rightPiece.isDefender()) || !(y==4 && x+1==4 && rightPiece == null)){
-                return false;
-            }
-            if((topPiece != null && topPiece.isDefender()) || !(y-1==4 && x==4 && topPiece == null)){
-                return false;
-            }
-            if((bottomPiece != null && bottomPiece.isDefender()) || !(y+1==4 && x==4 && bottomPiece == null)){
-                return false;
-            }
-
-            //Is captured
+            //King is captured
             return true;
         }
 
+        //King isn't captured
         return false;
     }
 
@@ -217,12 +224,16 @@ public class Game {
         int x = king.getCol();
         int y = king.getRow();
 
+        //If king is on throne
         if(x==4 && y==4){
+
+            //Get each adjacent piece to the throne
             Piece leftPiece = grid.getPieceAtPosition(4,3);
             Piece rightPiece = grid.getPieceAtPosition(4,5);
             Piece topPiece = grid.getPieceAtPosition(3,4);
-            Piece bottomPiece = grid.getPieceAtPosition(5,3);
+            Piece bottomPiece = grid.getPieceAtPosition(5,4);
 
+            //If piece is an attacker
             if(leftPiece == null || leftPiece.isDefender()){
                 return false;
             }
@@ -236,9 +247,11 @@ public class Game {
                 return false;
             }
 
-            //isCaptured
+            //King is captured
             return true;
         }
+
+        //King isn't captured
         return false;
     }
 

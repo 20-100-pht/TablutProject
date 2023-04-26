@@ -14,6 +14,7 @@ public class Grid implements Serializable {
         //KING
         board[4][4] = new Piece(4, 4, PieceType.KING);
 
+
         // DEFENDER
         board[2][4] = new Piece(2, 4, PieceType.DEFENDER);
         board[3][4] = new Piece(3, 4, PieceType.DEFENDER);
