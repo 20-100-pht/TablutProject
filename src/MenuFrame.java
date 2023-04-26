@@ -43,28 +43,28 @@ public class MenuFrame extends JComponent {
         c.ipady = 0;
         c.insets = new Insets(20, 20, 20, 20);
 
-        JButton bttnNewGame = new JButton("Nouvelle partie");
+        Button bttnNewGame = new Button("Nouvelle partie", true);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 2;
         gLayout.setConstraints(bttnNewGame, c);
         this.add(bttnNewGame);
 
-        JButton bttnLoadGame = new JButton("Charger une partie");
+        Button bttnLoadGame = new Button("Charger une partie", true);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 3;
         gLayout.setConstraints(bttnLoadGame, c);
         this.add(bttnLoadGame);
 
-        JButton bttnStatistics = new JButton("Statistiques");
+        Button bttnStatistics = new Button("Statistiques", true);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 4;
         gLayout.setConstraints(bttnStatistics, c);
         this.add(bttnStatistics);
 
-        JButton bttnOption = new JButton("Options");
+        Button bttnOption = new Button("Options", true);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 5;
