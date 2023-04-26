@@ -2,7 +2,7 @@ import java.io.Serializable;
 
 public class Grid implements Serializable {
 
-    int sizeGrid = 9;
+    final int sizeGrid = 9;
     Piece[][] board = new Piece[sizeGrid][sizeGrid];
 
     public Grid() {
@@ -20,10 +20,10 @@ public class Grid implements Serializable {
         board[5][4] = new Piece(5, 4, PieceType.DEFENDER);
         board[6][4] = new Piece(6, 4, PieceType.DEFENDER);
 
-        board[4][2] = new Piece(3, 4, PieceType.DEFENDER);
-        board[4][3] = new Piece(3, 4, PieceType.DEFENDER);
-        board[4][5] = new Piece(3, 4, PieceType.DEFENDER);
-        board[4][6] = new Piece(3, 4, PieceType.DEFENDER);
+        board[4][2] = new Piece(4, 2, PieceType.DEFENDER);
+        board[4][3] = new Piece(4, 3, PieceType.DEFENDER);
+        board[4][5] = new Piece(4, 5, PieceType.DEFENDER);
+        board[4][6] = new Piece(4, 6, PieceType.DEFENDER);
 
         //ATTACKER
         board[0][3] = new Piece(0, 3, PieceType.ATTACKER);
@@ -31,20 +31,20 @@ public class Grid implements Serializable {
         board[0][5] = new Piece(0, 5, PieceType.ATTACKER);
         board[1][4] = new Piece(1, 4, PieceType.ATTACKER);
 
-        board[8][3] = new Piece(0, 3, PieceType.ATTACKER);
-        board[8][4] = new Piece(0, 4, PieceType.ATTACKER);
-        board[8][5] = new Piece(0, 5, PieceType.ATTACKER);
-        board[7][4] = new Piece(1, 4, PieceType.ATTACKER);
+        board[8][3] = new Piece(8, 3, PieceType.ATTACKER);
+        board[8][4] = new Piece(8, 4, PieceType.ATTACKER);
+        board[8][5] = new Piece(8, 5, PieceType.ATTACKER);
+        board[7][4] = new Piece(7, 4, PieceType.ATTACKER);
 
-        board[3][0] = new Piece(0, 3, PieceType.ATTACKER);
-        board[4][0] = new Piece(0, 4, PieceType.ATTACKER);
-        board[5][0] = new Piece(0, 5, PieceType.ATTACKER);
-        board[4][1] = new Piece(1, 4, PieceType.ATTACKER);
+        board[3][0] = new Piece(3, 0, PieceType.ATTACKER);
+        board[4][0] = new Piece(4, 0, PieceType.ATTACKER);
+        board[5][0] = new Piece(5, 0, PieceType.ATTACKER);
+        board[4][1] = new Piece(4, 1, PieceType.ATTACKER);
 
-        board[3][8] = new Piece(0, 3, PieceType.ATTACKER);
-        board[4][8] = new Piece(0, 4, PieceType.ATTACKER);
-        board[5][8] = new Piece(0, 5, PieceType.ATTACKER);
-        board[4][7] = new Piece(1, 4, PieceType.ATTACKER);
+        board[3][8] = new Piece(3, 8, PieceType.ATTACKER);
+        board[4][8] = new Piece(4, 8, PieceType.ATTACKER);
+        board[5][8] = new Piece(5, 8, PieceType.ATTACKER);
+        board[4][7] = new Piece(4, 7, PieceType.ATTACKER);
 
     }
 
