@@ -110,4 +110,8 @@ public class Interface {
         window.add(frame);
         frame.adaptWindow();
     }
+
+    public GameFrame getGameFrame(){
+        return gameFrame;
+    }
 }

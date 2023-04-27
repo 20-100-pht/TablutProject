@@ -7,8 +7,7 @@ public class GameFrame extends Frame {
     public GameFrame(Interface ui){
         super(ui);
 
-        game = new Game();
-        game.grid.print();
+        //game.grid.print();
     }
 
     @Override
@@ -24,5 +23,9 @@ public class GameFrame extends Frame {
     @Override
     protected void paintComponent(Graphics g){
         g.drawString("Dessinez ici l'interface du jeu", 200, 200);
+    }
+
+    public void setGameInstance(Game game){
+        this.game = game;
     }
 }
