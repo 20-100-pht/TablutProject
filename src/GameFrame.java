@@ -1,17 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GameFrame extends JComponent {
+public class GameFrame extends Frame {
 
     Interface ui;
     Game game;
     public GameFrame(Interface ui){
+        super(ui);
 
-        this.ui = ui;
         game = new Game();
         game.grid.print();
     }
 
+    @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
 
