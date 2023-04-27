@@ -3,6 +3,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +16,10 @@ import static javax.swing.BoxLayout.Y_AXIS;
 public class MenuFrame extends Frame {
 
     Menu menu;
+    Button bttnNewGame;
+    Button bttnLoadGame;
+    Button bttnStatistics;
+    Button bttnOption;
 
     public MenuFrame(Interface ui){
         super(ui);
@@ -50,7 +57,7 @@ public class MenuFrame extends Frame {
         c.ipady = 0;
         c.insets = new Insets(20, 20, 20, 20);
 
-        Button bttnNewGame = new Button("Nouvelle partie", true, this);
+        bttnNewGame = new Button("Nouvelle partie", true, this);
         //c.fill = GridBagConstraints.NONE;
         bttnNewGame.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
@@ -58,7 +65,7 @@ public class MenuFrame extends Frame {
         gLayout.setConstraints(bttnNewGame, c);
         this.add(bttnNewGame);
 
-        Button bttnLoadGame = new Button("Charger une partie", true, this);
+        bttnLoadGame = new Button("Charger une partie", true, this);
         //c.fill = GridBagConstraints.NONE;
         bttnLoadGame.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
@@ -66,7 +73,7 @@ public class MenuFrame extends Frame {
         gLayout.setConstraints(bttnLoadGame, c);
         this.add(bttnLoadGame);
 
-        Button bttnStatistics = new Button("Statistiques", true, this);
+        bttnStatistics = new Button("Statistiques", true, this);
         // c.fill = GridBagConstraints.NONE;
         bttnStatistics.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
@@ -74,7 +81,7 @@ public class MenuFrame extends Frame {
         gLayout.setConstraints(bttnStatistics, c);
         this.add(bttnStatistics);
 
-        Button bttnOption = new Button("Options", true, this);
+        bttnOption = new Button("Options", true, this);
         //c.fill = GridBagConstraints.NONE;
         bttnOption.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
@@ -82,7 +89,18 @@ public class MenuFrame extends Frame {
         gLayout.setConstraints(bttnOption, c);
         this.add(bttnOption);
 
+        setButtonHandlers();
+
         this.setLayout(gLayout);
+    }
+
+    public void setButtonHandlers(){
+        bttnNewGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ui.changePage(InterfacePage.NEWGAME);
+            }
+        });
     }
 
     @Override

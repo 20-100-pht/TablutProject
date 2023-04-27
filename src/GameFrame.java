@@ -3,7 +3,6 @@ import java.awt.*;
 
 public class GameFrame extends Frame {
 
-    Interface ui;
     Game game;
     public GameFrame(Interface ui){
         super(ui);
