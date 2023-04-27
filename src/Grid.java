@@ -11,9 +11,9 @@ public class Grid implements Serializable {
 
     public void reset() {
 
+
         //KING
         board[4][4] = new Piece(4, 4, PieceType.KING);
-
 
         // DEFENDER
         board[2][4] = new Piece(2, 4, PieceType.DEFENDER);
@@ -50,7 +50,13 @@ public class Grid implements Serializable {
     }
 
     public void print() {
+        for( int k = 0; k < sizeGrid; k++){
+            if(k == 0) System.out.print("  ");
+            System.out.print(k+" ");
+        }
+        System.out.println();
         for (int i = 0; i < sizeGrid; i++) {
+            System.out.print(i+" ");
             for (int j = 0; j < sizeGrid; j++) {
                 if (board[i][j] == null) {
                     System.out.print(". ");
@@ -64,6 +70,10 @@ public class Grid implements Serializable {
 
     public boolean isInside(int row, int col) {
         return row >= 0 && row <= 8 && col >= 0 && col <= 8;
+    }
+
+    public boolean isCastle(int row, int col){
+        return row == 4 && col ==4;
     }
 
     public Piece getPieceAtPosition(int row, int col) {

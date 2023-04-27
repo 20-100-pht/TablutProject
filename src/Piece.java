@@ -17,15 +17,19 @@ public class Piece {
 
     public boolean isKing(){ return this.type == PieceType.KING;}
 
+    public boolean isSamePosition(int destRow, int destCol){
+        return destRow == row && destCol == col;
+    }
+
     public boolean isAttacker(){ return this.type == PieceType.ATTACKER;}
 
     public boolean isDefender(){ return this.type == PieceType.DEFENDER;}
 
     public boolean isDefenderOrKing(){ return this.type == PieceType.DEFENDER || this.type == PieceType.KING;}
 
-    public void setRow(int row){ this.row = row;}
+    public void setRow(int newRow){ this.row = newRow;}
 
-    public void setCol(int col){ this.col = col;}
+    public void setCol(int newCol){ this.col = newCol;}
 
     public void setKing(boolean king){ type = PieceType.KING;}
 

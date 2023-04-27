@@ -38,6 +38,8 @@ public class Game {
         if(attacker) playTurnAttacker();
         else playTurnDefender();
 
+
+
         defender = !defender;
         attacker = !attacker;
         
@@ -88,7 +90,9 @@ public class Game {
                 }
             }
 
-            if(!validInput) System.out.println("Coordonnées invalides, veuillez saisir à nouveau.");
+            if(!validInput) {
+                System.out.println("Coordonnées invalides, veuillez saisir à nouveau.");
+            }
         }
 
         selectedPiece = grid.getPieceAtPosition(pieceRow, pieceCol);
@@ -106,11 +110,23 @@ public class Game {
                 System.out.println("Case de destination invalide, veuillez saisir à nouveau.");
                 continue;
             }
+
+            if(grid.isCastle(destRow, destCol)){
+                System.out.println("Case de destination invalide (château), veuillez saisir à nouveau.");
+                continue;
+            }
+
+            if(selectedPiece.isSamePosition(destRow, destCol)){
+                System.out.println("Case de destination invalide (même position), veuillez saisir à nouveau.");
+                continue;
+            }
             
             if(!selectedPiece.canMoveTo(destRow, destCol, grid)){
                 System.out.println("La pièce sélectionnée ne peut pas se déplacer sur la case de destination, veuillez saisir à nouveau.");
                 continue;
             }
+
+
 
             validInput = true;
         }
@@ -122,7 +138,6 @@ public class Game {
 
         grid.setPieceAtPosition(selectedPiece, destRow, destCol);
         grid.setPieceAtPosition(null, pieceRow, pieceCol);
-        if(selectedPiece.isKing()) moveKing(destRow, destCol);
 
         return selectedPiece;
     }
@@ -140,7 +155,7 @@ public class Game {
         nbAttack += attackWithArg(current, 0, -1 );
 
         // attaque a droite
-        nbAttack += attackWithArg(current, -1, 1 );
+        nbAttack += attackWithArg(current, 0, 1 );
 
 
         return nbAttack;
@@ -160,7 +175,7 @@ public class Game {
             if( sideCurrent != null && ( (current.isAttacker() && sideCurrent.isDefenderOrKing()) || (current.isDefenderOrKing() && sideCurrent.isAttacker()) ) ){
                 if (grid.isInside(sideCurrent.getRow()+rowIndex, sideCurrent.getCol()+colIndex)){
                     sideSideCurrent = grid.getPieceAtPosition(sideCurrent.getRow()+rowIndex, sideCurrent.getCol()+colIndex);
-                    if( sideSideCurrent != null && ( (current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefenderOrKing() && sideSideCurrent.isDefenderOrKing()) ) ){
+                    if( grid.isCastle(sideCurrent.getRow()+rowIndex, sideCurrent.getCol()+colIndex) || ( sideSideCurrent != null && ( (current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefenderOrKing() && sideSideCurrent.isDefenderOrKing()) ) ) ){
                         nbAttack++;
                         grid.setPieceAtPosition(null, rowCurrent+rowIndex, colCurrent+colIndex);
                     }
@@ -260,13 +275,6 @@ public class Game {
         int x = king.getCol();
         int y = king.getRow();
         return ((x == 0 && ((y == 0) || (y == grid.sizeGrid - 1))) || (x == grid.sizeGrid -1 && ((y == 0) || (y == grid.sizeGrid -1))));
-    }
-
-    private void moveKing(int destCol, int destRow){
-        if (king.getCol() != destCol && king.getRow() != destRow){
-            king.setCol(destCol);
-            king.setRow(destRow);
-        }
     }
 
     public void loadFromFile(String filePath){
