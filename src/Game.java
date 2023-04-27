@@ -1,11 +1,14 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
     History history;
     boolean defender;
     boolean attacker;
+
+    ResultGame isEndGame = ResultGame.NO_END_GAME;
 
     Piece king;
     Scanner scanner = new Scanner(System.in);
@@ -27,18 +30,22 @@ public class Game {
     }
 
     public void playGame(){
-        boolean endGame = false;
-        while(!endGame){
+        while(isEndGame == ResultGame.NO_END_GAME){
             playTurn();
         }
+        endGame();
+    }
+
+    public void endGame(){
+        if(isEndGame == ResultGame.ATTACKER_WIN) System.out.println("Attacker win !");
+        else System.out.println("Defender win !");
     }
 
     public void playTurn(){
         grid.print();
+
         if(attacker) playTurnAttacker();
         else playTurnDefender();
-
-
 
         defender = !defender;
         attacker = !attacker;
@@ -52,6 +59,7 @@ public class Game {
 
         attack(pieceMove);
 
+        if(grid.isCornerPosition(king.getRow(), king.getCol()) || grid.noAttackerOnGrid()) isEndGame = ResultGame.DEFENDER_WIN;
     }
 
     public void playTurnAttacker(){
@@ -66,7 +74,16 @@ public class Game {
         /*
         * Regarder dans attack si la piece tuée est le ROI !
         * */
-        attack(pieceMove);
+        int kill = attack(pieceMove);
+        System.out.println("nb kill : " + kill);
+
+
+
+        /*int[] l = grid.gridToBinary();
+        for(int i =0; i < 11; i++){
+            String str = String.format("%16s", Integer.toBinaryString(l[i])).replace(' ', '0');
+            System.out.println(str);
+        }*/
     }
 
 
@@ -172,18 +189,25 @@ public class Game {
 
         if(grid.isInside(rowCurrent+rowIndex, colCurrent+colIndex)){
             sideCurrent = grid.getPieceAtPosition(rowCurrent+rowIndex, colCurrent+colIndex);
-            if( sideCurrent != null && ( (current.isAttacker() && sideCurrent.isDefenderOrKing()) || (current.isDefenderOrKing() && sideCurrent.isAttacker()) ) ){
-                if (grid.isInside(sideCurrent.getRow()+rowIndex, sideCurrent.getCol()+colIndex)){
-                    sideSideCurrent = grid.getPieceAtPosition(sideCurrent.getRow()+rowIndex, sideCurrent.getCol()+colIndex);
-                    if( grid.isCastle(sideCurrent.getRow()+rowIndex, sideCurrent.getCol()+colIndex) || ( sideSideCurrent != null && ( (current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefenderOrKing() && sideSideCurrent.isDefenderOrKing()) ) ) ){
+            if( sideCurrent != null && ( (current.isAttacker() && (sideCurrent.isDefender() || (sideCurrent.isKing() && sideCurrent.kingIsOnVulnerablePosition()) ) ) || (current.isDefender() && sideCurrent.isAttacker()) ) ){
+                if (grid.isInside(sideCurrent.getRow() + rowIndex, sideCurrent.getCol() + colIndex)) {
+                    sideSideCurrent = grid.getPieceAtPosition(sideCurrent.getRow() + rowIndex, sideCurrent.getCol() + colIndex);
+                    if (grid.isCastle(sideCurrent.getRow() + rowIndex, sideCurrent.getCol() + colIndex) || (sideSideCurrent != null && ((current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefender() && sideSideCurrent.isDefender())))) {
                         nbAttack++;
-                        grid.setPieceAtPosition(null, rowCurrent+rowIndex, colCurrent+colIndex);
+                        if(sideCurrent.isKing()) isEndGame = ResultGame.ATTACKER_WIN;
+                        else{
+                            if(sideCurrent.isAttacker()) grid.nbPieceAttackerOnGrid--;
+                            grid.setPieceAtPosition(null, rowCurrent + rowIndex, colCurrent + colIndex);
+                        }
                     }
 
-                }
-                else{
+                } else {
                     nbAttack++;
-                    grid.setPieceAtPosition(null, rowCurrent+rowIndex, colCurrent+colIndex);
+                    if(sideCurrent.isKing()) isEndGame = ResultGame.ATTACKER_WIN;
+                    else{
+                        if(sideCurrent.isAttacker()) grid.nbPieceAttackerOnGrid--;
+                        grid.setPieceAtPosition(null, rowCurrent + rowIndex, colCurrent + colIndex);
+                    }
                 }
             }
         }
@@ -192,12 +216,11 @@ public class Game {
     }
 
     public void capture(){
-
-        if(isCapturedOnThrone() || isCapturedNextToThrone()){
+        if(isCapturedOnThrone() || isCapturedNextToThrone()) {
             //King is captured : end Game
             System.out.println("King has been captured!");
+            isEndGame = ResultGame.ATTACKER_WIN;
         }
-
     }
 
     public boolean isCapturedNextToThrone(){

@@ -8,22 +8,19 @@ OK 4. Les pièces se déplacent sur n'importe quelle distance orthogonalement, s
 
 OK 5. Aucune pièce ne peut atterrir sur la place centrale, appelée "château", pas même le roi une fois qu'il l'a quittée.
 
-OK 6. Une pièce autre que le roi est capturée lorsqu'elle est entourée orthogonalement sur deux cases opposées par des ennemis. Le roi peut s'associer à un défenseur dans le but de capturer des attaquants.
+OK 6. Une pièce autre que le roi est capturée lorsqu'elle est entourée orthogonalement sur deux cases opposées par des ennemis. Le roi ne peut pas s'associer à un défenseur dans le but de capturer des attaquants.
 
 OK 7. Une pièce peut également être capturée entre un ennemi et le château vide.
 
-8. Lorsqu'il est dans le château, le roi est capturé en l'entourant sur quatre côtés orthogonaux d'attaquants.
+OK 8. Lorsqu'il est dans le château, le roi est capturé en l'entourant sur quatre côtés orthogonaux d'attaquants.
 
-9. Lorsqu'il se tient à côté du château, le roi peut être capturé en l'entourant des trois côtés restants avec des attaquants.
+OK 9. Lorsqu'il se tient à côté du château, le roi peut être capturé en l'entourant des trois côtés restants avec des attaquants.
 
-10. Ailleurs sur le plateau, le roi est capturé comme les autres pièces.
+A FAIRE 10. Ailleurs sur le plateau, le roi est capturé comme les autres pièces.
 
-11. Si le roi, lorsqu'il est dans le château, est entouré sur trois côtés par des attaquants et sur le quatrième par un défenseur, le défenseur peut être capturé en l'entourant entre un attaquant et le roi.
+OK 11. Si le roi, lorsqu'il est dans le château, est entouré sur trois côtés par des attaquants et sur le quatrième par un défenseur, le défenseur peut être capturé en l'entourant entre un attaquant et le roi.
 
-12. Le roi gagne la partie en atteignant n'importe quelle case au bord du plateau. Les attaquants gagnent s'ils capturent le roi.
-
-13. La partie est nulle si une position est répétée, si un joueur ne peut pas bouger ou si les joueurs en conviennent autrement.
-
+A FAIRE 12. Le roi gagne la partie en atteignant n'importe quelle coin au bord du plateau. Les attaquants gagnent s'ils capturent le roi.
 
 
 
@@ -34,5 +31,3 @@ Dans la règle 5, le roi est interdit d'accès à son propre château. Linnaeus 
 Un ajout aux règles qui ne se trouve pas dans le texte latin de Linnaeus est le mot "vide" dans la règle 7. Cela a été ajouté car, sans lui, la règle 11 serait complètement redondante. Dans l'état actuel des choses, la règle 11 décrit le seul cas où une pièce en défense peut être capturée contre la case centrale non vide.
 
 La règle 12 est formulée par inférence. Linnaeus ne donne que quelques exemples de l'endroit où le roi doit atteindre pour gagner la partie, le tout à divers points sur le bord du plateau.
-
-La règle 13 est une invention moderne conçue pour empêcher les jeux de durer indéfiniment ou de s'arrêter lorsqu'aucun des joueurs n'est en mesure de gagner.
