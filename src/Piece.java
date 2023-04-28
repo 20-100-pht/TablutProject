@@ -79,52 +79,24 @@ public class Piece {
 
     public ArrayList possibleMoves(Piece[][] board) {
         ArrayList<Coordinate> MovesToPieceList = new ArrayList<>();
-        Coordinate coords = new Coordinate(-1, -1);
         for (int i = c.col - 1; i >= 0; i--){
-            if (board[c.row][i] == null) {
-                coords.row = c.row;
-                coords.col = i;
-                MovesToPieceList.add(coords);
-            }else{
-                break;
-            }
+            if (board[c.row][i] == null) MovesToPieceList.add(new Coordinate(c.row, i));
+            else break;
         }
         for (int i = c.col + 1; i < 9; i++){
-            if (board[c.row][i] == null) {
-                coords.row = c.row;
-                coords.col = i;
-                MovesToPieceList.add(coords);
-            }else{
-                break;
-            }
+            if (board[c.row][i] == null) MovesToPieceList.add(new Coordinate(c.row, i));
+            else break;
         }
 
         for (int r = c.row - 1; r >= 0; r--){
-            if (board[r][c.col] == null) {
-                coords.row = r;
-                coords.col = c.col;
-                MovesToPieceList.add(coords);
-            }else{
-                break;
-            }
+            if (board[r][c.col] == null) MovesToPieceList.add(new Coordinate(r, c.col));
+            else break;
         }
         for (int r = c.row + 1; r < 9; r++){
-            if (board[r][c.col] == null) {
-                coords.row = r;
-                coords.col = c.col;
-                MovesToPieceList.add(coords);
-            }else{
-                break;
-            }
+            if (board[r][c.col] == null) MovesToPieceList.add(new Coordinate(r, c.col));
+            else break;
         }
-        //TODO A test
-        /*
-        System.out.print();
-        for ()
-
-        */
         return MovesToPieceList;
-
     }
 
 }

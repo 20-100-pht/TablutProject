@@ -27,15 +27,13 @@ public class AIRandom {
 
         while(true) {
             List<Piece> listPiece = AIGameControler.grid.returnListOfPiece(typeAI);
-            int aleaP = r.nextInt() & Integer.MAX_VALUE;;
-            aleaP = aleaP%listPiece.size();
+            int aleaP = r.nextInt(listPiece.size());
 
             Piece current = listPiece.get(aleaP);
 
             List<Coordinate> listDest = current.possibleMoves(AIGameControler.grid.board);
             if (listDest.size() > 0) {
-                int aleaD = r.nextInt(listDest.size()) & Integer.MAX_VALUE;
-                aleaD = aleaD%listPiece.size();
+                int aleaD = r.nextInt(listDest.size());
                 return new Coup(new Coordinate(current.getRow(), current.getCol()), listDest.get(aleaD));
             }
         }
