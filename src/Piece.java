@@ -1,30 +1,28 @@
 import java.util.ArrayList;
 
 public class Piece {
-    private int row;
-    private int col;
+    Coordinate c;
     private PieceType type;
 
-    public Piece(int row, int col, PieceType t) {
-        this.row = row;
-        this.col = col;
+    public Piece(Coordinate c, PieceType t) {
+        this.c = c;
         this.type = t;
     }
 
-    public int getRow(){ return row;}
+    public int getRow(){ return c.row;}
 
-    public int getCol(){ return col;}
+    public int getCol(){ return c.col;}
 
     public PieceType getType(){ return this.type;}
 
     public boolean isKing(){ return this.type == PieceType.KING;}
 
-    public boolean isSamePosition(int destRow, int destCol){
-        return destRow == row && destCol == col;
+    public boolean isSamePosition(Coordinate d){
+        return d.row == c.row && d.col == c.col;
     }
 
     public boolean kingIsOnVulnerablePosition(){
-        return !( (row == 4 && col == 4) || (row == 4 && col == 3) || (row == 4 && col == 5) || (row == 3 && col == 4) || (row == 5 && col == 4) );
+        return !( (c.row == 4 && c.col == 4) || (c.row == 4 && c.col == 3) || (c.row == 4 && c.col == 5) || (c.row == 3 && c.col == 4) || (c.row == 5 && c.col == 4) );
     }
 
     public boolean isAttacker(){ return this.type == PieceType.ATTACKER;}
@@ -33,9 +31,9 @@ public class Piece {
 
     public boolean isDefenderOrKing(){ return this.type == PieceType.DEFENDER || this.type == PieceType.KING;}
 
-    public void setRow(int newRow){ this.row = newRow;}
+    public void setRow(int newRow){ c.row = newRow;}
 
-    public void setCol(int newCol){ this.col = newCol;}
+    public void setCol(int newCol){ c.col = newCol;}
 
     public void setKing(boolean king){ type = PieceType.KING;}
 
@@ -49,25 +47,21 @@ public class Piece {
         else return "A";
     }
 
-    public boolean canMoveTo(int destRow, int destCol, Grid grid){
+    public boolean canMoveTo(Coordinate dest, Grid grid){
 
-        if (grid.getPieceAtPosition(destRow, destCol) != null) return false;
-        if(destCol != col && destRow != row) return false;
+        if (grid.getPieceAtPosition(dest) != null) return false;
+        if(dest.col != c.col && dest.row != c.row) return false;
 
-        int dirRow = Integer.compare(destRow, row);
-        int dirCol = Integer.compare(destCol, col);
+        Coordinate dir = new Coordinate(Integer.compare(dest.row, c.row), Integer.compare(dest.col, c.col));
 
-        int nextRow = row + dirRow;
-        int nextCol = col + dirCol;
+        Coordinate next = new Coordinate(c.row + dir.row, c.col + dir.col);
 
-
-
-        while (nextRow != destRow || nextCol != destCol) {
-            if (grid.getPieceAtPosition(nextRow, nextCol) != null) {
+        while (next.row != dest.row || next.col != dest.col) {
+            if (grid.getPieceAtPosition(next) != null) {
                 return false;
             }
-            nextRow += dirRow;
-            nextCol += dirCol;
+            next.setRow(next.row + dir.row);
+            next.setCol(next.col + dir.col);
         }
 
         return true;

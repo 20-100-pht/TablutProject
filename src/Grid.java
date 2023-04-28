@@ -154,36 +154,39 @@ public class Grid implements Serializable {
         return list;
     }
 
-    public boolean isInside(int row, int col) {
-        return row >= 0 && row < sizeGrid && col >= 0 && col < sizeGrid;
+    public boolean isInside(Coordinate obj) {
+        return obj.row >= 0 && obj.row < sizeGrid && obj.col >= 0 && obj.col < sizeGrid;
     }
 
-    public boolean isCastle(int row, int col){
-        return row == 4 && col ==4;
+    public boolean isCastle(Coordinate obj){
+        return obj.row == 4 && obj.col ==4;
     }
 
-    public boolean isCornerPosition(int rowKing, int colKing){
-        return ( (rowKing == 0 && colKing == 0) || (rowKing == 0 && colKing == 8) || (rowKing == 8 && colKing == 0) || (rowKing == 8 && colKing == 8) );
+    public boolean isCornerPosition(Coordinate k){
+        return ( (k.row == 0 && k.col == 0) || (k.row == 0 && k.col == 8) || (k.row == 8 && k.col == 0) || (k.row == 8 && k.col == 8) );
     }
 
-    public Piece getPieceAtPosition(int row, int col) {
-        if (row < 0 || row >= sizeGrid || col < 0 || col >= sizeGrid) {
+    public Piece getPieceAtPosition(Coordinate obj) {
+        if (obj.row < 0 || obj.row >= sizeGrid || obj.col < 0 || obj.col >= sizeGrid) {
             return null;
         }
-        return board[row][col];
+        return board[obj.row][obj.col];
     }
 
-    public void setPieceAtPosition(Piece piece, int row, int col) {
-        board[row][col] = piece;
+    public void setPieceAtPosition(Piece piece, Coordinate p) {
+        board[p.row][p.col] = piece;
     }
 
     public Grid cloneGrid() {
         Grid copy = new Grid();
+        Coordinate coord = new Coordinate(0,0);
         for (int i = 0; i < sizeGrid; i++) {
+            coord.setRow(i);
             for (int j = 0; j < sizeGrid; j++) {
-                Piece piece = getPieceAtPosition(i, j);
+                coord.setCol(j);
+                Piece piece = getPieceAtPosition(coord);
                 if (piece != null) {
-                    copy.setPieceAtPosition(piece.clonePiece(), i, j);
+                    copy.setPieceAtPosition(piece.clonePiece(), coord);
                 }
             }
         }
