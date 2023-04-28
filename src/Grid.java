@@ -7,10 +7,7 @@ public class Grid implements Serializable {
     final int sizeGrid = 9;
     Piece[][] board = new Piece[sizeGrid][sizeGrid];
 
-    int nbPieceAttackerOnGrid;
-
     public Grid() {
-        nbPieceAttackerOnGrid = 16;
         reset();
         //testAttackSideCastle();
         //testKingVulnerability2();
@@ -167,10 +164,6 @@ public class Grid implements Serializable {
 
     public boolean isCornerPosition(int rowKing, int colKing){
         return ( (rowKing == 0 && colKing == 0) || (rowKing == 0 && colKing == 8) || (rowKing == 8 && colKing == 0) || (rowKing == 8 && colKing == 8) );
-    }
-
-    public boolean noAttackerOnGrid(){
-        return nbPieceAttackerOnGrid == 0;
     }
 
     public Piece getPieceAtPosition(int row, int col) {
