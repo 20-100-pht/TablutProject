@@ -21,6 +21,7 @@ public class Piece {
         return d.row == c.row && d.col == c.col;
     }
 
+    /*Position vulnérable = n'importe ou sur le plateau sauf sur le trone ou à directement à côté*/
     public boolean kingIsOnVulnerablePosition(){
         return !( (c.row == 4 && c.col == 4) || (c.row == 4 && c.col == 3) || (c.row == 4 && c.col == 5) || (c.row == 3 && c.col == 4) || (c.row == 5 && c.col == 4) );
     }
@@ -70,26 +71,60 @@ public class Piece {
     }
 
     public Piece clonePiece(){
-        Piece copy = new Piece(getRow(), getCol(), getType());
+        Piece copy = new Piece(c, getType());
         return copy;
     }
 
 
-    //TODO
-    /*
-    public ArrayList possibleMoves(Grid grid) {
-        ArrayList<Piece> MovesToPieceList = new ArrayList<>();
-        for (int c = 0; c<9;c++){
-            if (this.canMoveTo(row,c, grid) && c != col){
-                MovesList.add(grid.getPieceAtPosition(row,c));
+
+    public ArrayList possibleMoves(Piece[][] board) {
+        ArrayList<Coordinate> MovesToPieceList = new ArrayList<>();
+        Coordinate coords = new Coordinate(-1, -1);
+        for (int i = c.col - 1; i >= 0; i--){
+            if (board[c.row][i] == null) {
+                coords.row = c.row;
+                coords.col = i;
+                MovesToPieceList.add(coords);
+            }else{
+                break;
             }
         }
-        for (int r = 0; r<9;r++){
-            if (this.canMoveTo(r,col, grid) && r != row){
-                MovesList.add(grid.getPieceAtPosition(r,col));
+        for (int i = c.col + 1; i < 9; i++){
+            if (board[c.row][i] == null) {
+                coords.row = c.row;
+                coords.col = i;
+                MovesToPieceList.add(coords);
+            }else{
+                break;
             }
         }
+
+        for (int r = c.row - 1; r >= 0; r--){
+            if (board[r][c.col] == null) {
+                coords.row = r;
+                coords.col = c.col;
+                MovesToPieceList.add(coords);
+            }else{
+                break;
+            }
+        }
+        for (int r = c.row + 1; r < 9; r++){
+            if (board[r][c.col] == null) {
+                coords.row = r;
+                coords.col = c.col;
+                MovesToPieceList.add(coords);
+            }else{
+                break;
+            }
+        }
+        //TODO A test
+        /*
+        System.out.print();
+        for ()
+
+        */
         return MovesToPieceList;
+
     }
-*/
+
 }
