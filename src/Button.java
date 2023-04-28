@@ -11,15 +11,15 @@ public class Button extends JButton {
     final int SELECTOR_SIZE = 16;
     boolean selector;
     boolean hovered = false;
-    Interface ui;
+    Frame frame;
 
     public Button(String name) {
         this(name, false, null);
     }
-    public Button(String name, boolean selector, Interface ui){
+    public Button(String name, boolean selector, Frame frame){
         super(name);
         this.selector = selector;
-        this.ui = ui;
+        this.frame = frame;
 
         this.addMouseListener(new MouseAdapter(){
             @Override
@@ -41,12 +41,12 @@ public class Button extends JButton {
 
     public void mouseEnteredHandler(MouseEvent e){
         if(!hovered){
-            ui.menuFrame.setVisibleSelector(true);
+            frame.setVisibleSelector(true);
 
             int x = this.getX() - 50;
             int y = this.getY() + this.getHeight()/2 - SELECTOR_SIZE/2;
 
-            ui.menuFrame.setSelectorPos(new Position(x, y));
+            frame.setSelectorPos(new Position(x, y));
         }
         hovered = true;
     }

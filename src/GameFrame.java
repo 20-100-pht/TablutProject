@@ -1,17 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GameFrame extends JComponent {
+public class GameFrame extends Frame {
 
-    Interface ui;
     Game game;
     public GameFrame(Interface ui){
+        super(ui);
 
-        this.ui = ui;
-        game = new Game();
-        game.grid.print();
+        //game.grid.print();
     }
 
+    @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
 
@@ -24,5 +23,9 @@ public class GameFrame extends JComponent {
     @Override
     protected void paintComponent(Graphics g){
         g.drawString("Dessinez ici l'interface du jeu", 200, 200);
+    }
+
+    public void setGameInstance(Game game){
+        this.game = game;
     }
 }

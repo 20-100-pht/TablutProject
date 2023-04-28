@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 enum InterfacePage {
     INTRO,
     MENU,
+    NEWGAME,
     GAME
 }
 
@@ -16,7 +17,9 @@ public class Interface {
     Timer refreshTimer;
     GameFrame gameFrame;
     MenuFrame menuFrame;
+    NewGameFrame newGameFrame;
     InterfacePage page;
+    Frame frame;
 
     public Interface(){
 
@@ -47,6 +50,9 @@ public class Interface {
         menuFrame.build();
 
         gameFrame = new GameFrame(this);    //JComponent on which we will draw the game
+
+        newGameFrame = new NewGameFrame(this);
+        newGameFrame.build();
 
         changePage(page);
     }
@@ -87,15 +93,25 @@ public class Interface {
     }
 
     public void changePage(InterfacePage newPage){
-        //window.removeAll();
+        if(frame != null){
+            window.remove(frame);
+        }
+
         if(newPage == InterfacePage.MENU){
-            menuFrame.adaptWindow();
-            window.add(menuFrame);
+            frame = menuFrame;
         }
         else if(newPage == InterfacePage.GAME){
-            gameFrame.adaptWindow();
-            window.add(gameFrame);
+            frame = gameFrame;
+        }
+        else if(newPage == InterfacePage.NEWGAME){
+            frame = newGameFrame;
         }
         page = newPage;
+        window.add(frame);
+        frame.adaptWindow();
+    }
+
+    public GameFrame getGameFrame(){
+        return gameFrame;
     }
 }

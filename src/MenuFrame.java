@@ -3,6 +3,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,22 +13,21 @@ import java.io.IOException;
 import static java.awt.Font.BOLD;
 import static javax.swing.BoxLayout.Y_AXIS;
 
-public class MenuFrame extends JComponent {
+public class MenuFrame extends Frame {
 
-    Interface ui;
     Menu menu;
-    Image selectorImage;
-    boolean selectorDisplayed;
-    Position selectorPos;
+    Button bttnNewGame;
+    Button bttnLoadGame;
+    Button bttnStatistics;
+    Button bttnOption;
 
     public MenuFrame(Interface ui){
-        this.ui = ui;
+        super(ui);
+
         menu = new Menu();
         loadAssets();
-
-        selectorDisplayed = false;
     }
-
+    @Override
     public void build() {
 
         JFrame window = ui.getWindow();
@@ -55,41 +57,53 @@ public class MenuFrame extends JComponent {
         c.ipady = 0;
         c.insets = new Insets(20, 20, 20, 20);
 
-        Button bttnNewGame = new Button("Nouvelle partie", true, ui);
+        bttnNewGame = new Button("Nouvelle partie", true, this);
         //c.fill = GridBagConstraints.NONE;
-        bttnNewGame.setBorder(new RoundBtn(10));
+        bttnNewGame.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
         c.gridy = 2;
         gLayout.setConstraints(bttnNewGame, c);
         this.add(bttnNewGame);
 
-        Button bttnLoadGame = new Button("Charger une partie", true, ui);
+        bttnLoadGame = new Button("Charger une partie", true, this);
         //c.fill = GridBagConstraints.NONE;
-        bttnLoadGame.setBorder(new RoundBtn(10));
+        bttnLoadGame.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
         c.gridy = 3;
         gLayout.setConstraints(bttnLoadGame, c);
         this.add(bttnLoadGame);
 
-        Button bttnStatistics = new Button("Statistiques", true, ui);
+        bttnStatistics = new Button("Statistiques", true, this);
         // c.fill = GridBagConstraints.NONE;
-        bttnStatistics.setBorder(new RoundBtn(10));
+        bttnStatistics.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
         c.gridy = 4;
         gLayout.setConstraints(bttnStatistics, c);
         this.add(bttnStatistics);
 
-        Button bttnOption = new Button("Options", true, ui);
+        bttnOption = new Button("Options", true, this);
         //c.fill = GridBagConstraints.NONE;
-        bttnOption.setBorder(new RoundBtn(10));
+        bttnOption.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
         c.gridy = 5;
         gLayout.setConstraints(bttnOption, c);
         this.add(bttnOption);
 
+        setButtonHandlers();
+
         this.setLayout(gLayout);
     }
 
+    public void setButtonHandlers(){
+        bttnNewGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ui.changePage(InterfacePage.NEWGAME);
+            }
+        });
+    }
+
+    @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
 
@@ -103,44 +117,9 @@ public class MenuFrame extends JComponent {
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-
-        if(selectorDisplayed){
-            g.drawImage(selectorImage, selectorPos.GetX(), selectorPos.GetY(), null);
-        }
     }
 
     public void loadAssets(){
-        try{
-            selectorImage = ImageIO.read(new File("assets/arrow.png"));
-            selectorImage= GraphicUtils.resizeImage(selectorImage, 16, 16);
-        } catch(IOException exp){
-            exp.printStackTrace();
-        }
-    }
 
-    public void setVisibleSelector(boolean isVisible){
-        selectorDisplayed = isVisible;
-    }
-
-    public void setSelectorPos(Position pos){
-        selectorPos = pos;
-    }
-
-    // Rounding buttons
-    class RoundBtn implements Border {
-        private int r;
-        RoundBtn(int r) {
-            this.r = r;
-        }
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.r+1, this.r+1, this.r+2, this.r);
-        }
-        public boolean isBorderOpaque() {
-            return true;
-        }
-        public void paintBorder(Component c, Graphics g, int x, int y,
-                                int width, int height) {
-            g.drawRoundRect(x, y, width-1, height-1, r, r);
-        }
     }
 }
