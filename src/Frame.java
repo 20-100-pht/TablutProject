@@ -48,4 +48,7 @@ public class Frame extends JComponent {
         selectorPos = pos;
     }
 
+    public void updateMargins() {
+
+    }
 }

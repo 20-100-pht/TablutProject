@@ -84,6 +84,9 @@ public class Interface {
     }
 
     public void refresh(){
+        if(frame != null){
+            frame.updateMargins();
+        }
         window.revalidate();
         window.repaint();
     }
