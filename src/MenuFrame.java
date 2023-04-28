@@ -123,3 +123,114 @@ public class MenuFrame extends Frame {
 
     }
 }
+**import java.awt.BorderLayout;
+ import java.awt.Dimension;
+ import java.awt.GridBagConstraints;
+ import java.awt.GridBagLayout;
+ import java.awt.Insets;
+ import java.awt.event.ActionEvent;
+ import java.awt.event.ActionListener;
+ import javax.swing.Box;
+ import javax.swing.JButton;
+ import javax.swing.JFrame;
+ import javax.swing.JLabel;
+ import javax.swing.JPanel;
+
+ public class TablutMenu extends JFrame implements ActionListener {
+ private static final long serialVersionUID = 1L;
+
+ public TablutMenu() {
+ super("Menu principal");
+
+ // Créer les boutons pour chaque option du menu
+ JButton newGameButton = new JButton("Nouvelle partie");
+ JButton loadGameButton = new JButton("Charger partie");
+ JButton statsButton = new JButton("Statistiques");
+ JButton optionsButton = new JButton("Options");
+
+ // Ajouter un écouteur d'événements pour chaque bouton
+ newGameButton.addActionListener(this);
+ loadGameButton.addActionListener(this);
+ statsButton.addActionListener(this);
+ optionsButton.addActionListener(this);
+
+ // Créer le panneau pour les boutons du menu
+ JPanel menuPanel = new JPanel(new GridBagLayout());
+ GridBagConstraints c = new GridBagConstraints();
+ c.insets = new Insets(5, 0, 5, 0);
+ c.gridx = 0;
+ c.gridy = 0;
+ menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide en haut
+ menuPanel.add(newGameButton, c);
+ c.gridy++;
+ menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide entre les boutons
+ menuPanel.add(loadGameButton, c);
+ c.gridy++;
+ menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide entre les boutons
+ menuPanel.add(statsButton, c);
+ c.gridy++;
+ menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide entre les boutons
+ menuPanel.add(optionsButton, c);
+ menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide en bas
+
+ // Créer le panneau pour le titre du jeu
+ JPanel titlePanel = new JPanel();
+ titlePanel.add(new JLabel("Tablut"));
+
+ // Ajouter les panneaux au cadre principal
+ add(titlePanel, BorderLayout.NORTH);
+ add(menuPanel, BorderLayout.CENTER);
+
+ // Configurer le cadre principal
+ setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ pack();
+ setLocationRelativeTo(null);
+ setVisible(true);
+ }
+
+ @Override
+ public void actionPerformed(ActionEvent e) {
+ String command = e.getActionCommand();
+
+ switch (command) {
+ case "Nouvelle partie":
+ startNewGame();
+ break;
+ case "Charger partie":
+ loadSavedGame();
+ break;
+ case "Statistiques":
+ displayStats();
+ break;
+ case "Options":
+ showOptions();
+ break;
+ }
+ }
+
+ private void startNewGame() {
+ // Code pour commencer une nouvelle partie
+ System.out.println("Nouvelle partie démarrée.");
+ }
+
+ private void loadSavedGame() {
+ // Code pour charger une partie sauvegardée
+ System.out.println("Partie chargée.");
+ }
+
+ private void displayStats() {
+ // Code pour afficher les statistiques
+ System.out.println("Statistiques affichées.");
+ }
+
+ private void showOptions() {
+ // Code pour afficher les options
+ System.out.println("Options affichées.");
+ }
+
+ public static void main(String[] args) {
+ TablutMenu menu = new TablutMenu();
+ }
+ }
+
+**/
