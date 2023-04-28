@@ -3,8 +3,11 @@ import java.util.List;
 
 public class AI {
 
-    AI(){
+    boolean isAttacker;
+    GameControler AIGameController;
 
+    AI(GameControler g, boolean b){
+        AIGameController = g; isAttacker = b;
     }
 /*
     private Node constructTreeLayer(Node Father){
@@ -72,23 +75,43 @@ public class AI {
     //faut peut être aussi renvoyer le node choisi (= le coup qu'on fait) ou le stocker
     }
 
-    public int heuriticAttacker(Piece[][] board){
+
+    public float heuristic(Piece[][] board){
         int king = 0;
         int attackers = 0;
         int defenders = 0;
+
+        AIGameController.grid.board = board;
 
         for(int y = 0; y < board.length; y++){
             for(int x = 0; x < board.length; x++){
                 if(board[y][x]!=null){
                     switch (board[y][x].getType()){
                         case KING :
+                            king++;
+                            AIGameController.king = board[y][x];
+                            break;
+                        case DEFENDER:
+                            defenders++;
+                            break;
+                        case ATTACKER:
+                            attackers++;
                             break;
                     }
                 }
             }
         }
-        
-        return 0;
+
+        AIGameController.capture();
+
+        if(AIGameController.endGameVar == ResultGame.ATTACKER_WIN || defenders == 0)
+            return 0;
+        else if (AIGameController.endGameVar == ResultGame.DEFENDER_WIN || attackers == 0 || AIGameController.isKingAtObjective()) {
+            return 1;
+        }
+
+        float value = king * (defenders/attackers);
+        return value;
     }
 /* //TODO
     private List<Piece> returnListOfPieceBoard(PieceType type){

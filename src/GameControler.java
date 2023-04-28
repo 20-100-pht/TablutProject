@@ -184,16 +184,16 @@ public class GameControler {
             //piece defenseur
 
             //If piece is attacker or throne
-            if( (leftPiece != null && leftPiece.isDefender()) || (y==4 && x+1==4 && leftPiece == null)){
+            if( (leftPiece != null && leftPiece.isDefender()) || (!(y==4 && x+1==4) && leftPiece == null) ){
                 return false;
             }
-            if((rightPiece != null && rightPiece.isDefender()) || (y==4 && x-1==4 && rightPiece == null)){
+            if( (rightPiece != null && rightPiece.isDefender()) || (!(y==4 && x-1==4) && rightPiece == null) ){
                 return false;
             }
-            if((topPiece != null && topPiece.isDefender()) || (y+1==4 && x==4 && topPiece == null)){
+            if( (topPiece != null && topPiece.isDefender()) || (!(y+1==4 && x==4) && topPiece == null) ){
                 return false;
             }
-            if((bottomPiece != null && bottomPiece.isDefender()) || (y-1==4 && x==4 && bottomPiece == null)){
+            if( (bottomPiece != null && bottomPiece.isDefender()) || (!(y-1==4 && x==4) && bottomPiece == null) ){
                 return false;
             }
 
@@ -241,7 +241,7 @@ public class GameControler {
     }
 
     public boolean isKingAtObjective (){
-        // The objectives are at the 4 corners of the board
+        // The objectives are the 4 corners of the board
         int x = king.getCol();
         int y = king.getRow();
         return ((x == 0 && ((y == 0) || (y == grid.sizeGrid - 1))) || (x == grid.sizeGrid -1 && ((y == 0) || (y == grid.sizeGrid -1))));

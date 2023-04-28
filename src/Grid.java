@@ -19,106 +19,106 @@ public class Grid implements Serializable {
     }
 
     public void testKingVulnerability(){
-        board[4][4] = new Piece(4, 4, PieceType.KING);
+        board[4][4] = new Piece(new Coordinate(4,4),PieceType.KING);
 
-        board[2][4] = new Piece(2, 4, PieceType.ATTACKER);
-        board[4][3] = new Piece(4, 3, PieceType.ATTACKER);
-        board[4][5] = new Piece(4, 5, PieceType.ATTACKER);
-        board[5][4] = new Piece(5, 4, PieceType.ATTACKER);
+        board[2][4] = new Piece(new Coordinate(2, 4), PieceType.ATTACKER);
+        board[4][3] = new Piece(new Coordinate(4, 3), PieceType.ATTACKER);
+        board[4][5] = new Piece(new Coordinate(4, 5), PieceType.ATTACKER);
+        board[5][4] = new Piece(new Coordinate(5, 4), PieceType.ATTACKER);
 
 
     }
 
     public void testKingVulnerability2(){
-        board[3][4] = new Piece(3, 4, PieceType.KING);
+        board[3][4] = new Piece(new Coordinate(3, 4), PieceType.KING);
 
-        board[1][4] = new Piece(1, 4, PieceType.ATTACKER);
-        board[3][2] = new Piece(3, 2, PieceType.ATTACKER);
-        board[3][5] = new Piece(3, 5, PieceType.ATTACKER);
-        board[4][2] = new Piece(4, 2, PieceType.DEFENDER);
+        board[1][4] = new Piece(new Coordinate(1, 4), PieceType.ATTACKER);
+        board[3][2] = new Piece(new Coordinate(3, 2), PieceType.ATTACKER);
+        board[3][5] = new Piece(new Coordinate(3, 5), PieceType.ATTACKER);
+        board[4][2] = new Piece(new Coordinate(4, 2), PieceType.DEFENDER);
     }
 
     public void testKingVulnerability3(){
-        board[1][1] = new Piece(1, 1, PieceType.KING);
+        board[1][1] = new Piece(new Coordinate(1, 1), PieceType.KING);
 
-        board[1][0] = new Piece(1, 0, PieceType.ATTACKER);
-        board[1][3] = new Piece(1, 3, PieceType.ATTACKER);
+        board[1][0] = new Piece(new Coordinate(1, 0), PieceType.ATTACKER);
+        board[1][3] = new Piece(new Coordinate(1, 3), PieceType.ATTACKER);
     }
 
     public void testKingVulnerability4(){
-        board[0][1] = new Piece(0, 1, PieceType.KING);
-        board[2][1] = new Piece(2, 1, PieceType.ATTACKER);
+        board[0][1] = new Piece(new Coordinate(0, 1), PieceType.KING);
+        board[2][1] = new Piece(new Coordinate(2, 1), PieceType.ATTACKER);
     }
 
     public void testTripleKill(){
-        board[4][4] = new Piece(4, 4, PieceType.KING);
+        board[4][4] = new Piece(new Coordinate(4, 4), PieceType.KING);
 
-        board[4][1] = new Piece(4, 1, PieceType.ATTACKER);
-        board[1][3] = new Piece(1, 3, PieceType.ATTACKER);
+        board[4][1] = new Piece(new Coordinate(4, 1), PieceType.ATTACKER);
+        board[1][3] = new Piece(new Coordinate(1, 3), PieceType.ATTACKER);
 
-        board[1][0] = new Piece(1, 0, PieceType.DEFENDER);
-        board[0][1] = new Piece(0, 1, PieceType.DEFENDER);
-        board[1][2] = new Piece(1, 2, PieceType.DEFENDER);
+        board[1][0] = new Piece(new Coordinate(1, 0), PieceType.DEFENDER);
+        board[0][1] = new Piece(new Coordinate(0, 1), PieceType.DEFENDER);
+        board[1][2] = new Piece(new Coordinate(1, 2), PieceType.DEFENDER);
     }
 
     public void noAttacker(){
-        board[4][4] = new Piece(4, 4, PieceType.KING);
+        board[4][4] = new Piece(new Coordinate(4, 4), PieceType.KING);
 
-        board[0][1] = new Piece(0, 1, PieceType.ATTACKER);
+        board[0][1] = new Piece(new Coordinate(0, 1), PieceType.ATTACKER);
 
-        board[0][0] = new Piece(0, 0, PieceType.DEFENDER);
-        board[0][3] = new Piece(1, 2, PieceType.DEFENDER);
+        board[0][0] = new Piece(new Coordinate(0, 0), PieceType.DEFENDER);
+        board[0][3] = new Piece(new Coordinate(1, 2), PieceType.DEFENDER);
     }
 
     public void testAttackSideCastle(){
-        board[4][4] = new Piece(4, 4, PieceType.KING);
+        board[4][4] = new Piece(new Coordinate(4, 4), PieceType.KING);
 
-        board[3][4] = new Piece(3, 4, PieceType.DEFENDER);
+        board[3][4] = new Piece(new Coordinate(3, 4), PieceType.DEFENDER);
 
 
-        board[4][3] = new Piece(4, 3, PieceType.ATTACKER);
-        board[4][5] = new Piece(4, 5, PieceType.ATTACKER);
-        board[5][4] = new Piece(5, 4, PieceType.ATTACKER);
-        board[0][4] = new Piece(0, 4, PieceType.ATTACKER);
+        board[4][3] = new Piece(new Coordinate(4, 3), PieceType.ATTACKER);
+        board[4][5] = new Piece(new Coordinate(4, 5), PieceType.ATTACKER);
+        board[5][4] = new Piece(new Coordinate(5, 4), PieceType.ATTACKER);
+        board[0][4] = new Piece(new Coordinate(0, 4), PieceType.ATTACKER);
 
     }
 
     public void reset() {
 
         //KING
-        board[4][4] = new Piece(4, 4, PieceType.KING);
+        board[4][4] = new Piece(new Coordinate(4, 4), PieceType.KING);
 
         // DEFENDER
-        board[2][4] = new Piece(2, 4, PieceType.DEFENDER);
-        board[3][4] = new Piece(3, 4, PieceType.DEFENDER);
-        board[5][4] = new Piece(5, 4, PieceType.DEFENDER);
-        board[6][4] = new Piece(6, 4, PieceType.DEFENDER);
+        board[2][4] = new Piece(new Coordinate(2, 4), PieceType.DEFENDER);
+        board[3][4] = new Piece(new Coordinate(3, 4), PieceType.DEFENDER);
+        board[5][4] = new Piece(new Coordinate(5, 4), PieceType.DEFENDER);
+        board[6][4] = new Piece(new Coordinate(6, 4), PieceType.DEFENDER);
 
-        board[4][2] = new Piece(4, 2, PieceType.DEFENDER);
-        board[4][3] = new Piece(4, 3, PieceType.DEFENDER);
-        board[4][5] = new Piece(4, 5, PieceType.DEFENDER);
-        board[4][6] = new Piece(4, 6, PieceType.DEFENDER);
+        board[4][2] = new Piece(new Coordinate(4, 2), PieceType.DEFENDER);
+        board[4][3] = new Piece(new Coordinate(4, 3), PieceType.DEFENDER);
+        board[4][5] = new Piece(new Coordinate(4, 5), PieceType.DEFENDER);
+        board[4][6] = new Piece(new Coordinate(4, 6), PieceType.DEFENDER);
 
         //ATTACKER
-        board[0][3] = new Piece(0, 3, PieceType.ATTACKER);
-        board[0][4] = new Piece(0, 4, PieceType.ATTACKER);
-        board[0][5] = new Piece(0, 5, PieceType.ATTACKER);
-        board[1][4] = new Piece(1, 4, PieceType.ATTACKER);
+        board[0][3] = new Piece(new Coordinate(0, 3), PieceType.ATTACKER);
+        board[0][4] = new Piece(new Coordinate(0, 4), PieceType.ATTACKER);
+        board[0][5] = new Piece(new Coordinate(0, 5), PieceType.ATTACKER);
+        board[1][4] = new Piece(new Coordinate(1, 4), PieceType.ATTACKER);
 
-        board[8][3] = new Piece(8, 3, PieceType.ATTACKER);
-        board[8][4] = new Piece(8, 4, PieceType.ATTACKER);
-        board[8][5] = new Piece(8, 5, PieceType.ATTACKER);
-        board[7][4] = new Piece(7, 4, PieceType.ATTACKER);
+        board[8][3] = new Piece(new Coordinate(8, 3), PieceType.ATTACKER);
+        board[8][4] = new Piece(new Coordinate(8, 4), PieceType.ATTACKER);
+        board[8][5] = new Piece(new Coordinate(8, 5), PieceType.ATTACKER);
+        board[7][4] = new Piece(new Coordinate(7, 4), PieceType.ATTACKER);
 
-        board[3][0] = new Piece(3, 0, PieceType.ATTACKER);
-        board[4][0] = new Piece(4, 0, PieceType.ATTACKER);
-        board[5][0] = new Piece(5, 0, PieceType.ATTACKER);
-        board[4][1] = new Piece(4, 1, PieceType.ATTACKER);
+        board[3][0] = new Piece(new Coordinate(3, 0), PieceType.ATTACKER);
+        board[4][0] = new Piece(new Coordinate(4, 0), PieceType.ATTACKER);
+        board[5][0] = new Piece(new Coordinate(5, 0), PieceType.ATTACKER);
+        board[4][1] = new Piece(new Coordinate(4, 1), PieceType.ATTACKER);
 
-        board[3][8] = new Piece(3, 8, PieceType.ATTACKER);
-        board[4][8] = new Piece(4, 8, PieceType.ATTACKER);
-        board[5][8] = new Piece(5, 8, PieceType.ATTACKER);
-        board[4][7] = new Piece(4, 7, PieceType.ATTACKER);
+        board[3][8] = new Piece(new Coordinate(3, 8), PieceType.ATTACKER);
+        board[4][8] = new Piece(new Coordinate(4, 8), PieceType.ATTACKER);
+        board[5][8] = new Piece(new Coordinate(5, 8), PieceType.ATTACKER);
+        board[4][7] = new Piece(new Coordinate(4, 7), PieceType.ATTACKER);
 
     }
 
