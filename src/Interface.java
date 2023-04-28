@@ -50,6 +50,7 @@ public class Interface {
         menuFrame.build();
 
         gameFrame = new GameFrame(this);    //JComponent on which we will draw the game
+        gameFrame.build();
 
         newGameFrame = new NewGameFrame(this);
         newGameFrame.build();
