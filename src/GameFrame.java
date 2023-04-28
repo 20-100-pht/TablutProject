@@ -18,6 +18,7 @@ public class GameFrame extends Frame {
         int height = (int) (sizeScreen.height * 0.8);
         int width = (int) (sizeScreen.width * 0.8);
         window.setSize(width, height);
+        window.setLocationRelativeTo(null);
     }
 
     @Override
