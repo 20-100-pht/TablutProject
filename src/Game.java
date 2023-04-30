@@ -189,4 +189,8 @@ public class Game {
         }
     }
 
+    public Grid getGridInstance(){
+        return gameControler.grid;
+    }
+
 }

@@ -262,7 +262,7 @@ public class NewGameFrame extends Frame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tfNamePlayer2.setEnabled(!cbDefPartIA.isSelected());
-                setDefDifficultyButtonsEnabled(cbAttPartIA.isSelected());
+                setDefDifficultyButtonsEnabled(cbDefPartIA.isSelected());
             }
         });
 
