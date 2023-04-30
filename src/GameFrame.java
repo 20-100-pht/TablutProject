@@ -14,6 +14,9 @@ public class GameFrame extends Frame {
     Game game;
     GridPanel gridPanel;
     ImageIcon imageRobot;
+    ImageIcon imageArrowLeft;
+    ImageIcon imageArrowRight;
+    JMenuBar menuBar;
     public GameFrame(Interface ui){
         super(ui);
 
@@ -24,9 +27,13 @@ public class GameFrame extends Frame {
 
         Border blacklineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
+        Font fontDialog20 = new Font(Font.DIALOG, Font.PLAIN, 20);
+
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         this.setLayout(gLayout);
+
+        //Infos player 1
 
         JPanel player1InfoPart = new JPanel(); //player1InfoPart.setBackground(Color.orange);
         c.gridx = 0;
@@ -35,15 +42,27 @@ public class GameFrame extends Frame {
         gLayout.setConstraints(player1InfoPart, c);
         this.add(player1InfoPart);
 
-        //BoxLayout layoutPlayer1Info = new BoxLayout(player1InfoPart, BoxLayout.Y_AXIS);
-        GridLayout layoutPlayer1Info = new GridLayout();
-        layoutPlayer1Info.setColumns(1);
-        layoutPlayer1Info.setRows(3);
+        GridBagLayout layoutPlayer1Info = new GridBagLayout();
         player1InfoPart.setLayout(layoutPlayer1Info);
+
+        //Nom player 1
+
+        c.weightx = 0;
+
+        JLabel labelPlayer1Name = new JLabel("Alexandre"); labelPlayer1Name.setBackground(Color.red);
+        c.gridx = 0;
+        c.gridy = 0;
+        layoutPlayer1Info.setConstraints(labelPlayer1Name, c);
+        player1InfoPart.add(labelPlayer1Name);
+
+        //Image player 1
 
         JPanel panelImagePlayer1 = new JPanel();
         panelImagePlayer1.setPreferredSize(new Dimension(104, 104));
         panelImagePlayer1.setBorder(blacklineBorder);
+        c.gridx = 0;
+        c.gridy = 1;
+        layoutPlayer1Info.setConstraints(panelImagePlayer1, c);
         player1InfoPart.add(panelImagePlayer1);
 
         GridBagLayout layoutImagePlayer1 = new GridBagLayout();
@@ -60,28 +79,26 @@ public class GameFrame extends Frame {
         layoutImagePlayer1.setConstraints(labelImagePlayer1, c2);
         panelImagePlayer1.add(labelImagePlayer1);
 
-        JLabel labelPlayer1Name = new JLabel("Alexandre"); labelPlayer1Name.setBackground(Color.red);
-        c2.gridx = 0;
-        c2.gridy = 1;
-        layoutImagePlayer1.setConstraints(labelPlayer1Name, c2);
-        player1InfoPart.add(labelPlayer1Name);
+        //Status joueur 1
 
         JLabel labelPlayer1Status = new JLabel("Ton tour...");
-        c2.gridx = 0;
-        c2.gridy = 2;
-        layoutImagePlayer1.setConstraints(labelPlayer1Status, c2);
+        c.gridx = 0;
+        c.gridy = 2;
+        layoutPlayer1Info.setConstraints(labelPlayer1Status, c);
         player1InfoPart.add(labelPlayer1Status);
 
-
+        //Grid
 
         gridPanel = new GridPanel(this);
-        gridPanel.setPreferredSize(new Dimension(500, 500));
+        //gridPanel.setPreferredSize(new Dimension(500, 500));
         //gridPanel.setBackground(Color.ORANGE);
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
         gLayout.setConstraints(gridPanel, c);
         this.add(gridPanel);
+
+        //Infos player 2
 
         JPanel player2InfoPart = new JPanel();
         c.gridx = 2;
@@ -90,20 +107,127 @@ public class GameFrame extends Frame {
         gLayout.setConstraints(player2InfoPart, c);
         this.add(player2InfoPart);
 
+        GridBagLayout layoutPlayer2Info = new GridBagLayout();
+        player2InfoPart.setLayout(layoutPlayer2Info);
+
+        //Nom joueur 2
+
+        c.weightx = 0;
+
+        JLabel labelPlayer2Name = new JLabel("Philippe");
+        c.gridx = 0;
+        c.gridy = 0;
+        layoutPlayer2Info.setConstraints(labelPlayer2Name, c);
+        player2InfoPart.add(labelPlayer2Name);
+
+        //Image player 2
+
+        JPanel panelImagePlayer2 = new JPanel();
+        panelImagePlayer2.setPreferredSize(new Dimension(104, 104));
+        panelImagePlayer2.setBorder(blacklineBorder);
+        c.gridx = 0;
+        c.gridy = 1;
+        layoutPlayer2Info.setConstraints(panelImagePlayer2, c);
+        player2InfoPart.add(panelImagePlayer2);
+
+        GridBagLayout layoutImagePlayer2 = new GridBagLayout();
+        panelImagePlayer2.setLayout(layoutImagePlayer2);
+
+        c2.anchor = GridBagConstraints.CENTER;
+        c2.weightx = 0;
+        c2.fill = GridBagConstraints.NONE;
+
+        JLabel labelImagePlayer2 = new JLabel(imageRobot);
+        c2.gridx = 0;
+        c2.gridy = 0;
+        layoutImagePlayer2.setConstraints(labelImagePlayer2, c2);
+        panelImagePlayer2.add(labelImagePlayer2);
+
+        //Status joueur 2
+
+        JLabel labelPlayer2Status = new JLabel("Observe...");
+        c.gridx = 0;
+        c.gridy = 2;
+        layoutPlayer2Info.setConstraints(labelPlayer2Status, c);
+        player2InfoPart.add(labelPlayer2Status);
+
+        //Turns
+
+        JPanel turnPanel = new JPanel();
+        c.gridx = 1;
+        c.gridy = 2;
+        c.insets = new Insets(30, 0,0, 0);
+        gLayout.setConstraints(turnPanel, c);
+        this.add(turnPanel);
+
+        BoxLayout layoutTurnPanel = new BoxLayout(turnPanel, BoxLayout.X_AXIS);
+
+        JLabel labelPreviousTurn = new JLabel(imageArrowLeft);
+        turnPanel.add(labelPreviousTurn);
+
+        Border borderIndexTurn = BorderFactory.createEmptyBorder(0, 30, 0 ,30);
+
+        JLabel labelIndexTurn = new JLabel("Tour 1");
+        labelIndexTurn.setFont(fontDialog20);
+        labelIndexTurn.setBorder(borderIndexTurn);
+        turnPanel.add(labelIndexTurn);
+
+        JLabel labelNextTurn = new JLabel(imageArrowRight);
+        turnPanel.add(labelNextTurn);
+
+        //Undo - Redo
+
+        JPanel panelHistory = new JPanel();
+        c.gridx = 2;
+        c.gridy = 2;
+        gLayout.setConstraints(panelHistory, c);
+        this.add(panelHistory);
+
+        c.insets = new Insets(0, 0,0, 0);
+
+        GridBagLayout layoutPanelHistory = new GridBagLayout();
+        panelHistory.setLayout(layoutPanelHistory);
+
+        JButton bttnUndo = new JButton("Annuler");
+        bttnUndo.setPreferredSize(new Dimension(110, 30));
+        bttnUndo.setBorder(new ButtonRoundBorder(15));
+        c.gridx = 0;
+        c.gridy = 0;
+        layoutPanelHistory.setConstraints(bttnUndo, c);
+        panelHistory.add(bttnUndo);
+
+        JButton bttnRedo = new JButton("Refaire");
+        bttnRedo.setPreferredSize(new Dimension(110, 30));
+        bttnRedo.setBorder(new ButtonRoundBorder(15));
+        c.gridx = 1;
+        c.gridy = 0;
+        c.insets = new Insets(0, 30, 0, 0);
+        layoutPanelHistory.setConstraints(bttnRedo, c);
+        panelHistory.add(bttnRedo);
+
+
+
         setEventHandlers();
+        createMenuBar();
         UpdateGridPanelSize();
+    }
+
+    void createMenuBar(){
+        menuBar = new JMenuBar();
     }
 
     void loadAssets(){
         try{
             imageRobot = new ImageIcon(ImageIO.read(new File("assets/human-robot.png")));
+            imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/arrow3_left.png")));
+            imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/arrow3_right.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }
     }
 
     void UpdateGridPanelSize(){
-        if(this.getWidth() < 1200){
+        if(this.getWidth() < 1200 || this.getHeight() < 1000){
             gridPanel.setCaseSize(48);
         }
         else{
