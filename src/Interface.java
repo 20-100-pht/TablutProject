@@ -112,7 +112,12 @@ public class Interface {
         }
         page = newPage;
         window.add(frame);
-        frame.adaptWindow();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                frame.adaptWindow();
+            }
+        });
     }
 
     public GameFrame getGameFrame(){

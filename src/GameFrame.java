@@ -16,6 +16,7 @@ public class GameFrame extends Frame {
     ImageIcon imageRobot;
     ImageIcon imageArrowLeft;
     ImageIcon imageArrowRight;
+    ImageIcon imageBook;
     JMenuBar menuBar;
     public GameFrame(Interface ui){
         super(ui);
@@ -32,6 +33,22 @@ public class GameFrame extends Frame {
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         this.setLayout(gLayout);
+
+        this.setBackground(Color.red);
+        this.setOpaque(true);
+
+        // TUTO
+
+        JLabel labelTuto = new JLabel(imageBook);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.insets = new Insets(0, 15, 0, 0);
+        gLayout.setConstraints(labelTuto, c);
+        this.add(labelTuto);
+
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(0, 0, 0, 0);
 
         //Infos player 1
 
@@ -90,8 +107,6 @@ public class GameFrame extends Frame {
         //Grid
 
         gridPanel = new GridPanel(this);
-        //gridPanel.setPreferredSize(new Dimension(500, 500));
-        //gridPanel.setBackground(Color.ORANGE);
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
@@ -199,9 +214,9 @@ public class GameFrame extends Frame {
         JButton bttnRedo = new JButton("Refaire");
         bttnRedo.setPreferredSize(new Dimension(110, 30));
         bttnRedo.setBorder(new ButtonRoundBorder(15));
-        c.gridx = 1;
-        c.gridy = 0;
-        c.insets = new Insets(0, 30, 0, 0);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.insets = new Insets(8, 0, 0, 0);
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
 
@@ -214,6 +229,13 @@ public class GameFrame extends Frame {
 
     void createMenuBar(){
         menuBar = new JMenuBar();
+        ui.getWindow().setJMenuBar(menuBar);
+
+        JButton bttnSave = new JButton("Sauvegarder");
+        menuBar.add(bttnSave);
+
+        JButton bttnGiveup = new JButton("Abandonner");
+        menuBar.add(bttnGiveup);
     }
 
     void loadAssets(){
@@ -221,6 +243,7 @@ public class GameFrame extends Frame {
             imageRobot = new ImageIcon(ImageIO.read(new File("assets/human-robot.png")));
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/arrow3_left.png")));
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/arrow3_right.png")));
+            imageBook = new ImageIcon(ImageIO.read(new File("assets/book.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -254,6 +277,8 @@ public class GameFrame extends Frame {
         int width = (int) (sizeScreen.width * 0.8);
         window.setSize(width, height);
         window.setLocationRelativeTo(null);
+
+        createMenuBar();
     }
 
     @Override

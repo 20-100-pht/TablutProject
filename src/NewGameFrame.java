@@ -37,7 +37,7 @@ public class NewGameFrame extends Frame {
 
     @Override
     public void adaptWindow(){
-        
+        ui.getWindow().setJMenuBar(null);
     }
 
     @Override
@@ -288,9 +288,4 @@ public class NewGameFrame extends Frame {
         super.paintComponent(g);
     }
 
-    //Update size and margin of components
-    @Override
-    public void updateMargins(){
-
-    }
 }
