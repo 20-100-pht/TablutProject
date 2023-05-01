@@ -43,12 +43,14 @@ public class GameFrame extends Frame {
         c.gridx = 0;
         c.gridy = 0;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
-        c.insets = new Insets(0, 15, 0, 0);
+        c.insets = new Insets(10, 15, 0, 0);
+        c.weighty = 0.15;
         gLayout.setConstraints(labelTuto, c);
         this.add(labelTuto);
 
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0, 0, 0, 0);
+        c.weighty = 0;
 
         //Infos player 1
 
@@ -110,8 +112,11 @@ public class GameFrame extends Frame {
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
+        c.weighty = 0.7;
         gLayout.setConstraints(gridPanel, c);
         this.add(gridPanel);
+
+        c.weighty = 0;
 
         //Infos player 2
 
@@ -171,7 +176,7 @@ public class GameFrame extends Frame {
         JPanel turnPanel = new JPanel();
         c.gridx = 1;
         c.gridy = 2;
-        c.insets = new Insets(30, 0,0, 0);
+        c.insets = new Insets(30, 0,20, 0);
         gLayout.setConstraints(turnPanel, c);
         this.add(turnPanel);
 
@@ -195,10 +200,12 @@ public class GameFrame extends Frame {
         JPanel panelHistory = new JPanel();
         c.gridx = 2;
         c.gridy = 2;
+        c.weighty = 0.15;
         gLayout.setConstraints(panelHistory, c);
         this.add(panelHistory);
 
         c.insets = new Insets(0, 0,0, 0);
+        c.weighty = 0;
 
         GridBagLayout layoutPanelHistory = new GridBagLayout();
         panelHistory.setLayout(layoutPanelHistory);
@@ -216,11 +223,9 @@ public class GameFrame extends Frame {
         bttnRedo.setBorder(new ButtonRoundBorder(15));
         c.gridx = 0;
         c.gridy = 1;
-        c.insets = new Insets(8, 0, 0, 0);
+        c.insets = new Insets(8, 0, 20, 0);
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
-
-
 
         setEventHandlers();
         createMenuBar();
@@ -249,14 +254,17 @@ public class GameFrame extends Frame {
         }
     }
 
-    void UpdateGridPanelSize(){
-        if(this.getWidth() < 1200 || this.getHeight() < 1000){
+    public void UpdateGridPanelSize(){
+        System.out.println(this.getWidth() + "-" + this.getHeight());
+        if(this.getWidth() < 1200 || this.getHeight() < 900){
             gridPanel.setCaseSize(48);
         }
         else{
             gridPanel.setCaseSize(64);
         }
-        gridPanel.setPreferredSize(new Dimension(gridPanel.getCaseSize()*gridPanel.GRID_SIZE, gridPanel.getCaseSize()*gridPanel.GRID_SIZE));
+        //gridPanel.setPreferredSize(new Dimension(gridPanel.getCaseSize()*gridPanel.GRID_SIZE+1, gridPanel.getCaseSize()*gridPanel.GRID_SIZE+1));
+
+        System.out.println(gridPanel.getWidth() + "--" + gridPanel.getHeight());
     }
 
     public void setEventHandlers(){
@@ -292,5 +300,10 @@ public class GameFrame extends Frame {
 
     public Game GetGameInstance(){
         return game;
+    }
+
+    @Override
+    public void updateFrame() {
+        UpdateGridPanelSize();
     }
 }

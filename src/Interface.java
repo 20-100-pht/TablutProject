@@ -36,6 +36,8 @@ public class Interface {
 
     public void build(){
         window = new JFrame("Tablut");
+        BorderLayout layout = new BorderLayout();
+        window.setLayout(layout);
 
         //setAppLookAndFeel();
 
@@ -85,11 +87,8 @@ public class Interface {
     }
 
     public void refresh(){
-        if(frame != null){
-            frame.updateMargins();
-        }
-        window.revalidate();
-        window.repaint();
+        frame.updateFrame();
+        SwingUtilities.updateComponentTreeUI(window);
     }
 
     public JFrame getWindow(){

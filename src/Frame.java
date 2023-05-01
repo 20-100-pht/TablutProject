@@ -31,6 +31,10 @@ public class Frame extends JComponent {
 
     }
 
+    public void updateFrame(){
+
+    }
+
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);

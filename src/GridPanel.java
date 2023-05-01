@@ -27,11 +27,11 @@ public class GridPanel extends JPanel {
             }
         }
 
-        for(int l = 0; l < GRID_SIZE; l++) {
+        for(int l = 0; l <= GRID_SIZE; l++) {
             g.drawLine(0, l*gridCaseSize, GRID_SIZE*gridCaseSize, l*gridCaseSize);
         }
 
-        for(int c = 0; c < GRID_SIZE; c++){
+        for(int c = 0; c <= GRID_SIZE; c++){
             g.drawLine(c*gridCaseSize, 0, c*gridCaseSize, GRID_SIZE*gridCaseSize);
         }
     }
@@ -50,5 +50,10 @@ public class GridPanel extends JPanel {
 
     public int getCaseSize(){
         return gridCaseSize;
+    }
+
+    @Override
+    public Dimension getPreferredSize(){
+        return new Dimension(getCaseSize()*GRID_SIZE+1, getCaseSize()*GRID_SIZE+1);
     }
 }
