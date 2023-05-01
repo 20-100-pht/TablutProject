@@ -281,7 +281,7 @@ public class GameFrame extends Frame {
         JFrame window = ui.getWindow();
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int) (sizeScreen.height * 0.8);
+        int height = (int) (sizeScreen.height * 0.85);
         int width = (int) (sizeScreen.width * 0.8);
         window.setSize(width, height);
         window.setLocationRelativeTo(null);
@@ -292,6 +292,26 @@ public class GameFrame extends Frame {
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
+
+        g.setFont(new Font("Arial", Font.BOLD, 15));
+
+        int xN = gridPanel.getX()-22;
+        int yI = gridPanel.getY() + gridPanel.getCaseSize()/2;
+        for(int i = 0; i < 11; i++){
+            if(i == 9){
+                xN -= 5;
+            }
+            int y = yI + i*gridPanel.getCaseSize();
+            g.drawString(Integer.toString(i+1), xN, y);
+        }
+
+        String letters = "ABCDEFGHIJK";
+        int xI = gridPanel.getX() + gridPanel.getCaseSize()/2;
+        int y = gridPanel.getY() + gridPanel.getHeight() + 20;
+        for(int i = 0; i < 11; i++){
+            int xL = xI + i*gridPanel.getCaseSize();
+            g.drawString(Character.toString(letters.charAt(i)), xL, y);
+        }
     }
 
     public void setGameInstance(Game game){
