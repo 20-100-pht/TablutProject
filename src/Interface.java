@@ -39,8 +39,6 @@ public class Interface {
         BorderLayout layout = new BorderLayout();
         window.setLayout(layout);
 
-        //setAppLookAndFeel();
-
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);

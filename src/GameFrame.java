@@ -256,7 +256,7 @@ public class GameFrame extends Frame {
 
     public void UpdateGridPanelSize(){
         System.out.println(this.getWidth() + "-" + this.getHeight());
-        if(this.getWidth() < 1200 || this.getHeight() < 900){
+        if(this.getWidth() < 1000 || this.getHeight() < 800){
             gridPanel.setCaseSize(48);
         }
         else{
@@ -297,10 +297,7 @@ public class GameFrame extends Frame {
 
         int xN = gridPanel.getX()-22;
         int yI = gridPanel.getY() + gridPanel.getCaseSize()/2;
-        for(int i = 0; i < 11; i++){
-            if(i == 9){
-                xN -= 5;
-            }
+        for(int i = 0; i < GridPanel.GRID_SIZE; i++){
             int y = yI + i*gridPanel.getCaseSize();
             g.drawString(Integer.toString(i+1), xN, y);
         }
@@ -308,7 +305,7 @@ public class GameFrame extends Frame {
         String letters = "ABCDEFGHIJK";
         int xI = gridPanel.getX() + gridPanel.getCaseSize()/2;
         int y = gridPanel.getY() + gridPanel.getHeight() + 20;
-        for(int i = 0; i < 11; i++){
+        for(int i = 0; i < GridPanel.GRID_SIZE; i++){
             int xL = xI + i*gridPanel.getCaseSize();
             g.drawString(Character.toString(letters.charAt(i)), xL, y);
         }
