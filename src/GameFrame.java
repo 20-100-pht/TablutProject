@@ -3,8 +3,7 @@ import javax.swing.border.Border;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryNotEmptyException;
@@ -17,7 +16,11 @@ public class GameFrame extends Frame {
     ImageIcon imageArrowLeft;
     ImageIcon imageArrowRight;
     ImageIcon imageBook;
+    ImageIcon imageMenu;
     JMenuBar menuBar;
+    JButton bttnMenu;
+    JPopupMenu menu;
+    JMenuItem save, forfeit, options;
     public GameFrame(Interface ui){
         super(ui);
 
@@ -37,16 +40,21 @@ public class GameFrame extends Frame {
         this.setBackground(Color.red);
         this.setOpaque(true);
 
-        // TUTO
 
-        JLabel labelTuto = new JLabel(imageBook);
+        // MENU
+        bttnMenu = new JButton(imageMenu);
+        bttnMenu.setContentAreaFilled(false);
+        bttnMenu.setOpaque(true);
+        bttnMenu.setBorderPainted(false);
+        bttnMenu.setMargin(new Insets(0,0,0,0));
         c.gridx = 0;
         c.gridy = 0;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(10, 15, 0, 0);
         c.weighty = 0.15;
-        gLayout.setConstraints(labelTuto, c);
-        this.add(labelTuto);
+        bttnMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        gLayout.setConstraints(bttnMenu, c);
+        this.add(bttnMenu);
 
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0, 0, 0, 0);
@@ -54,7 +62,8 @@ public class GameFrame extends Frame {
 
         //Infos player 1
 
-        JPanel player1InfoPart = new JPanel(); //player1InfoPart.setBackground(Color.orange);
+        JPanel player1InfoPart = new JPanel();
+        //player1InfoPart.setBackground(Color.orange);
         c.gridx = 0;
         c.gridy = 1;
         c.weightx = 0.25;
@@ -183,6 +192,7 @@ public class GameFrame extends Frame {
         BoxLayout layoutTurnPanel = new BoxLayout(turnPanel, BoxLayout.X_AXIS);
 
         JLabel labelPreviousTurn = new JLabel(imageArrowLeft);
+        labelPreviousTurn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         turnPanel.add(labelPreviousTurn);
 
         Border borderIndexTurn = BorderFactory.createEmptyBorder(0, 30, 0 ,30);
@@ -193,6 +203,7 @@ public class GameFrame extends Frame {
         turnPanel.add(labelIndexTurn);
 
         JLabel labelNextTurn = new JLabel(imageArrowRight);
+        labelNextTurn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         turnPanel.add(labelNextTurn);
 
         //Undo - Redo
@@ -215,6 +226,7 @@ public class GameFrame extends Frame {
         bttnUndo.setBorder(new ButtonRoundBorder(15));
         c.gridx = 0;
         c.gridy = 0;
+        bttnUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         layoutPanelHistory.setConstraints(bttnUndo, c);
         panelHistory.add(bttnUndo);
 
@@ -224,31 +236,20 @@ public class GameFrame extends Frame {
         c.gridx = 0;
         c.gridy = 1;
         c.insets = new Insets(8, 0, 20, 0);
+        bttnRedo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
 
         setEventHandlers();
-        createMenuBar();
         UpdateGridPanelSize();
     }
-
-    void createMenuBar(){
-        menuBar = new JMenuBar();
-        ui.getWindow().setJMenuBar(menuBar);
-
-        JButton bttnSave = new JButton("Sauvegarder");
-        menuBar.add(bttnSave);
-
-        JButton bttnGiveup = new JButton("Abandonner");
-        menuBar.add(bttnGiveup);
-    }
-
     void loadAssets(){
         try{
             imageRobot = new ImageIcon(ImageIO.read(new File("assets/human-robot.png")));
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/arrow3_left.png")));
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/arrow3_right.png")));
             imageBook = new ImageIcon(ImageIO.read(new File("assets/book.png")));
+            imageMenu = new ImageIcon(ImageIO.read(new File( "assets/menu.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -274,6 +275,20 @@ public class GameFrame extends Frame {
                 UpdateGridPanelSize();
             }
         });
+
+        menu = new JPopupMenu();
+        save = new JMenuItem("Sauvegarder");
+        forfeit = new JMenuItem("Abandonner");
+        options = new JMenuItem("Options");
+        menu.add(save);
+        menu.add(forfeit);
+        menu.add(options);
+        bttnMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menu.show(bttnMenu,0, bttnMenu.getHeight());
+            }
+        });
     }
 
     @Override
@@ -286,7 +301,6 @@ public class GameFrame extends Frame {
         window.setSize(width, height);
         window.setLocationRelativeTo(null);
 
-        createMenuBar();
     }
 
     @Override
@@ -299,7 +313,7 @@ public class GameFrame extends Frame {
         int yI = gridPanel.getY() + gridPanel.getCaseSize()/2;
         for(int i = 0; i < GridPanel.GRID_SIZE; i++){
             int y = yI + i*gridPanel.getCaseSize();
-            g.drawString(Integer.toString(i+1), xN, y);
+            g.drawString(Integer.toString(9-i), xN, y);
         }
 
         String letters = "ABCDEFGHIJK";

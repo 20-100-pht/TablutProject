@@ -62,6 +62,7 @@ public class MenuFrame extends Frame {
         bttnNewGame.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
         c.gridy = 2;
+        bttnNewGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(bttnNewGame, c);
         this.add(bttnNewGame);
 
@@ -70,6 +71,7 @@ public class MenuFrame extends Frame {
         bttnLoadGame.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
         c.gridy = 3;
+        bttnLoadGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(bttnLoadGame, c);
         this.add(bttnLoadGame);
 
@@ -78,6 +80,7 @@ public class MenuFrame extends Frame {
         bttnStatistics.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
         c.gridy = 4;
+        bttnStatistics.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(bttnStatistics, c);
         this.add(bttnStatistics);
 
@@ -86,6 +89,7 @@ public class MenuFrame extends Frame {
         bttnOption.setBorder(new ButtonRoundBorder(10));
         c.gridx = 1;
         c.gridy = 5;
+        bttnOption.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(bttnOption, c);
         this.add(bttnOption);
 

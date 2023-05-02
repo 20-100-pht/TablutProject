@@ -222,15 +222,16 @@ public class NewGameFrame extends Frame {
         c.gridy = 2;
         //c.anchor = GridBagConstraints.LAST_LINE_END;
         c.insets = new Insets(50, 0, 0, 0);
+        bttnStart.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(bttnStart, c);
         this.add(bttnStart);
 
         returnImageButton = new JLabel(returnImage);
         returnImageButton.setPreferredSize(new Dimension(32, 32));
-        //returnImageButton.setBackground(Color.CYAN);
         c.gridx = 1;
         c.gridy = 2;
         c.anchor = GridBagConstraints.LAST_LINE_START;
+        returnImageButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(returnImageButton, c);
         this.add(returnImageButton);
 
