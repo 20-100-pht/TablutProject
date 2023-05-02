@@ -1,5 +1,7 @@
 package View;
 
+import Model.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -48,6 +50,7 @@ public class Interface {
         menuFrame.build();
 
         gameFrame = new GameFrame(this);    //JComponent on which we will draw the game
+        gameFrame.setGameInstance(new Game());
         gameFrame.build();
 
         newGameFrame = new NewGameFrame(this);

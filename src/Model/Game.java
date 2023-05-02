@@ -207,5 +207,8 @@ public class Game {
     public Grid getGridInstance(){
         return gameRules.grid;
     }
+    public GameRules getLogicGrid(){
+        return gameRules;
+    }
 
 }
