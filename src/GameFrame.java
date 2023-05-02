@@ -255,19 +255,6 @@ public class GameFrame extends Frame {
         }
     }
 
-    public void UpdateGridPanelSize(){
-        System.out.println(this.getWidth() + "-" + this.getHeight());
-        if(this.getWidth() < 1000 || this.getHeight() < 800){
-            gridPanel.setCaseSize(48);
-        }
-        else{
-            gridPanel.setCaseSize(64);
-        }
-        //gridPanel.setPreferredSize(new Dimension(gridPanel.getCaseSize()*gridPanel.GRID_SIZE+1, gridPanel.getCaseSize()*gridPanel.GRID_SIZE+1));
-
-        System.out.println(gridPanel.getWidth() + "--" + gridPanel.getHeight());
-    }
-
     public void setEventHandlers(){
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -335,6 +322,6 @@ public class GameFrame extends Frame {
 
     @Override
     public void updateFrame() {
-        UpdateGridPanelSize();
+
     }
 }

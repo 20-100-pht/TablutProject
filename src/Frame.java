@@ -55,4 +55,8 @@ public class Frame extends JComponent {
     public void updateMargins() {
 
     }
+
+    public Interface getInterface(){
+        return ui;
+    }
 }

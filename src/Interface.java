@@ -120,4 +120,10 @@ public class Interface {
     public GameFrame getGameFrame(){
         return gameFrame;
     }
+
+    Point getMouseLocation(){
+        PointerInfo mouseInfo = MouseInfo.getPointerInfo();
+        Point mouseLocation = mouseInfo.getLocation();
+        return new Point((int) (mouseLocation.getX()-window.getX()), (int) (mouseLocation.getY()-window.getY()));
+    }
 }
