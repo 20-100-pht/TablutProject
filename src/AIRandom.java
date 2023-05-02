@@ -1,16 +1,15 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class AIRandom {
 
     Random r;
-    GameControler AIGameControler;
+    GameRules AIGameRules;
     PieceType typeAI;
 
-    AIRandom(GameControler g, PieceType t){
+    AIRandom(GameRules g, PieceType t){
 
-        AIGameControler = g;
+        AIGameRules = g;
         typeAI = t;
         r = new Random(System.currentTimeMillis());
     }
@@ -26,12 +25,12 @@ public class AIRandom {
     public Coup playMove(){
 
         while(true) {
-            List<Piece> listPiece = AIGameControler.grid.returnListOfPiece(typeAI);
+            List<Piece> listPiece = AIGameRules.grid.returnListOfPiece(typeAI);
             int aleaP = r.nextInt(listPiece.size());
 
             Piece current = listPiece.get(aleaP);
 
-            List<Coordinate> listDest = current.possibleMoves(AIGameControler.grid.board);
+            List<Coordinate> listDest = current.possibleMoves(AIGameRules.grid.board);
             if (listDest.size() > 0) {
                 int aleaD = r.nextInt(listDest.size());
                 return new Coup(new Coordinate(current.getRow(), current.getCol()), listDest.get(aleaD));

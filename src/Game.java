@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Game {
@@ -9,11 +7,11 @@ public class Game {
     boolean defenderAI;
     boolean attackerAI;
 
-    AIRandom aleatronDefender;
+    //AIRandom aleatronDefender;
     AIRandom aleatronAttacker;
 
     Scanner scanner = new Scanner(System.in);
-    GameControler gameControler;
+    GameRules gameRules;
 
 
     public Game(){
@@ -24,13 +22,15 @@ public class Game {
         attacker = true;
         defenderAI = true;
         attackerAI = true;
-        gameControler = new GameControler();
-        aleatronDefender = new AIRandom(gameControler, PieceType.DEFENDER);
-        aleatronAttacker = new AIRandom(gameControler, PieceType.ATTACKER);
+        gameRules = new GameRules();
+        //aleatronDefender = new AIRandom(gameRules, PieceType.DEFENDER);
+        aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
+        aiDefender = new AI();
+        //aiAttacker = new AI(gameRules);
     }
 
     public void playGame(){
-        while(!gameControler.isEndGame()){
+        while(!gameRules.isEndGame()){
             playTurn();
         }
     }
@@ -38,11 +38,11 @@ public class Game {
     public void endGame(ResultGame result){
         if(result == ResultGame.ATTACKER_WIN) System.out.println("Attacker win !");
         else System.out.println("Defender win !");
-        gameControler.print();
+        gameRules.print();
     }
 
     public void playTurn(){
-        gameControler.print();
+        gameRules.print();
 
         if(attacker) playTurnAttacker();
         else playTurnDefender();
@@ -59,15 +59,15 @@ public class Game {
 
         while (current == null) {
             System.out.println("Coordonnées de la pièce que vous souhaitez déplacer (ligne colonne) : ");
-            coupPlayer.init.setRow(scanner.nextInt());
-            coupPlayer.init.setCol(scanner.nextInt());
+            coupPlayer.init.setRowCoord(scanner.nextInt());
+            coupPlayer.init.setColCoord(scanner.nextInt());
 
 
             System.out.println("Coordonnées de la case où vous souhaitez déplacer la pièce (ligne colonne) : ");
-            coupPlayer.dest.setRow(scanner.nextInt());
-            coupPlayer.dest.setCol(scanner.nextInt());
+            coupPlayer.dest.setRowCoord(scanner.nextInt());
+            coupPlayer.dest.setColCoord(scanner.nextInt());
 
-            ReturnValue returnValue = gameControler.move(coupPlayer);
+            ReturnValue returnValue = gameRules.move(coupPlayer);
             current = returnValue.getPiece();
 
             if(current == null){
@@ -91,6 +91,9 @@ public class Game {
                         break;
                     case 6:
                         System.out.println("La pièce sélectionnée ne peut pas se déplacer sur la case de destination, veuillez saisir à nouveau.");
+                        break;
+                    case 7:
+                        System.out.println("La pièce sélectionnée ne peut pas se déplacer sur une forteresse, veuillez saisir à nouveau.");
                         break;
                     default:
                         System.out.println("Erreur valeur de retour");
@@ -117,8 +120,10 @@ public class Game {
 
         if(defenderAI){
             while(current == null) {
-                Coup coupAI = aleatronDefender.playMove();
-                ReturnValue returnValue = gameControler.move(coupAI);
+
+                //Coup coupAI = aleatronDefender.playMove();
+                Coup coupAI = aiDefender.minimax(gameRules.grid,gameRules.king,3, PieceType.DEFENDER);
+                ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
             }
         }
@@ -126,10 +131,10 @@ public class Game {
             current = movePlayer();
         }
 
-        int kill = gameControler.attack(current);
+        int kill = gameRules.attack(current);
         System.out.println("nb kill : " + kill);
 
-        if(gameControler.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
+        if(gameRules.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
     }
 
     public void playTurnAttacker(){
@@ -140,7 +145,7 @@ public class Game {
         if(attackerAI){
             while(current == null) {
                 Coup coupAI = aleatronAttacker.playMove();
-                ReturnValue returnValue = gameControler.move(coupAI);
+                ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
             }
         }
@@ -149,13 +154,13 @@ public class Game {
         }
 
         //Check if the king has been captured while on or next to the throne
-        gameControler.capture();
+        gameRules.capture();
 
-        int kill = gameControler.attack(current);
+        int kill = gameRules.attack(current);
         System.out.println("nb kill : " + kill);
 
 
-        if(gameControler.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);
+        if(gameRules.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);
     }
 
 
@@ -164,7 +169,7 @@ public class Game {
             FileInputStream fis = new FileInputStream(filePath);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            gameControler = (GameControler) ois.readObject();
+            gameRules = (GameRules) ois.readObject();
 
             ois.close();
 
@@ -180,7 +185,7 @@ public class Game {
             FileOutputStream fos = new FileOutputStream(filePath);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            oos.writeObject(gameControler);
+            oos.writeObject(gameRules);
 
             oos.close();
 
@@ -190,7 +195,7 @@ public class Game {
     }
 
     public Grid getGridInstance(){
-        return gameControler.grid;
+        return gameRules.grid;
     }
 
 }

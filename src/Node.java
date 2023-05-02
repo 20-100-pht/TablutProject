@@ -5,8 +5,12 @@ public class Node {
     Piece[][] board;
     ArrayList<Node> children;
 
-    Node(Piece[][] b){
-        board = b;
+    Node(Grid b, Piece k, Coup c,boolean end){
+        grid = b;
+        king = k;
+        coup = c;
+        isEndGame = end;
+        children = new ArrayList<>();
     }
 
     public void addChild(Node n){

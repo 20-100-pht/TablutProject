@@ -1,9 +1,4 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-public class GameControler {
+public class GameRules {
     ResultGame endGameVar = ResultGame.NO_END_GAME;
 
     Piece king;
@@ -12,7 +7,7 @@ public class GameControler {
     int nbPieceAttackerOnGrid;
 
 
-    public GameControler(){
+    public GameRules(){
         resetGameControler();
     }
 
@@ -79,6 +74,12 @@ public class GameControler {
             return rtrn;
         }
 
+        if(!selectedPiece.isKing() && grid.isCornerPosition(coup.dest)){
+            rtrn.setValue(7);
+            return rtrn;
+        }
+
+        //selectedPiece.c = new Coordinate(coup.dest.getRow(), coup.)
         selectedPiece.setRow(coup.dest.getRow());
         selectedPiece.setCol(coup.dest.getCol());
 
@@ -165,17 +166,17 @@ public class GameControler {
         if((x==4 && (y==3 || y==5)) || y==4 && (x==3 || x==5)){
 
             //Get all pieces adjacent to the king
-            kingCord.setCol(kingCord.col-1);
+            kingCord.setColCoord(kingCord.col-1);
             Piece leftPiece = grid.getPieceAtPosition(kingCord);
 
-            kingCord.setCol(kingCord.col+2); // -1 + 2 = +1
+            kingCord.setColCoord(kingCord.col+2); // -1 + 2 = +1
             Piece rightPiece = grid.getPieceAtPosition(kingCord);
 
-            kingCord.setCol(kingCord.col-1);
-            kingCord.setRow(kingCord.row-1);
+            kingCord.setColCoord(kingCord.col-1);
+            kingCord.setRowCoord(kingCord.row-1);
             Piece topPiece = grid.getPieceAtPosition(kingCord);
 
-            kingCord.setRow(kingCord.row+2);
+            kingCord.setRowCoord(kingCord.row+2);
             Piece bottomPiece = grid.getPieceAtPosition(kingCord);
 
             System.out.println("x:"+x+"  y:" + y);
@@ -184,16 +185,16 @@ public class GameControler {
             //piece defenseur
 
             //If piece is attacker or throne
-            if( (leftPiece != null && leftPiece.isDefender()) || (!(y==4 && x+1==4) && leftPiece == null) ){
+            if( (leftPiece != null && leftPiece.isDefender()) || (!(y==4 && x-1==4) && leftPiece == null) ){
                 return false;
             }
-            if( (rightPiece != null && rightPiece.isDefender()) || (!(y==4 && x-1==4) && rightPiece == null) ){
+            if( (rightPiece != null && rightPiece.isDefender()) || (!(y==4 && x+1==4) && rightPiece == null) ){
                 return false;
             }
-            if( (topPiece != null && topPiece.isDefender()) || (!(y+1==4 && x==4) && topPiece == null) ){
+            if( (topPiece != null && topPiece.isDefender()) || (!(y-1==4 && x==4) && topPiece == null) ){
                 return false;
             }
-            if( (bottomPiece != null && bottomPiece.isDefender()) || (!(y-1==4 && x==4) && bottomPiece == null) ){
+            if( (bottomPiece != null && bottomPiece.isDefender()) || (!(y+1==4 && x==4) && bottomPiece == null) ){
                 return false;
             }
 

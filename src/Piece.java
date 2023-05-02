@@ -32,9 +32,9 @@ public class Piece {
 
     public boolean isDefenderOrKing(){ return this.type == PieceType.DEFENDER || this.type == PieceType.KING;}
 
-    public void setRow(int newRow){ c.row = newRow;}
+    public void setRow(int newRow){ c.setRowCoord(newRow);}
 
-    public void setCol(int newCol){ c.col = newCol;}
+    public void setCol(int newCol){ c.setColCoord(newCol);}
 
     public void setKing(boolean king){ type = PieceType.KING;}
 
@@ -61,8 +61,8 @@ public class Piece {
             if (grid.getPieceAtPosition(next) != null) {
                 return false;
             }
-            next.setRow(next.row + dir.row);
-            next.setCol(next.col + dir.col);
+            next.setRowCoord(next.row + dir.row);
+            next.setColCoord(next.col + dir.col);
         }
 
         return true;
@@ -71,7 +71,7 @@ public class Piece {
     }
 
     public Piece clonePiece(){
-        Piece copy = new Piece(c, getType());
+        Piece copy = new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
         return copy;
     }
 

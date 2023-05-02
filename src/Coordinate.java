@@ -1,7 +1,7 @@
 public class Coordinate {
 
-    int row;
-    int col;
+    byte row;
+    byte col;
 
     Coordinate(int r, int c){
         row = r;
@@ -17,11 +17,11 @@ public class Coordinate {
     }
 
     public int getRow(){
-        return row;
+        return (int)row;
     }
 
     public int getCol(){
-        return col;
+        return (int)col;
     }
 
 }
