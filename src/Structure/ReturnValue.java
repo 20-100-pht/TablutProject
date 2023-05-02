@@ -1,9 +1,13 @@
+package Structure;
+
+import Model.Piece;
+
 public class ReturnValue {
 
     int value;
     Piece current;
 
-    ReturnValue(int i, Piece p){
+    public ReturnValue(int i, Piece p){
         current = p;
         value = i;
     }

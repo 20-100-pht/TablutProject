@@ -1,17 +1,19 @@
-import javax.imageio.ImageIO;
+package View;
+
+import Structure.Position;
+import View.Frame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 
 public class Button extends JButton {
 
     final int SELECTOR_SIZE = 16;
     boolean selector;
     boolean hovered = false;
-    Frame frame;
+    View.Frame frame;
 
     public Button(String name) {
         this(name, false, null);

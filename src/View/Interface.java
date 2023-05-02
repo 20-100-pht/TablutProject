@@ -1,3 +1,4 @@
+package View;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,9 +43,6 @@ public class Interface {
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
-
-        window.addMouseListener(new AdapterMouse(this));
-        window.addKeyListener(new AdapterKeyboard(this));
 
         menuFrame = new MenuFrame(this);    //JComponent on which we will draw the menu
         menuFrame.build();

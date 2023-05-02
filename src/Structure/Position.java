@@ -1,3 +1,5 @@
+package Structure;
+
 public class Position {
     int x;
     int y;
@@ -14,11 +16,11 @@ public class Position {
         this.y = y;
     }
 
-    int GetX(){
+    public int GetX(){
         return x;
     }
 
-    int GetY(){
+    public int GetY(){
         return y;
     }
 }

@@ -1,9 +1,11 @@
+package Structure;
+
 public class Coordinate {
 
     byte row;
     byte col;
 
-    Coordinate(int r, int c){
+    public Coordinate(int r, int c){
         row = (byte)r;
         col = (byte)c;
     }

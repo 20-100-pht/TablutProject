@@ -1,3 +1,7 @@
+package Model;
+
+import Structure.Coordinate;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,7 @@ public class Grid implements Serializable {
     }
 
     public void testKingVulnerability(){
-        board[4][4] = new Piece(new Coordinate(4,4),PieceType.KING);
+        board[4][4] = new Piece(new Coordinate(4,4), PieceType.KING);
 
         board[2][4] = new Piece(new Coordinate(2, 4), PieceType.ATTACKER);
         board[4][3] = new Piece(new Coordinate(4, 3), PieceType.ATTACKER);
@@ -155,26 +159,26 @@ public class Grid implements Serializable {
     }
 
     public boolean isInside(Coordinate obj) {
-        return obj.row >= 0 && obj.row < sizeGrid && obj.col >= 0 && obj.col < sizeGrid;
+        return obj.getRow() >= 0 && obj.getRow() < sizeGrid && obj.getCol() >= 0 && obj.getCol() < sizeGrid;
     }
 
     public boolean isCastle(Coordinate obj){
-        return obj.row == 4 && obj.col ==4;
+        return obj.getRow() == 4 && obj.getCol() ==4;
     }
 
     public boolean isCornerPosition(Coordinate k){
-        return ( (k.row == 0 && k.col == 0) || (k.row == 0 && k.col == 8) || (k.row == 8 && k.col == 0) || (k.row == 8 && k.col == 8) );
+        return ( (k.getRow() == 0 && k.getCol() == 0) || (k.getRow() == 0 && k.getCol() == 8) || (k.getRow() == 8 && k.getCol() == 0) || (k.getRow() == 8 && k.getCol() == 8) );
     }
 
     public Piece getPieceAtPosition(Coordinate obj) {
-        if (obj.row < 0 || obj.row >= sizeGrid || obj.col < 0 || obj.col >= sizeGrid) {
+        if (obj.getRow() < 0 || obj.getRow() >= sizeGrid || obj.getCol() < 0 || obj.getCol() >= sizeGrid) {
             return null;
         }
-        return board[obj.row][obj.col];
+        return board[obj.getRow()][obj.getCol()];
     }
 
     public void setPieceAtPosition(Piece piece, Coordinate p) {
-        board[p.row][p.col] = piece;
+        board[p.getRow()][p.getCol()] = piece;
     }
 
     public Grid cloneGrid() {

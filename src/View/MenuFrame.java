@@ -1,17 +1,11 @@
-import javax.imageio.ImageIO;
+package View;
+
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import static java.awt.Font.BOLD;
-import static javax.swing.BoxLayout.Y_AXIS;
 
 public class MenuFrame extends Frame {
 
@@ -146,7 +140,7 @@ public class MenuFrame extends Frame {
  private static final long serialVersionUID = 1L;
 
  public TablutMenu() {
- super("Menu principal");
+ super("Controller.Menu principal");
 
  // Créer les boutons pour chaque option du menu
  JButton newGameButton = new JButton("Nouvelle partie");

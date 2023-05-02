@@ -1,3 +1,5 @@
+package Model;
+
 public enum PieceType {
     KING(0x0),
     DEFENDER(0x1),

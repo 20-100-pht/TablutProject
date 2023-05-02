@@ -1,3 +1,10 @@
+package View;
+
+import Model.Grid;
+import Model.Piece;
+import Structure.Coordinate;
+import View.GameFrame;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -69,9 +76,9 @@ public class GridPanel extends JPanel {
 
     public void loadAssets(){
         try{
-            imageCase = ImageIO.read(new File("assets/case2.jpg"));
-            imageDefender = ImageIO.read(new File("assets/defender.png"));
-            imageAttacker = ImageIO.read(new File("assets/attacker.png"));
+            imageCase = ImageIO.read(new File("assets/images/case2.jpg"));
+            imageDefender = ImageIO.read(new File("assets/images/defender.png"));
+            imageAttacker = ImageIO.read(new File("assets/images/attacker.png"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -92,7 +99,6 @@ public class GridPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
-
                 mouseMovedHandler(e);
             }
         });
@@ -101,9 +107,15 @@ public class GridPanel extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
+                possibleMoveMarks.clear();
+            }
 
+            @Override
+            public void mouseClicked(MouseEvent e){
+                super.mouseClicked(e);
             }
         });
+
     }
 
     Piece getPieceHovered(int mouseX, int mouseY){
@@ -170,5 +182,12 @@ public class GridPanel extends JPanel {
         if(hoveredPiece != null){
             processPossibleMoveMarks(hoveredPiece);
         }
+        else{
+            possibleMoveMarks.clear();
+        }
+    }
+
+    void mouseClickedHandler(MouseEvent e){
+
     }
 }

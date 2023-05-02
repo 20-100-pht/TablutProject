@@ -1,3 +1,7 @@
+package Model;
+
+import Structure.Coordinate;
+
 import java.util.ArrayList;
 
 public class Piece {
@@ -9,21 +13,21 @@ public class Piece {
         this.type = t;
     }
 
-    public int getRow(){ return c.row;}
+    public int getRow(){ return c.getRow();}
 
-    public int getCol(){ return c.col;}
+    public int getCol(){ return c.getCol();}
 
     public PieceType getType(){ return this.type;}
 
     public boolean isKing(){ return this.type == PieceType.KING;}
 
     public boolean isSamePosition(Coordinate d){
-        return d.row == c.row && d.col == c.col;
+        return d.getRow() == c.getRow() && d.getCol() == c.getCol();
     }
 
-    /*Position vulnérable = n'importe ou sur le plateau sauf sur le trone ou à directement à côté*/
+    /*Structure.Position vulnérable = n'importe ou sur le plateau sauf sur le trone ou à directement à côté*/
     public boolean kingIsOnVulnerablePosition(){
-        return !( (c.row == 4 && c.col == 4) || (c.row == 4 && c.col == 3) || (c.row == 4 && c.col == 5) || (c.row == 3 && c.col == 4) || (c.row == 5 && c.col == 4) );
+        return !( (c.getRow() == 4 && c.getCol() == 4) || (c.getRow() == 4 && c.getCol() == 3) || (c.getRow() == 4 && c.getCol() == 5) || (c.getRow() == 3 && c.getCol() == 4) || (c.getRow() == 5 && c.getCol() == 4) );
     }
 
     public boolean isAttacker(){ return this.type == PieceType.ATTACKER;}
@@ -51,18 +55,18 @@ public class Piece {
     public boolean canMoveTo(Coordinate dest, Grid grid){
 
         if (grid.getPieceAtPosition(dest) != null) return false;
-        if(dest.col != c.col && dest.row != c.row) return false;
+        if(dest.getCol() != c.getCol() && dest.getRow() != c.getRow()) return false;
 
-        Coordinate dir = new Coordinate(Integer.compare(dest.row, c.row), Integer.compare(dest.col, c.col));
+        Coordinate dir = new Coordinate(Integer.compare(dest.getRow(), c.getRow()), Integer.compare(dest.getCol(), c.getCol()));
 
-        Coordinate next = new Coordinate(c.row + dir.row, c.col + dir.col);
+        Coordinate next = new Coordinate(c.getRow() + dir.getRow(), c.getCol() + dir.getCol());
 
-        while (next.row != dest.row || next.col != dest.col) {
+        while (next.getRow() != dest.getRow() || next.getCol() != dest.getCol()) {
             if (grid.getPieceAtPosition(next) != null) {
                 return false;
             }
-            next.setRowCoord(next.row + dir.row);
-            next.setColCoord(next.col + dir.col);
+            next.setRowCoord(next.getRow() + dir.getRow());
+            next.setColCoord(next.getCol() + dir.getCol());
         }
 
         return true;
@@ -79,24 +83,27 @@ public class Piece {
 
     public ArrayList possibleMoves(Piece[][] board) {
         ArrayList<Coordinate> MovesToPieceList = new ArrayList<>();
-        for (int i = c.col - 1; i >= 0; i--){
-            if (board[c.row][i] == null) MovesToPieceList.add(new Coordinate(c.row, i));
+        for (int i = c.getCol() - 1; i >= 0; i--){
+            if (board[c.getRow()][i] == null) MovesToPieceList.add(new Coordinate(c.getRow(), i));
             else break;
         }
-        for (int i = c.col + 1; i < 9; i++){
-            if (board[c.row][i] == null) MovesToPieceList.add(new Coordinate(c.row, i));
+        for (int i = c.getCol() + 1; i < 9; i++){
+            if (board[c.getRow()][i] == null) MovesToPieceList.add(new Coordinate(c.getRow(), i));
             else break;
         }
 
-        for (int r = c.row - 1; r >= 0; r--){
-            if (board[r][c.col] == null) MovesToPieceList.add(new Coordinate(r, c.col));
+        for (int r = c.getRow() - 1; r >= 0; r--){
+            if (board[r][c.getCol()] == null) MovesToPieceList.add(new Coordinate(r, c.getCol()));
             else break;
         }
-        for (int r = c.row + 1; r < 9; r++){
-            if (board[r][c.col] == null) MovesToPieceList.add(new Coordinate(r, c.col));
+        for (int r = c.getRow() + 1; r < 9; r++){
+            if (board[r][c.getCol()] == null) MovesToPieceList.add(new Coordinate(r, c.getCol()));
             else break;
         }
         return MovesToPieceList;
     }
 
+    public Coordinate getCoords(){
+        return c;
+    }
 }

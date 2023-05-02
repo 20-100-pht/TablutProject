@@ -1,3 +1,11 @@
+package Model;
+
+import Model.AIRandom;
+import Model.GameRules;
+import Structure.Coordinate;
+import Structure.Coup;
+import Structure.ReturnValue;
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -7,7 +15,7 @@ public class Game {
     boolean defenderAI;
     boolean attackerAI;
 
-    //AIRandom aleatronDefender;
+    //Model.AIRandom aleatronDefender;
     AIRandom aleatronAttacker;
     AI aiDefender;
     AI aiAttacker;
@@ -25,7 +33,7 @@ public class Game {
         defenderAI = true;
         attackerAI = true;
         gameRules = new GameRules();
-        //aleatronDefender = new AIRandom(gameRules, PieceType.DEFENDER);
+        //aleatronDefender = new Model.AIRandom(gameRules, Model.PieceType.DEFENDER);
         aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
         aiDefender = new AI();
         //aiAttacker = new AI(gameRules);
@@ -61,13 +69,13 @@ public class Game {
 
         while (current == null) {
             System.out.println("Coordonnées de la pièce que vous souhaitez déplacer (ligne colonne) : ");
-            coupPlayer.init.setRowCoord(scanner.nextInt());
-            coupPlayer.init.setColCoord(scanner.nextInt());
+            coupPlayer.getInit().setRowCoord(scanner.nextInt());
+            coupPlayer.getInit().setColCoord(scanner.nextInt());
 
 
             System.out.println("Coordonnées de la case où vous souhaitez déplacer la pièce (ligne colonne) : ");
-            coupPlayer.dest.setRowCoord(scanner.nextInt());
-            coupPlayer.dest.setColCoord(scanner.nextInt());
+            coupPlayer.getDest().setRowCoord(scanner.nextInt());
+            coupPlayer.getDest().setColCoord(scanner.nextInt());
 
             ReturnValue returnValue = gameRules.move(coupPlayer);
             current = returnValue.getPiece();
@@ -123,7 +131,7 @@ public class Game {
         if(defenderAI){
             while(current == null) {
 
-                //Coup coupAI = aleatronDefender.playMove();
+                //Structure.Coup coupAI = aleatronDefender.playMove();
                 Coup coupAI = aiDefender.minimax(gameRules.grid,gameRules.king,3, PieceType.DEFENDER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();

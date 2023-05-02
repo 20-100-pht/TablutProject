@@ -1,8 +1,12 @@
+package Structure;
+
+import Structure.Coordinate;
+
 public class Coup {
     Coordinate init;
     Coordinate dest;
 
-    Coup(Coordinate i, Coordinate d){
+    public Coup(Coordinate i, Coordinate d){
         init = i;
         dest = d;
     }

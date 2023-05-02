@@ -1,3 +1,8 @@
+package View;
+
+import Structure.Position;
+import Global.GraphicUtils;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +23,7 @@ public class Frame extends JComponent {
         selectorDisplayed = false;
 
         try{
-            selectorImage = ImageIO.read(new File("assets/arrow.png"));
+            selectorImage = ImageIO.read(new File("assets/images/arrow.png"));
             selectorImage= GraphicUtils.resizeImage(selectorImage, 16, 16);
         } catch(IOException exp){
             exp.printStackTrace();

@@ -1,3 +1,9 @@
+package Model;
+
+import Structure.Coordinate;
+import Structure.Coup;
+import Structure.ReturnValue;
+
 public class GameRules {
     ResultGame endGameVar = ResultGame.NO_END_GAME;
 
@@ -44,49 +50,49 @@ public class GameRules {
         ReturnValue rtrn = new ReturnValue(0,null);
 
         // coordonnées initial
-        if(!grid.isInside(coup.init)) {
+        if(!grid.isInside(coup.getInit())) {
             rtrn.setValue(1);
             return rtrn;
         }
-        if( (selectedPiece = grid.getPieceAtPosition(coup.init)) == null) {
+        if( (selectedPiece = grid.getPieceAtPosition(coup.getInit())) == null) {
             rtrn.setValue(2);
             return rtrn;
         }
 
         // coordonnées destination
-        if(!grid.isInside(coup.dest)){
+        if(!grid.isInside(coup.getDest())){
             rtrn.setValue(3);
             return rtrn;
         }
 
-        if(grid.isCastle(coup.dest)){
+        if(grid.isCastle(coup.getDest())){
             rtrn.setValue(4);
             return rtrn;
         }
 
-        if(selectedPiece.isSamePosition(coup.dest)){
+        if(selectedPiece.isSamePosition(coup.getDest())){
             rtrn.setValue(5);
             return rtrn;
         }
 
-        if(!selectedPiece.canMoveTo(coup.dest, grid)){
+        if(!selectedPiece.canMoveTo(coup.getDest(), grid)){
             rtrn.setValue(6);
             return rtrn;
         }
 
-        if(!selectedPiece.isKing() && grid.isCornerPosition(coup.dest)){
+        if(!selectedPiece.isKing() && grid.isCornerPosition(coup.getDest())){
             rtrn.setValue(7);
             return rtrn;
         }
 
-        //selectedPiece.c = new Coordinate(coup.dest.getRow(), coup.)
-        selectedPiece.setRow(coup.dest.getRow());
-        selectedPiece.setCol(coup.dest.getCol());
+        //selectedPiece.c = new Structure.Coordinate(coup.getDest().getRow(), coup.)
+        selectedPiece.setRow(coup.getDest().getRow());
+        selectedPiece.setCol(coup.getDest().getCol());
 
         rtrn.setPiece(selectedPiece);
 
-        grid.setPieceAtPosition(selectedPiece, coup.dest);
-        grid.setPieceAtPosition(null, coup.init);
+        grid.setPieceAtPosition(selectedPiece, coup.getDest());
+        grid.setPieceAtPosition(null, coup.getInit());
         return rtrn;
     }
 
@@ -151,7 +157,7 @@ public class GameRules {
 
     public void capture(){
         if(isCapturedOnThrone() || isCapturedNextToThrone()) {
-            //King is captured : end Game
+            //King is captured : end Model.Game
             System.out.println("King has been captured!");
             endGameVar = ResultGame.ATTACKER_WIN;
         }
@@ -159,24 +165,24 @@ public class GameRules {
 
     public boolean isCapturedNextToThrone(){
         Coordinate kingCord = new Coordinate(king.getRow(), king.getCol());
-        int x = kingCord.col;
-        int y = kingCord.row;
+        int x = kingCord.getCol();
+        int y = kingCord.getRow();
 
         //If king is next to throne
         if((x==4 && (y==3 || y==5)) || y==4 && (x==3 || x==5)){
 
             //Get all pieces adjacent to the king
-            kingCord.setColCoord(kingCord.col-1);
+            kingCord.setColCoord(kingCord.getCol()-1);
             Piece leftPiece = grid.getPieceAtPosition(kingCord);
 
-            kingCord.setColCoord(kingCord.col+2); // -1 + 2 = +1
+            kingCord.setColCoord(kingCord.getCol()+2); // -1 + 2 = +1
             Piece rightPiece = grid.getPieceAtPosition(kingCord);
 
-            kingCord.setColCoord(kingCord.col-1);
-            kingCord.setRowCoord(kingCord.row-1);
+            kingCord.setColCoord(kingCord.getCol()-1);
+            kingCord.setRowCoord(kingCord.getRow()-1);
             Piece topPiece = grid.getPieceAtPosition(kingCord);
 
-            kingCord.setRowCoord(kingCord.row+2);
+            kingCord.setRowCoord(kingCord.getRow()+2);
             Piece bottomPiece = grid.getPieceAtPosition(kingCord);
 
             System.out.println("x:"+x+"  y:" + y);

@@ -1,3 +1,7 @@
+package View;
+
+import Model.Game;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -28,8 +32,8 @@ public class NewGameFrame extends Frame {
         super(ui);
 
         try{
-            returnImage = new ImageIcon(ImageIO.read(new File("assets/arrow2.png")));
-            //selectorImage= GraphicUtils.resizeImage(selectorImage, 16, 16);
+            returnImage = new ImageIcon(ImageIO.read(new File("assets/images/arrow2.png")));
+            //selectorImage= Global.GraphicUtils.resizeImage(selectorImage, 16, 16);
         } catch(IOException exp){
             exp.printStackTrace();
         }

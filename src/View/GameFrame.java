@@ -1,3 +1,7 @@
+package View;
+
+import Model.Game;
+
 import javax.swing.border.Border;
 
 import javax.imageio.ImageIO;
@@ -6,7 +10,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryNotEmptyException;
 
 public class GameFrame extends Frame {
 
@@ -123,7 +126,7 @@ public class GameFrame extends Frame {
         layoutPlayer1Info.setConstraints(labelPlayer1Status, c);
         player1InfoPart.add(labelPlayer1Status);
 
-        //Grid
+        //Model.Grid
 
         gridPanel = new GridPanel(this);
         c.gridx = 1;
@@ -252,11 +255,11 @@ public class GameFrame extends Frame {
     }
     void loadAssets(){
         try{
-            imageRobot = new ImageIcon(ImageIO.read(new File("assets/human-robot.png")));
-            imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/arrow3_left.png")));
-            imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/arrow3_right.png")));
-            imageBook = new ImageIcon(ImageIO.read(new File("assets/book.png")));
-            imageMenu = new ImageIcon(ImageIO.read(new File( "assets/menu.png")));
+            imageRobot = new ImageIcon(ImageIO.read(new File("assets/images/human-robot.png")));
+            imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_left.png")));
+            imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
+            imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
+            imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }

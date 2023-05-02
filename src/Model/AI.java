@@ -1,3 +1,9 @@
+package Model;
+
+import Structure.Coordinate;
+import Structure.Coup;
+import Structure.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,9 +17,9 @@ public class AI {
         gRules = new GameRules();
     }
 
-    public Coup minimax(Grid currentGrid,Piece king,int depth, PieceType type) {
+    public Coup minimax(Grid currentGrid, Piece king, int depth, PieceType type) {
 
-        //printCoordArray(getPossiblePiecePositions(board,new Coordinate(3,4)));
+        //printCoordArray(getPossiblePiecePositions(board,new Structure.Coordinate(3,4)));
         //printBoard(board);
 
         //Copy board
@@ -24,19 +30,19 @@ public class AI {
 
         //Call minimax
         if (type == PieceType.ATTACKER){
-            return minimaxAlgo(n, depth, true).coup;
+            return minimaxAlgo(n, depth, true).getCoup();
         }else{
-            return minimaxAlgo(n, depth, false).coup;
+            return minimaxAlgo(n, depth, false).getCoup();
         }
 
     }
 
     private Node minimaxAlgo(Node node, int depth, boolean maximizingPlayer) {
 
-        Grid currentBoard = node.grid;
-        Piece currentKing = node.king;
+        Grid currentBoard = node.getGrid();
+        Piece currentKing = node.getKing();
 
-        if (depth == 0 || node.isEndGame) {
+        if (depth == 0 || node.endGame()) {
             node.setHeuristic(heuristic(currentBoard.board, currentKing.c));
             //System.out.println(node.move.heuristic);
             return node; //Return heuristic
@@ -117,10 +123,10 @@ public class AI {
 
         //isCaptured(board, k);
 
-        /*PieceType end = isEndGame(board,k);
-        if(end == PieceType.ATTACKER)
+        /*Model.PieceType end = isEndGame(board,k);
+        if(end == Model.PieceType.ATTACKER)
             return Double.POSITIVE_INFINITY;
-        else if (end == PieceType.DEFENDER) {
+        else if (end == Model.PieceType.DEFENDER) {
             return Double.NEGATIVE_INFINITY;
         }*/
 
@@ -133,7 +139,7 @@ public class AI {
 
         int boardSize = father.getGrid().sizeGrid;
         Piece[][] board = father.getGrid().board;
-        //Coordinate k = Father.king;
+        //Structure.Coordinate k = Father.king;
 
         //For each piece on board
         for(int y = 0; y < boardSize; y++){
@@ -142,7 +148,7 @@ public class AI {
                 if(board[y][x] == null) continue;
                 Piece current = board[y][x].clonePiece();
 
-                //if Piece is of type type
+                //if Model.Piece is of type type
                 if(current != null && (current.getType() == type || (current.getType() == PieceType.KING && type == PieceType.DEFENDER)) ){
 
                     //Get all possible moves for current piece
@@ -152,9 +158,9 @@ public class AI {
                     //Create and add children nodes
                     for(int i = 0; i < moves.size(); i++){
 
-                        Grid newGrid = father.grid.cloneGrid();
+                        Grid newGrid = father.getGrid().cloneGrid();
                         gRules.grid = newGrid;
-                        gRules.king = gRules.grid.getPieceAtPosition(father.king.c);
+                        gRules.king = gRules.grid.getPieceAtPosition(father.getKing().c);
 
                         Piece currentPiece = newGrid.getPieceAtPosition(current.c);
 
@@ -167,7 +173,7 @@ public class AI {
                         if(currentPiece.isKing()){
                             currentKing = currentPiece;
                         }else{
-                            currentKing = gRules.grid.getPieceAtPosition(father.king.c);
+                            currentKing = gRules.grid.getPieceAtPosition(father.getKing().c);
                         }
 
                         Node tmpNode = new Node(newGrid, currentKing, new Coup(new Coordinate(y,x),moves.get(i)), gRules.isEndGame());

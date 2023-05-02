@@ -1,3 +1,8 @@
+package Model;
+
+import Structure.Coordinate;
+import Structure.Coup;
+
 import java.util.List;
 import java.util.Random;
 
