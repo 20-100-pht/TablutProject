@@ -183,14 +183,17 @@ public class Grid implements Serializable {
 
     public Grid cloneGrid() {
         Grid copy = new Grid();
-        Coordinate coord = new Coordinate(0,0);
         for (int i = 0; i < sizeGrid; i++) {
-            coord.setRowCoord(i);
             for (int j = 0; j < sizeGrid; j++) {
+                Coordinate coord = new Coordinate(0,0);
+                coord.setRowCoord(i);
                 coord.setColCoord(j);
+
                 Piece piece = getPieceAtPosition(coord);
                 if (piece != null) {
-                    copy.setPieceAtPosition(piece.clonePiece(), new Coordinate(coord.getRow(), coord.getCol()));
+                    copy.setPieceAtPosition(piece.clonePiece(), coord);
+                }else{
+                    copy.setPieceAtPosition(null,coord);
                 }
             }
         }

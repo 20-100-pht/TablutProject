@@ -125,16 +125,22 @@ public class Game {
     public void playTurnDefender(){
         System.out.println("Défenseur, à vous de jouer !");
 
-
         Piece current = null;
 
         if(defenderAI){
             while(current == null) {
 
                 //Structure.Coup coupAI = aleatronDefender.playMove();
-                Coup coupAI = aiDefender.minimax(gameRules.grid,gameRules.king,3, PieceType.DEFENDER);
+                Coup coupAI = aiDefender.minimax(gameRules.grid.cloneGrid(),gameRules.king.clonePiece(),3, PieceType.DEFENDER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
+
+                if(current == null){
+                    System.out.println("\n\nError : Defender Coup : " + current);
+                    gameRules.grid.print();
+                    System.out.println("Source:" + coupAI.getInit().getRow() + ","+coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + ","+ coupAI.getDest().getCol());
+                    System.exit(0);
+                }
             }
         }
         else {
@@ -154,9 +160,17 @@ public class Game {
 
         if(attackerAI){
             while(current == null) {
-                Coup coupAI = aleatronAttacker.playMove();
+                //Coup coupAI = aleatronAttacker.playMove();
+                Coup coupAI = aiDefender.minimax(gameRules.grid.cloneGrid(),gameRules.king.clonePiece(),3, PieceType.ATTACKER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
+
+                if(current == null){
+                    System.out.println("\n\nError : Attacker Coup : " + current);
+                    gameRules.grid.print();
+                    System.out.println("Source:" + coupAI.getInit().getRow() + ","+coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + ","+ coupAI.getDest().getCol());
+                    System.exit(0);
+                }
             }
         }
         else {

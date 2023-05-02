@@ -82,24 +82,48 @@ public class Piece {
 
 
     public ArrayList possibleMoves(Piece[][] board) {
+
+        int min = 1, max = 8;
+        int throne = 4;
+
+        if(this.isKing()){
+            min = 0;
+            max = 9;
+        }
+
         ArrayList<Coordinate> MovesToPieceList = new ArrayList<>();
-        for (int i = c.getCol() - 1; i >= 0; i--){
-            if (board[c.getRow()][i] == null) MovesToPieceList.add(new Coordinate(c.getRow(), i));
+
+        //Add coordinate if not throne and not fortress (if not king)
+        for (int i = c.getCol() - 1; i >= min; i--){
+            if (board[c.getRow()][i] == null){
+                if(c.getRow() == throne && i == throne) continue;
+                MovesToPieceList.add(new Coordinate(c.getRow(), i));
+            }
             else break;
         }
-        for (int i = c.getCol() + 1; i < 9; i++){
-            if (board[c.getRow()][i] == null) MovesToPieceList.add(new Coordinate(c.getRow(), i));
+        for (int i = c.getCol() + 1; i < max; i++){
+            if (board[c.getRow()][i] == null){
+                if(c.getRow() == throne && i == throne) continue;
+                MovesToPieceList.add(new Coordinate(c.getRow(), i));
+            }
             else break;
         }
 
-        for (int r = c.getRow() - 1; r >= 0; r--){
-            if (board[r][c.getCol()] == null) MovesToPieceList.add(new Coordinate(r, c.getCol()));
+        for (int r = c.getRow() - 1; r >= min; r--){
+            if (board[r][c.getCol()] == null){
+                if(c.getCol() == throne && r == throne) continue;
+                MovesToPieceList.add(new Coordinate(r, c.getCol()));
+            }
             else break;
         }
-        for (int r = c.getRow() + 1; r < 9; r++){
-            if (board[r][c.getCol()] == null) MovesToPieceList.add(new Coordinate(r, c.getCol()));
+        for (int r = c.getRow() + 1; r < max; r++){
+            if (board[r][c.getCol()] == null){
+                if(c.getCol() == throne && r == throne) continue;
+                MovesToPieceList.add(new Coordinate(r, c.getCol()));
+            }
             else break;
         }
+
         return MovesToPieceList;
     }
 
