@@ -22,11 +22,14 @@ public class AI {
         //printCoordArray(getPossiblePiecePositions(board,new Structure.Coordinate(3,4)));
         //printBoard(board);
 
+        //System.out.println("Minimax board : ");
+        //currentGrid.print();
+
         //Copy board
         dep = depth;
 
         //Create first node
-        Node n = new Node(currentGrid.cloneGrid(), king.clonePiece(), null, false);
+        Node n = new Node(currentGrid, king, null, false);
 
         //Call minimax
         if (type == PieceType.ATTACKER){
@@ -44,10 +47,11 @@ public class AI {
 
         if (depth == 0 || node.endGame()) {
             node.setHeuristic(heuristic(currentBoard.board, currentKing.c));
-            //System.out.println(node.move.heuristic);
-            return node; //Return heuristic
+            //System.out.println("Heuristic :" + node.getHeuristic());
+            return node;
         }
 
+        //Create all children of node (all possible states of current board)
         createNodeChildren(node, maximizingPlayer?PieceType.ATTACKER:PieceType.DEFENDER, depth);
         ArrayList<Node> children = node.getChildren();
 
@@ -62,6 +66,7 @@ public class AI {
                 int tmpD = depth-1;
                 Node tmp = minimaxAlgo(children.get(i), tmpD, false);
 
+                //Randomize selection of same heuristic nodes
                 Random r = new Random();
                 if(tmp.getHeuristic() > value || (tmp.getHeuristic() == value && r.nextInt()%2==0)){
                     value = tmp.getHeuristic();
@@ -77,6 +82,7 @@ public class AI {
                 int tmpD = depth -1;
                 Node tmp = minimaxAlgo(children.get(i), tmpD, true);
 
+                //Randomize selection of same heuristic nodes
                 Random r = new Random();
                 if(tmp.getHeuristic() < value || (tmp.getHeuristic() == value && r.nextInt()%2==0)){
                     value = tmp.getHeuristic();
@@ -87,7 +93,13 @@ public class AI {
 
         //System.out.println(depth  + " " + maximizingPlayer);
 
-        if(dep == depth) return rtNode;
+        //If recursion depth is start depth return node of selected child (best value)
+        if(dep == depth){
+            //System.out.println("\n\nSelected node heuristic : " + rtNode.getHeuristic());
+            //rtNode.getGrid().print();
+            return rtNode;
+        }
+        //Else set current node's heuristic to best calculated value
         else node.setHeuristic(value);
 
         return node;
@@ -130,8 +142,14 @@ public class AI {
             return Double.NEGATIVE_INFINITY;
         }*/
 
+        /**
+         * Heuristic qui semble faire du 50/50
+         double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*30 + attackers + nearKing*10));
+         *
+         */
+
         //Attackers want a high value, Defenders want a low value
-        double value = ((double) (1-king)*20 + defenders + (kingDistanceToCorner(k)+1)*50 + attackers + nearKing*10);
+        double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
         return value;
     }
 
@@ -193,9 +211,9 @@ public class AI {
 
         int valX = 0;
         if(x>=center && x<=border){
-            valX = x-4;
+            valX = 8-x;
         } else if (x<=center && x >=0) {
-            valX = 4-x;
+            valX = x-8;
         }
 
         int valY = 0;
@@ -206,24 +224,6 @@ public class AI {
         }
 
         return (valY+valX);
-    }
-
-    public int distanceToKing(Piece[][] board,Coordinate king){
-        int x = king.getCol();
-        int y = king.getRow();
-
-        int val = 0;
-        for(int i = 0; i< board.length; i++){
-            for(int j = 0; j< board.length; j++){
-                if(board[i][j] != null && board[i][j].getType() == PieceType.ATTACKER){
-                    int dX = Math.abs(j-x);
-                    int dY = Math.abs(i-y);
-                    val+= dX+dY;
-                }
-            }
-        }
-
-        return val;
     }
 
 }
