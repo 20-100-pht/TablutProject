@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Game {
@@ -8,12 +6,15 @@ public class Game {
 
     boolean defenderAI;
     boolean attackerAI;
+    boolean isFirstMove = true;
+
+    int depth = 3;
 
     AIRandom aleatronDefender;
     AIRandom aleatronAttacker;
 
     Scanner scanner = new Scanner(System.in);
-    GameControler gameControler;
+    GameController gameController;
 
 
     public Game(){
@@ -24,13 +25,13 @@ public class Game {
         attacker = true;
         defenderAI = true;
         attackerAI = true;
-        gameControler = new GameControler();
-        aleatronDefender = new AIRandom(gameControler, PieceType.DEFENDER);
-        aleatronAttacker = new AIRandom(gameControler, PieceType.ATTACKER);
+        gameController = new GameController();
+        aleatronDefender = new AIRandom(gameController, PieceType.DEFENDER);
+        aleatronAttacker = new AIRandom(gameController, PieceType.ATTACKER);
     }
 
     public void playGame(){
-        while(!gameControler.isEndGame()){
+        while(!gameController.isEndGame()){
             playTurn();
         }
     }
@@ -38,11 +39,11 @@ public class Game {
     public void endGame(ResultGame result){
         if(result == ResultGame.ATTACKER_WIN) System.out.println("Attacker win !");
         else System.out.println("Defender win !");
-        gameControler.print();
+        gameController.print();
     }
 
     public void playTurn(){
-        gameControler.print();
+        gameController.print();
 
         if(attacker) playTurnAttacker();
         else playTurnDefender();
@@ -67,7 +68,7 @@ public class Game {
             coupPlayer.dest.setRow(scanner.nextInt());
             coupPlayer.dest.setCol(scanner.nextInt());
 
-            ReturnValue returnValue = gameControler.move(coupPlayer);
+            ReturnValue returnValue = gameController.move(coupPlayer);
             current = returnValue.getPiece();
 
             if(current == null){
@@ -117,19 +118,26 @@ public class Game {
 
         if(defenderAI){
             while(current == null) {
-                Coup coupAI = aleatronDefender.playMove();
-                ReturnValue returnValue = gameControler.move(coupAI);
+                /*Coup coupAI = aleatronDefender.playMove();
+                ReturnValue returnValue = gameController.move(coupAI);
+                current = returnValue.getPiece();*/
+
+                MyAI ai = new MyAI();
+                Node aiNode = ai.minimax(gameController.grid.board,gameController.king.c,depth,PieceType.DEFENDER);
+                System.out.println("Defender AI heuristic :" + aiNode.move.heuristic);
+                ReturnValue returnValue = gameController.move(aiNode.move);
                 current = returnValue.getPiece();
+
             }
         }
         else {
             current = movePlayer();
         }
 
-        int kill = gameControler.attack(current);
+        int kill = gameController.attack(current);
         System.out.println("nb kill : " + kill);
 
-        if(gameControler.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
+        if(gameController.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
     }
 
     public void playTurnAttacker(){
@@ -139,9 +147,32 @@ public class Game {
 
         if(attackerAI){
             while(current == null) {
-                Coup coupAI = aleatronAttacker.playMove();
-                ReturnValue returnValue = gameControler.move(coupAI);
-                current = returnValue.getPiece();
+
+
+                /*Node aiNode = aiAttacker.minimax(gameController.grid.cloneGrid(),gameController.king.c,3,PieceType.ATTACKER);
+                Coup coupAI = aiNode.move;
+                System.out.println("heuristic :" + coupAI.heuristic);*/
+
+                if(isFirstMove){
+                    Coup coupAI = aleatronAttacker.playMove();
+                    ReturnValue returnValue = gameController.move(coupAI);
+                    current = returnValue.getPiece();
+                    isFirstMove = false;
+                }else{
+                    MyAI ai = new MyAI();
+                    Node aiNode = ai.minimax(gameController.grid.board,gameController.king.c,depth,PieceType.ATTACKER);
+                    System.out.println("Attacker AI heuristic :" + aiNode.move.heuristic);
+                    ReturnValue returnValue = gameController.move(aiNode.move);
+                    current = returnValue.getPiece();
+                }
+
+
+
+
+
+                //System.exit(0);
+
+
             }
         }
         else {
@@ -149,13 +180,13 @@ public class Game {
         }
 
         //Check if the king has been captured while on or next to the throne
-        gameControler.capture();
+        gameController.capture();
 
-        int kill = gameControler.attack(current);
+        int kill = gameController.attack(current);
         System.out.println("nb kill : " + kill);
 
 
-        if(gameControler.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);
+        if(gameController.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);
     }
 
 
@@ -164,7 +195,7 @@ public class Game {
             FileInputStream fis = new FileInputStream(filePath);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            gameControler = (GameControler) ois.readObject();
+            gameController = (GameController) ois.readObject();
 
             ois.close();
 
@@ -180,7 +211,7 @@ public class Game {
             FileOutputStream fos = new FileOutputStream(filePath);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            oos.writeObject(gameControler);
+            oos.writeObject(gameController);
 
             oos.close();
 

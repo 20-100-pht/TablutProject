@@ -77,7 +77,7 @@ public class Piece {
 
 
 
-    public ArrayList possibleMoves(Piece[][] board) {
+    public ArrayList<Coordinate> possibleMoves(Piece[][] board) {
         ArrayList<Coordinate> MovesToPieceList = new ArrayList<>();
         for (int i = c.col - 1; i >= 0; i--){
             if (board[c.row][i] == null) MovesToPieceList.add(new Coordinate(c.row, i));

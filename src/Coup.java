@@ -1,6 +1,10 @@
 public class Coup {
     Coordinate init;
     Coordinate dest;
+
+    double heuristic;
+
+
     Coup(Coordinate i, Coordinate d){
         init = i;
         dest = d;

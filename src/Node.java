@@ -3,10 +3,15 @@ import java.util.ArrayList;
 public class Node {
 
     Piece[][] board;
+    Coordinate king;
     ArrayList<Node> children;
+    Coup move;
 
-    Node(Piece[][] b){
+    Node(Piece[][] b, Coordinate k, Coup m){
         board = b;
+        king = k;
+        children = new ArrayList<>();
+        move = m;
     }
 
     public void addChild(Node n){
@@ -17,9 +22,9 @@ public class Node {
         return children;
     }
 
-    public Piece[][] getBoard(){
-        return board;
-    }
+    /*public GameController getGC(){
+        return gController;
+    }*/
 
 
 }

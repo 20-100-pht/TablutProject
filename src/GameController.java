@@ -1,9 +1,4 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-public class GameControler {
+public class GameController {
     ResultGame endGameVar = ResultGame.NO_END_GAME;
 
     Piece king;
@@ -12,7 +7,7 @@ public class GameControler {
     int nbPieceAttackerOnGrid;
 
 
-    public GameControler(){
+    public GameController(){
         resetGameControler();
     }
 
@@ -86,6 +81,15 @@ public class GameControler {
 
         grid.setPieceAtPosition(selectedPiece, coup.dest);
         grid.setPieceAtPosition(null, coup.init);
+
+        /*if(selectedPiece.isKing()){
+            king=selectedPiece;
+
+            System.out.println("AAAAAAAAAAAAAAAAAAAA");
+            grid.print();
+            System.out.println(grid.getPieceAtPosition(selectedPiece.c).getType());
+        }*/
+
         return rtrn;
     }
 
@@ -165,35 +169,30 @@ public class GameControler {
         if((x==4 && (y==3 || y==5)) || y==4 && (x==3 || x==5)){
 
             //Get all pieces adjacent to the king
-            kingCord.setCol(kingCord.col-1);
-            Piece leftPiece = grid.getPieceAtPosition(kingCord);
+            Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y,x-1));
 
-            kingCord.setCol(kingCord.col+2); // -1 + 2 = +1
-            Piece rightPiece = grid.getPieceAtPosition(kingCord);
+            Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y,x+1));
 
-            kingCord.setCol(kingCord.col-1);
-            kingCord.setRow(kingCord.row-1);
-            Piece topPiece = grid.getPieceAtPosition(kingCord);
+            Piece topPiece = grid.getPieceAtPosition(new Coordinate(y-1,x));
 
-            kingCord.setRow(kingCord.row+2);
-            Piece bottomPiece = grid.getPieceAtPosition(kingCord);
+            Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y+1,x));
 
-            System.out.println("x:"+x+"  y:" + y);
+            System.out.println("king x:"+x+"  king y:" + y);
 
             //piece null && pas trone
             //piece defenseur
 
             //If piece is attacker or throne
-            if( (leftPiece != null && leftPiece.isDefender()) || (!(y==4 && x+1==4) && leftPiece == null) ){
+            if( (leftPiece != null && leftPiece.isDefender()) || (!(y==4 && x-1==4) && leftPiece == null) ){
                 return false;
             }
-            if( (rightPiece != null && rightPiece.isDefender()) || (!(y==4 && x-1==4) && rightPiece == null) ){
+            if( (rightPiece != null && rightPiece.isDefender()) || (!(y==4 && x+1==4) && rightPiece == null) ){
                 return false;
             }
-            if( (topPiece != null && topPiece.isDefender()) || (!(y+1==4 && x==4) && topPiece == null) ){
+            if( (topPiece != null && topPiece.isDefender()) || (!(y-1==4 && x==4) && topPiece == null) ){
                 return false;
             }
-            if( (bottomPiece != null && bottomPiece.isDefender()) || (!(y-1==4 && x==4) && bottomPiece == null) ){
+            if( (bottomPiece != null && bottomPiece.isDefender()) || (!(y+1==4 && x==4) && bottomPiece == null) ){
                 return false;
             }
 
@@ -246,6 +245,5 @@ public class GameControler {
         int y = king.getRow();
         return ((x == 0 && ((y == 0) || (y == grid.sizeGrid - 1))) || (x == grid.sizeGrid -1 && ((y == 0) || (y == grid.sizeGrid -1))));
     }
-
 
 }
