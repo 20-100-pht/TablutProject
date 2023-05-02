@@ -115,7 +115,7 @@ public class MenuFrame extends Frame {
         int height = (int) (sizeScreen.height * 0.6);
         int width = (int) (sizeScreen.width * 0.4);
         window.setSize(width, height);
-        window.setLocationRelativeTo(null);
+        window.setMinimumSize(new Dimension(400, 600));
 
         ui.getWindow().setJMenuBar(null);
     }

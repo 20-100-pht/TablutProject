@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -21,6 +23,8 @@ public class Frame extends JComponent {
         } catch(IOException exp){
             exp.printStackTrace();
         }
+
+        setEventHandlers();
     }
 
     public void build(){
@@ -54,6 +58,25 @@ public class Frame extends JComponent {
 
     public void updateMargins() {
 
+    }
+
+    private void setEventHandlers(){
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+
+                Dimension wSize = ui.getWindow().getSize();
+                Dimension wMinSize = ui.getWindow().getMinimumSize();
+                if(wSize.width < wMinSize.width){
+                    wSize.width = wMinSize.width;
+                }
+                if(wSize.height < wMinSize.height){
+                    wSize.height = wMinSize.height;
+                }
+                ui.getWindow().setSize(wSize);
+            }
+        });
     }
 
     public Interface getInterface(){

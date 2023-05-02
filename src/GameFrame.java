@@ -56,6 +56,14 @@ public class GameFrame extends Frame {
         gLayout.setConstraints(bttnMenu, c);
         this.add(bttnMenu);
 
+        menu = new JPopupMenu();
+        save = new JMenuItem("Sauvegarder");
+        forfeit = new JMenuItem("Abandonner");
+        options = new JMenuItem("Options");
+        menu.add(save);
+        menu.add(forfeit);
+        menu.add(options);
+
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0, 0, 0, 0);
         c.weighty = 0;
@@ -241,7 +249,6 @@ public class GameFrame extends Frame {
         panelHistory.add(bttnRedo);
 
         setEventHandlers();
-        UpdateGridPanelSize();
     }
     void loadAssets(){
         try{
@@ -255,21 +262,15 @@ public class GameFrame extends Frame {
         }
     }
 
+
     public void setEventHandlers(){
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                UpdateGridPanelSize();
+
             }
         });
 
-        menu = new JPopupMenu();
-        save = new JMenuItem("Sauvegarder");
-        forfeit = new JMenuItem("Abandonner");
-        options = new JMenuItem("Options");
-        menu.add(save);
-        menu.add(forfeit);
-        menu.add(options);
         bttnMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -287,7 +288,7 @@ public class GameFrame extends Frame {
         int width = (int) (sizeScreen.width * 0.8);
         window.setSize(width, height);
         window.setLocationRelativeTo(null);
-
+        window.setMinimumSize(new Dimension(1000, 750));
     }
 
     @Override

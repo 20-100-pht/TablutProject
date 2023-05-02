@@ -107,21 +107,9 @@ public class GridPanel extends JPanel {
     }
 
     Piece getPieceHovered(int mouseX, int mouseY){
-
-        /*if(!contains((int) mouseLocation.getX(), (int) mouseLocation.getY())){
-            return null;
-        }*/
-
         int caseX = (int) (mouseX / getCaseSize());
         int caseY = (int) (mouseY / getCaseSize());
-        System.out.println(caseX + " " + caseY);
-        System.out.println(mouseX + " " + mouseX);
-        System.out.println(this.getX() + " " + this.getY());
         Coordinate caseCoordinates = new Coordinate(caseY, caseX);
-
-        System.out.println(caseCoordinates.getRow() + " " + caseCoordinates.getCol());
-        Piece pieceHovered = gameFrame.GetGameInstance().getGridInstance().getPieceAtPosition(caseCoordinates);
-        System.out.println(pieceHovered.getRow() + " " + pieceHovered.getCol());
 
         return gameFrame.GetGameInstance().getGridInstance().getPieceAtPosition(caseCoordinates);
     }
@@ -180,7 +168,6 @@ public class GridPanel extends JPanel {
     void mouseMovedHandler(MouseEvent e){
         Piece hoveredPiece = getPieceHovered(e.getX(), e.getY());
         if(hoveredPiece != null){
-            System.out.println("Piece hovered");
             processPossibleMoveMarks(hoveredPiece);
         }
     }
