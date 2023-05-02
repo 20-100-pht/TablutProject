@@ -4,16 +4,14 @@ public class Coordinate {
     byte col;
 
     Coordinate(int r, int c){
-        row = r;
-        col = c;
+        row = (byte)r;
+        col = (byte)c;
     }
 
-    public void setRow(int i){
-        row = i;
-    }
+    public void setRowCoord(int i){ row = (byte)i;}
 
-    public void setCol(int i){
-        col = i;
+    public void setColCoord(int i){
+        col = (byte)i;
     }
 
     public int getRow(){
