@@ -10,7 +10,6 @@ public class GridPanel extends JPanel {
     Image imageCase;
     Image imageDefender;
     Image imageAttacker;
-    int gridCaseSize = 64;
     public static final int GRID_SIZE = 9;
     public GridPanel(GameFrame gameFrame){
         super();
@@ -25,29 +24,30 @@ public class GridPanel extends JPanel {
         Grid grid = gameFrame.GetGameInstance().getGridInstance();
         for(int l = 0; l < GRID_SIZE; l++){
             for(int c = 0; c < GRID_SIZE; c++){
-                g.drawImage(imageCase, c*gridCaseSize, l*gridCaseSize, gridCaseSize, gridCaseSize, null);
+                g.drawImage(imageCase, c*getCaseSize(), l*getCaseSize(), getCaseSize(), getCaseSize(), null);
+
+                int pieceX = (int) c*getCaseSize() + getCaseSize()/4;
+                int pieceY = (int) l*getCaseSize() + getCaseSize()/4;
 
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
                 if(piece == null){
                     continue;
                 }
                 if(piece.isDefender()) {
-                    Image imageDefenderGoodSize = imageDefender.getScaledInstance(gridCaseSize, gridCaseSize, Image.SCALE_DEFAULT);
-                    g.drawImage(imageDefenderGoodSize, c*gridCaseSize, l*gridCaseSize, gridCaseSize, gridCaseSize, null);
+                    g.drawImage(imageDefender, pieceX, pieceY, getCaseSize()/2, getCaseSize()/2, null);
                 }
                 else if(piece.isAttacker()){
-                    Image imageAttackerGoodSize = imageAttacker.getScaledInstance(gridCaseSize, gridCaseSize, Image.SCALE_DEFAULT);
-                    g.drawImage(imageAttackerGoodSize, c*gridCaseSize, l*gridCaseSize, gridCaseSize, gridCaseSize, null);
+                    g.drawImage(imageAttacker, pieceX, pieceY, getCaseSize()/2, getCaseSize()/2, null);
                 }
             }
         }
 
         for(int l = 0; l <= GRID_SIZE; l++) {
-            g.drawLine(0, l*gridCaseSize, GRID_SIZE*gridCaseSize, l*gridCaseSize);
+            g.drawLine(0, l*getCaseSize(), GRID_SIZE*getCaseSize(), l*getCaseSize());
         }
 
         for(int c = 0; c <= GRID_SIZE; c++){
-            g.drawLine(c*gridCaseSize, 0, c*gridCaseSize, GRID_SIZE*gridCaseSize);
+            g.drawLine(c*getCaseSize(), 0, c*getCaseSize(), GRID_SIZE*getCaseSize());
         }
     }
 
@@ -61,16 +61,13 @@ public class GridPanel extends JPanel {
         }
     }
 
-    public void setCaseSize(int caseSize){
-        gridCaseSize = caseSize;
-    }
-
     public int getCaseSize(){
-        return gridCaseSize;
+        return this.getWidth()/GRID_SIZE;
     }
 
-    @Override
+    //@Override
     public Dimension getPreferredSize(){
-        return new Dimension(getCaseSize()*GRID_SIZE+1, getCaseSize()*GRID_SIZE+1);
+        int i = Math.min((int) ((gameFrame.getWidth()*0.5) / 2), (int) ((gameFrame.getHeight()*0.7) / 2));
+        return new Dimension(i*2, i*2);
     }
 }
