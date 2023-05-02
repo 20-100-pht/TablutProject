@@ -2,8 +2,12 @@ import java.util.ArrayList;
 
 public class Node {
 
-    Piece[][] board;
+    Grid grid;
+    Piece king;
     ArrayList<Node> children;
+    Coup coup;
+    boolean isEndGame;
+    double heuristic;
 
     Node(Grid b, Piece k, Coup c,boolean end){
         grid = b;
@@ -21,8 +25,16 @@ public class Node {
         return children;
     }
 
-    public Piece[][] getBoard(){
-        return board;
+    public Grid getGrid(){
+        return grid;
+    }
+
+    public void setHeuristic(double h){
+        heuristic = h;
+    }
+
+    public double getHeuristic(){
+        return heuristic;
     }
 
 

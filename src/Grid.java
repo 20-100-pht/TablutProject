@@ -193,58 +193,5 @@ public class Grid implements Serializable {
         return copy;
     }
 
-    /**
-     mise à 1 du bit de position x dans la variable v
 
-     v = v | (1 << x);
-
-     mise à 0 du bit de position x dans la variable v
-
-     v = v & ~(1 << x);
-
-     valeur du bit de position x dans la variable v
-
-     (v >> x) & 1;
-     */
-    public int[] gridToBinary(){
-
-        //int aa = 0b11111111111111111111111111111111;
-
-        int[] grid = new int[11];
-        int ind = 0, innerInd = 0;
-        for(int y = 0; y < sizeGrid; y++){
-            for(int x = 0; x < sizeGrid; x++){
-
-                if(board[y][x] == null){
-                    grid[ind] = grid[ind] | (1 << innerInd);
-                    grid[ind] = grid[ind] | (1 << innerInd+1);
-                }else{
-                    switch (board[y][x].getType()){
-                        case KING :
-                            grid[ind] = grid[ind] & ~(1 << innerInd);
-                            grid[ind] = grid[ind] & ~(1 << innerInd+1);
-                            break;
-
-                        case DEFENDER:
-                            grid[ind] = grid[ind] & ~(1 << innerInd);
-                            grid[ind] = grid[ind] | (1 << innerInd+1);
-                            break;
-
-                        case ATTACKER:
-                            grid[ind] = grid[ind] |(1 << innerInd);
-                            grid[ind] = grid[ind] & ~(1 << innerInd+1);
-                            break;
-
-                        default :
-                            break;
-                    }
-                }
-
-                innerInd = (innerInd+1) % 8;
-                if(innerInd == 0) ind++;
-
-            }
-        }
-        return grid;
-    }
 }

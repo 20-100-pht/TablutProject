@@ -9,6 +9,8 @@ public class Game {
 
     //AIRandom aleatronDefender;
     AIRandom aleatronAttacker;
+    AI aiDefender;
+    AI aiAttacker;
 
     Scanner scanner = new Scanner(System.in);
     GameRules gameRules;
