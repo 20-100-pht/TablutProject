@@ -27,6 +27,8 @@ public class GameRules {
         return endGameVar != ResultGame.NO_END_GAME;
     }
 
+    public void setEndGameVar(ResultGame r){ endGameVar = r;}
+
     public ResultGame isEndGameType(){return endGameVar;}
 
     public void print(){
@@ -67,7 +69,7 @@ public class GameRules {
             return rtrn;
         }
 
-        if(grid.isCastle(coup.getDest())){
+        if(grid.isCastle(coup.getDest()) && !selectedPiece.isKing()){
             rtrn.setValue(4);
             return rtrn;
         }
@@ -134,7 +136,7 @@ public class GameRules {
                 sideCurrentCord = new Coordinate(sideCurrent.getRow() + rowIndex, sideCurrent.getCol() + colIndex);
                 if (grid.isInside(sideCurrentCord)) {
                     sideSideCurrent = grid.getPieceAtPosition(sideCurrentCord);
-                    if (grid.isCastle(sideCurrentCord) || (sideSideCurrent != null && ((current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefender() && sideSideCurrent.isDefender())))) {
+                    if (grid.isCastle(sideCurrentCord) || grid.isCornerPosition(sideCurrentCord) || sideSideCurrent != null && ((current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefender() && sideSideCurrent.isDefender()))) {
                         nbAttack++;
                         if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
                         grid.setPieceAtPosition(null, currentCord);

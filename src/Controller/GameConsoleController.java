@@ -13,15 +13,20 @@ public class GameConsoleController {
     Game game;
     UserController user;
 
+    boolean printGridTerminal;
+
     public GameConsoleController(){
         user = new UserController();
         game = new Game();
+        printGridTerminal = false;
         gameRules = game.getGameRulesInstance();
     }
 
     public void playGame(){
         while(!gameRules.isEndGame()){
             playTurn();
+            if(game.isAiTest() && (nbTurn == 60)) gameRules.setEndGameVar(ResultGame.MAX_TURN_ENCOUTERED);
+            nbTurn++;
         }
     }
 
@@ -32,7 +37,7 @@ public class GameConsoleController {
     }
 
     public void playTurn(){
-        gameRules.print();
+        if(printGridTerminal) gameRules.print();
 
         if(game.isAttackerTurn()) playTurnAttacker();
         else playTurnDefender();
@@ -57,37 +62,37 @@ public class GameConsoleController {
             if(current == null){
                 switch(returnValue.getValue()){
                     case 1:
-                        System.out.println("Coordonnées invalides (en dehors de la grille), veuillez saisir à nouveau.");
+                        if(printGridTerminal) System.out.println("Coordonnées invalides (en dehors de la grille), veuillez saisir à nouveau.");
                         break;
 
                     case 2:
-                        System.out.println("Coordonnées invalides (pas un pion), veuillez saisir à nouveau.");
+                        if(printGridTerminal) System.out.println("Coordonnées invalides (pas un pion), veuillez saisir à nouveau.");
                         break;
 
                     case 3:
-                        System.out.println("Case de destination invalide, veuillez saisir à nouveau.");
+                        if(printGridTerminal) System.out.println("Case de destination invalide, veuillez saisir à nouveau.");
                         break;
                     case 4:
-                        System.out.println("Case de destination invalide (château), veuillez saisir à nouveau.");
+                        if(printGridTerminal) System.out.println("Case de destination invalide (château), veuillez saisir à nouveau.");
                         break;
                     case 5:
-                        System.out.println("Case de destination invalide (même position), veuillez saisir à nouveau.");
+                        if(printGridTerminal) System.out.println("Case de destination invalide (même position), veuillez saisir à nouveau.");
                         break;
                     case 6:
-                        System.out.println("La pièce sélectionnée ne peut pas se déplacer sur la case de destination, veuillez saisir à nouveau.");
+                        if(printGridTerminal) System.out.println("La pièce sélectionnée ne peut pas se déplacer sur la case de destination, veuillez saisir à nouveau.");
                         break;
                     case 7:
-                        System.out.println("La pièce sélectionnée ne peut pas se déplacer sur une forteresse, veuillez saisir à nouveau.");
+                        if(printGridTerminal) System.out.println("La pièce sélectionnée ne peut pas se déplacer sur une forteresse, veuillez saisir à nouveau.");
                         break;
                     default:
-                        System.out.println("Erreur valeur de retour");
+                        if(printGridTerminal) System.out.println("Erreur valeur de retour");
                         break;
                 }
             }
 
 
             if (current != null && ( (current.isAttacker() && !game.isAttackerTurn()) || (current.isDefenderOrKing() && game.isAttackerTurn()) ) ){
-                System.out.println("Ce pion n'est pas le votre !");
+                if(printGridTerminal) System.out.println("Ce pion n'est pas le votre !");
                 current = null;
             }
 
@@ -122,7 +127,7 @@ public class GameConsoleController {
         }
 
         int kill = gameRules.attack(current);
-        System.out.println("nb kill : " + kill);
+        if(printGridTerminal) System.out.println("nb kill : " + kill);
 
         if(gameRules.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
     }
@@ -160,4 +165,6 @@ public class GameConsoleController {
 
         if(gameRules.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);
     }
+
+    public void setPrintTerminal(boolean b) { printGridTerminal = b;}
 }

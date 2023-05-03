@@ -94,4 +94,8 @@ public class Game {
     public void toogleAttackerTurn(){
         attackerTurn = !attackerTurn;
     }
+
+    public boolean isAiTest(){
+        return attackerAI && defenderAI;
+    }
 }

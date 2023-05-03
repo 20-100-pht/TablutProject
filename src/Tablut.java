@@ -15,12 +15,10 @@ public class Tablut {
             }
         }else{
 
-            Interface ui = new Interface();
+        Interface ui = new Interface();
 
-            GameConsoleController gcc = new GameConsoleController();
-            gcc.playGame();
-        }
-
-
+        GameConsoleController gcc = new GameConsoleController();
+        gcc.setPrintTerminal(true);
+        gcc.playGame();
     }
 }
