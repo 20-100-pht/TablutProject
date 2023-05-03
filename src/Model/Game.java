@@ -1,7 +1,8 @@
 package Model;
 
-import Model.AIRandom;
-import Model.GameRules;
+import Controller.AI;
+import Controller.AIRandom;
+import Controller.UserController;
 import Structure.Coordinate;
 import Structure.Coup;
 import Structure.ReturnValue;
@@ -12,15 +13,15 @@ import java.util.Scanner;
 public class Game {
     boolean attacker;
 
+
+
     boolean defenderAI;
     boolean attackerAI;
 
-    //Model.AIRandom aleatronDefender;
-    AIRandom aleatronAttacker;
-    AI aiDefender;
-    AI aiAttacker;
-
-    Scanner scanner = new Scanner(System.in);
+    //Controller.AIRandom aleatronDefender;
+    //AIRandom aleatronAttacker;
+    AI aiMinMax;
+    UserController user;
     GameRules gameRules;
 
 
@@ -33,10 +34,9 @@ public class Game {
         defenderAI = true;
         attackerAI = true;
         gameRules = new GameRules();
-        //aleatronDefender = new Model.AIRandom(gameRules, Model.PieceType.DEFENDER);
-        aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
-        aiDefender = new AI();
-        //aiAttacker = new AI(gameRules);
+        //aleatronDefender = new Controller.AIRandom(gameRules, Model.PieceType.DEFENDER);
+        //aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
+        aiMinMax = new AI();
     }
 
     public void playGame(){
@@ -52,7 +52,7 @@ public class Game {
     }
 
     public void playTurn(){
-        gameRules.print();
+        //gameRules.print();
 
         if(attacker) playTurnAttacker();
         else playTurnDefender();
@@ -65,17 +65,11 @@ public class Game {
 
         Piece current = null;
 
-        Coup coupPlayer = new Coup(new Coordinate(0,0), new Coordinate(0,0));
+        Coup coupPlayer;
 
         while (current == null) {
-            System.out.println("Coordonnées de la pièce que vous souhaitez déplacer (ligne colonne) : ");
-            coupPlayer.getInit().setRowCoord(scanner.nextInt());
-            coupPlayer.getInit().setColCoord(scanner.nextInt());
 
-
-            System.out.println("Coordonnées de la case où vous souhaitez déplacer la pièce (ligne colonne) : ");
-            coupPlayer.getDest().setRowCoord(scanner.nextInt());
-            coupPlayer.getDest().setColCoord(scanner.nextInt());
+            coupPlayer = user.getCoupUser();
 
             ReturnValue returnValue = gameRules.move(coupPlayer);
             current = returnValue.getPiece();
@@ -123,7 +117,7 @@ public class Game {
     }
 
     public void playTurnDefender(){
-        System.out.println("Défenseur, à vous de jouer !");
+        //System.out.println("Défenseur, à vous de jouer !");
 
         Piece current = null;
 
@@ -131,7 +125,7 @@ public class Game {
             while(current == null) {
 
                 //Structure.Coup coupAI = aleatronDefender.playMove();
-                Coup coupAI = aiDefender.minimax(gameRules.grid.cloneGrid(),gameRules.king.clonePiece(),3, PieceType.DEFENDER);
+                Coup coupAI = aiMinMax.minimax(gameRules.grid.cloneGrid(),gameRules.king.clonePiece(),3, PieceType.DEFENDER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
 
@@ -148,20 +142,20 @@ public class Game {
         }
 
         int kill = gameRules.attack(current);
-        System.out.println("nb kill : " + kill);
+        //System.out.println("nb kill : " + kill);
 
         if(gameRules.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
     }
 
     public void playTurnAttacker(){
-        System.out.println("Attaquant, à vous de jouer !");
+        //System.out.println("Attaquant, à vous de jouer !");
 
         Piece current = null;
 
         if(attackerAI){
             while(current == null) {
                 //Coup coupAI = aleatronAttacker.playMove();
-                Coup coupAI = aiDefender.minimax(gameRules.grid.cloneGrid(),gameRules.king.clonePiece(),3, PieceType.ATTACKER);
+                Coup coupAI = aiMinMax.minimax(gameRules.grid.cloneGrid(),gameRules.king.clonePiece(),3, PieceType.ATTACKER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
 
@@ -181,7 +175,7 @@ public class Game {
         gameRules.capture();
 
         int kill = gameRules.attack(current);
-        System.out.println("nb kill : " + kill);
+        //System.out.println("nb kill : " + kill);
 
 
         if(gameRules.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);

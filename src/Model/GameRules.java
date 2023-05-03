@@ -7,8 +7,8 @@ import Structure.ReturnValue;
 public class GameRules {
     ResultGame endGameVar = ResultGame.NO_END_GAME;
 
-    Piece king;
-    Grid grid;
+    public Piece king;
+    public Grid grid;
 
     int nbPieceAttackerOnGrid;
 
@@ -26,6 +26,8 @@ public class GameRules {
     public boolean isEndGame(){
         return endGameVar != ResultGame.NO_END_GAME;
     }
+
+    public ResultGame isEndGameType(){return endGameVar;}
 
     public void print(){
         grid.print();
@@ -128,26 +130,20 @@ public class GameRules {
 
         if(grid.isInside(currentCord)){
             sideCurrent = grid.getPieceAtPosition(currentCord);
-            if( sideCurrent != null && ( (current.isAttacker() && (sideCurrent.isDefender() || (sideCurrent.isKing() && sideCurrent.kingIsOnVulnerablePosition()) ) ) || (current.isDefender() && sideCurrent.isAttacker()) ) ){
+            if( sideCurrent != null && ( (current.isAttacker() && sideCurrent.isDefender() ) || (current.isDefender() && sideCurrent.isAttacker()) ) ){
                 sideCurrentCord = new Coordinate(sideCurrent.getRow() + rowIndex, sideCurrent.getCol() + colIndex);
                 if (grid.isInside(sideCurrentCord)) {
                     sideSideCurrent = grid.getPieceAtPosition(sideCurrentCord);
                     if (grid.isCastle(sideCurrentCord) || (sideSideCurrent != null && ((current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefender() && sideSideCurrent.isDefender())))) {
                         nbAttack++;
-                        if(sideCurrent.isKing()) endGameVar = ResultGame.ATTACKER_WIN;
-                        else{
-                            if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
-                            grid.setPieceAtPosition(null, currentCord);
-                        }
+                        if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
+                        grid.setPieceAtPosition(null, currentCord);
                     }
 
                 } else {
                     nbAttack++;
-                    if(sideCurrent.isKing()) endGameVar = ResultGame.ATTACKER_WIN;
-                    else{
-                        if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
-                        grid.setPieceAtPosition(null, currentCord);
-                    }
+                    if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
+                    grid.setPieceAtPosition(null, currentCord);
                 }
             }
         }
@@ -156,12 +152,47 @@ public class GameRules {
     }
 
     public void capture(){
-        if(isCapturedOnThrone() || isCapturedNextToThrone()) {
+        if(isCapturedByFourAttacker() || isCapturedNextToThrone() || isCapturedNextToWall() ) {
             //King is captured : end Model.Game
             System.out.println("King has been captured!");
             endGameVar = ResultGame.ATTACKER_WIN;
         }
     }
+
+    public boolean isCapturedNextToWall(){
+        Coordinate kingCord = new Coordinate(king.getRow(), king.getCol());
+        int kCol = kingCord.getCol();
+        int kRow = kingCord.getRow();
+
+        if(grid.isNextToWall(kingCord)){
+
+            Piece leftPiece = grid.getPieceAtPosition(new Coordinate(kRow,kCol-1));
+            Piece rightPiece = grid.getPieceAtPosition(new Coordinate(kRow,kCol+1));
+            Piece topPiece = grid.getPieceAtPosition(new Coordinate(kRow-1,kCol));
+            Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(kRow+1,kCol));
+
+            if(kRow == 8
+                    && (leftPiece != null && leftPiece.isAttacker())
+                    && (rightPiece != null && rightPiece.isAttacker())
+                    && (topPiece != null && topPiece.isAttacker())) { return  true; }
+            if (kRow == 0
+                    && (leftPiece != null && leftPiece.isAttacker())
+                    && (rightPiece != null && rightPiece.isAttacker())
+                    && (bottomPiece != null && bottomPiece.isAttacker())) { return true; }
+
+            if (kCol == 8
+                    && (bottomPiece != null && bottomPiece.isAttacker())
+                    && (leftPiece != null && leftPiece.isAttacker())
+                    && (topPiece != null && topPiece.isAttacker())) { return  true; }
+            if (kCol == 0
+                    && (topPiece != null && topPiece.isAttacker())
+                    && (rightPiece != null && rightPiece.isAttacker())
+                    && (bottomPiece != null && bottomPiece.isAttacker())) { return true; }
+
+        }
+        return false;
+    }
+
 
     public boolean isCapturedNextToThrone(){
         Coordinate kingCord = new Coordinate(king.getRow(), king.getCol());
@@ -212,12 +243,12 @@ public class GameRules {
         return false;
     }
 
-    public boolean isCapturedOnThrone(){
+    public boolean isCapturedByFourAttacker(){
         int x = king.getCol();
         int y = king.getRow();
 
         //If king is on throne
-        if(x==4 && y==4){
+        if(x==4 && y==4 || grid.isCommonCase(king.c)){
 
             //Get each adjacent piece to the throne
             Piece leftPiece = grid.getPieceAtPosition(new Coordinate(4,3));

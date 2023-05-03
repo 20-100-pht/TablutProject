@@ -1,5 +1,6 @@
-package Model;
+package Controller;
 
+import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
 import Structure.Node;
@@ -13,7 +14,7 @@ public class AI {
     GameRules gRules;
     int dep = 0;
 
-    AI(){
+    public AI(){
         gRules = new GameRules();
     }
 
@@ -29,7 +30,7 @@ public class AI {
         dep = depth;
 
         //Create first node
-        Node n = new Node(currentGrid, king, null, false);
+        Node n = new Node(currentGrid, king, null, ResultGame.NO_END_GAME);
 
         //Call minimax
         if (type == PieceType.ATTACKER){
@@ -45,8 +46,8 @@ public class AI {
         Grid currentBoard = node.getGrid();
         Piece currentKing = node.getKing();
 
-        if (depth == 0 || node.endGame()) {
-            node.setHeuristic(heuristic(currentBoard.board, currentKing.c));
+        if (depth == 0 || node.endGame() != ResultGame.NO_END_GAME ) {
+            node.setHeuristic(heuristic(currentBoard.board, currentKing.c, node));
             //System.out.println("Heuristic :" + node.getHeuristic());
             return node;
         }
@@ -105,7 +106,7 @@ public class AI {
         return node;
     }
 
-    private double heuristic(Piece[][] board, Coordinate k){
+    private double heuristic(Piece[][] board, Coordinate k, Node current){
         int king = 0;
         int attackers = 0;
         int defenders = 0;
@@ -133,29 +134,25 @@ public class AI {
             }
         }
 
-        //isCaptured(board, k);
 
-        /*Model.PieceType end = isEndGame(board,k);
-        if(end == Model.PieceType.ATTACKER)
+        if(current.endGame() == ResultGame.ATTACKER_WIN)
             return Double.POSITIVE_INFINITY;
-        else if (end == Model.PieceType.DEFENDER) {
+        else if (current.endGame() == ResultGame.DEFENDER_WIN) {
             return Double.NEGATIVE_INFINITY;
         }*/
 
-        /**
-         * Heuristic qui semble faire du 50/50
-         double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*30 + attackers + nearKing*10));
-         *
-         */
+        //Heuristic qui semble faire du 50/50
+         double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*0 + attackers + nearKing*1000));
 
         //Attackers want a high value, Defenders want a low value
-        double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
-        return value;
+        //double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
+        return heuristic20100(board, k);
+        //return value;
     }
 
     private void createNodeChildren(Node father, PieceType type, int depth){
 
-        int boardSize = father.getGrid().sizeGrid;
+        int boardSize = father.getGrid().getSizeGrid();
         Piece[][] board = father.getGrid().board;
         //Structure.Coordinate k = Father.king;
 
@@ -174,7 +171,7 @@ public class AI {
                     if(moves.size() == 0) continue;
 
                     //Create and add children nodes
-                    for(int i = 0; i < moves.size(); i++){
+                    for (Coordinate coordMove : moves){
 
                         Grid newGrid = father.getGrid().cloneGrid();
                         gRules.grid = newGrid;
@@ -194,9 +191,10 @@ public class AI {
                             currentKing = gRules.grid.getPieceAtPosition(father.getKing().c);
                         }
 
-                        Node tmpNode = new Node(newGrid, currentKing, new Coup(new Coordinate(y,x),moves.get(i)), gRules.isEndGame());
+                        Node tmpNode = new Node(newGrid, currentKing, new Coup(new Coordinate(y,x),coordMove), gRules.isEndGameType());
                         father.addChild(tmpNode);
                     }
+
                 }
             }
         }
@@ -211,19 +209,86 @@ public class AI {
 
         int valX = 0;
         if(x>=center && x<=border){
-            valX = 8-x;
+            valX = 4-(x-4);
         } else if (x<=center && x >=0) {
-            valX = x-8;
+            valX = 4-(4-x);
         }
 
         int valY = 0;
         if(y>=center && y<=border){
-            valY = y-4;
+            valY = 4-(y-4);
         } else if (y<=center && y>=0) {
-            valY = 4-y;
+            valY = 4-(4-y);
         }
 
         return (valY+valX);
     }
 
+
+    private double heuristic20100(Piece[][] board, Coordinate k){
+        int numAttackers = 0;
+        int numDefenders = 0;
+        int numPieces = 0;
+        int mobilityAdvantage = 0;
+        int centralKingBonus = 0;
+
+
+        for(int y = 0; y < board.length; y++){
+            for(int x = 0; x < board.length; x++){
+                if(board[y][x] != null){
+                    numPieces++;
+                    if(board[y][x].getType() == PieceType.ATTACKER){
+                        numAttackers++;
+                    } else if(board[y][x].getType() == PieceType.DEFENDER){
+                        numDefenders++;
+                    }
+
+                    // avantage mobilité
+                    int numMoves = getLegalMoves(board, new Coordinate(x, y)).size();
+                    if(board[y][x].isAttacker()){
+                        mobilityAdvantage += numMoves;
+                    } else {
+                        mobilityAdvantage -= numMoves;
+                    }
+
+                    // roi position trone
+                    if(board[y][x].getType() == PieceType.KING){
+                        int distFromCenter = Math.abs(x - 4) + Math.abs(y - 4);
+                        centralKingBonus += (8 - distFromCenter);
+                    }
+                }
+            }
+        }
+
+        return  (double) 1000 * ((double) numAttackers / numPieces) + 500 * ((double) numDefenders / numPieces) + 10 * mobilityAdvantage + 5 * centralKingBonus + (kingDistanceToCorner(k)+1)* 500;
+    }
+
+    public List<Coordinate> getLegalMoves(Piece[][] board, Coordinate coord){
+        List<Coordinate> legalMoves = new ArrayList<>();
+        int x = coord.getCol();
+        int y = coord.getRow();
+
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                if(Math.abs(i) == Math.abs(j) || (i == 0 && j == 0)){
+                    continue;
+                }
+
+                int dx = i;
+                int dy = j;
+                while(x + dx >= 0 && x + dx < board.length && y + dy >= 0 && y + dy < board.length){
+                    if(board[y + dy][x + dx] == null){
+                        legalMoves.add(new Coordinate(x + dx, y + dy));
+                    } else {
+                        break;
+                    }
+
+                    dx += i;
+                    dy += j;
+                }
+            }
+        }
+
+        return legalMoves;
+    }
 }

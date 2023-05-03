@@ -9,7 +9,7 @@ import java.util.List;
 public class Grid implements Serializable {
 
     final int sizeGrid = 9;
-    Piece[][] board = new Piece[sizeGrid][sizeGrid];
+    public Piece[][] board = new Piece[sizeGrid][sizeGrid];
 
     public Grid() {
         reset();
@@ -158,6 +158,10 @@ public class Grid implements Serializable {
         return list;
     }
 
+    public Piece[][] getBoard(){ return board;}
+
+    public int getSizeGrid(){ return sizeGrid;}
+
     public boolean isInside(Coordinate obj) {
         return obj.getRow() >= 0 && obj.getRow() < sizeGrid && obj.getCol() >= 0 && obj.getCol() < sizeGrid;
     }
@@ -166,6 +170,17 @@ public class Grid implements Serializable {
         return obj.getRow() == 4 && obj.getCol() ==4;
     }
 
+    public boolean isNextCastle(Coordinate obj){
+        return ( (obj.getRow() == 4 && obj.getCol() == 3) || (obj.getRow() == 4 && obj.getCol() == 5) || (obj.getRow() == 3 && obj.getCol() == 4) || (obj.getRow() == 5 && obj.getCol() == 4));
+    }
+
+    public boolean isNextToWall(Coordinate obj){
+        return (obj.getRow() == 8) || (obj.getRow() == 0) || (obj.getCol() == 8) || (obj.getCol() == 0);
+    }
+
+    public boolean isCommonCase(Coordinate obj){
+        return !isCastle(obj) && !isNextCastle(obj) && !isNextToWall(obj);
+    }
     public boolean isCornerPosition(Coordinate k){
         return ( (k.getRow() == 0 && k.getCol() == 0) || (k.getRow() == 0 && k.getCol() == 8) || (k.getRow() == 8 && k.getCol() == 0) || (k.getRow() == 8 && k.getCol() == 8) );
     }

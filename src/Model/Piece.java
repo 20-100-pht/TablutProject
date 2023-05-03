@@ -5,7 +5,7 @@ import Structure.Coordinate;
 import java.util.ArrayList;
 
 public class Piece {
-    Coordinate c;
+    public Coordinate c;
     private PieceType type;
 
     public Piece(Coordinate c, PieceType t) {

@@ -1,5 +1,8 @@
-package Model;
+package Controller;
 
+import Model.GameRules;
+import Model.Piece;
+import Model.PieceType;
 import Structure.Coordinate;
 import Structure.Coup;
 
@@ -12,7 +15,7 @@ public class AIRandom {
     GameRules AIGameRules;
     PieceType typeAI;
 
-    AIRandom(GameRules g, PieceType t){
+    public AIRandom(GameRules g, PieceType t){
 
         AIGameRules = g;
         typeAI = t;
@@ -35,7 +38,7 @@ public class AIRandom {
 
             Piece current = listPiece.get(aleaP);
 
-            List<Coordinate> listDest = current.possibleMoves(AIGameRules.grid.board);
+            List<Coordinate> listDest = current.possibleMoves(AIGameRules.grid.getBoard());
             if (listDest.size() > 0) {
                 int aleaD = r.nextInt(listDest.size());
                 return new Coup(new Coordinate(current.getRow(), current.getCol()), listDest.get(aleaD));
