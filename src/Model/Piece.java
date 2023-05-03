@@ -79,8 +79,6 @@ public class Piece {
         return copy;
     }
 
-
-
     public ArrayList possibleMoves(Piece[][] board) {
 
         int min = 1, max = 8;
@@ -129,5 +127,10 @@ public class Piece {
 
     public Coordinate getCoords(){
         return new Coordinate(getRow(), getCol());
+    }
+
+    public boolean inSameTeam(Piece otherPiece){
+        return type == otherPiece.getType() || (type == PieceType.KING && otherPiece.getType() == PieceType.DEFENDER)
+                || (type == PieceType.DEFENDER && otherPiece.getType() == PieceType.KING);
     }
 }

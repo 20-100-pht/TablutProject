@@ -141,9 +141,9 @@ public class GridPanel extends JPanel {
             }
 
             @Override
-            public void mouseClicked(MouseEvent e){
+            public void mouseReleased(MouseEvent e){
                 super.mouseClicked(e);
-                gridPanelController.mouseClickedHandler(e);
+                gridPanelController.mouseReleasedHandler(e);
             }
         });
     }

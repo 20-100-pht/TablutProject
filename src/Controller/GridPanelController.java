@@ -91,20 +91,23 @@ public class GridPanelController {
         }
     }
 
-    public void mouseClickedHandler(MouseEvent e){
+    public void mouseReleasedHandler(MouseEvent e){
 
         Coordinate caseCoords = getCaseFromPixelPosition(e.getX(), e.getY());
+        Piece pieceClicked = grid.getPieceAtPosition(caseCoords);
 
-        if(pieceSelectedCoords != null){
+        //Si il y a une pièce sur la case d'arrivée inutile d'essayer de bouger
+        if(pieceSelectedCoords != null && pieceClicked == null){
+
             Coup coup = new Coup(pieceSelectedCoords, caseCoords);
             gameGraphicController.play(coup);
             pieceSelectedCoords = null;
             gridPanel.setSelectionMarkCoords(null);
         }
+        //On sélectionne la pièce s'il elle est au joueur qui joue
         else {
-            Piece selectedPiece = grid.getPieceAtPosition(caseCoords);
-            if(selectedPiece != null){
-                if((selectedPiece.isAttacker() && game.isAttackerTurn()) || ((selectedPiece.isDefender() || selectedPiece.isKing()) && !game.isAttackerTurn())){
+            if(pieceClicked != null){
+                if((pieceClicked.isAttacker() && game.isAttackerTurn()) || ((pieceClicked.isDefender() || pieceClicked.isKing()) && !game.isAttackerTurn())){
                     pieceSelectedCoords = caseCoords;
                     gridPanel.setSelectionMarkCoords(caseCoords);
                 }

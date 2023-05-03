@@ -26,6 +26,7 @@ public class GameFrame extends Frame {
     JButton bttnMenu;
     JPopupMenu menu;
     JMenuItem save, forfeit, options;
+    Popup winPopup;
     public GameFrame(Interface ui){
         super(ui);
 
@@ -255,6 +256,11 @@ public class GameFrame extends Frame {
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
 
+        //POPUPS
+
+        PopupFactory factory = PopupFactory.getSharedInstance();
+        winPopup = factory.getPopup(this, new MessageWinPanel(), 50, 50);
+
         setEventHandlers();
     }
     void loadAssets(){
@@ -282,6 +288,7 @@ public class GameFrame extends Frame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menu.show(bttnMenu,0, bttnMenu.getHeight());
+
             }
         });
     }
@@ -330,6 +337,10 @@ public class GameFrame extends Frame {
 
     @Override
     public void updateFrame() {
+
+    }
+
+    public void showWinWindow(String winnerName){
 
     }
 }
