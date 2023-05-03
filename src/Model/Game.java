@@ -39,10 +39,11 @@ public class Game {
         aiMinMax = new AI();
     }
 
-    public void playGame(){
+    public ResultGame playGame(){
         while(!gameRules.isEndGame()){
             playTurn();
         }
+        return gameRules.isEndGameType();
     }
 
     public void endGame(ResultGame result){

@@ -179,7 +179,7 @@ public class AI {
 
                         Piece currentPiece = newGrid.getPieceAtPosition(current.c);
 
-                        Coup coup = new Coup(new Coordinate(currentPiece.c.getRow(),currentPiece.c.getCol()), new Coordinate(moves.get(i).getRow(),moves.get(i).getCol()));
+                        Coup coup = new Coup(new Coordinate(currentPiece.c.getRow(),currentPiece.c.getCol()), new Coordinate(coordMove.getRow(),coordMove.getCol()));
                         gRules.move(coup);
 
                         int c = gRules.attack(currentPiece);
