@@ -14,6 +14,9 @@ public class AI {
     GameRules gRules;
     int dep = 0;
 
+    /*Les poids associés aux différents paramètres que nous évaluons dans l'heuristique*/
+    int WAttackerOnTot, WDefenderOnTot, WDistanceKingToCorner;
+//TODO multiplier les poids et les paramètres
     public AI(){
         gRules = new GameRules();
     }
@@ -134,7 +137,7 @@ public class AI {
             }
         }
 
-
+//TODO ranger ce bordel
         if(current.endGame() == ResultGame.ATTACKER_WIN)
             return Double.POSITIVE_INFINITY;
         else if (current.endGame() == ResultGame.DEFENDER_WIN) {
@@ -146,8 +149,8 @@ public class AI {
 
         //Attackers want a high value, Defenders want a low value
         //double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
-        return heuristic20100(board, k);
-        //return value;
+        //return heuristic20100(board, k);
+        return value;
     }
 
     private void createNodeChildren(Node father, PieceType type, int depth){

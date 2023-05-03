@@ -5,8 +5,6 @@ import Structure.Coordinate;
 import Structure.Coup;
 import Structure.ReturnValue;
 
-import java.util.Scanner;
-
 public class GameConsoleController {
 
     GameRules gameRules;
@@ -22,12 +20,14 @@ public class GameConsoleController {
         gameRules = game.getGameRulesInstance();
     }
 
-    public void playGame(){
+    public ResultGame playGame(){
+        int nbTurn = 0;
         while(!gameRules.isEndGame()){
             playTurn();
             if(game.isAiTest() && (nbTurn == 60)) gameRules.setEndGameVar(ResultGame.MAX_TURN_ENCOUTERED);
             nbTurn++;
         }
+        return gameRules.isEndGameType();
     }
 
     public void endGame(ResultGame result){
@@ -102,7 +102,7 @@ public class GameConsoleController {
     }
 
     public void playTurnDefender(){
-        System.out.println("Défenseur, à vous de jouer !");
+        if(printGridTerminal) System.out.println("Défenseur, à vous de jouer !");
 
         Piece current = null;
 
@@ -133,7 +133,7 @@ public class GameConsoleController {
     }
 
     public void playTurnAttacker(){
-        System.out.println("Attaquant, à vous de jouer !");
+        if(printGridTerminal) if(printGridTerminal) System.out.println("Attaquant, à vous de jouer !");
 
         Piece current = null;
 
@@ -160,7 +160,7 @@ public class GameConsoleController {
         gameRules.capture();
 
         int kill = gameRules.attack(current);
-        System.out.println("nb kill : " + kill);
+        if(printGridTerminal) System.out.println("nb kill : " + kill);
 
 
         if(gameRules.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);
