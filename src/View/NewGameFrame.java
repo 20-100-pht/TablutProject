@@ -282,7 +282,6 @@ public class NewGameFrame extends Frame {
         bttnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //ui.getGameFrame().setGameInstance(new Game());
                 ui.changePage(InterfacePage.GAME);
             }
         });

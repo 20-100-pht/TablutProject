@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Game;
 import Model.GameRules;
 import Model.Grid;
 import Model.Piece;
@@ -14,12 +15,16 @@ public class GridPanelController {
     Grid grid;
     GridPanel gridPanel;
     GameRules logicGrid;
+    GameGraphicController gameGraphicController;
+    Game game;
     Coordinate pieceSelectedCoords;
 
-    public GridPanelController(GridPanel gridPanel, GameRules logicGrid){
+    public GridPanelController(GridPanel gridPanel, GameRules logicGrid, GameGraphicController gameGraphicController){
         this.gridPanel = gridPanel;
         this.logicGrid = logicGrid;
+        this.gameGraphicController = gameGraphicController;
         grid = logicGrid.getGrid();
+        game = gameGraphicController.getGameInstance();
     }
 
     Coordinate getCaseFromPixelPosition(int mouseX, int mouseY){
@@ -34,6 +39,11 @@ public class GridPanelController {
 
     void processPossibleMoveMarks(Piece p){
         gridPanel.clearMovePossibleMarks();
+
+        if(p.isAttacker() && !game.isAttackerTurn() || (p.isDefender() || p.isKing()) && game.isAttackerTurn()){
+            return;
+        }
+
         addPossibleMoveMarksTop(p.getCol(), p.getRow()-1);
         addPossibleMoveMarksBottom(p.getCol(), p.getRow()+1);
         addPossibleMoveMarksLeft(p.getCol()-1, p.getRow());
@@ -83,14 +93,22 @@ public class GridPanelController {
 
     public void mouseClickedHandler(MouseEvent e){
 
+        Coordinate caseCoords = getCaseFromPixelPosition(e.getX(), e.getY());
+
         if(pieceSelectedCoords != null){
-            Coordinate newCoords = getCaseFromPixelPosition(e.getX(), e.getY());
-            Coup coup = new Coup(pieceSelectedCoords, newCoords);
-            System.out.print(logicGrid.move(coup).getValue());
+            Coup coup = new Coup(pieceSelectedCoords, caseCoords);
+            gameGraphicController.play(coup);
             pieceSelectedCoords = null;
+            gridPanel.setSelectionMarkCoords(null);
         }
         else {
-            pieceSelectedCoords = getCaseFromPixelPosition(e.getX(), e.getY());
+            Piece selectedPiece = grid.getPieceAtPosition(caseCoords);
+            if(selectedPiece != null){
+                if((selectedPiece.isAttacker() && game.isAttackerTurn()) || ((selectedPiece.isDefender() || selectedPiece.isKing()) && !game.isAttackerTurn())){
+                    pieceSelectedCoords = caseCoords;
+                    gridPanel.setSelectionMarkCoords(caseCoords);
+                }
+            }
         }
     }
 }

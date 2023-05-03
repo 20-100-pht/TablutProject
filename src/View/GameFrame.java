@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GameGraphicController;
 import Model.Game;
 
 import javax.swing.border.Border;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class GameFrame extends Frame {
 
     Game game;
+    GameGraphicController gameGraphicController;
     GridPanel gridPanel;
     ImageIcon imageRobot;
     ImageIcon imageArrowLeft;
@@ -26,6 +28,8 @@ public class GameFrame extends Frame {
     JMenuItem save, forfeit, options;
     public GameFrame(Interface ui){
         super(ui);
+
+        gameGraphicController = new GameGraphicController(this);
 
         loadAssets();
     }
@@ -320,8 +324,8 @@ public class GameFrame extends Frame {
         this.game = game;
     }
 
-    public Game GetGameInstance(){
-        return game;
+    public GameGraphicController getGraphicGameController(){
+        return gameGraphicController;
     }
 
     @Override

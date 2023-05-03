@@ -128,6 +128,6 @@ public class Piece {
     }
 
     public Coordinate getCoords(){
-        return c;
+        return new Coordinate(getRow(), getCol());
     }
 }

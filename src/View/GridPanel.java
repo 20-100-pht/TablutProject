@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GameGraphicController;
 import Controller.GridPanelController;
 import Model.Grid;
 import Model.Piece;
@@ -20,18 +21,21 @@ public class GridPanel extends JPanel {
 
     GameFrame gameFrame;
     GridPanelController gridPanelController;
+    GameGraphicController gameGraphicController;
     Grid grid;
     Image imageCase;
     Image imageDefender;
     Image imageAttacker;
+    Image imageKing;
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
     public static final int GRID_SIZE = 9;
     public GridPanel(GameFrame gameFrame){
         super();
         this.gameFrame = gameFrame;
-        grid = gameFrame.GetGameInstance().getGridInstance();
-        this.gridPanelController = new GridPanelController(this, gameFrame.GetGameInstance().getLogicGrid());
+        gameGraphicController = gameFrame.getGraphicGameController();
+        grid = gameGraphicController.getGameInstance().getGridInstance();
+        this.gridPanelController = new GridPanelController(this, gameGraphicController.getGameInstance().getLogicGrid(), gameGraphicController);
 
         possibleMoveMarks = new Vector<Coordinate>();
 
@@ -58,6 +62,9 @@ public class GridPanel extends JPanel {
                 if(piece.isDefender()) {
                     g.drawImage(imageDefender, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
+                else if(piece.isKing()){
+                    g.drawImage(imageKing, pieceX, pieceY, pieceSize, pieceSize, null);
+                }
                 else if(piece.isAttacker()){
                     g.drawImage(imageAttacker, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
@@ -74,8 +81,16 @@ public class GridPanel extends JPanel {
 
         for(int i = 0; i < possibleMoveMarks.size(); i++){
             Coordinate piecePos = possibleMoveMarks.get(i);
-            System.out.println(piecePos.getRow() + "---"+piecePos.getCol());
             drawAccessibleMark(g, piecePos.getCol(), piecePos.getRow());
+        }
+
+        // Case selected mark
+        if(selectionMarkCoords != null) {
+            int markX = (int) (selectionMarkCoords.getCol() * getCaseSize() + getCaseSize() * 0.1);
+            int markY = (int) (selectionMarkCoords.getRow() * getCaseSize() + getCaseSize() * 0.1);
+
+            g.setColor(Color.red);
+            g.drawRect(markX, markY, (int) (getCaseSize() * 0.8), (int) (getCaseSize() * 0.8));
         }
     }
 
@@ -93,6 +108,7 @@ public class GridPanel extends JPanel {
             imageCase = ImageIO.read(new File("assets/images/case2.jpg"));
             imageDefender = ImageIO.read(new File("assets/images/defender.png"));
             imageAttacker = ImageIO.read(new File("assets/images/attacker.png"));
+            imageKing = ImageIO.read(new File("assets/images/king.png"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
