@@ -13,6 +13,8 @@ public class GameConsoleController {
     Game game;
     UserController user;
 
+    int MAX_DEPTH = 3;
+
     public GameConsoleController(){
         user = new UserController();
         game = new Game();
@@ -105,7 +107,7 @@ public class GameConsoleController {
             while(current == null) {
 
                 //Structure.Coup coupAI = aleatronDefender.playMove();
-                Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),3, PieceType.DEFENDER);
+                Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.DEFENDER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
 
@@ -135,7 +137,7 @@ public class GameConsoleController {
         if(game.isAttackerAI()){
             while(current == null) {
                 //Coup coupAI = aleatronAttacker.playMove();
-                Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(),gameRules.getKing().clonePiece(),3, PieceType.ATTACKER);
+                Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(),gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.ATTACKER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
 

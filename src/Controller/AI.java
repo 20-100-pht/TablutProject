@@ -32,16 +32,18 @@ public class AI {
         //Create first node
         Node n = new Node(currentGrid, king, null, ResultGame.NO_END_GAME);
 
+        double alpha = Double.NEGATIVE_INFINITY;
+        double beta = Double.POSITIVE_INFINITY;
         //Call minimax
         if (type == PieceType.ATTACKER){
-            return minimaxAlgo(n, depth, true).getCoup();
+            return minimaxAlgo(n, depth, true, alpha, beta).getCoup();
         }else{
-            return minimaxAlgo(n, depth, false).getCoup();
+            return minimaxAlgo(n, depth, false, alpha, beta).getCoup();
         }
 
     }
 
-    private Node minimaxAlgo(Node node, int depth, boolean maximizingPlayer) {
+    private Node minimaxAlgo(Node node, int depth, boolean maximizingPlayer, double alpha, double beta) {
 
         Grid currentBoard = node.getGrid();
         Piece currentKing = node.getKing();
@@ -65,7 +67,7 @@ public class AI {
             value = Double.NEGATIVE_INFINITY;
             for(int i = 0; i<children.size(); i++){
                 int tmpD = depth-1;
-                Node tmp = minimaxAlgo(children.get(i), tmpD, false);
+                Node tmp = minimaxAlgo(children.get(i), tmpD, false, alpha, beta);
 
                 //Randomize selection of same heuristic nodes
                 Random r = new Random();
@@ -73,15 +75,28 @@ public class AI {
                     value = tmp.getHeuristic();
                     rtNode=tmp;
                 }
+
+                //Beta pruning
+                if(value >= beta){
+                    //If return current node with best value
+                    if(dep!=depth){
+                        node.setHeuristic(value);
+                        return node;
+                    }
+                    //Return child with best value
+                    return rtNode;
+                }
+                alpha = Math.max(alpha,value);
             }
 
         } else {
             //Defender
 
             value = Double.POSITIVE_INFINITY;
+            int tmpD = depth -1;
             for(int i = 0; i<children.size(); i++){
-                int tmpD = depth -1;
-                Node tmp = minimaxAlgo(children.get(i), tmpD, true);
+
+                Node tmp = minimaxAlgo(children.get(i), tmpD, true, alpha, beta);
 
                 //Randomize selection of same heuristic nodes
                 Random r = new Random();
@@ -89,15 +104,25 @@ public class AI {
                     value = tmp.getHeuristic();
                     rtNode=tmp;
                 }
+
+                if(alpha >= value){
+                    //If return current node with best value
+                    if(dep!=depth){
+                        node.setHeuristic(value);
+                        return node;
+                    }
+                    //Return child with best value
+                    return rtNode;
+                }
+                beta = Math.min(beta,value);
             }
         }
-
-        //System.out.println(depth  + " " + maximizingPlayer);
 
         //If recursion depth is start depth return node of selected child (best value)
         if(dep == depth){
             //System.out.println("\n\nSelected node heuristic : " + rtNode.getHeuristic());
             //rtNode.getGrid().print();
+            //System.exit(0);
             return rtNode;
         }
         //Else set current node's heuristic to best calculated value
