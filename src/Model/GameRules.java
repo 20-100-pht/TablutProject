@@ -210,11 +210,6 @@ public class GameRules {
             Piece topPiece = grid.getPieceAtPosition(new Coordinate(y-1,x));
             Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y+1,x));
 
-            System.out.println("x:"+x+"  y:" + y);
-
-            //piece null && pas trone
-            //piece defenseur
-
             //If piece is attacker or throne
             if( (leftPiece != null && leftPiece.isDefender()) || (!(y==4 && x-1==4) && leftPiece == null) ){
                 return false;

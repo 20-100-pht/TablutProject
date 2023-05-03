@@ -7,9 +7,21 @@ public class AITraining {
 
     public static void main(String[] args) {
         System.out.println("Tablut");
+/**
+ * Poids
+ * ranger ai, ptere changer des trucs
+ * heuristique
+ * opti
+ *
+ */
+
 
         //Choix param
         //envoie param aux fonc
+        int WAttackerOnTot, WDefenderOnTot, WDistanceKingToCorner;
+        //WAttackerOnTot = 10*Math.random() /*10 est val random*/
+        //
+
         ResultGame Res;
         double nbVictoryAttacker = 0, nbVictoryDefender = 0, nbMaxTurnEncountered = 0;
         long tpsAverage = 0;
@@ -35,7 +47,7 @@ public class AITraining {
         }
         System.out.println("Resultat Game : " + ((nbVictoryAttacker/AIGAMES)*100) + "% AttackerWin");
         System.out.println("                " + ((nbVictoryDefender/AIGAMES)*100) + "% DefenderWin");
-        System.out.println("                " + ((nbMaxTurnEncountered/AIGAMES)*100) + "% Encountered");
+        System.out.println("                " + ((nbMaxTurnEncountered/AIGAMES)*100) + "% > MAX_TURN");
         System.out.println("Total time execution : " + tpsAverage/Math.pow(10,9) + "s");
         System.out.println("Average time execution by game : " + (tpsAverage/AIGAMES)/Math.pow(10,9) + "s");
         //affichage de stats et paramètres utilisés
