@@ -139,7 +139,7 @@ public class AI {
             return Double.POSITIVE_INFINITY;
         else if (current.endGame() == ResultGame.DEFENDER_WIN) {
             return Double.NEGATIVE_INFINITY;
-        }*/
+        }
 
         //Heuristic qui semble faire du 50/50
          double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*0 + attackers + nearKing*1000));

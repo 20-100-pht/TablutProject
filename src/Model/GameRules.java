@@ -223,7 +223,6 @@ public class GameRules {
 
             //If piece is attacker or throne
             if( (leftPiece != null && leftPiece.isDefender()) || (!(y==4 && x-1==4) && leftPiece == null) ){
-                return false;
             }
             if( (rightPiece != null && rightPiece.isDefender()) || (!(y==4 && x+1==4) && rightPiece == null) ){
                 return false;

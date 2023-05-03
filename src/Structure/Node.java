@@ -2,6 +2,8 @@ package Structure;
 
 import Model.Grid;
 import Model.Piece;
+import Model.PieceType;
+import Model.ResultGame;
 
 import java.util.ArrayList;
 
@@ -11,10 +13,10 @@ public class Node {
     Piece king;
     ArrayList<Node> children;
     Coup coup;
-    boolean isEndGame;
+    ResultGame isEndGame;
     double heuristic;
 
-    public Node(Grid b, Piece k, Coup c, boolean end){
+    public Node(Grid b, Piece k, Coup c, ResultGame end){
         grid = b;
         king = k;
         coup = c;
@@ -50,7 +52,7 @@ public class Node {
         return king;
     }
 
-    public boolean endGame(){
+    public ResultGame endGame(){
         return isEndGame;
     }
 }
