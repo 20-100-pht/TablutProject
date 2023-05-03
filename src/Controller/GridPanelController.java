@@ -25,7 +25,7 @@ public class GridPanelController {
     Coordinate getCaseFromPixelPosition(int mouseX, int mouseY){
         int caseX = (int) (mouseX / gridPanel.getCaseSize());
         int caseY = (int) (mouseY / gridPanel.getCaseSize());
-        return new Coordinate(caseY, caseY);
+        return new Coordinate(caseY, caseX);
     }
 
     Piece getPieceHovered(int mouseX, int mouseY){
@@ -83,12 +83,10 @@ public class GridPanelController {
 
     public void mouseClickedHandler(MouseEvent e){
 
-        System.out.println("dqsd");
-
         if(pieceSelectedCoords != null){
             Coordinate newCoords = getCaseFromPixelPosition(e.getX(), e.getY());
             Coup coup = new Coup(pieceSelectedCoords, newCoords);
-            logicGrid.move(coup);
+            System.out.print(logicGrid.move(coup).getValue());
             pieceSelectedCoords = null;
         }
         else {

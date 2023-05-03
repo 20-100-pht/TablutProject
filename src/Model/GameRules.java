@@ -257,4 +257,8 @@ public class GameRules {
     public Grid getGrid(){
         return grid;
     }
+
+    public Piece getKing(){
+        return king;
+    }
 }

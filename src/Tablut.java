@@ -1,3 +1,4 @@
+import Controller.GameConsoleController;
 import Model.Game;
 import View.Interface;
 
@@ -5,10 +6,11 @@ public class Tablut {
     public static void main(String[] args) {
         System.out.println("Tablut2");
 
-        //Interface ui = new Interface();
+        Interface ui = new Interface();
 
-        Game game = new Game();
-        game.playGame();
+        GameConsoleController gcc = new GameConsoleController();
+        gcc.playGame();
+
 
         /*int games = 0;
         while(true){

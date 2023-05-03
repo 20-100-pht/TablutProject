@@ -25,6 +25,7 @@ public class GridPanel extends JPanel {
     Image imageDefender;
     Image imageAttacker;
     Vector<Coordinate> possibleMoveMarks;
+    Coordinate selectionMarkCoords;
     public static final int GRID_SIZE = 9;
     public GridPanel(GameFrame gameFrame){
         super();
@@ -137,5 +138,9 @@ public class GridPanel extends JPanel {
 
     public void clearMovePossibleMarks(){
         possibleMoveMarks.clear();
+    }
+
+    public void setSelectionMarkCoords(Coordinate coords){
+        selectionMarkCoords = coords;
     }
 }
