@@ -13,20 +13,22 @@ public class GameConsoleController {
 
     int MAX_DEPTH = 3;
 
+    int nbTurn;
+
     boolean printGridTerminal;
 
     public GameConsoleController(){
         user = new UserController();
         game = new Game();
+        nbTurn = 0;
         printGridTerminal = false;
         gameRules = game.getGameRulesInstance();
     }
 
     public ResultGame playGame(){
-        int nbTurn = 0;
         while(!gameRules.isEndGame()){
             playTurn();
-            if(game.isAiTest() && (nbTurn == 60)) gameRules.setEndGameVar(ResultGame.MAX_TURN_ENCOUTERED);
+            if(game.isAiTest() && (nbTurn == 200)) gameRules.setEndGameVar(ResultGame.MAX_TURN_ENCOUTERED);
             nbTurn++;
         }
         return gameRules.isEndGameType();
@@ -110,17 +112,23 @@ public class GameConsoleController {
 
         if(game.isDefenderAI()){
             while(current == null) {
+                if(nbTurn < 3) {
+                    Coup coupAI = game.getAleatronDefender().playMove();
+                    ReturnValue returnValue = gameRules.move(coupAI);
+                    current = returnValue.getPiece();
+                }
+                else {
+                    //Structure.Coup coupAI = aleatronDefender.playMove();
+                    Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(), MAX_DEPTH, PieceType.DEFENDER);
+                    ReturnValue returnValue = gameRules.move(coupAI);
+                    current = returnValue.getPiece();
 
-                //Structure.Coup coupAI = aleatronDefender.playMove();
-                Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.DEFENDER);
-                ReturnValue returnValue = gameRules.move(coupAI);
-                current = returnValue.getPiece();
-
-                if(current == null){
-                    System.out.println("\n\nError : Defender Coup : " + current);
-                    gameRules.getGrid().print();
-                    System.out.println("Source:" + coupAI.getInit().getRow() + ","+coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + ","+ coupAI.getDest().getCol());
-                    System.exit(0);
+                    if (current == null) {
+                        System.out.println("\n\nError : Defender Coup : " + current);
+                        gameRules.getGrid().print();
+                        System.out.println("Source:" + coupAI.getInit().getRow() + "," + coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + "," + coupAI.getDest().getCol());
+                        System.exit(0);
+                    }
                 }
             }
         }
@@ -141,16 +149,22 @@ public class GameConsoleController {
 
         if(game.isAttackerAI()){
             while(current == null) {
-                //Coup coupAI = aleatronAttacker.playMove();
-                Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(),gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.ATTACKER);
-                ReturnValue returnValue = gameRules.move(coupAI);
-                current = returnValue.getPiece();
+                if(nbTurn < 3) {
+                    Coup coupAI = game.getAleatronDefender().playMove();
+                    ReturnValue returnValue = gameRules.move(coupAI);
+                    current = returnValue.getPiece();
+                }
+                else {
+                    Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(),gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.ATTACKER);
+                    ReturnValue returnValue = gameRules.move(coupAI);
+                    current = returnValue.getPiece();
 
-                if(current == null){
-                    System.out.println("\n\nError : Attacker Coup : " + current);
-                    gameRules.getGrid().print();
-                    System.out.println("Source:" + coupAI.getInit().getRow() + ","+coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + ","+ coupAI.getDest().getCol());
-                    System.exit(0);
+                    if(current == null){
+                        System.out.println("\n\nError : Attacker Coup : " + current);
+                        gameRules.getGrid().print();
+                        System.out.println("Source:" + coupAI.getInit().getRow() + ","+coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + ","+ coupAI.getDest().getCol());
+                        System.exit(0);
+                    }
                 }
             }
         }

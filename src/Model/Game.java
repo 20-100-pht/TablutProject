@@ -1,14 +1,6 @@
 package Model;
 
-import Controller.AI;
-import Controller.AIRandom;
-import Controller.UserController;
-import Structure.Coordinate;
-import Structure.Coup;
-import Structure.ReturnValue;
-
 import java.io.*;
-import java.util.Scanner;
 
 public class Game {
     boolean attackerTurn;
@@ -20,6 +12,9 @@ public class Game {
     AI aiMinMax;
     GameRules gameRules;
 
+    AIRandom aleatronDefender;
+    AIRandom aleatronAttacker;
+
 
     public Game(){
         reset();
@@ -30,8 +25,8 @@ public class Game {
         defenderAI = true;
         attackerAI = true;
         gameRules = new GameRules();
-        //aleatronDefender = new Controller.AIRandom(gameRules, Model.PieceType.DEFENDER);
-        //aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
+        aleatronDefender = new Model.AIRandom(gameRules, Model.PieceType.DEFENDER);
+        aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
         aiMinMax = new AI();
     }
 
@@ -78,6 +73,9 @@ public class Game {
     public AI getAiMinMax() {
         return aiMinMax;
     }
+
+    public AIRandom getAleatronDefender(){ return aleatronDefender;}
+    public AIRandom getAleatronAttacker(){ return aleatronAttacker;}
 
     public boolean isAttackerAI() {
         return attackerAI;

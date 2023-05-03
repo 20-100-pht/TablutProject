@@ -2,7 +2,7 @@ import Controller.GameConsoleController;
 import Model.ResultGame;
 
 public class AITraining {
-    private static int AIGAMES = 5;
+    private static int AIGAMES = 20;
     private static boolean AITRAINING = true;
 
     public static void main(String[] args) {
@@ -33,7 +33,6 @@ public class AITraining {
             tpsAverage += end-start;
 
         }
-        System.out.println(nbVictoryAttacker);
         System.out.println("Resultat Game : " + ((nbVictoryAttacker/AIGAMES)*100) + "% AttackerWin");
         System.out.println("                " + ((nbVictoryDefender/AIGAMES)*100) + "% DefenderWin");
         System.out.println("                " + ((nbMaxTurnEncountered/AIGAMES)*100) + "% Encountered");

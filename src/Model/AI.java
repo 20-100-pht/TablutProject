@@ -1,4 +1,4 @@
-package Controller;
+package Model;
 
 import Model.*;
 import Structure.Coordinate;
@@ -52,7 +52,7 @@ public class AI {
         Piece currentKing = node.getKing();
 
         if (depth == 0 || node.endGame() != ResultGame.NO_END_GAME ) {
-            node.setHeuristic(heuristic(currentBoard.board, currentKing.c, node));
+            node.setHeuristic(heuristic20100(currentBoard.board, currentKing.c));//, node));
             //System.out.println("Heuristic :" + node.getHeuristic());
             return node;
         }
@@ -170,7 +170,9 @@ public class AI {
         }
 
         //Heuristic qui semble faire du 50/50
-         double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*0 + attackers + nearKing*1000));
+        //double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*10 + attackers + nearKing*17));
+
+        double value = ((double) (attackers - defenders)*1000 + nearKing*10000);
 
         //Attackers want a high value, Defenders want a low value
         //double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
@@ -288,7 +290,7 @@ public class AI {
             }
         }
 
-        return  (double) 1000 * ((double) numAttackers / numPieces) + 500 * ((double) numDefenders / numPieces) + 10 * mobilityAdvantage + 5 * centralKingBonus + (kingDistanceToCorner(k)+1)* 500;
+        return  (double) 1000 * ((double) numAttackers / numPieces) + 500 * ((double) numDefenders / numPieces) + 10 * mobilityAdvantage + 5 * centralKingBonus * 100;
     }
 
     public List<Coordinate> getLegalMoves(Piece[][] board, Coordinate coord){

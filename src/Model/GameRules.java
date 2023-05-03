@@ -205,18 +205,10 @@ public class GameRules {
         if((x==4 && (y==3 || y==5)) || y==4 && (x==3 || x==5)){
 
             //Get all pieces adjacent to the king
-            kingCord.setColCoord(kingCord.getCol()-1);
-            Piece leftPiece = grid.getPieceAtPosition(kingCord);
-
-            kingCord.setColCoord(kingCord.getCol()+2); // -1 + 2 = +1
-            Piece rightPiece = grid.getPieceAtPosition(kingCord);
-
-            kingCord.setColCoord(kingCord.getCol()-1);
-            kingCord.setRowCoord(kingCord.getRow()-1);
-            Piece topPiece = grid.getPieceAtPosition(kingCord);
-
-            kingCord.setRowCoord(kingCord.getRow()+2);
-            Piece bottomPiece = grid.getPieceAtPosition(kingCord);
+            Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y,x-1));
+            Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y,x+1));
+            Piece topPiece = grid.getPieceAtPosition(new Coordinate(y-1,x));
+            Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y+1,x));
 
             System.out.println("x:"+x+"  y:" + y);
 
@@ -225,6 +217,7 @@ public class GameRules {
 
             //If piece is attacker or throne
             if( (leftPiece != null && leftPiece.isDefender()) || (!(y==4 && x-1==4) && leftPiece == null) ){
+                return false;
             }
             if( (rightPiece != null && rightPiece.isDefender()) || (!(y==4 && x+1==4) && rightPiece == null) ){
                 return false;
@@ -252,10 +245,10 @@ public class GameRules {
         if(x==4 && y==4 || grid.isCommonCase(king.c)){
 
             //Get each adjacent piece to the throne
-            Piece leftPiece = grid.getPieceAtPosition(new Coordinate(4,3));
-            Piece rightPiece = grid.getPieceAtPosition(new Coordinate(4,5));
-            Piece topPiece = grid.getPieceAtPosition(new Coordinate(3,4));
-            Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(5,4));
+            Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y,x-1));
+            Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y,x+1));
+            Piece topPiece = grid.getPieceAtPosition(new Coordinate(y-1,x));
+            Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y+1,x));
 
             //If piece is an attacker
             if(leftPiece == null || leftPiece.isDefender()){
