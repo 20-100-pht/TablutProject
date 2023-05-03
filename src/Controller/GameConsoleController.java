@@ -11,10 +11,10 @@ public class GameConsoleController {
 
     GameRules gameRules;
     Game game;
-    Scanner scanner;
+    UserController user;
 
     public GameConsoleController(){
-        scanner = new Scanner(System.in);
+        user = new UserController();
         game = new Game();
         gameRules = game.getGameRulesInstance();
     }
@@ -48,14 +48,8 @@ public class GameConsoleController {
         Coup coupPlayer = new Coup(new Coordinate(0,0), new Coordinate(0,0));
 
         while (current == null) {
-            System.out.println("Coordonnées de la pièce que vous souhaitez déplacer (ligne colonne) : ");
-            coupPlayer.getInit().setRowCoord(scanner.nextInt());
-            coupPlayer.getInit().setColCoord(scanner.nextInt());
 
-
-            System.out.println("Coordonnées de la case où vous souhaitez déplacer la pièce (ligne colonne) : ");
-            coupPlayer.getDest().setRowCoord(scanner.nextInt());
-            coupPlayer.getDest().setColCoord(scanner.nextInt());
+            coupPlayer = user.getCoupUser();
 
             ReturnValue returnValue = gameRules.move(coupPlayer);
             current = returnValue.getPiece();

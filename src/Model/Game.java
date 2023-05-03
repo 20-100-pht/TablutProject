@@ -18,7 +18,6 @@ public class Game {
 
     //Model.AIRandom aleatronDefender;
     AI aiMinMax;
-    UserController user;
     GameRules gameRules;
 
 
@@ -35,9 +34,6 @@ public class Game {
         //aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
         aiMinMax = new AI();
     }
-
-
-
 
     public void loadFromFile(String filePath){
         try {
