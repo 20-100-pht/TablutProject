@@ -111,7 +111,7 @@ public class GameConsoleController {
             while(current == null) {
 
                 //Structure.Coup coupAI = aleatronDefender.playMove();
-                Coup coupAI = game.getAiDefender().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),3, PieceType.DEFENDER);
+                Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),3, PieceType.DEFENDER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
 
@@ -141,7 +141,7 @@ public class GameConsoleController {
         if(game.isAttackerAI()){
             while(current == null) {
                 //Coup coupAI = aleatronAttacker.playMove();
-                Coup coupAI = game.getAiDefender().minimax(gameRules.getGrid().cloneGrid(),gameRules.getKing().clonePiece(),3, PieceType.ATTACKER);
+                Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(),gameRules.getKing().clonePiece(),3, PieceType.ATTACKER);
                 ReturnValue returnValue = gameRules.move(coupAI);
                 current = returnValue.getPiece();
 

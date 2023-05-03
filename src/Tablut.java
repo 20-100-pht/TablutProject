@@ -12,8 +12,8 @@ public class Tablut {
 
         if(AITRAINING){
             for (int i = 0; i< AIGAMES; i++){
-                Game game = new Game();
-                game.playGame();
+                GameConsoleController gcc = new GameConsoleController();
+                gcc.playGame();
             }
         }else{
 
