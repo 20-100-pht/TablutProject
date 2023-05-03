@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GridPanelController;
 import Model.Grid;
 import Model.Piece;
 import Structure.Coordinate;
@@ -18,14 +19,19 @@ import java.util.Vector;
 public class GridPanel extends JPanel {
 
     GameFrame gameFrame;
+    GridPanelController gridPanelController;
+    Grid grid;
     Image imageCase;
     Image imageDefender;
     Image imageAttacker;
     Vector<Coordinate> possibleMoveMarks;
+    Coordinate selectionMarkCoords;
     public static final int GRID_SIZE = 9;
     public GridPanel(GameFrame gameFrame){
         super();
         this.gameFrame = gameFrame;
+        grid = gameFrame.GetGameInstance().getGridInstance();
+        this.gridPanelController = new GridPanelController(this, gameFrame.GetGameInstance().getLogicGrid());
 
         possibleMoveMarks = new Vector<Coordinate>();
 
@@ -37,7 +43,6 @@ public class GridPanel extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        Grid grid = gameFrame.GetGameInstance().getGridInstance();
         for(int l = 0; l < GRID_SIZE; l++){
             for(int c = 0; c < GRID_SIZE; c++){
                 g.drawImage(imageCase, c*getCaseSize(), l*getCaseSize(), getCaseSize(), getCaseSize(), null);
@@ -74,6 +79,15 @@ public class GridPanel extends JPanel {
         }
     }
 
+    void drawAccessibleMark(Graphics g, int caseX, int caseY){
+        int caseSize = getCaseSize();
+        int x = (int) (caseX*caseSize + caseSize*0.3);
+        int y = (int) (caseY*caseSize + caseSize*0.3);
+        int markSize = (int) (caseSize*0.3);
+        g.setColor(Color.green);
+        g.fillOval(x, y, markSize, markSize);
+    }
+
     public void loadAssets(){
         try{
             imageCase = ImageIO.read(new File("assets/images/case2.jpg"));
@@ -99,7 +113,7 @@ public class GridPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
-                mouseMovedHandler(e);
+                gridPanelController.mouseMovedHandler(e);
             }
         });
 
@@ -113,81 +127,20 @@ public class GridPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e){
                 super.mouseClicked(e);
+                gridPanelController.mouseClickedHandler(e);
             }
         });
-
     }
 
-    Piece getPieceHovered(int mouseX, int mouseY){
-        int caseX = (int) (mouseX / getCaseSize());
-        int caseY = (int) (mouseY / getCaseSize());
-        Coordinate caseCoordinates = new Coordinate(caseY, caseX);
-
-        return gameFrame.GetGameInstance().getGridInstance().getPieceAtPosition(caseCoordinates);
+    public void addMovePossibleMark(Coordinate c){
+        possibleMoveMarks.add(c);
     }
 
-    void processPossibleMoveMarks(Piece p){
+    public void clearMovePossibleMarks(){
         possibleMoveMarks.clear();
-        addPossibleMoveMarksTop(p.getCol(), p.getRow()-1);
-        addPossibleMoveMarksBottom(p.getCol(), p.getRow()+1);
-        addPossibleMoveMarksLeft(p.getCol()-1, p.getRow());
-        addPossibleMoveMarksRight(p.getCol()+1, p.getRow());
     }
 
-    void addPossibleMoveMarksTop(int x, int y){
-        Grid grid = gameFrame.GetGameInstance().getGridInstance();
-        if(y < 0 || grid.getPieceAtPosition(new Coordinate(y, x)) != null){
-            return;
-        }
-        possibleMoveMarks.add(new Coordinate(y, x));
-        addPossibleMoveMarksTop(x, y-1);
-    }
-
-    void addPossibleMoveMarksBottom(int x, int y){
-        Grid grid = gameFrame.GetGameInstance().getGridInstance();
-        if(y >= GRID_SIZE || grid.getPieceAtPosition(new Coordinate(y, x)) != null){
-            return;
-        }
-        possibleMoveMarks.add(new Coordinate(y, x));
-        addPossibleMoveMarksBottom(x, y+1);
-    }
-
-    void addPossibleMoveMarksLeft(int x, int y){
-        Grid grid = gameFrame.GetGameInstance().getGridInstance();
-        if(x < 0 || grid.getPieceAtPosition(new Coordinate(y, x)) != null){
-            return;
-        }
-        possibleMoveMarks.add(new Coordinate(y, x));
-        addPossibleMoveMarksLeft(x-1, y);
-    }
-    void addPossibleMoveMarksRight(int x, int y){
-        Grid grid = gameFrame.GetGameInstance().getGridInstance();
-        if(x >= GRID_SIZE || grid.getPieceAtPosition(new Coordinate(y, x)) != null){
-            return;
-        }
-        possibleMoveMarks.add(new Coordinate(y, x));
-        addPossibleMoveMarksRight(x+1, y);
-    }
-
-    void drawAccessibleMark(Graphics g, int caseX, int caseY){
-        int x = (int) (caseX*getCaseSize() + getCaseSize()*0.3);
-        int y = (int) (caseY*getCaseSize() + getCaseSize()*0.3);
-        int markSize = (int) (getCaseSize()*0.3);
-        g.setColor(Color.green);
-        g.fillOval(x, y, markSize, markSize);
-    }
-
-    void mouseMovedHandler(MouseEvent e){
-        Piece hoveredPiece = getPieceHovered(e.getX(), e.getY());
-        if(hoveredPiece != null){
-            processPossibleMoveMarks(hoveredPiece);
-        }
-        else{
-            possibleMoveMarks.clear();
-        }
-    }
-
-    void mouseClickedHandler(MouseEvent e){
-
+    public void setSelectionMarkCoords(Coordinate coords){
+        selectionMarkCoords = coords;
     }
 }

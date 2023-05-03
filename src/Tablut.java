@@ -1,3 +1,4 @@
+import Controller.GameConsoleController;
 import Controller.AI;
 import Model.Game;
 import View.Interface;
@@ -15,9 +16,11 @@ public class Tablut {
                 game.playGame();
             }
         }else{
-            //Interface ui = new Interface();
-            Game game = new Game();
-            game.playGame();
+
+            Interface ui = new Interface();
+
+            GameConsoleController gcc = new GameConsoleController();
+            gcc.playGame();
         }
 
 

@@ -284,5 +284,11 @@ public class GameRules {
         return ((x == 0 && ((y == 0) || (y == grid.sizeGrid - 1))) || (x == grid.sizeGrid -1 && ((y == 0) || (y == grid.sizeGrid -1))));
     }
 
+    public Grid getGrid(){
+        return grid;
+    }
 
+    public Piece getKing(){
+        return king;
+    }
 }
