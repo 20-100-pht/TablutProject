@@ -62,6 +62,11 @@ public class AI {
         ArrayList<Node> children = node.getChildren();
 
         double value = 0;
+
+        if(children.size() == 0){
+            return node;
+        }
+
         Node rtNode = children.get(0);
 
         if (maximizingPlayer) {
@@ -157,12 +162,11 @@ public class AI {
                             nearKing-= dX+dY;
                             break;
                     }
-
                 }
             }
         }
 
-//TODO ranger ce bordel
+        //TODO ranger ce bordel
         if(current.endGame() == ResultGame.ATTACKER_WIN)
             return Double.POSITIVE_INFINITY;
         else if (current.endGame() == ResultGame.DEFENDER_WIN) {
@@ -222,9 +226,13 @@ public class AI {
                         }
 
                         Node tmpNode = new Node(newGrid, currentKing, new Coup(new Coordinate(y,x),coordMove), gRules.isEndGameType());
+
+                        //Add child to first place
+                        if(c>=1){
+                            father.addChildTo(0,tmpNode);
+                        }
                         father.addChild(tmpNode);
                     }
-
                 }
             }
         }

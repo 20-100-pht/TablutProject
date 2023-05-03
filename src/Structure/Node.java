@@ -28,6 +28,10 @@ public class Node {
         children.add(n);
     }
 
+    public void addChildTo(int i,Node n){
+        children.add(i,n);
+    }
+
     public ArrayList<Node> getChildren(){
         return children;
     }
