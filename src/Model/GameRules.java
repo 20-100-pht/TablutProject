@@ -154,11 +154,37 @@ public class GameRules {
     }
 
     public void capture(){
-        if(isCapturedByFourAttacker() || isCapturedNextToThrone() || isCapturedNextToWall() ) {
+        if(isCapturedByFourAttacker() || isCapturedNextToThrone() || isCapturedNextToWall() || isCaptureNextToFortress() ) {
             //King is captured : end Model.Game
             System.out.println("King has been captured!");
             endGameVar = ResultGame.ATTACKER_WIN;
         }
+    }
+
+    public boolean isCaptureNextToFortress(){
+        Coordinate kingCord = new Coordinate(king.getRow(), king.getCol());
+        int x = kingCord.getCol();
+        int y = kingCord.getRow();
+
+        //Get all pieces adjacent to the king
+        Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y, x - 1));
+        Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y, x + 1));
+        Piece topPiece = grid.getPieceAtPosition(new Coordinate(y - 1, x));
+        Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y + 1, x));
+
+        //haut gauche
+        if( ((x == 1 && y == 0) || (x == 0 && y == 1)) && (rightPiece != null) && (bottomPiece != null) && rightPiece.isAttacker() && bottomPiece.isAttacker()) return true;
+
+        //haut droit
+        if( ((x == 0 && y == 7) || (x == 1 && y == 8)) && (leftPiece != null) && (bottomPiece != null) && leftPiece.isAttacker() && bottomPiece.isAttacker()) return true;
+
+        //bas gauche
+        if( ((x == 7 && y == 0) || (x == 8 && y == 1)) && (rightPiece != null) && (topPiece != null) && rightPiece.isAttacker() && topPiece.isAttacker()) return true;
+
+        //bas gauche
+        if( ((x == 7 && y == 9) || (x == 8 && y == 7)) && (leftPiece != null) && (topPiece != null) && leftPiece.isAttacker() && topPiece.isAttacker()) return true;
+
+        return false;
     }
 
     public boolean isCapturedNextToWall(){

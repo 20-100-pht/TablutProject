@@ -150,7 +150,7 @@ public class GameConsoleController {
         if(game.isAttackerAI()){
             while(current == null) {
                 if(nbTurn < 3) {
-                    Coup coupAI = game.getAleatronDefender().playMove();
+                    Coup coupAI = game.getAleatronAttacker().playMove();
                     ReturnValue returnValue = gameRules.move(coupAI);
                     current = returnValue.getPiece();
                 }
