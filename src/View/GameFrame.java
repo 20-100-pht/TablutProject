@@ -2,6 +2,7 @@ package View;
 
 import Controller.GameGraphicController;
 import Model.Game;
+import Model.Grid;
 
 import javax.swing.border.Border;
 
@@ -26,7 +27,10 @@ public class GameFrame extends Frame {
     JButton bttnMenu;
     JPopupMenu menu;
     JMenuItem save, forfeit, options;
-    Popup winPopup;
+    WinMessagePanel winMessagePanel;
+    Timer timerWinMessage;
+
+
     public GameFrame(Interface ui){
         super(ui);
 
@@ -41,12 +45,23 @@ public class GameFrame extends Frame {
 
         Font fontDialog20 = new Font(Font.DIALOG, Font.PLAIN, 20);
 
+        this.setLayout(new GridLayout());
+
+        //Main Panel
+
+        JPanel mainPanel = new JPanel();
+        OverlayLayout oLayout = new OverlayLayout(mainPanel);
+        mainPanel.setLayout(oLayout);
+        this.add(mainPanel);
+
+        //Panel background
+
+        JPanel bgPanel = new JPanel();
+        //mainPanel.add(bgPanel);
+
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
-        this.setLayout(gLayout);
-
-        this.setBackground(Color.red);
-        this.setOpaque(true);
+        bgPanel.setLayout(gLayout);
 
 
         // MENU
@@ -62,7 +77,7 @@ public class GameFrame extends Frame {
         c.weighty = 0.15;
         bttnMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(bttnMenu, c);
-        this.add(bttnMenu);
+        bgPanel.add(bttnMenu);
 
         menu = new JPopupMenu();
         save = new JMenuItem("Sauvegarder");
@@ -84,7 +99,7 @@ public class GameFrame extends Frame {
         c.gridy = 1;
         c.weightx = 0.25;
         gLayout.setConstraints(player1InfoPart, c);
-        this.add(player1InfoPart);
+        bgPanel.add(player1InfoPart);
 
         GridBagLayout layoutPlayer1Info = new GridBagLayout();
         player1InfoPart.setLayout(layoutPlayer1Info);
@@ -139,7 +154,7 @@ public class GameFrame extends Frame {
         c.weightx = 0.5;
         c.weighty = 0.7;
         gLayout.setConstraints(gridPanel, c);
-        this.add(gridPanel);
+        bgPanel.add(gridPanel);
 
         c.weighty = 0;
 
@@ -150,7 +165,7 @@ public class GameFrame extends Frame {
         c.gridy = 1;
         c.weightx = 0.25;
         gLayout.setConstraints(player2InfoPart, c);
-        this.add(player2InfoPart);
+        bgPanel.add(player2InfoPart);
 
         GridBagLayout layoutPlayer2Info = new GridBagLayout();
         player2InfoPart.setLayout(layoutPlayer2Info);
@@ -203,7 +218,7 @@ public class GameFrame extends Frame {
         c.gridy = 2;
         c.insets = new Insets(30, 0,20, 0);
         gLayout.setConstraints(turnPanel, c);
-        this.add(turnPanel);
+        bgPanel.add(turnPanel);
 
         BoxLayout layoutTurnPanel = new BoxLayout(turnPanel, BoxLayout.X_AXIS);
 
@@ -229,7 +244,7 @@ public class GameFrame extends Frame {
         c.gridy = 2;
         c.weighty = 0.15;
         gLayout.setConstraints(panelHistory, c);
-        this.add(panelHistory);
+        bgPanel.add(panelHistory);
 
         c.insets = new Insets(0, 0,0, 0);
         c.weighty = 0;
@@ -256,10 +271,26 @@ public class GameFrame extends Frame {
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
 
-        //POPUPS
+        //Panel background
 
-        PopupFactory factory = PopupFactory.getSharedInstance();
-        winPopup = factory.getPopup(this, new MessageWinPanel(), 50, 50);
+        JPanel fgPanel = new JPanel(){
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+
+        fgPanel.setOpaque(false);
+        fgPanel.setLayout(null);
+
+        winMessagePanel = new WinMessagePanel();
+        winMessagePanel.setSize(new Dimension(600, 100));
+        winMessagePanel.setOpaque(true);
+        //winMessagePanel.setBackground(Color.red);
+        winMessagePanel.setVisible(false);
+        fgPanel.add(winMessagePanel);
+
+        mainPanel.add(fgPanel);
+        mainPanel.add(bgPanel);
 
         setEventHandlers();
     }
@@ -288,7 +319,7 @@ public class GameFrame extends Frame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menu.show(bttnMenu,0, bttnMenu.getHeight());
-
+                //winPopup.setVisible(true);
             }
         });
         forfeit.addActionListener(new ActionListener() {
@@ -346,7 +377,11 @@ public class GameFrame extends Frame {
 
     }
 
-    public void showWinWindow(String winnerName){
+    public void showWinMessage(String winnerName){
+
+        int x = ui.getWindow().getWidth()/2 - winMessagePanel.getWidth()/2;
+        System.out.println(ui.getWindow().getWidth());
+        winMessagePanel.setLocation(new Point(x, 300));
 
     }
     public void dialog(){
@@ -399,5 +434,19 @@ public class GameFrame extends Frame {
         dialog.setResizable(false);
         dialog.setVisible(true);
 
+        winMessagePanel.setWinnerName(winnerName);
+        winMessagePanel.setVisible(true);
+
+        timerWinMessage = new Timer(4000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hideWinMessage();
+            }
+        });
+        timerWinMessage.start();
+    }
+
+    public void hideWinMessage(){
+        winMessagePanel.setVisible(false);
     }
 }

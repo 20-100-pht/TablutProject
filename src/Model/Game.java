@@ -14,6 +14,8 @@ public class Game {
 
     AIRandom aleatronDefender;
     AIRandom aleatronAttacker;
+    String defenderName = "Alexandre";
+    String attackerName = "Philippe";
 
 
     public Game(){
@@ -95,5 +97,13 @@ public class Game {
 
     public boolean isAiTest(){
         return attackerAI && defenderAI;
+    }
+
+    public String getDefenderName(){
+        return defenderName;
+    }
+
+    public String getAttackerName(){
+        return attackerName;
     }
 }

@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Game;
-import Model.GameRules;
-import Model.Grid;
-import Model.Piece;
+import Model.*;
 import Structure.Coup;
 import Structure.ReturnValue;
 import View.GameFrame;
@@ -38,6 +35,13 @@ public class GameGraphicController {
         }
 
         gameRules.attack(pieceSelected);
+
+        if(gameRules.isAttackerWinConfiguration()) {
+            gameFrame.showWinMessage(game.getAttackerName());
+        }
+        else if(gameRules.isDefenderWinConfiguration()){
+            gameFrame.showWinMessage(game.getDefenderName());
+        }
 
         game.toogleAttackerTurn();
     }
