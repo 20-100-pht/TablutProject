@@ -28,6 +28,7 @@ public class AITraining {
         long start, end;
         for (int i = 0; i < AIGAMES; i++) {
             GameConsoleController gcc = new GameConsoleController();
+            //gcc.setPrintTerminal(true);
             start = System.nanoTime();
             Res = gcc.playGame();
             end = System.nanoTime();

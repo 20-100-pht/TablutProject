@@ -170,6 +170,17 @@ public class Grid implements Serializable {
         return obj.getRow() == 4 && obj.getCol() ==4;
     }
 
+    public boolean isNextToFortress(Coordinate obj){
+        return (obj.getRow() == 1 && obj.getCol() == 0)
+                || (obj.getRow() == 7 && obj.getCol() == 0)
+                || (obj.getRow() == 1 && obj.getCol() == 8)
+                || (obj.getRow() == 7 && obj.getCol() == 8)
+                || (obj.getRow() == 0 && obj.getCol() == 1)
+                || (obj.getRow() == 0 && obj.getCol() == 7)
+                || (obj.getRow() == 8 && obj.getCol() == 1)
+                || (obj.getRow() == 8 && obj.getCol() == 7);
+    }
+
     public boolean isNextCastle(Coordinate obj){
         return ( (obj.getRow() == 4 && obj.getCol() == 3) || (obj.getRow() == 4 && obj.getCol() == 5) || (obj.getRow() == 3 && obj.getCol() == 4) || (obj.getRow() == 5 && obj.getCol() == 4));
     }

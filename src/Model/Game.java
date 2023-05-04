@@ -25,7 +25,7 @@ public class Game {
         defenderAI = true;
         attackerAI = true;
         gameRules = new GameRules();
-        aleatronDefender = new Model.AIRandom(gameRules, Model.PieceType.DEFENDER);
+        aleatronDefender = new AIRandom(gameRules, Model.PieceType.DEFENDER);
         aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
         aiMinMax = new AI();
     }

@@ -7,9 +7,5 @@ public class Tablut {
         System.out.println("Tablut");
 
         Interface ui = new Interface();
-
-        GameConsoleController gcc = new GameConsoleController();
-        gcc.setPrintTerminal(true);
-        gcc.playGame();
     }
 }

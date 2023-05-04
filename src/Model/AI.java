@@ -282,7 +282,7 @@ public class AI {
                     }
 
                     // avantage mobilité
-                    int numMoves = getLegalMoves(board, new Coordinate(x, y)).size();
+                    int numMoves = getMoves(board, new Coordinate(x, y)).size();
                     if(board[y][x].isAttacker()){
                         mobilityAdvantage += numMoves;
                     } else {
@@ -301,7 +301,7 @@ public class AI {
         return  (double) 1000 * ((double) numAttackers / numPieces) + 500 * ((double) numDefenders / numPieces) + 10 * mobilityAdvantage + 5 * centralKingBonus * 100;
     }
 
-    public List<Coordinate> getLegalMoves(Piece[][] board, Coordinate coord){
+    public List<Coordinate> getMoves(Piece[][] board, Coordinate coord){
         List<Coordinate> legalMoves = new ArrayList<>();
         int x = coord.getCol();
         int y = coord.getRow();
