@@ -1,5 +1,7 @@
 package Structure;
 
+import java.nio.charset.CoderResult;
+
 public class Coordinate {
 
     byte row;
@@ -22,6 +24,10 @@ public class Coordinate {
 
     public int getCol(){
         return (int)col;
+    }
+
+    public boolean isSameCoordinate(Coordinate obj){
+        return row == obj.getRow() && col == obj.getCol();
     }
 
 }

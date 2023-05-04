@@ -52,7 +52,7 @@ public class AI {
         Piece currentKing = node.getKing();
 
         if (depth == 0 || node.endGame() != ResultGame.NO_END_GAME ) {
-            node.setHeuristic(heuristic20100(currentBoard.board, currentKing.c));//, node));
+            node.setHeuristic(heuristic20100(currentBoard.board, currentKing.c, node));
             //System.out.println("Heuristic :" + node.getHeuristic());
             return node;
         }
@@ -263,33 +263,24 @@ public class AI {
     }
 
 
-    private double heuristic20100(Piece[][] board, Coordinate k){
+    private double heuristic20100(Piece[][] board, Coordinate k, Node current){
         int numAttackers = 0;
         int numDefenders = 0;
         int numPieces = 0;
-        int mobilityAdvantage = 0;
         int centralKingBonus = 0;
-
+        int focusKing = 0;
 
         for(int y = 0; y < board.length; y++){
             for(int x = 0; x < board.length; x++){
                 if(board[y][x] != null){
+
                     numPieces++;
                     if(board[y][x].getType() == PieceType.ATTACKER){
+                        focusKing = moveToKing(board[y][x].possibleMoves(board), k);
                         numAttackers++;
                     } else if(board[y][x].getType() == PieceType.DEFENDER){
                         numDefenders++;
                     }
-
-                    // avantage mobilité
-                    int numMoves = getMoves(board, new Coordinate(x, y)).size();
-                    if(board[y][x].isAttacker()){
-                        mobilityAdvantage += numMoves;
-                    } else {
-                        mobilityAdvantage -= numMoves;
-                    }
-
-                    // roi position trone
                     if(board[y][x].getType() == PieceType.KING){
                         int distFromCenter = Math.abs(x - 4) + Math.abs(y - 4);
                         centralKingBonus += (8 - distFromCenter);
@@ -298,8 +289,27 @@ public class AI {
             }
         }
 
-        return  (double) 10 * ((double) numAttackers / numPieces) + 5 * ((double) numDefenders / numPieces) + 1 * mobilityAdvantage + centralKingBonus * 15;
+        if(current.endGame() == ResultGame.ATTACKER_WIN)
+            return Double.POSITIVE_INFINITY;
+        else if (current.endGame() == ResultGame.DEFENDER_WIN) {
+            return Double.NEGATIVE_INFINITY;
+        }
+
+        //canKingWin(k, board);
+        return  (double) 10 * ((double) numAttackers / numPieces) + 5 * ((double) numDefenders / numPieces) + 1 * centralKingBonus + focusKing*1000;
     }
+
+    private int moveToKing(List<Coordinate> pieceCord, Coordinate king){
+        for (Coordinate cord:pieceCord) {
+            if(cord.isSameCoordinate(new Coordinate(king.getRow()-1, king.getCol())) ) return 1;
+            if(cord.isSameCoordinate(new Coordinate(king.getRow()+1, king.getCol())) ) return 1;
+            if(cord.isSameCoordinate(new Coordinate(king.getRow(), king.getCol()-1)) ) return 1;
+            if(cord.isSameCoordinate(new Coordinate(king.getRow(), king.getCol()+1)) ) return 1;
+        }
+        return 0;
+    }
+
+
 
     public List<Coordinate> getMoves(Piece[][] board, Coordinate coord){
         List<Coordinate> legalMoves = new ArrayList<>();
