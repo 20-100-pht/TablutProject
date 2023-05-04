@@ -29,6 +29,8 @@ public class GameFrame extends Frame {
     JMenuItem save, forfeit, options;
     WinMessagePanel winMessagePanel;
     Timer timerWinMessage;
+    JButton bttnBackMenu;
+    JButton bttnReplay;
 
 
     public GameFrame(Interface ui){
@@ -57,7 +59,6 @@ public class GameFrame extends Frame {
         //Panel background
 
         JPanel bgPanel = new JPanel();
-        //mainPanel.add(bgPanel);
 
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
@@ -65,6 +66,7 @@ public class GameFrame extends Frame {
 
 
         // MENU
+
         bttnMenu = new JButton(imageMenu);
         bttnMenu.setContentAreaFilled(false);
         bttnMenu.setOpaque(true);
@@ -90,6 +92,29 @@ public class GameFrame extends Frame {
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0, 0, 0, 0);
         c.weighty = 0;
+
+        //Buttons game ended
+
+        JPanel bttnsAfterGamePanel = new JPanel();
+        bttnsAfterGamePanel.setLayout(new GridBagLayout());
+        c.gridx = 1;
+        c.gridy = 0;
+        bgPanel.add(bttnsAfterGamePanel, c);
+
+        bttnBackMenu = new JButton("Retour au menu");
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(12, 0, 0, 30);
+        bttnsAfterGamePanel.add(bttnBackMenu, c);
+        bttnBackMenu.setVisible(false);
+
+        bttnReplay = new JButton("Recommencer");
+        c.gridx = 1;
+        c.gridy = 0;
+        c.insets = new Insets(12, 0, 0, 0);
+        bttnsAfterGamePanel.add(bttnReplay, c);
+        bttnReplay.setVisible(false);
+
 
         //Infos player 1
 
@@ -373,6 +398,11 @@ public class GameFrame extends Frame {
     @Override
     public void updateFrame() {
 
+    }
+
+    public void showEndGameButtons(){
+        bttnBackMenu.setVisible(true);
+        bttnReplay.setVisible(true);
     }
 
     public void showWinMessage(String winnerName){

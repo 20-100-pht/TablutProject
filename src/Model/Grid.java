@@ -167,7 +167,7 @@ public class Grid implements Serializable {
     }
 
     public boolean isCastle(Coordinate obj){
-        return obj.getRow() == 4 && obj.getCol() ==4;
+        return obj.getRow() == 4 && obj.getCol() == 4;
     }
 
     public boolean isNextCastle(Coordinate obj){

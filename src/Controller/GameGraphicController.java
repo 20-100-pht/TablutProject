@@ -34,13 +34,16 @@ public class GameGraphicController {
             return;
         }
 
+        gameRules.capture();
         gameRules.attack(pieceSelected);
 
         if(gameRules.isAttackerWinConfiguration()) {
             gameFrame.showWinMessage(game.getAttackerName());
+            gameFrame.showEndGameButtons();
         }
         else if(gameRules.isDefenderWinConfiguration()){
             gameFrame.showWinMessage(game.getDefenderName());
+            gameFrame.showEndGameButtons();
         }
 
         game.toogleAttackerTurn();

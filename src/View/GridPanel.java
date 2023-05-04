@@ -27,6 +27,7 @@ public class GridPanel extends JPanel {
     Image imageDefender;
     Image imageAttacker;
     Image imageKing;
+    Image imageFortress;
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
     public static final int GRID_SIZE = 9;
@@ -54,6 +55,10 @@ public class GridPanel extends JPanel {
                 int pieceX = (int) (c*getCaseSize() + getCaseSize()*0.15);
                 int pieceY = (int) (l*getCaseSize() + getCaseSize()*0.15);
                 int pieceSize = (int) (getCaseSize()*0.7);
+
+                if(grid.isCornerPosition(new Coordinate(l, c))){
+                    g.drawImage(imageFortress, pieceX, pieceY, pieceSize, pieceSize, null);
+                }
 
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
                 if(piece == null){
@@ -109,6 +114,7 @@ public class GridPanel extends JPanel {
             imageDefender = ImageIO.read(new File("assets/images/defender.png"));
             imageAttacker = ImageIO.read(new File("assets/images/attacker.png"));
             imageKing = ImageIO.read(new File("assets/images/king.png"));
+            imageFortress = ImageIO.read(new File("assets/images/fortress.png"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
