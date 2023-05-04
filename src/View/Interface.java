@@ -44,7 +44,6 @@ public class Interface {
 
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setVisible(true);
 
         menuFrame = new MenuFrame(this);    //JComponent on which we will draw the menu
         menuFrame.build();
@@ -56,6 +55,7 @@ public class Interface {
         newGameFrame.build();
 
         changePage(page);
+        window.setVisible(true);
     }
 
     public void setAppLookAndFeel(){
@@ -109,12 +109,7 @@ public class Interface {
         }
         page = newPage;
         window.add(frame);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                frame.adaptWindow();
-            }
-        });
+        frame.adaptWindow();
     }
 
     public GameFrame getGameFrame(){
