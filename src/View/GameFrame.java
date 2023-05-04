@@ -285,7 +285,6 @@ public class GameFrame extends Frame {
         winMessagePanel = new WinMessagePanel();
         winMessagePanel.setSize(new Dimension(600, 100));
         winMessagePanel.setOpaque(true);
-        //winMessagePanel.setBackground(Color.red);
         winMessagePanel.setVisible(false);
         fgPanel.add(winMessagePanel);
 
@@ -319,13 +318,12 @@ public class GameFrame extends Frame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menu.show(bttnMenu,0, bttnMenu.getHeight());
-                //winPopup.setVisible(true);
             }
         });
         forfeit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                dialog();
+                openGiveupDialog();
             }
         });
     }
@@ -383,8 +381,19 @@ public class GameFrame extends Frame {
         System.out.println(ui.getWindow().getWidth());
         winMessagePanel.setLocation(new Point(x, 300));
 
+        winMessagePanel.setWinnerName(winnerName);
+        winMessagePanel.setVisible(true);
+
+        timerWinMessage = new Timer(4000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hideWinMessage();
+            }
+        });
+        timerWinMessage.start();
+
     }
-    public void dialog(){
+    public void openGiveupDialog(){
         JDialog dialog = new JDialog();
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         dialog.setTitle("Confirmation");
@@ -433,17 +442,6 @@ public class GameFrame extends Frame {
         dialog.setLocationRelativeTo(null);
         dialog.setResizable(false);
         dialog.setVisible(true);
-
-        winMessagePanel.setWinnerName(winnerName);
-        winMessagePanel.setVisible(true);
-
-        timerWinMessage = new Timer(4000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                hideWinMessage();
-            }
-        });
-        timerWinMessage.start();
     }
 
     public void hideWinMessage(){
