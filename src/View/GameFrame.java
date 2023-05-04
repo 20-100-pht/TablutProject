@@ -291,6 +291,20 @@ public class GameFrame extends Frame {
 
             }
         });
+        forfeit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int response = JOptionPane.showConfirmDialog(null,
+                        "Voulez-vous abandonner la partie ?", "Abandonner",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    ui.changePage(InterfacePage.MENU);
+                    System.out.println("Bah alors ? T'abandonnes car t'es une grosse merde.");
+                } else if (response == JOptionPane.NO_OPTION) {
+                    System.out.println("Ouf tu m'as fait peur ! Abandonner c'est pour les faibles.");
+                }
+            }
+        });
     }
 
     @Override
