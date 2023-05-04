@@ -163,8 +163,6 @@ public class GameRules {
 
     public void capture(){
         if(isCapturedByFourAttacker() || isCapturedNextToThrone() || isCapturedNextToWall() || isCaptureNextToFortress() ) {
-            //King is captured : end Model.Game
-            System.out.println("King has been captured!");
             endGameVar = ResultGame.ATTACKER_WIN;
         }
     }

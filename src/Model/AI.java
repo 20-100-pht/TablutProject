@@ -298,7 +298,7 @@ public class AI {
             }
         }
 
-        return  (double) 1000 * ((double) numAttackers / numPieces) + 500 * ((double) numDefenders / numPieces) + 10 * mobilityAdvantage + 5 * centralKingBonus * 100;
+        return  (double) 10 * ((double) numAttackers / numPieces) + 5 * ((double) numDefenders / numPieces) + 1 * mobilityAdvantage + centralKingBonus * 15;
     }
 
     public List<Coordinate> getMoves(Piece[][] board, Coordinate coord){

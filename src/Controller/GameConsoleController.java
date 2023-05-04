@@ -35,9 +35,9 @@ public class GameConsoleController {
     }
 
     public void endGame(ResultGame result){
-        if(result == ResultGame.ATTACKER_WIN) System.out.println("Attacker win !");
-        else System.out.println("Defender win !");
-        gameRules.print();
+        if(result == ResultGame.ATTACKER_WIN) if(printGridTerminal) System.out.println("Attacker win !");
+        else if(printGridTerminal) System.out.println("Defender win !");
+        if(printGridTerminal) gameRules.print();
     }
 
     public void playTurn(){

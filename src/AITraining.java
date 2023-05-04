@@ -2,8 +2,9 @@ import Controller.GameConsoleController;
 import Model.ResultGame;
 
 public class AITraining {
-    private static int AIGAMES = 20;
+    private static int AIGAMES = 1;
     private static boolean AITRAINING = true;
+    private static boolean LoadBar = false;
 
     public static void main(String[] args) {
         System.out.println("Tablut");
@@ -28,7 +29,7 @@ public class AITraining {
         long start, end;
         for (int i = 0; i < AIGAMES; i++) {
             GameConsoleController gcc = new GameConsoleController();
-            //gcc.setPrintTerminal(true);
+            gcc.setPrintTerminal(true);
             start = System.nanoTime();
             Res = gcc.playGame();
             end = System.nanoTime();
@@ -45,8 +46,26 @@ public class AITraining {
             }
             tpsAverage += end-start;
 
+            if(LoadBar){
+                double progress = (double) i / AIGAMES;
+                int barLength = 20;
+                int filledLength = (int) (progress * barLength);
+                int emptyLength = barLength - filledLength;
+
+                StringBuilder bar = new StringBuilder();
+                for (int j = 0; j < filledLength; j++) {
+                    bar.append("#");
+                }
+                for (int j = 0; j < emptyLength; j++) {
+                    bar.append(" ");
+                }
+
+                System.out.print("\rProgression: [" + bar.toString() + "] " + (int)(progress * 100) + "%");
+            }
+
         }
-        System.out.println("Resultat Game : " + ((nbVictoryAttacker/AIGAMES)*100) + "% AttackerWin");
+
+        System.out.println("\nResultat Game : " + ((nbVictoryAttacker/AIGAMES)*100) + "% AttackerWin");
         System.out.println("                " + ((nbVictoryDefender/AIGAMES)*100) + "% DefenderWin");
         System.out.println("                " + ((nbMaxTurnEncountered/AIGAMES)*100) + "% > MAX_TURN");
         System.out.println("Total time execution : " + tpsAverage/Math.pow(10,9) + "s");
