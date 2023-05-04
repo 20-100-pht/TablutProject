@@ -5,6 +5,7 @@ import Structure.Coordinate;
 import Structure.Coup;
 import Structure.Node;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -72,9 +73,22 @@ public class AI {
         if (maximizingPlayer) {
             //Attacker
 
+            int tmpD = depth-1;
             value = Double.NEGATIVE_INFINITY;
             for(int i = 0; i<children.size(); i++){
-                int tmpD = depth-1;
+
+                ResultGame res = children.get(i).endGame();
+                if(res != ResultGame.NO_END_GAME){
+                    //If return current node with best value
+                    if(dep!=depth){
+                        if(res == ResultGame.ATTACKER_WIN) node.setHeuristic(Double.POSITIVE_INFINITY);
+                        else node.setHeuristic(Double.NEGATIVE_INFINITY);
+                        return node;
+                    }
+                    //Return child with best value
+                    return children.get(i);
+                }
+
                 Node tmp = minimaxAlgo(children.get(i), tmpD, false, alpha, beta);
 
                 //Randomize selection of same heuristic nodes
@@ -103,6 +117,18 @@ public class AI {
             value = Double.POSITIVE_INFINITY;
             int tmpD = depth -1;
             for(int i = 0; i<children.size(); i++){
+
+                ResultGame res = children.get(i).endGame();
+                if(res != ResultGame.NO_END_GAME){
+                    //If return current node with best value
+                    if(dep!=depth){
+                        if(res == ResultGame.ATTACKER_WIN) node.setHeuristic(Double.POSITIVE_INFINITY);
+                        else node.setHeuristic(Double.NEGATIVE_INFINITY);
+                        return node;
+                    }
+                    //Return child with best value
+                    return children.get(i);
+                }
 
                 Node tmp = minimaxAlgo(children.get(i), tmpD, true, alpha, beta);
 
@@ -216,6 +242,7 @@ public class AI {
                         Coup coup = new Coup(new Coordinate(currentPiece.c.getRow(),currentPiece.c.getCol()), new Coordinate(coordMove.getRow(),coordMove.getCol()));
                         gRules.move(coup);
 
+                        gRules.capture();
                         int c = gRules.attack(currentPiece);
 
                         Piece currentKing;
@@ -225,13 +252,35 @@ public class AI {
                             currentKing = gRules.grid.getPieceAtPosition(father.getKing().c);
                         }
 
-                        Node tmpNode = new Node(newGrid, currentKing, new Coup(new Coordinate(y,x),coordMove), gRules.isEndGameType());
+                        ResultGame end = gRules.isEndGameType();
+
+                        //Check if King has won
+                        if(gRules.isKingAtObjective()){
+                            end = ResultGame.DEFENDER_WIN;
+                            //System.out.println("Depth :"+depth);
+                        }
+
+                        if(end != ResultGame.NO_END_GAME && depth == dep - 1){
+                            System.out.println("Depth : " + depth);
+                            System.out.println("Res : " + end);
+                            gRules.grid.print();
+                            System.out.println("\n");
+
+                        }
+
+                        Node tmpNode = new Node(newGrid, currentKing, new Coup(new Coordinate(y,x),coordMove), end);
+
 
                         //Add child to first place
-                        if(c>=1){
+                        if(c>=1 || end != ResultGame.NO_END_GAME){
                             father.addChildTo(0,tmpNode);
                         }
                         father.addChild(tmpNode);
+
+                        //A enlever :
+                        if(end != ResultGame.NO_END_GAME && depth == dep - 1){
+                            return;
+                        }
                     }
                 }
             }
