@@ -44,7 +44,7 @@ public class MenuFrame extends Frame {
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 1;
-        c.ipady = (int) ((double) window.getWidth()*0.7);
+        c.ipady = (int) ((double) window.getHeight()*0.15);
         gLayout.setConstraints(space, c);
         this.add(space);
 
@@ -104,6 +104,7 @@ public class MenuFrame extends Frame {
     @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
+        window.setMinimumSize(new Dimension(400, 600));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) (sizeScreen.height * 0.6);
@@ -112,8 +113,9 @@ public class MenuFrame extends Frame {
         int y = (int) (sizeScreen.height/2 - height/2);
 
         window.setSize(width, height);
-        window.setMinimumSize(new Dimension(400, 600));
         window.setLocation(x, y);
+
+        System.out.println(window.getWidth() + " " + window.getHeight());
 
         ui.getWindow().setJMenuBar(null);
     }

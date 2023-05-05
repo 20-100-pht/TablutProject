@@ -14,13 +14,15 @@ public class GameRules {
 
 
     public GameRules(){
+        grid = new Grid();
         resetGameControler();
     }
 
     public void resetGameControler (){
-        grid = new Grid();
+        grid.reset();
         king = grid.getPieceAtPosition(new Coordinate(4,4));
         nbPieceAttackerOnGrid = 16;
+        endGameVar = ResultGame.NO_END_GAME;
     }
 
     public boolean isEndGame(){

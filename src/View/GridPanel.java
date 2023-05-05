@@ -2,6 +2,8 @@ package View;
 
 import Controller.GameGraphicController;
 import Controller.GridPanelController;
+import Model.Game;
+import Model.GameRules;
 import Model.Grid;
 import Model.Piece;
 import Structure.Coordinate;
@@ -22,7 +24,9 @@ public class GridPanel extends JPanel {
     GameFrame gameFrame;
     GridPanelController gridPanelController;
     GameGraphicController gameGraphicController;
+    Game game;
     Grid grid;
+    GameRules gameLogic;
     Image imageCase;
     Image imageDefender;
     Image imageAttacker;
@@ -35,7 +39,9 @@ public class GridPanel extends JPanel {
         super();
         this.gameFrame = gameFrame;
         gameGraphicController = gameFrame.getGraphicGameController();
-        grid = gameGraphicController.getGameInstance().getGridInstance();
+        game = gameGraphicController.getGameInstance();
+        grid = game.getGridInstance();
+        gameLogic = game.getGameRulesInstance();
         this.gridPanelController = new GridPanelController(this, gameGraphicController.getGameInstance().getLogicGrid(), gameGraphicController);
 
         possibleMoveMarks = new Vector<Coordinate>();
@@ -45,52 +51,52 @@ public class GridPanel extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for(int l = 0; l < GRID_SIZE; l++){
-            for(int c = 0; c < GRID_SIZE; c++){
-                g.drawImage(imageCase, c*getCaseSize(), l*getCaseSize(), getCaseSize(), getCaseSize(), null);
+        for (int l = 0; l < GRID_SIZE; l++) {
+            for (int c = 0; c < GRID_SIZE; c++) {
+                g.drawImage(imageCase, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
 
-                int pieceX = (int) (c*getCaseSize() + getCaseSize()*0.15);
-                int pieceY = (int) (l*getCaseSize() + getCaseSize()*0.15);
-                int pieceSize = (int) (getCaseSize()*0.7);
+                int pieceX = (int) (c * getCaseSize() + getCaseSize() * 0.15);
+                int pieceY = (int) (l * getCaseSize() + getCaseSize() * 0.15);
+                int pieceSize = (int) (getCaseSize() * 0.7);
 
-                if(grid.isCornerPosition(new Coordinate(l, c))){
+                if (grid.isCornerPosition(new Coordinate(l, c))) {
                     g.drawImage(imageFortress, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
 
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
-                if(piece == null){
+                if (piece == null) {
                     continue;
                 }
-                if(piece.isDefender()) {
+                if (piece.isDefender()) {
                     g.drawImage(imageDefender, pieceX, pieceY, pieceSize, pieceSize, null);
-                }
-                else if(piece.isKing()){
+                } else if (piece.isKing()) {
                     g.drawImage(imageKing, pieceX, pieceY, pieceSize, pieceSize, null);
-                }
-                else if(piece.isAttacker()){
+                } else if (piece.isAttacker()) {
                     g.drawImage(imageAttacker, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
             }
         }
 
-        for(int l = 0; l <= GRID_SIZE; l++) {
-            g.drawLine(0, l*getCaseSize(), GRID_SIZE*getCaseSize(), l*getCaseSize());
+        for (int l = 0; l <= GRID_SIZE; l++) {
+            g.drawLine(0, l * getCaseSize(), GRID_SIZE * getCaseSize(), l * getCaseSize());
         }
 
-        for(int c = 0; c <= GRID_SIZE; c++){
-            g.drawLine(c*getCaseSize(), 0, c*getCaseSize(), GRID_SIZE*getCaseSize());
+        for (int c = 0; c <= GRID_SIZE; c++) {
+            g.drawLine(c * getCaseSize(), 0, c * getCaseSize(), GRID_SIZE * getCaseSize());
         }
 
-        for(int i = 0; i < possibleMoveMarks.size(); i++){
-            Coordinate piecePos = possibleMoveMarks.get(i);
-            drawAccessibleMark(g, piecePos.getCol(), piecePos.getRow());
+        if (!gameLogic.isEndGame()){
+            for (int i = 0; i < possibleMoveMarks.size(); i++) {
+                Coordinate piecePos = possibleMoveMarks.get(i);
+                drawAccessibleMark(g, piecePos.getCol(), piecePos.getRow());
+            }
         }
 
         // Case selected mark
-        if(selectionMarkCoords != null) {
+        if(selectionMarkCoords != null && !gameLogic.isEndGame()) {
             int markX = (int) (selectionMarkCoords.getCol() * getCaseSize() + getCaseSize() * 0.1);
             int markY = (int) (selectionMarkCoords.getRow() * getCaseSize() + getCaseSize() * 0.1);
 

@@ -9,7 +9,7 @@ import java.util.List;
 public class Grid implements Serializable {
 
     final int sizeGrid = 9;
-    public Piece[][] board = new Piece[sizeGrid][sizeGrid];
+    public Piece[][] board;
 
     public Grid() {
         reset();
@@ -88,6 +88,8 @@ public class Grid implements Serializable {
     }
 
     public void reset() {
+
+        board = new Piece[sizeGrid][sizeGrid];
 
         //KING
         board[4][4] = new Piece(new Coordinate(4, 4), PieceType.KING);

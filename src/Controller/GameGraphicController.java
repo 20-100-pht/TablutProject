@@ -22,6 +22,11 @@ public class GameGraphicController {
     }
 
     public void play(Coup coup){
+
+        if(gameRules.isEndGame()){
+            return;
+        }
+
         Grid grid = gameRules.getGrid();
         Piece pieceSelected = grid.getPieceAtPosition(coup.getInit());
 
@@ -47,5 +52,19 @@ public class GameGraphicController {
         }
 
         game.toogleAttackerTurn();
+    }
+
+    public void bttnReplayClickHandler(){
+        gameFrame.hideAllMessages();
+        gameFrame.hideEndGameButtons();
+        game.reset();
+    }
+
+    public void bttnUndoClickHandler(){
+
+    }
+
+    public void bttnRedoClickHandler(){
+
     }
 }

@@ -45,14 +45,14 @@ public class Interface {
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        menuFrame = new MenuFrame(this);    //JComponent on which we will draw the menu
+        /*menuFrame = new MenuFrame(this);    //JComponent on which we will draw the menu
         menuFrame.build();
 
         gameFrame = new GameFrame(this);    //JComponent on which we will draw the game
         gameFrame.build();
 
         newGameFrame = new NewGameFrame(this);
-        newGameFrame.build();
+        newGameFrame.build();*/
 
         changePage(page);
         window.setVisible(true);
@@ -95,21 +95,27 @@ public class Interface {
 
     public void changePage(InterfacePage newPage){
         if(frame != null){
+            System.out.println(frame.getComponentCount());
             window.remove(frame);
+            //window.removeAll();
         }
 
         if(newPage == InterfacePage.MENU){
-            frame = menuFrame;
+            frame = new MenuFrame(this);
+            //frame = menuFrame;
         }
         else if(newPage == InterfacePage.GAME){
-            frame = gameFrame;
+            frame = new GameFrame(this);
+            //frame = gameFrame;
         }
         else if(newPage == InterfacePage.NEWGAME){
-            frame = newGameFrame;
+            frame = new NewGameFrame(this);
+            //frame = newGameFrame;
         }
         page = newPage;
-        window.add(frame);
         frame.adaptWindow();
+        frame.build();
+        window.add(frame);
     }
 
     public GameFrame getGameFrame(){

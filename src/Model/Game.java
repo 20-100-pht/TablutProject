@@ -19,6 +19,7 @@ public class Game {
 
 
     public Game(){
+        gameRules = new GameRules();
         reset();
     }
 
@@ -26,9 +27,9 @@ public class Game {
         attackerTurn = true;
         defenderAI = true;
         attackerAI = true;
-        gameRules = new GameRules();
         aleatronDefender = new AIRandom(gameRules, PieceType.DEFENDER);
         aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
+        gameRules.resetGameControler();
         aiMinMax = new AI();
     }
 
@@ -106,4 +107,5 @@ public class Game {
     public String getAttackerName(){
         return attackerName;
     }
+
 }

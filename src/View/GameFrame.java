@@ -31,6 +31,8 @@ public class GameFrame extends Frame {
     Timer timerWinMessage;
     JButton bttnBackMenu;
     JButton bttnReplay;
+    JButton bttnUndo;
+    JButton bttnRedo;
 
 
     public GameFrame(Interface ui){
@@ -277,7 +279,7 @@ public class GameFrame extends Frame {
         GridBagLayout layoutPanelHistory = new GridBagLayout();
         panelHistory.setLayout(layoutPanelHistory);
 
-        JButton bttnUndo = new JButton("Annuler");
+        bttnUndo = new JButton("Annuler");
         bttnUndo.setPreferredSize(new Dimension(110, 30));
         bttnUndo.setBorder(new ButtonRoundBorder(15));
         c.gridx = 0;
@@ -286,7 +288,7 @@ public class GameFrame extends Frame {
         layoutPanelHistory.setConstraints(bttnUndo, c);
         panelHistory.add(bttnUndo);
 
-        JButton bttnRedo = new JButton("Refaire");
+        bttnRedo = new JButton("Refaire");
         bttnRedo.setPreferredSize(new Dimension(110, 30));
         bttnRedo.setBorder(new ButtonRoundBorder(15));
         c.gridx = 0;
@@ -338,7 +340,6 @@ public class GameFrame extends Frame {
 
             }
         });
-
         bttnMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -351,18 +352,46 @@ public class GameFrame extends Frame {
                 openGiveupDialog();
             }
         });
+
+        bttnReplay.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameGraphicController.bttnReplayClickHandler();
+            }
+        });
+
+        bttnBackMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ui.changePage(InterfacePage.MENU);
+            }
+        });
+
+        bttnUndo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        bttnRedo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
+        window.setMinimumSize(new Dimension(1000, 750));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) (sizeScreen.height * 0.85);
         int width = (int) (sizeScreen.width * 0.8);
         window.setSize(width, height);
         window.setLocationRelativeTo(null);
-        window.setMinimumSize(new Dimension(1000, 750));
     }
 
     @Override
@@ -403,6 +432,11 @@ public class GameFrame extends Frame {
     public void showEndGameButtons(){
         bttnBackMenu.setVisible(true);
         bttnReplay.setVisible(true);
+    }
+
+    public void hideEndGameButtons(){
+        bttnBackMenu.setVisible(false);
+        bttnReplay.setVisible(false);
     }
 
     public void showWinMessage(String winnerName){
@@ -476,5 +510,9 @@ public class GameFrame extends Frame {
 
     public void hideWinMessage(){
         winMessagePanel.setVisible(false);
+    }
+
+    public void hideAllMessages(){
+        hideWinMessage();
     }
 }

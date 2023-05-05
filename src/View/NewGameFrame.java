@@ -42,12 +42,16 @@ public class NewGameFrame extends Frame {
     @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
+        window.setMinimumSize(new Dimension(400, 600));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) (sizeScreen.height * 0.6);
         int width = (int) (sizeScreen.width * 0.4);
+        int x = (int) (sizeScreen.width/2 - width/2);
+        int y = (int) (sizeScreen.height/2 - height/2);
+
         window.setSize(width, height);
-        window.setMinimumSize(new Dimension(400, 600));
+        window.setLocation(x, y);
 
         ui.getWindow().setJMenuBar(null);
     }
