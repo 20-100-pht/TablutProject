@@ -11,6 +11,7 @@ public class GameRules {
     public Grid grid;
 
     int nbPieceAttackerOnGrid;
+    int nbPieceDefenderOnGrid;
 
 
     public GameRules(){
@@ -22,6 +23,7 @@ public class GameRules {
         grid.reset();
         king = grid.getPieceAtPosition(new Coordinate(4,4));
         nbPieceAttackerOnGrid = 16;
+        nbPieceDefenderOnGrid = 8;
         endGameVar = ResultGame.NO_END_GAME;
     }
 
@@ -141,12 +143,14 @@ public class GameRules {
                     if (grid.isCastle(sideCurrentCord) || grid.isCornerPosition(sideCurrentCord) || sideSideCurrent != null && ((current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefender() && sideSideCurrent.isDefender()))) {
                         nbAttack++;
                         if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
+                        if(sideCurrent.isDefender()) nbPieceDefenderOnGrid--;
                         grid.setPieceAtPosition(null, currentCord);
                     }
 
                 } else {
                     nbAttack++;
                     if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
+                    if(sideCurrent.isDefender()) nbPieceDefenderOnGrid--;
                     grid.setPieceAtPosition(null, currentCord);
                 }
             }
@@ -308,5 +312,13 @@ public class GameRules {
 
     public Piece getKing(){
         return king;
+    }
+
+    public int getNbPieceAttackerOnGrid() {
+        return nbPieceAttackerOnGrid;
+    }
+
+    public int getNbPieceDefenderOnGrid(){
+        return nbPieceDefenderOnGrid;
     }
 }

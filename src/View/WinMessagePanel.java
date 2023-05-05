@@ -29,7 +29,7 @@ public class WinMessagePanel extends JPanel {
 
         textLabel = new JLabel(winnerName);
         textLabel.setFont(new Font(Font.DIALOG, Font.BOLD, 25));
-        c.insets = new Insets(0, 20, 0, 20);
+        c.insets = new Insets(0, 30, 0, 30);
         add(textLabel, c);
 
         c.insets = new Insets(0, 0, 0 ,0);

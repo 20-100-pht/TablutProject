@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.security.DigestException;
 
 public class GameFrame extends Frame {
 
@@ -33,6 +34,8 @@ public class GameFrame extends Frame {
     JButton bttnReplay;
     JButton bttnUndo;
     JButton bttnRedo;
+    CapturedPiecesPanel capturedPiecesPanel1;
+    CapturedPiecesPanel capturedPiecesPanel2;
 
 
     public GameFrame(Interface ui, Game game){
@@ -45,8 +48,6 @@ public class GameFrame extends Frame {
     }
 
     public void build(){
-
-        Border blacklineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
         Font fontDialog20 = new Font(Font.DIALOG, Font.PLAIN, 20);
 
@@ -136,7 +137,8 @@ public class GameFrame extends Frame {
 
         c.weightx = 0;
 
-        JLabel labelPlayer1Name = new JLabel(game.getDefenderName()); labelPlayer1Name.setBackground(Color.red);
+        JLabel labelPlayer1Name = new JLabel(game.getDefenderName());
+        labelPlayer1Name.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
         c.gridx = 0;
         c.gridy = 0;
         layoutPlayer1Info.setConstraints(labelPlayer1Name, c);
@@ -144,9 +146,11 @@ public class GameFrame extends Frame {
 
         //Image player 1
 
+        Border bluelineBorder = BorderFactory.createLineBorder(new Color(0, 143, 213), 5);
+
         JPanel panelImagePlayer1 = new JPanel();
         panelImagePlayer1.setPreferredSize(new Dimension(104, 104));
-        panelImagePlayer1.setBorder(blacklineBorder);
+        panelImagePlayer1.setBorder(bluelineBorder);
         c.gridx = 0;
         c.gridy = 1;
         layoutPlayer1Info.setConstraints(panelImagePlayer1, c);
@@ -173,6 +177,15 @@ public class GameFrame extends Frame {
         c.gridy = 2;
         layoutPlayer1Info.setConstraints(labelPlayer1Status, c);
         player1InfoPart.add(labelPlayer1Status);
+
+        //Pieces capturées par le joueur 1
+
+        capturedPiecesPanel1 = new CapturedPiecesPanel(this, true);
+        capturedPiecesPanel1.setPreferredSize(new Dimension(160, 80));
+        c.gridx = 0;
+        c.gridy = 3;
+        layoutPlayer1Info.setConstraints(capturedPiecesPanel1, c);
+        player1InfoPart.add(capturedPiecesPanel1);
 
         //Model.Grid
 
@@ -203,6 +216,7 @@ public class GameFrame extends Frame {
         c.weightx = 0;
 
         JLabel labelPlayer2Name = new JLabel(game.getAttackerName());
+        labelPlayer2Name.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
         c.gridx = 0;
         c.gridy = 0;
         layoutPlayer2Info.setConstraints(labelPlayer2Name, c);
@@ -210,9 +224,11 @@ public class GameFrame extends Frame {
 
         //Image player 2
 
+        Border orangelineBorder = BorderFactory.createLineBorder(new Color(197, 137, 47), 5);
+
         JPanel panelImagePlayer2 = new JPanel();
         panelImagePlayer2.setPreferredSize(new Dimension(104, 104));
-        panelImagePlayer2.setBorder(blacklineBorder);
+        panelImagePlayer2.setBorder(orangelineBorder);
         c.gridx = 0;
         c.gridy = 1;
         layoutPlayer2Info.setConstraints(panelImagePlayer2, c);
@@ -238,6 +254,13 @@ public class GameFrame extends Frame {
         c.gridy = 2;
         layoutPlayer2Info.setConstraints(labelPlayer2Status, c);
         player2InfoPart.add(labelPlayer2Status);
+
+        capturedPiecesPanel2 = new CapturedPiecesPanel(this, false);
+        capturedPiecesPanel2.setPreferredSize(new Dimension(160, 80));
+        c.gridx = 0;
+        c.gridy = 3;
+        layoutPlayer2Info.setConstraints(capturedPiecesPanel2, c);
+        player2InfoPart.add(capturedPiecesPanel2);
 
         //Turns
 
@@ -311,7 +334,7 @@ public class GameFrame extends Frame {
         fgPanel.setLayout(null);
 
         winMessagePanel = new WinMessagePanel();
-        winMessagePanel.setSize(new Dimension(600, 100));
+        winMessagePanel.setSize(new Dimension(750, 100));
         winMessagePanel.setOpaque(true);
         winMessagePanel.setVisible(false);
         fgPanel.add(winMessagePanel);
