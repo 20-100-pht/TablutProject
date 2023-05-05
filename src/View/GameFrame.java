@@ -35,10 +35,11 @@ public class GameFrame extends Frame {
     JButton bttnRedo;
 
 
-    public GameFrame(Interface ui){
+    public GameFrame(Interface ui, Game game){
         super(ui);
 
-        gameGraphicController = new GameGraphicController(this);
+        gameGraphicController = new GameGraphicController(this, game);
+        this.game = game;
 
         loadAssets();
     }
@@ -135,7 +136,7 @@ public class GameFrame extends Frame {
 
         c.weightx = 0;
 
-        JLabel labelPlayer1Name = new JLabel("Alexandre"); labelPlayer1Name.setBackground(Color.red);
+        JLabel labelPlayer1Name = new JLabel(game.getDefenderName()); labelPlayer1Name.setBackground(Color.red);
         c.gridx = 0;
         c.gridy = 0;
         layoutPlayer1Info.setConstraints(labelPlayer1Name, c);
@@ -201,7 +202,7 @@ public class GameFrame extends Frame {
 
         c.weightx = 0;
 
-        JLabel labelPlayer2Name = new JLabel("Philippe");
+        JLabel labelPlayer2Name = new JLabel(game.getAttackerName());
         c.gridx = 0;
         c.gridy = 0;
         layoutPlayer2Info.setConstraints(labelPlayer2Name, c);

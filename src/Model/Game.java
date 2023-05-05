@@ -18,7 +18,17 @@ public class Game {
     String attackerName = "Philippe";
 
 
-    public Game(){
+    public Game(String defenderName, String attackerName){
+
+        System.out.println("d"+defenderName+"d");
+
+        if(defenderName.length() == 0) this.defenderName = "Defenseur humain";
+        else this.defenderName = defenderName;
+        if(attackerName.length() == 0) this.attackerName = "Attaqueur humain";
+        else this.attackerName = attackerName;
+
+        System.out.println("d"+defenderName+"d");
+
         gameRules = new GameRules();
         reset();
     }

@@ -4,6 +4,8 @@ import Model.Game;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -157,13 +159,15 @@ public class NewGameFrame extends Frame {
         c.gridwidth = 1;
         c.insets = new Insets(0, 30, 0, 30);
 
-        tfNamePlayer1 = new JTextField();
+        tfNamePlayer1 = new JTextField(20);
+        tfNamePlayer1.setPreferredSize(new Dimension(115, 20));
         c.gridx = 0;
         c.gridy = 4;
         gLayoutCP.setConstraints(tfNamePlayer1, c);
         centralPart.add(tfNamePlayer1);
 
-        tfNamePlayer2 = new JTextField();
+        tfNamePlayer2 = new JTextField(20);
+        tfNamePlayer2.setPreferredSize(new Dimension(115, 20));
         c.gridx = 1;
         c.gridy = 4;
         gLayoutCP.setConstraints(tfNamePlayer2, c);
@@ -251,7 +255,7 @@ public class NewGameFrame extends Frame {
         gLayout.setConstraints(returnImageButton, c);
         this.add(returnImageButton);
 
-        setHandlers();
+        setEventHandlers();
     }
 
     public void setAttDifficultyButtonsEnabled(boolean b){
@@ -266,7 +270,7 @@ public class NewGameFrame extends Frame {
         rdoDifficultDefPart.setEnabled(b);
     }
 
-    public void setHandlers() {
+    public void setEventHandlers() {
         cbAttPartIA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -286,6 +290,7 @@ public class NewGameFrame extends Frame {
         bttnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ui.createGameFrame(new Game(tfNamePlayer1.getText(), tfNamePlayer2.getText()));
                 ui.changePage(InterfacePage.GAME);
             }
         });
@@ -293,10 +298,33 @@ public class NewGameFrame extends Frame {
         returnImageButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Yeah boy");
                 ui.changePage(InterfacePage.MENU);
             }
         });
+
+        DocumentListener docListenerForTf = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textFieldEventHandler(e);
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textFieldEventHandler(e);
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                textFieldEventHandler(e);
+            }
+        };
+
+        tfNamePlayer1.getDocument().addDocumentListener(docListenerForTf);
+        tfNamePlayer2.getDocument().addDocumentListener(docListenerForTf);
+    }
+
+    public void textFieldEventHandler(DocumentEvent e){
+        //tfNamePlayer1.requestFocusInWindow();
+        tfNamePlayer1.setCaretPosition(tfNamePlayer1.getDocument().getLength());
+        tfNamePlayer2.setCaretPosition(tfNamePlayer2.getDocument().getLength());
     }
 
     @Override

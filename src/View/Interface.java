@@ -19,8 +19,6 @@ public class Interface {
     JFrame window;
     Timer refreshTimer;
     GameFrame gameFrame;
-    MenuFrame menuFrame;
-    NewGameFrame newGameFrame;
     InterfacePage page;
     Frame frame;
 
@@ -44,15 +42,6 @@ public class Interface {
 
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        /*menuFrame = new MenuFrame(this);    //JComponent on which we will draw the menu
-        menuFrame.build();
-
-        gameFrame = new GameFrame(this);    //JComponent on which we will draw the game
-        gameFrame.build();
-
-        newGameFrame = new NewGameFrame(this);
-        newGameFrame.build();*/
 
         changePage(page);
         window.setVisible(true);
@@ -86,7 +75,9 @@ public class Interface {
 
     public void refresh(){
         frame.updateFrame();
-        SwingUtilities.updateComponentTreeUI(window);
+        frame.updateUI();
+        frame.revalidate();
+        frame.repaint();
     }
 
     public JFrame getWindow(){
@@ -102,15 +93,12 @@ public class Interface {
 
         if(newPage == InterfacePage.MENU){
             frame = new MenuFrame(this);
-            //frame = menuFrame;
         }
         else if(newPage == InterfacePage.GAME){
-            frame = new GameFrame(this);
-            //frame = gameFrame;
+            frame = gameFrame;
         }
         else if(newPage == InterfacePage.NEWGAME){
             frame = new NewGameFrame(this);
-            //frame = newGameFrame;
         }
         page = newPage;
         frame.adaptWindow();
@@ -126,5 +114,9 @@ public class Interface {
         PointerInfo mouseInfo = MouseInfo.getPointerInfo();
         Point mouseLocation = mouseInfo.getLocation();
         return new Point((int) (mouseLocation.getX()-window.getX()), (int) (mouseLocation.getY()-window.getY()));
+    }
+
+    public void createGameFrame(Game game){
+        gameFrame = new GameFrame(this, game);
     }
 }

@@ -19,7 +19,7 @@ public class GameConsoleController {
 
     public GameConsoleController(){
         user = new UserController();
-        game = new Game();
+        game = new Game("", "");
         nbTurn = 0;
         printGridTerminal = false;
         gameRules = game.getGameRulesInstance();

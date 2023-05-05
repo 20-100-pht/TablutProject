@@ -11,9 +11,9 @@ public class GameGraphicController {
     GameRules gameRules;
     Game game;
 
-    public GameGraphicController(GameFrame gameFrame){
+    public GameGraphicController(GameFrame gameFrame, Game game){
         this.gameFrame = gameFrame;
-        this.game = new Game();
+        this.game = game;
         this.gameRules = game.getGameRulesInstance();
     }
 
