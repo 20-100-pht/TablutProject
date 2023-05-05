@@ -265,7 +265,7 @@ public class GameRules {
         int y = king.getRow();
 
         //If king is on throne
-        if(x==4 && y==4 || grid.isCommonCase(king.c)){
+        if((x==4 && y==4) || grid.isCommonCase(king.c)){
 
             //Get each adjacent piece to the throne
             Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y,x-1));
