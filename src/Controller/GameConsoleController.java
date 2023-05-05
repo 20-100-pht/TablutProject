@@ -106,7 +106,7 @@ public class GameConsoleController {
     }
 
     public void playTurnDefender(){
-        if(printGridTerminal) System.out.println("Défenseur, à vous de jouer !");
+        if(printGridTerminal) System.out.println("\nDéfenseur, à vous de jouer !");
 
         Piece current = null;
 
@@ -144,7 +144,7 @@ public class GameConsoleController {
     }
 
     public void playTurnAttacker(){
-        if(printGridTerminal) System.out.println("Attaquant, à vous de jouer !");
+        if(printGridTerminal) System.out.println("\nAttaquant, à vous de jouer !");
 
         Piece current = null;
 

@@ -79,7 +79,7 @@ public class Piece {
         return copy;
     }
 
-    public ArrayList possibleMoves(Piece[][] board) {
+    public ArrayList<Coordinate> possibleMoves(Piece[][] board) {
 
         int min = 1, max = 8;
         int throne = 4;

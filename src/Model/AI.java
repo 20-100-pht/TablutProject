@@ -24,12 +24,6 @@ public class AI {
 
     public Coup minimax(Grid currentGrid, Piece king, int depth, PieceType type) {
 
-        //printCoordArray(getPossiblePiecePositions(board,new Structure.Coordinate(3,4)));
-        //printBoard(board);
-
-        //System.out.println("Minimax board : ");
-        //currentGrid.print();
-
         //Copy board
         dep = depth;
 
@@ -38,60 +32,52 @@ public class AI {
 
         double alpha = Double.NEGATIVE_INFINITY;
         double beta = Double.POSITIVE_INFINITY;
-        //Call minimax
-        if (type == PieceType.ATTACKER){
-            return minimaxAlgo(n, depth, true, alpha, beta).getCoup();
-        }else{
-            return minimaxAlgo(n, depth, false, alpha, beta).getCoup();
-        }
 
+        //Call minimax
+        return minimaxAlgo(n, depth, type, alpha, beta).getCoup();
     }
 
-    private Node minimaxAlgo(Node node, int depth, boolean maximizingPlayer, double alpha, double beta) {
+    private Node minimaxAlgo(Node node, int depth, PieceType maximizingPlayer, double alpha, double beta) {
 
         Grid currentBoard = node.getGrid();
         Piece currentKing = node.getKing();
 
+        //Depth reached or end game
         if (depth == 0 || node.endGame() != ResultGame.NO_END_GAME ) {
-            node.setHeuristic(heuristic20100(currentBoard.board, currentKing.c, node));
-            //System.out.println("Heuristic :" + node.getHeuristic());
+            node.setHeuristic(heuristic(currentBoard, currentKing.c, node, depth));
             return node;
         }
 
         //Create all children of node (all possible states of current board)
-        createNodeChildren(node, maximizingPlayer?PieceType.ATTACKER:PieceType.DEFENDER, depth);
+        createNodeChildren(node, maximizingPlayer, depth, maximizingPlayer);
         ArrayList<Node> children = node.getChildren();
 
         double value = 0;
-
         if(children.size() == 0){
             return node;
         }
 
         Node rtNode = children.get(0);
 
-        if (maximizingPlayer) {
+        if (maximizingPlayer == PieceType.ATTACKER) {
             //Attacker
 
             int tmpD = depth-1;
             value = Double.NEGATIVE_INFINITY;
+
+            //For each child
             for(int i = 0; i<children.size(); i++){
 
-                ResultGame res = children.get(i).endGame();
-                if(res != ResultGame.NO_END_GAME){
-                    //If return current node with best value
-                    if(dep!=depth){
-                        if(res == ResultGame.ATTACKER_WIN) node.setHeuristic(Double.POSITIVE_INFINITY);
-                        else node.setHeuristic(Double.NEGATIVE_INFINITY);
-                        return node;
-                    }
-                    //Return child with best value
-                    return children.get(i);
+                //If child is a wining move
+                if(children.get(i).endGame() == ResultGame.ATTACKER_WIN){
+                    value = Double.POSITIVE_INFINITY;
+                    rtNode = children.get(i);
+                    break;
                 }
 
-                Node tmp = minimaxAlgo(children.get(i), tmpD, false, alpha, beta);
+                Node tmp = minimaxAlgo(children.get(i), tmpD, PieceType.DEFENDER, alpha, beta);
 
-                //Randomize selection of same heuristic nodes
+                //Randomize selection of best heuristic nodes
                 Random r = new Random();
                 if(tmp.getHeuristic() > value || (tmp.getHeuristic() == value && r.nextInt()%2==0)){
                     value = tmp.getHeuristic();
@@ -99,38 +85,29 @@ public class AI {
                 }
 
                 //Beta pruning
+                /*alpha = Math.max(alpha,value);
                 if(value >= beta){
-                    //If return current node with best value
-                    if(dep!=depth){
-                        node.setHeuristic(value);
-                        return node;
-                    }
-                    //Return child with best value
-                    return rtNode;
-                }
-                alpha = Math.max(alpha,value);
+                    break;
+                }*/
             }
 
         } else {
             //Defender
 
-            value = Double.POSITIVE_INFINITY;
             int tmpD = depth -1;
+            value = Double.POSITIVE_INFINITY;
+
+            //For each child
             for(int i = 0; i<children.size(); i++){
 
-                ResultGame res = children.get(i).endGame();
-                if(res != ResultGame.NO_END_GAME){
-                    //If return current node with best value
-                    if(dep!=depth){
-                        if(res == ResultGame.ATTACKER_WIN) node.setHeuristic(Double.POSITIVE_INFINITY);
-                        else node.setHeuristic(Double.NEGATIVE_INFINITY);
-                        return node;
-                    }
-                    //Return child with best value
-                    return children.get(i);
+                //If child is a wining move
+                if(children.get(i).endGame() == ResultGame.DEFENDER_WIN){
+                    value = Double.NEGATIVE_INFINITY;
+                    rtNode = children.get(i);
+                    break;
                 }
 
-                Node tmp = minimaxAlgo(children.get(i), tmpD, true, alpha, beta);
+                Node tmp = minimaxAlgo(children.get(i), tmpD, PieceType.ATTACKER, alpha, beta);
 
                 //Randomize selection of same heuristic nodes
                 Random r = new Random();
@@ -139,24 +116,16 @@ public class AI {
                     rtNode=tmp;
                 }
 
-                if(alpha >= value){
-                    //If return current node with best value
-                    if(dep!=depth){
-                        node.setHeuristic(value);
-                        return node;
-                    }
-                    //Return child with best value
-                    return rtNode;
-                }
-                beta = Math.min(beta,value);
+                //alpha pruning
+                /*beta = Math.min(beta,value);
+                if(value <= alpha){
+                    break;
+                }*/
             }
         }
 
         //If recursion depth is start depth return node of selected child (best value)
         if(dep == depth){
-            //System.out.println("\n\nSelected node heuristic : " + rtNode.getHeuristic());
-            //rtNode.getGrid().print();
-            //System.exit(0);
             return rtNode;
         }
         //Else set current node's heuristic to best calculated value
@@ -165,12 +134,14 @@ public class AI {
         return node;
     }
 
-    private double heuristic(Piece[][] board, Coordinate k, Node current){
+    private double heuristic(Grid grid, Coordinate k, Node current,int depth){
         int king = 0;
         int attackers = 0;
         int defenders = 0;
 
         int nearKing = 256;
+
+        Piece[][] board = grid.board;
         for(int y = 0; y < board.length; y++){
             for(int x = 0; x < board.length; x++){
                 if(board[y][x]!=null){
@@ -194,15 +165,20 @@ public class AI {
 
         //TODO ranger ce bordel
         if(current.endGame() == ResultGame.ATTACKER_WIN)
-            return Double.POSITIVE_INFINITY;
+            return 10000*depth;
         else if (current.endGame() == ResultGame.DEFENDER_WIN) {
-            return Double.NEGATIVE_INFINITY;
+            return -10000*depth;
         }
 
         //Heuristic qui semble faire du 50/50
         //double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*10 + attackers + nearKing*17));
 
-        double value = ((double) (attackers - defenders)*1000 + nearKing*10000);
+        double value = ((double)
+                (attackers - defenders)*100 +
+                (kingDistanceToCorner(k)+1)*1000 +
+                nearKing*1000 +
+                isNextToKing(k,grid)*500 +
+                canKingGoToWall(current,grid))*2000;
 
         //Attackers want a high value, Defenders want a low value
         //double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
@@ -210,7 +186,7 @@ public class AI {
         return value;
     }
 
-    private void createNodeChildren(Node father, PieceType type, int depth){
+    private void createNodeChildren(Node father, PieceType type, int depth, PieceType turn){
 
         int boardSize = father.getGrid().getSizeGrid();
         Piece[][] board = father.getGrid().board;
@@ -236,14 +212,23 @@ public class AI {
                         Grid newGrid = father.getGrid().cloneGrid();
                         gRules.grid = newGrid;
                         gRules.king = gRules.grid.getPieceAtPosition(father.getKing().c);
+                        gRules.endGameVar = ResultGame.NO_END_GAME;
 
                         Piece currentPiece = newGrid.getPieceAtPosition(current.c);
 
                         Coup coup = new Coup(new Coordinate(currentPiece.c.getRow(),currentPiece.c.getCol()), new Coordinate(coordMove.getRow(),coordMove.getCol()));
+
+                        //Move piece
                         gRules.move(coup);
 
+                        //Check if king is captured
                         gRules.capture();
+
+                        //Attack
                         int c = gRules.attack(currentPiece);
+
+                        gRules.isDefenderWinConfiguration();
+
 
                         Piece currentKing;
                         if(currentPiece.isKing()){
@@ -252,35 +237,27 @@ public class AI {
                             currentKing = gRules.grid.getPieceAtPosition(father.getKing().c);
                         }
 
+
                         ResultGame end = gRules.isEndGameType();
 
-                        //Check if King has won
-                        if(gRules.isKingAtObjective()){
-                            end = ResultGame.DEFENDER_WIN;
-                            //System.out.println("Depth :"+depth);
-                        }
-
-                        if(end != ResultGame.NO_END_GAME && depth == dep - 1){
-                            System.out.println("Depth : " + depth);
-                            System.out.println("Res : " + end);
-                            gRules.grid.print();
-                            System.out.println("\n");
-
-                        }
+                        /*if(end == ResultGame.ATTACKER_WIN || end == ResultGame.DEFENDER_WIN){
+                            System.out.println("Depth :"+depth);
+                            System.out.println("Winner :"+end);
+                        }*/
 
                         Node tmpNode = new Node(newGrid, currentKing, new Coup(new Coordinate(y,x),coordMove), end);
 
 
                         //Add child to first place
-                        if(c>=1 || end != ResultGame.NO_END_GAME){
+                        if(c>=1 || (end == ResultGame.ATTACKER_WIN && turn == PieceType.ATTACKER) || (end == ResultGame.DEFENDER_WIN && turn == PieceType.DEFENDER)){
+                            if(dep == depth && end != ResultGame.NO_END_GAME){
+                                //System.out.println(end);
+                            }
                             father.addChildTo(0,tmpNode);
+                        }else{
+                            father.addChild(tmpNode);
                         }
-                        father.addChild(tmpNode);
 
-                        //A enlever :
-                        if(end != ResultGame.NO_END_GAME && depth == dep - 1){
-                            return;
-                        }
                     }
                 }
             }
@@ -312,12 +289,14 @@ public class AI {
     }
 
 
-    private double heuristic20100(Piece[][] board, Coordinate k, Node current){
+    private double heuristic20100(Grid grid, Coordinate k, Node current, int depth){
         int numAttackers = 0;
         int numDefenders = 0;
         int numPieces = 0;
         int centralKingBonus = 0;
         int focusKing = 0;
+
+        Piece[][] board = grid.board;
 
         for(int y = 0; y < board.length; y++){
             for(int x = 0; x < board.length; x++){
@@ -325,7 +304,7 @@ public class AI {
 
                     numPieces++;
                     if(board[y][x].getType() == PieceType.ATTACKER){
-                        focusKing = moveToKing(board[y][x].possibleMoves(board), k);
+                        //focusKing += moveToKing(board[y][x].possibleMoves(board), k);
                         numAttackers++;
                     } else if(board[y][x].getType() == PieceType.DEFENDER){
                         numDefenders++;
@@ -337,6 +316,8 @@ public class AI {
                 }
             }
         }
+
+        focusKing = isNextToKing(k,grid);
 
         if(current.endGame() == ResultGame.ATTACKER_WIN)
             return Double.POSITIVE_INFINITY;
@@ -356,6 +337,59 @@ public class AI {
             if(cord.isSameCoordinate(new Coordinate(king.getRow(), king.getCol()+1)) ) return 1;
         }
         return 0;
+    }
+
+    private int isNextToKing(Coordinate king, Grid grid){
+        int x = king.getCol();
+        int y = king.getRow();
+
+        Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y, x - 1));
+        Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y, x + 1));
+        Piece topPiece = grid.getPieceAtPosition(new Coordinate(y - 1, x));
+        Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y + 1, x));
+
+        int times = 0;
+        if(leftPiece!=null && leftPiece.isAttacker()){
+            times++;
+        }
+        if(rightPiece!=null && rightPiece.isAttacker()){
+            times++;
+        }
+        if(topPiece!=null && topPiece.isAttacker()){
+            times++;
+        }
+        if(bottomPiece!=null && bottomPiece.isAttacker()){
+            times++;
+        }
+
+        return times;
+    }
+
+    private int canKingGoToWall(Node n, Grid grid){
+        int x = n.getKing().getCol();
+        int y = n.getKing().getRow();
+
+        int value = 4;
+        if(x == 0 || x == 8){
+            value--;
+        }
+        if(y == 0 || y == 8){
+            value--;
+        }
+        if(n.getKing().canMoveTo(new Coordinate(y,0),grid)){
+            value--;
+        }
+        if(n.getKing().canMoveTo(new Coordinate(y,8),grid)){
+            value--;
+        }
+        if(n.getKing().canMoveTo(new Coordinate(x,0),grid)){
+            value--;
+        }
+        if(n.getKing().canMoveTo(new Coordinate(x,8),grid)){
+            value--;
+        }
+
+        return value;
     }
 
 
