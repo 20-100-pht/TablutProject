@@ -6,29 +6,49 @@ import java.util.Stack;
 
 public class History implements Serializable {
 
-    Stack<Grid> stack;
+    Stack<HistoryMove> stack;
+    int pos = 0;
     final int MAX_HISTORY_LENGTH = 500;
 
     History(){
         stack = new Stack<>();
     }
 
-    void addGrid(Grid grid){
+    public void addMove(HistoryMove historyState){
         if(stack.size() >= MAX_HISTORY_LENGTH){
             System.err.println("Error - Max history length reached.");
             return;
         }
-        stack.push(grid.cloneGrid());
+        stack.push(historyState);
+        pos = stack.size();
     }
 
     boolean isEmpty(){
         return stack.isEmpty();
     }
 
-    Grid getLastGrid(){
-        if(!isEmpty())
-            return stack.pop();
-        return null;
+    public boolean canUndo(){
+        return pos != 0;
     }
 
+    public boolean canRedo(){
+        return pos != stack.size();
+    }
+
+    public HistoryMove undo(){
+        pos--;
+        return stack.elementAt(pos);
+    }
+
+    public HistoryMove redo(){
+        HistoryMove move = stack.elementAt(pos);
+        pos++;
+        return move;
+    }
+
+    public HistoryMove getLastMove(){
+        if(!isEmpty())
+            return stack.lastElement();
+        return null;
+    }
 }

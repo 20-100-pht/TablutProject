@@ -76,8 +76,7 @@ public class Piece implements Serializable {
     }
 
     public Piece clonePiece(){
-        Piece copy = new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
-        return copy;
+        return new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
     }
 
     public ArrayList possibleMoves(Piece[][] board) {

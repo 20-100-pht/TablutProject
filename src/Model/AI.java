@@ -217,7 +217,7 @@ public class AI implements Serializable {
                         Coup coup = new Coup(new Coordinate(currentPiece.c.getRow(),currentPiece.c.getCol()), new Coordinate(coordMove.getRow(),coordMove.getCol()));
                         gRules.move(coup);
 
-                        int c = gRules.attack(currentPiece);
+                        int c = gRules.attack(currentPiece).size();
 
                         Piece currentKing;
                         if(currentPiece.isKing()){

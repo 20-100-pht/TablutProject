@@ -5,6 +5,7 @@ import Structure.Coup;
 import Structure.ReturnValue;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 public class GameRules implements Serializable {
     ResultGame endGameVar = ResultGame.NO_END_GAME;
@@ -106,29 +107,34 @@ public class GameRules implements Serializable {
         return rtrn;
     }
 
-    public int attack(Piece current){
-        int nbAttack = 0;
+    //Renvoie une liste avec les pièces supprimées
+    public Vector<Piece> attack(Piece current){
+        Vector<Piece> lPiece = new Vector<Piece>();
 
         // attaque en haut
-        nbAttack += attackWithArg(current, -1, 0 );
+        Piece p1 = attackWithArg(current, -1, 0 );
 
         // attaque en bas
-        nbAttack += attackWithArg(current, 1, 0 );
+        Piece p2 = attackWithArg(current, 1, 0 );
 
         // attaque a gauche
-        nbAttack += attackWithArg(current, 0, -1 );
+        Piece p3 = attackWithArg(current, 0, -1 );
 
         // attaque a droite
-        nbAttack += attackWithArg(current, 0, 1 );
+        Piece p4 = attackWithArg(current, 0, 1 );
 
+        if(p1 != null) lPiece.add(p1);
+        if(p2 != null) lPiece.add(p2);
+        if(p3 != null) lPiece.add(p3);
+        if(p4 != null) lPiece.add(p4);
 
-        return nbAttack;
+        return lPiece;
 
     }
 
-    private int attackWithArg(Piece current, int rowIndex, int colIndex){
+    private Piece attackWithArg(Piece current, int rowIndex, int colIndex){
 
-        int nbAttack = 0;
+        Piece deletedPiece = null;
 
         Piece sideCurrent;
         Piece sideSideCurrent;
@@ -143,14 +149,14 @@ public class GameRules implements Serializable {
                 if (grid.isInside(sideCurrentCord)) {
                     sideSideCurrent = grid.getPieceAtPosition(sideCurrentCord);
                     if (grid.isCastle(sideCurrentCord) || grid.isCornerPosition(sideCurrentCord) || sideSideCurrent != null && ((current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefender() && sideSideCurrent.isDefender()))) {
-                        nbAttack++;
+                        deletedPiece = sideCurrent;
                         if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
                         if(sideCurrent.isDefender()) nbPieceDefenderOnGrid--;
                         grid.setPieceAtPosition(null, currentCord);
                     }
 
                 } else {
-                    nbAttack++;
+                    deletedPiece = sideCurrent;
                     if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
                     if(sideCurrent.isDefender()) nbPieceDefenderOnGrid--;
                     grid.setPieceAtPosition(null, currentCord);
@@ -158,7 +164,7 @@ public class GameRules implements Serializable {
             }
         }
 
-        return nbAttack;
+        return deletedPiece;
     }
 
     public void capture(){
@@ -322,5 +328,18 @@ public class GameRules implements Serializable {
 
     public int getNbPieceDefenderOnGrid(){
         return nbPieceDefenderOnGrid;
+    }
+
+    public void setNbPieceAttackerOnGrid(int nbPieceAttackerOnGrid){
+        this.nbPieceAttackerOnGrid = nbPieceAttackerOnGrid;
+    }
+    public void setNbPieceDefenderOnGrid(int nbPieceDefenderOnGrid){
+        this.nbPieceDefenderOnGrid = nbPieceDefenderOnGrid;
+    }
+    public void setGrid(Grid grid){
+        this.grid = grid;
+    }
+    public void setKingPiece(Piece king){
+        this.king = king;
     }
 }

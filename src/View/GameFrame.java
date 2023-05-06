@@ -369,14 +369,14 @@ public class GameFrame extends Frame {
         bttnUndo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                gameGraphicController.bttnUndoClickHandler();
             }
         });
 
         bttnRedo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                gameGraphicController.bttnRedoClickHandler();
             }
         });
 
@@ -452,11 +452,6 @@ public class GameFrame extends Frame {
 
     public GameGraphicController getGraphicGameController(){
         return gameGraphicController;
-    }
-
-    @Override
-    public void updateFrame() {
-
     }
 
     public void showEndGameButtons(){
@@ -549,6 +544,7 @@ public class GameFrame extends Frame {
     public File showSaveDialog(){
         File file = null;
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("."));
         if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
         }

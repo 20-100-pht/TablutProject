@@ -136,7 +136,7 @@ public class GameConsoleController {
             current = movePlayer();
         }
 
-        int kill = gameRules.attack(current);
+        int kill = gameRules.attack(current).size();
         if(printGridTerminal) System.out.println("nb kill : " + kill);
 
         if(gameRules.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
@@ -175,7 +175,7 @@ public class GameConsoleController {
         //Check if the king has been captured while on or next to the throne
         gameRules.capture();
 
-        int kill = gameRules.attack(current);
+        int kill = gameRules.attack(current).size();
         if(printGridTerminal) System.out.println("nb kill : " + kill);
 
 

@@ -217,5 +217,11 @@ public class Grid implements Serializable {
         return copy;
     }
 
-
+    public void cloneFromOther(Grid oG) {
+        for (int i = 0; i < sizeGrid; i++) {
+            for (int j = 0; j < sizeGrid; j++) {
+                board[j][i] = oG.getPieceAtPosition(new Coordinate(j, i));
+            }
+        }
+    }
 }

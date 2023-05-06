@@ -67,7 +67,6 @@ public class Interface {
     }
 
     public void refresh(){
-        frame.updateFrame();
         frame.updateUI();
         frame.revalidate();
         frame.repaint();
@@ -81,7 +80,6 @@ public class Interface {
         if(frame != null){
             System.out.println(frame.getComponentCount());
             window.remove(frame);
-            //window.removeAll();
         }
 
         if(newPage == InterfacePage.MENU){

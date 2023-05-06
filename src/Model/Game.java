@@ -11,11 +11,11 @@ public class Game implements Serializable {
     //Model.AIRandom aleatronDefender;
     AI aiMinMax;
     GameRules gameRules;
-
     AIRandom aleatronDefender;
     AIRandom aleatronAttacker;
     String defenderName = "Alexandre";
     String attackerName = "Philippe";
+    History history;
 
 
     public Game(String defenderName, String attackerName){
@@ -30,6 +30,7 @@ public class Game implements Serializable {
         System.out.println("d"+defenderName+"d");
 
         gameRules = new GameRules();
+        history = new History();
         reset();
     }
 
@@ -106,6 +107,10 @@ public class Game implements Serializable {
         attackerTurn = !attackerTurn;
     }
 
+    public void setIsAttackerTurn(boolean isAttackerTurn){
+        attackerTurn = isAttackerTurn;
+    }
+
     public boolean isAiTest(){
         return attackerAI && defenderAI;
     }
@@ -116,6 +121,10 @@ public class Game implements Serializable {
 
     public String getAttackerName(){
         return attackerName;
+    }
+
+    public History getHistoryInstance(){
+        return history;
     }
 
 }

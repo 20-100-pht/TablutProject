@@ -11,7 +11,7 @@ import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class Frame extends JComponent {
+public abstract class Frame extends JComponent {
 
     Interface ui;
     Image selectorImage;
@@ -32,17 +32,9 @@ public class Frame extends JComponent {
         setEventHandlers();
     }
 
-    public void build(){
+    public abstract void build();
 
-    }
-
-    public void adaptWindow(){
-
-    }
-
-    public void updateFrame(){
-
-    }
+    public abstract void adaptWindow();
 
     @Override
     protected void paintComponent(Graphics g){
@@ -59,10 +51,6 @@ public class Frame extends JComponent {
 
     public void setSelectorPos(Position pos){
         selectorPos = pos;
-    }
-
-    public void updateMargins() {
-
     }
 
     private void setEventHandlers(){

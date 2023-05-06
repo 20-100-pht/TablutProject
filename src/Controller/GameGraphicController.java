@@ -6,17 +6,20 @@ import Structure.ReturnValue;
 import View.GameFrame;
 
 import java.io.*;
+import java.util.Vector;
 
 public class GameGraphicController {
 
     GameFrame gameFrame;
     GameRules gameRules;
+    Grid grid;
     Game game;
 
     public GameGraphicController(GameFrame gameFrame, Game game){
         this.gameFrame = gameFrame;
         this.game = game;
-        this.gameRules = game.getGameRulesInstance();
+        gameRules = game.getGameRulesInstance();
+        grid = gameRules.getGrid();
     }
 
     public Game getGameInstance(){
@@ -42,7 +45,10 @@ public class GameGraphicController {
         }
 
         gameRules.capture();
-        gameRules.attack(pieceSelected);
+        Vector<Piece> killedPieces = gameRules.attack(pieceSelected);
+
+        History history = game.getHistoryInstance();
+        history.addMove(new HistoryMove(coup, killedPieces, game.isAttackerTurn()));
 
         if(gameRules.isAttackerWinConfiguration()) {
             gameFrame.showWinMessage(game.getAttackerName());
@@ -70,7 +76,6 @@ public class GameGraphicController {
             oos.writeObject(game);
 
             oos.close();
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -78,10 +83,37 @@ public class GameGraphicController {
     }
 
     public void bttnUndoClickHandler(){
-
+        System.out.println("Cluck undo");
+        History history = game.getHistoryInstance();
+        if(history.canUndo()){
+            System.out.println("Undo");
+            HistoryMove move = history.undo();
+            undoHistoryMove(move);
+        }
     }
 
     public void bttnRedoClickHandler(){
+        History history = game.getHistoryInstance();
+        if(history.canRedo()){
+            HistoryMove move = history.redo();
+            redoHistoryMove(move);
+        }
+    }
+
+    public void undoHistoryMove(HistoryMove move){
+        Coup coup = move.getCoup();
+        Piece piece = grid.getPieceAtPosition(coup.getDest());
+        grid.setPieceAtPosition(piece, coup.getInit());
+        grid.setPieceAtPosition(null, coup.getDest());
+
+        for(int i = 0; i < move.getKilledPieces().size(); i++){
+            Piece kPiece = move.getKilledPieces().get(i);
+            grid.setPieceAtPosition(kPiece, kPiece.getCoords());
+        }
+        game.setIsAttackerTurn(move.isAttackerMove());
+    }
+
+    public void redoHistoryMove(HistoryMove move){
 
     }
 }
