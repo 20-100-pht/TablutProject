@@ -1,6 +1,8 @@
 package Structure;
 
-public class Coordinate {
+import java.io.Serializable;
+
+public class Coordinate implements Serializable {
 
     byte row;
     byte col;

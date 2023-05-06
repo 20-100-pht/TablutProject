@@ -1,15 +1,18 @@
 package View;
 
+import Controller.MenuController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import static java.awt.Font.BOLD;
 
 public class MenuFrame extends Frame {
 
-    Menu menu;
+    MenuController menuController;
     Button bttnNewGame;
     Button bttnLoadGame;
     Button bttnStatistics;
@@ -18,7 +21,8 @@ public class MenuFrame extends Frame {
     public MenuFrame(Interface ui){
         super(ui);
 
-        menu = new Menu();
+        menuController = new MenuController(this);
+
         loadAssets();
     }
     @Override
@@ -95,8 +99,15 @@ public class MenuFrame extends Frame {
     public void setButtonHandlers(){
         bttnNewGame.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 ui.changePage(InterfacePage.NEWGAME);
+            }
+        });
+
+        bttnLoadGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                menuController.loadGame();
             }
         });
     }
@@ -127,6 +138,15 @@ public class MenuFrame extends Frame {
 
     public void loadAssets(){
 
+    }
+
+    public File showLoadDialog(){
+        File file = null;
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            file = fileChooser.getSelectedFile();
+        }
+        return file;
     }
 }
 /**import java.awt.BorderLayout;

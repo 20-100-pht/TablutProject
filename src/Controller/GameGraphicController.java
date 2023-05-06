@@ -5,6 +5,8 @@ import Structure.Coup;
 import Structure.ReturnValue;
 import View.GameFrame;
 
+import java.io.*;
+
 public class GameGraphicController {
 
     GameFrame gameFrame;
@@ -58,6 +60,21 @@ public class GameGraphicController {
         gameFrame.hideAllMessages();
         gameFrame.hideEndGameButtons();
         game.reset();
+    }
+
+    public void bttnSaveClickHandler(){
+        File saveFile = gameFrame.showSaveDialog();
+        try {
+            FileOutputStream fos = new FileOutputStream(saveFile);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(game);
+
+            oos.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void bttnUndoClickHandler(){

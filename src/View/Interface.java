@@ -7,13 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-enum InterfacePage {
-    INTRO,
-    MENU,
-    NEWGAME,
-    GAME
-}
-
 public class Interface {
 
     JFrame window;

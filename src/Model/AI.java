@@ -5,11 +5,12 @@ import Structure.Coordinate;
 import Structure.Coup;
 import Structure.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class AI {
+public class AI implements Serializable {
 
     GameRules gRules;
     int dep = 0;

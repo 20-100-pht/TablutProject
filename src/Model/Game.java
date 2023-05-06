@@ -2,7 +2,7 @@ package Model;
 
 import java.io.*;
 
-public class Game {
+public class Game implements Serializable {
     boolean attackerTurn;
 
     boolean defenderAI;

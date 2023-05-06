@@ -6,10 +6,11 @@ import Model.PieceType;
 import Structure.Coordinate;
 import Structure.Coup;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
-public class AIRandom {
+public class AIRandom implements Serializable {
 
     Random r;
     GameRules AIGameRules;

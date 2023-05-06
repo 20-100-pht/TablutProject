@@ -358,12 +358,32 @@ public class GameFrame extends Frame {
 
 
     public void setEventHandlers(){
-        this.addComponentListener(new ComponentAdapter() {
+
+        bttnBackMenu.addActionListener(new ActionListener() {
             @Override
-            public void componentResized(ComponentEvent e) {
+            public void actionPerformed(ActionEvent e) {
+                ui.changePage(InterfacePage.MENU);
+            }
+        });
+
+        bttnUndo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
             }
         });
+
+        bttnRedo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        setMenuHandlers();
+    }
+
+    void setMenuHandlers(){
         bttnMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -384,24 +404,10 @@ public class GameFrame extends Frame {
             }
         });
 
-        bttnBackMenu.addActionListener(new ActionListener() {
+        save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ui.changePage(InterfacePage.MENU);
-            }
-        });
-
-        bttnUndo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        bttnRedo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
+                gameGraphicController.bttnSaveClickHandler();
             }
         });
     }
@@ -538,5 +544,14 @@ public class GameFrame extends Frame {
 
     public void hideAllMessages(){
         hideWinMessage();
+    }
+
+    public File showSaveDialog(){
+        File file = null;
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            file = fileChooser.getSelectedFile();
+        }
+        return file;
     }
 }

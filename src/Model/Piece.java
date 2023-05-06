@@ -2,9 +2,10 @@ package Model;
 
 import Structure.Coordinate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Piece {
+public class Piece implements Serializable {
     public Coordinate c;
     private PieceType type;
 

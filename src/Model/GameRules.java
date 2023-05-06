@@ -4,7 +4,9 @@ import Structure.Coordinate;
 import Structure.Coup;
 import Structure.ReturnValue;
 
-public class GameRules {
+import java.io.Serializable;
+
+public class GameRules implements Serializable {
     ResultGame endGameVar = ResultGame.NO_END_GAME;
 
     public Piece king;
