@@ -1,26 +1,20 @@
 package Structure;
 
-import Model.Grid;
-import Model.Piece;
-import Model.PieceType;
-import Model.ResultGame;
+import Model.*;
 
 import java.util.ArrayList;
 
 public class Node {
 
-    Grid grid;
-    Piece king;
+    GameRules gameRules;
     ArrayList<Node> children;
     Coup coup;
-    ResultGame isEndGame;
+    Coup bestMove;
     double heuristic;
 
-    public Node(Grid b, Piece k, Coup c, ResultGame end){
-        grid = b;
-        king = k;
+    public Node(GameRules g, Coup c, ResultGame end){
+        gameRules = g;
         coup = c;
-        isEndGame = end;
         children = new ArrayList<>();
     }
 
@@ -36,10 +30,6 @@ public class Node {
         return children;
     }
 
-    public Grid getGrid(){
-        return grid;
-    }
-
     public void setHeuristic(double h){
         heuristic = h;
     }
@@ -47,16 +37,19 @@ public class Node {
     public double getHeuristic(){
         return heuristic;
     }
+    public GameRules getGameRules(){
+        return gameRules;
+    }
 
     public Coup getCoup(){
         return coup;
     }
 
-    public Piece getKing(){
-        return king;
+    public Coup getBestMove() {
+        return bestMove;
+    }
+    public void setBestMove(Coup bestMove) {
+        this.bestMove = bestMove;
     }
 
-    public ResultGame endGame(){
-        return isEndGame;
-    }
 }

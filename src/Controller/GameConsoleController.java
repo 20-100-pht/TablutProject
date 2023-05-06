@@ -13,6 +13,9 @@ public class GameConsoleController {
 
     int MAX_DEPTH = 3;
 
+    //Si un joueur peut gagner en 2 coups
+    int RANDOM_AI_MAX_DEPTH = 3;
+
     int nbTurn;
 
     boolean printGridTerminal;
@@ -31,7 +34,7 @@ public class GameConsoleController {
             if(game.isAiTest() && (nbTurn == 200)) gameRules.setEndGameVar(ResultGame.MAX_TURN_ENCOUTERED);
             nbTurn++;
         }
-        return gameRules.isEndGameType();
+        return gameRules.getEndGameType();
     }
 
     public void endGame(ResultGame result){
@@ -112,15 +115,15 @@ public class GameConsoleController {
 
         if(game.isDefenderAI()){
             while(current == null) {
-                if(false){//nbTurn < 3) {
+                if(true){//nbTurn < 3) {
                     //Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.DEFENDER);
-                    Coup coupAI = game.getAleatronDefender().playMove();
+                    Coup coupAI = game.getAleatron().playMove(gameRules, RANDOM_AI_MAX_DEPTH, PieceType.DEFENDER);
                     ReturnValue returnValue = gameRules.move(coupAI);
                     current = returnValue.getPiece();
                 }
                 else {
                     //Structure.Coup coupAI = aleatronDefender.playMove();
-                    Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(), MAX_DEPTH, PieceType.DEFENDER);
+                    Coup coupAI = game.getAiMinMax().playMove(gameRules, MAX_DEPTH, PieceType.DEFENDER);
                     ReturnValue returnValue = gameRules.move(coupAI);
                     current = returnValue.getPiece();
 
@@ -150,14 +153,14 @@ public class GameConsoleController {
 
         if(game.isAttackerAI()){
             while(current == null) {
-                if(false){//nbTurn < 3) {
+                if(true){//nbTurn < 3) {
                     //Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.ATTACKER);
-                    Coup coupAI = game.getAleatronAttacker().playMove();
+                    Coup coupAI = game.getAleatron().playMove(gameRules, RANDOM_AI_MAX_DEPTH, PieceType.ATTACKER);
                     ReturnValue returnValue = gameRules.move(coupAI);
                     current = returnValue.getPiece();
                 }
                 else {
-                    Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(),gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.ATTACKER);
+                    Coup coupAI = game.getAiMinMax().playMove(gameRules,MAX_DEPTH, PieceType.ATTACKER);
                     ReturnValue returnValue = gameRules.move(coupAI);
                     current = returnValue.getPiece();
 

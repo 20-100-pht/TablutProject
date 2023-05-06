@@ -1,48 +1,29 @@
 package Model;
 
-import Model.GameRules;
-import Model.Piece;
-import Model.PieceType;
 import Structure.Coordinate;
-import Structure.Coup;
-
-import java.util.List;
+import Structure.Node;
 import java.util.Random;
 
-public class AIRandom {
+public class AIRandom extends AI{
 
-    Random r;
-    GameRules AIGameRules;
-    PieceType typeAI;
 
-    public AIRandom(GameRules g, PieceType t){
+    @Override
+    public double heuristic(Node current, int depth) {
 
-        AIGameRules = g;
-        typeAI = t;
-        r = new Random(System.currentTimeMillis());
-    }
+        GameRules gm = current.getGameRules();
 
-    public void setAIType(PieceType t){
-        typeAI = t;
-    }
+        if(gm.getEndGameType() == ResultGame.DEFENDER_WIN){
+            //If defender can win in max 3 moves (Defender - Attacker - Defender)
+            System.out.println("Defenders can win");
+            return -100000;
 
-    public PieceType getTypeAI(){
-        return typeAI;
-    }
-
-    public Coup playMove(){
-
-        while(true) {
-            List<Piece> listPiece = AIGameRules.grid.returnListOfPiece(typeAI);
-            int aleaP = r.nextInt(listPiece.size());
-
-            Piece current = listPiece.get(aleaP);
-
-            List<Coordinate> listDest = current.possibleMoves(AIGameRules.grid.getBoard());
-            if (listDest.size() > 0) {
-                int aleaD = r.nextInt(listDest.size());
-                return new Coup(new Coordinate(current.getRow(), current.getCol()), listDest.get(aleaD));
-            }
+        }else if(gm.getEndGameType() == ResultGame.ATTACKER_WIN){
+            //If attackers can win in max 3 moves
+            System.out.println("Attackers can win");
+            return 100000;
         }
+
+        return 0;
     }
+
 }

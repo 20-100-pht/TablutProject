@@ -12,9 +12,7 @@ public class Game {
     AI aiMinMax;
     GameRules gameRules;
 
-    AIRandom aleatronDefender;
-    AIRandom aleatronAttacker;
-
+    AIRandom aleatron;
 
     public Game(){
         reset();
@@ -25,9 +23,8 @@ public class Game {
         defenderAI = true;
         attackerAI = true;
         gameRules = new GameRules();
-        aleatronDefender = new AIRandom(gameRules, Model.PieceType.DEFENDER);
-        aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
-        aiMinMax = new AI();
+        aleatron = new AIRandom();
+        aiMinMax = new AIEasy();
     }
 
     public void loadFromFile(String filePath){
@@ -74,8 +71,7 @@ public class Game {
         return aiMinMax;
     }
 
-    public AIRandom getAleatronDefender(){ return aleatronDefender;}
-    public AIRandom getAleatronAttacker(){ return aleatronAttacker;}
+    public AIRandom getAleatron(){ return aleatron;}
 
     public boolean isAttackerAI() {
         return attackerAI;
