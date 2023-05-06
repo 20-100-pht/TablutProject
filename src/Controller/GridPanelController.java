@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Game;
-import Model.GameRules;
-import Model.Grid;
-import Model.Piece;
+import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
 import View.GridPanel;
@@ -44,41 +41,37 @@ public class GridPanelController {
             return;
         }
 
-        addPossibleMoveMarksTop(p.getCol(), p.getRow()-1);
-        addPossibleMoveMarksBottom(p.getCol(), p.getRow()+1);
-        addPossibleMoveMarksLeft(p.getCol()-1, p.getRow());
-        addPossibleMoveMarksRight(p.getCol()+1, p.getRow());
+        addPossibleMoveMarksTop(p.getCol(), p.getRow()-1, p.getType());
+        addPossibleMoveMarksBottom(p.getCol(), p.getRow()+1, p.getType());
+        addPossibleMoveMarksLeft(p.getCol()-1, p.getRow(), p.getType());
+        addPossibleMoveMarksRight(p.getCol()+1, p.getRow(), p.getType());
     }
 
-    void addPossibleMoveMarksTop(int x, int y){
-        if(y < 0 || grid.getPieceAtPosition(new Coordinate(y, x)) != null){
-            return;
-        }
+    void addPossibleMoveMarksTop(int x, int y, PieceType t){
+        if(y < 0 || grid.getPieceAtPosition(new Coordinate(y, x)) != null) return;
+        if(t != PieceType.KING && grid.isCornerPosition(new Coordinate(y, x))) return;
         gridPanel.addMovePossibleMark(new Coordinate(y, x));
-        addPossibleMoveMarksTop(x, y-1);
+        addPossibleMoveMarksTop(x, y-1, t);
     }
 
-    void addPossibleMoveMarksBottom(int x, int y){
-        if(y >= GridPanel.GRID_SIZE || grid.getPieceAtPosition(new Coordinate(y, x)) != null){
-            return;
-        }
+    void addPossibleMoveMarksBottom(int x, int y, PieceType t){
+        if(y >= GridPanel.GRID_SIZE || grid.getPieceAtPosition(new Coordinate(y, x)) != null) return;
+        if(t != PieceType.KING && grid.isCornerPosition(new Coordinate(y, x))) return;
         gridPanel.addMovePossibleMark(new Coordinate(y, x));
-        addPossibleMoveMarksBottom(x, y+1);
+        addPossibleMoveMarksBottom(x, y+1, t);
     }
 
-    void addPossibleMoveMarksLeft(int x, int y){
-        if(x < 0 || grid.getPieceAtPosition(new Coordinate(y, x)) != null){
-            return;
-        }
+    void addPossibleMoveMarksLeft(int x, int y, PieceType t){
+        if(x < 0 || grid.getPieceAtPosition(new Coordinate(y, x)) != null) return;
+        if(t != PieceType.KING && grid.isCornerPosition(new Coordinate(y, x))) return;
         gridPanel.addMovePossibleMark(new Coordinate(y, x));
-        addPossibleMoveMarksLeft(x-1, y);
+        addPossibleMoveMarksLeft(x-1, y, t);
     }
-    void addPossibleMoveMarksRight(int x, int y){
-        if(x >= GridPanel.GRID_SIZE || grid.getPieceAtPosition(new Coordinate(y, x)) != null){
-            return;
-        }
+    void addPossibleMoveMarksRight(int x, int y, PieceType t){
+        if(x >= GridPanel.GRID_SIZE || grid.getPieceAtPosition(new Coordinate(y, x)) != null) return;
+        if(t != PieceType.KING && grid.isCornerPosition(new Coordinate(y, x))) return;
         gridPanel.addMovePossibleMark(new Coordinate(y, x));
-        addPossibleMoveMarksRight(x+1, y);
+        addPossibleMoveMarksRight(x+1, y, t);
     }
 
     public void mouseMovedHandler(MouseEvent e){

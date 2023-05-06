@@ -34,7 +34,9 @@ public class GridPanel extends JPanel {
     Image imageFortress;
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
+    Coordinate moveMarksCoords;
     public static final int GRID_SIZE = 9;
+
     public GridPanel(GameFrame gameFrame){
         super();
         this.gameFrame = gameFrame;
@@ -107,8 +109,8 @@ public class GridPanel extends JPanel {
 
     void drawAccessibleMark(Graphics g, int caseX, int caseY){
         int caseSize = getCaseSize();
-        int x = (int) (caseX*caseSize + caseSize*0.3);
-        int y = (int) (caseY*caseSize + caseSize*0.3);
+        int x = (int) (caseX*caseSize + caseSize*0.35);
+        int y = (int) (caseY*caseSize + caseSize*0.35);
         int markSize = (int) (caseSize*0.3);
         g.setColor(Color.green);
         g.fillOval(x, y, markSize, markSize);
