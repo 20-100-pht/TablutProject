@@ -190,14 +190,14 @@ public class GameRules implements Serializable {
         //haut gauche
         if( ((x == 1 && y == 0) || (x == 0 && y == 1)) && (rightPiece != null) && (bottomPiece != null) && rightPiece.isAttacker() && bottomPiece.isAttacker()) return true;
 
+        //bas gauche
+        if( ((x == 0 && y == 7) || (x == 1 && y == 8)) && (rightPiece != null) && (topPiece != null) && rightPiece.isAttacker() && topPiece.isAttacker()) return true;
+
         //haut droit
-        if( ((x == 0 && y == 7) || (x == 1 && y == 8)) && (leftPiece != null) && (bottomPiece != null) && leftPiece.isAttacker() && bottomPiece.isAttacker()) return true;
+        if( ((x == 7 && y == 0) || (x == 8 && y == 1)) && (leftPiece != null) && (bottomPiece != null) && leftPiece.isAttacker() && bottomPiece.isAttacker()) return true;
 
-        //bas gauche
-        if( ((x == 7 && y == 0) || (x == 8 && y == 1)) && (rightPiece != null) && (topPiece != null) && rightPiece.isAttacker() && topPiece.isAttacker()) return true;
-
-        //bas gauche
-        if( ((x == 7 && y == 9) || (x == 8 && y == 7)) && (leftPiece != null) && (topPiece != null) && leftPiece.isAttacker() && topPiece.isAttacker()) return true;
+        //bas droit
+        if( ((x == 7 && y == 8) || (x == 8 && y == 7)) && (leftPiece != null) && (topPiece != null) && leftPiece.isAttacker() && topPiece.isAttacker()) return true;
 
         return false;
     }
