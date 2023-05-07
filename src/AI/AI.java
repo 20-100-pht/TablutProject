@@ -19,11 +19,21 @@ public abstract class AI {
 
     }
 
+    /**
+     * Returns the next (best or not) playable move
+     * /!\ GameRules must be cloned first
+     *
+     * @param g current game rules
+     * @param depth depth of search
+     * @param type type of piece playing
+     * @return a coup
+     */
     public Coup playMove(GameRules g, int depth, PieceType type) {
 
         //Copy board
         dep = depth;
 
+        //Set alpha and beta
         double alpha = Double.NEGATIVE_INFINITY;
         double beta = Double.POSITIVE_INFINITY;
 
@@ -34,6 +44,17 @@ public abstract class AI {
         return minimaxAlgo(n, depth, type, alpha, beta).getBestMove();
     }
 
+    /**
+     * Minimax algorithm with beta pruning,
+     * searches the best next move based on different heuristics
+     *
+     * @param node current game state
+     * @param depth current depth of search
+     * @param maximizingPlayer type of player playing
+     * @param alpha value of best board
+     * @param beta value of worst board
+     * @return current node with his children and best move
+     */
     private Node minimaxAlgo(Node node, int depth, PieceType maximizingPlayer, double alpha, double beta) {
 
         GameRules currentGR = node.getGameRules();
@@ -42,14 +63,11 @@ public abstract class AI {
         if (depth == 0 || currentGR.getEndGameType() != ResultGame.NO_END_GAME ) {
             node.setHeuristic(heuristic(node, depth));
 
-            if(node.getHeuristic() != 0 || depth != 0){
-                System.out.println("DIIIIIF");
-            }
             return node;
         }
 
         //Create all children of node (all possible states of current board)
-        createNodeChildren(node, maximizingPlayer, depth, maximizingPlayer);
+        createNodeChildren(node, maximizingPlayer, depth);
         ArrayList<Node> children = node.getChildren();
 
         if(children.size() == 0){
@@ -61,6 +79,17 @@ public abstract class AI {
 
     }
 
+    /**
+     * Evaluates all children of current node
+     *
+     * @param currentNode current node
+     * @param children children of current node
+     * @param depth current depth of search
+     * @param alpha value of best board
+     * @param beta value of worst board
+     * @param type type of piece playing
+     * @return current node with his children and best move
+     */
     private Node maximizing(Node currentNode,ArrayList<Node> children, int depth, double alpha, double beta, PieceType type){
 
         int tmpD = depth-1;
@@ -71,6 +100,8 @@ public abstract class AI {
         PieceType opponent = type==PieceType.ATTACKER?PieceType.DEFENDER:PieceType.ATTACKER;
 
         double value;
+
+        //Set values according to team
         if(type == PieceType.ATTACKER){
             value = Double.NEGATIVE_INFINITY;
             maxValue = 1000000;
@@ -103,7 +134,7 @@ public abstract class AI {
             //Compare best value with calculated heuristic
             if((tmpHeuristic > value && type == PieceType.ATTACKER) ||
                     (tmpHeuristic < value && type == PieceType.DEFENDER) ||
-                    (tmpHeuristic == value && r.nextInt()%200==0)){
+                    (tmpHeuristic == value && (r.nextInt()%(children.size()*2))==0)){
                 value = tmpHeuristic;
                 rtNode=tmp;
             }
@@ -131,7 +162,14 @@ public abstract class AI {
         return currentNode;
     }
 
-    private void createNodeChildren(Node father, PieceType type, int depth, PieceType turn){
+    /**
+     * Creates all possible versions of board 1 move away
+     *
+     * @param father main board
+     * @param type type of piece playing
+     * @param depth depth of search
+     */
+    private void createNodeChildren(Node father, PieceType type, int depth){
 
         GameRules fatherGR = father.getGameRules();
         int boardSize = fatherGR.getGrid().getSizeGrid();
@@ -171,7 +209,11 @@ public abstract class AI {
                         //Attack
                         Vector<Piece> c = newGameRules.attack(pieceToMove);
 
-                        newGameRules.isDefenderWinConfiguration();
+                        //Check if defenders win
+                        if(type == PieceType.DEFENDER){
+                            //Call to check if defenders have won
+                            newGameRules.isDefenderWinConfiguration();
+                        }
 
                         ResultGame end = newGameRules.getEndGameType();
 
@@ -179,7 +221,7 @@ public abstract class AI {
 
 
                         //Add child to first place
-                        if(c.size()>=1 || (end == ResultGame.ATTACKER_WIN && turn == PieceType.ATTACKER) || (end == ResultGame.DEFENDER_WIN && turn == PieceType.DEFENDER)){
+                        if(c.size()>=1 || (end == ResultGame.ATTACKER_WIN && type == PieceType.ATTACKER) || (end == ResultGame.DEFENDER_WIN && type == PieceType.DEFENDER)){
                             if(end != ResultGame.NO_END_GAME){
                                 //System.out.println(end + " in "+ ((dep+1)-depth) + " moves");
                                 /*System.out.println(end + " in "+ ((dep+1)-depth) + " moves");
@@ -197,6 +239,13 @@ public abstract class AI {
         }
     }
 
+    /**
+     * Evaluate board
+     *
+     * @param current current state of a board
+     * @param depth depth of the board
+     * @return a value indicating the winnability of the board
+     */
     public abstract double heuristic(Node current, int depth);
 
 }

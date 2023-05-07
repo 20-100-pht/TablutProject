@@ -22,6 +22,9 @@ public class GameRules implements Serializable {
         resetGameControler();
     }
 
+    /**
+     * Reset game rules, ready for new game
+     */
     public void resetGameControler (){
         grid.reset();
         king = grid.getPieceAtPosition(new Coordinate(4,4));
@@ -30,6 +33,10 @@ public class GameRules implements Serializable {
         endGameVar = ResultGame.NO_END_GAME;
     }
 
+    /**
+     * Check if a team has won
+     * @return true/false
+     */
     public boolean isEndGame(){
         return endGameVar != ResultGame.NO_END_GAME;
     }
@@ -42,6 +49,10 @@ public class GameRules implements Serializable {
         grid.print();
     }
 
+    /**
+     * Check if defender has won
+     * @return true/false
+     */
     public boolean isDefenderWinConfiguration(){
         if(grid.isCornerPosition(king.c) || nbPieceAttackerOnGrid == 0){
             endGameVar = ResultGame.DEFENDER_WIN;
@@ -50,10 +61,19 @@ public class GameRules implements Serializable {
         return false;
     }
 
+    /**
+     * Check if attacker has won
+     * @return true/false
+     */
     public boolean isAttackerWinConfiguration(){
         return endGameVar == ResultGame.ATTACKER_WIN;
     }
 
+    /**
+     * Move a piece on the board
+     * @param coup pair of coordinates, source and destination
+     * @return piece moved and error number
+     */
     public ReturnValue move(Coup coup){
         // attention on doit avant appeler move vérifier que le pion est bien un pion du joueur courant
 
@@ -108,7 +128,11 @@ public class GameRules implements Serializable {
         return rtrn;
     }
 
-    //Renvoie une liste avec les pièces supprimées
+    /**
+     * Kill pieces eaten by moved piece
+     * @param current piece moved
+     * @return list of "killed" pieces
+     */
     public Vector<Piece> attack(Piece current){
         Vector<Piece> lPiece = new Vector<Piece>();
 
@@ -130,7 +154,6 @@ public class GameRules implements Serializable {
         if(p4 != null) lPiece.add(p4);
 
         return lPiece;
-
     }
 
     private Piece attackWithArg(Piece current, int rowIndex, int colIndex){
@@ -178,14 +201,21 @@ public class GameRules implements Serializable {
         return deletedPiece;
     }
 
+    /**
+     * Check if king has been captured
+     */
     public void capture(){
         if(isCapturedByFourAttacker() || isCapturedNextToThrone() || isCapturedNextToWall() || isCaptureNextToFortress() ) {
             //King is captured : end Model.Game
-            System.out.println("King has been captured!");
+            //System.out.println("King has been captured!");
             endGameVar = ResultGame.ATTACKER_WIN;
         }
     }
 
+    /**
+     * Check if king has been captured next to a fortress
+     * @return true/false
+     */
     public boolean isCaptureNextToFortress(){
         Coordinate kingCord = new Coordinate(king.getRow(), king.getCol());
         int x = kingCord.getCol();
@@ -212,6 +242,10 @@ public class GameRules implements Serializable {
         return false;
     }
 
+    /**
+     * Check if king has been captured next to a wall
+     * @return true/false
+     */
     public boolean isCapturedNextToWall(){
         Coordinate kingCord = new Coordinate(king.getRow(), king.getCol());
         int kCol = kingCord.getCol();
@@ -246,7 +280,10 @@ public class GameRules implements Serializable {
         return false;
     }
 
-
+    /**
+     * Check if king has been captured next to the throne
+     * @return true/false
+     */
     public boolean isCapturedNextToThrone(){
         Coordinate kingCord = new Coordinate(king.getRow(), king.getCol());
         int x = kingCord.getCol();
@@ -283,6 +320,10 @@ public class GameRules implements Serializable {
         return false;
     }
 
+    /**
+     * Check if king has been captured by 4 attackers
+     * @return true/false
+     */
     public boolean isCapturedByFourAttacker(){
         int x = king.getCol();
         int y = king.getRow();
@@ -361,6 +402,10 @@ public class GameRules implements Serializable {
         this.nbPieceAttackerOnGrid = nbPieceAttackerOnGrid;
     }
 
+    /**
+     * Clone game rules
+     * @return cloned game rules
+     */
     public GameRules cloneGameRules(){
 
         //Create new GR

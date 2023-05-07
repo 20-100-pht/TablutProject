@@ -6,9 +6,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Piece implements Serializable {
+
     public Coordinate c;
     private PieceType type;
 
+    /**
+     * Class constructor creating a piece with coordinates and type
+     *
+     * @param c coordinate of piece on grid
+     * @param t type of piece
+     */
     public Piece(Coordinate c, PieceType t) {
         this.c = c;
         this.type = t;
@@ -20,8 +27,17 @@ public class Piece implements Serializable {
 
     public PieceType getType(){ return this.type;}
 
+    /**
+     * Check if piece is of type King
+     * @return true/false
+     */
     public boolean isKing(){ return this.type == PieceType.KING;}
 
+    /**
+     * Check if a given coordinate is equal to it's current one
+     * @param d coordinate to check
+     * @return true/false
+     */
     public boolean isSamePosition(Coordinate d){
         return d.getRow() == c.getRow() && d.getCol() == c.getCol();
     }
@@ -31,10 +47,22 @@ public class Piece implements Serializable {
         return !((c.getRow() == 4 && c.getCol() == 4) || (c.getRow() == 4 && c.getCol() == 3) || (c.getRow() == 4 && c.getCol() == 5) || (c.getRow() == 3 && c.getCol() == 4) || (c.getRow() == 5 && c.getCol() == 4));
     }
 
+    /**
+     * Check if piece is of type Attacker
+     * @return true/false
+     */
     public boolean isAttacker(){ return this.type == PieceType.ATTACKER;}
 
+    /**
+     * Check if piece is of type Defender
+     * @return true/false
+     */
     public boolean isDefender(){ return this.type == PieceType.DEFENDER;}
 
+    /**
+     * Check if piece is of type Defender or King
+     * @return true/false
+     */
     public boolean isDefenderOrKing(){ return this.type == PieceType.DEFENDER || this.type == PieceType.KING;}
 
     public void setRow(int newRow){ c.setRowCoord(newRow);}
@@ -47,12 +75,22 @@ public class Piece implements Serializable {
 
     public void setDefender(boolean defender){ type = PieceType.DEFENDER;}
 
+    /**
+     * Get symbol of piece type
+     * @return string
+     */
     public String getSymbol(){
         if(type == PieceType.KING) return "K";
         else if(type == PieceType.DEFENDER) return "D";
         else return "A";
     }
 
+    /**
+     * Check if piece can move to given coordinate on given grid
+     * @param dest destination coordinate
+     * @param grid current grid
+     * @return true/false
+     */
     public boolean canMoveTo(Coordinate dest, Grid grid){
 
         if (grid.getPieceAtPosition(dest) != null) return false;
@@ -71,14 +109,21 @@ public class Piece implements Serializable {
         }
 
         return true;
-
-
     }
 
+    /**
+     * Clone piece
+     * @return cloned piece
+     */
     public Piece clonePiece(){
         return new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
     }
 
+    /**
+     * Get all possible moves of piece
+     * @param board current board
+     * @return array of destination coordinates
+     */
     public ArrayList<Coordinate> possibleMoves(Piece[][] board) {
 
         int min = 1, max = 8;
@@ -94,14 +139,14 @@ public class Piece implements Serializable {
         //Add coordinate if not throne and not fortress (if not king)
         for (int i = c.getCol() - 1; i >= min; i--){
             if (board[c.getRow()][i] == null){
-                if(c.getRow() == throne && i == throne) continue;
+                if(c.getRow() == throne && i == throne) break;
                 MovesToPieceList.add(new Coordinate(c.getRow(), i));
             }
             else break;
         }
         for (int i = c.getCol() + 1; i < max; i++){
             if (board[c.getRow()][i] == null){
-                if(c.getRow() == throne && i == throne) continue;
+                if(c.getRow() == throne && i == throne) break;
                 MovesToPieceList.add(new Coordinate(c.getRow(), i));
             }
             else break;
@@ -109,14 +154,14 @@ public class Piece implements Serializable {
 
         for (int r = c.getRow() - 1; r >= min; r--){
             if (board[r][c.getCol()] == null){
-                if(c.getCol() == throne && r == throne) continue;
+                if(c.getCol() == throne && r == throne) break;
                 MovesToPieceList.add(new Coordinate(r, c.getCol()));
             }
             else break;
         }
         for (int r = c.getRow() + 1; r < max; r++){
             if (board[r][c.getCol()] == null){
-                if(c.getCol() == throne && r == throne) continue;
+                if(c.getCol() == throne && r == throne) break;
                 MovesToPieceList.add(new Coordinate(r, c.getCol()));
             }
             else break;

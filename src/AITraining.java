@@ -18,7 +18,6 @@ public class AITraining {
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy__HH_mm_ss");
         Date date = new Date();
 
         ResultGame Res;
@@ -66,15 +65,7 @@ public class AITraining {
             }
 
             if(WRITE_TO_FILE && i%100 == 99 && i != 0){
-                BufferedWriter writer = new BufferedWriter(new FileWriter("ResultatIA_"+ i + "Games__" + formatter.format(date) +".txt"));
-                writer.write("For " + i + " games :\n\n");
-                writer.write("Resultat Game : " + ((nbVictoryAttacker/i)*100) + "% AttackerWin\n");
-                writer.write("                " + ((nbVictoryDefender/i)*100) + "% DefenderWin\n");
-                writer.write("                " + ((nbMaxTurnEncountered/i)*100) + "% > MAX_TURN\n");
-                writer.write("Total time execution : " + tpsAverage/Math.pow(10,9) + "s\n");
-                writer.write("Average time execution by game : " + (tpsAverage/i)/Math.pow(10,9) + "s\n");
-                writer.write("Number of games : " + i + "\n");
-                writer.close();
+                writeToFile(nbVictoryAttacker, nbVictoryDefender, nbMaxTurnEncountered, tpsAverage, date, i);
             }
 
         }
@@ -86,16 +77,37 @@ public class AITraining {
         System.out.println("Average time execution by game : " + (tpsAverage/AIGAMES)/Math.pow(10,9) + "s");
 
         if(WRITE_TO_FILE){
-            BufferedWriter writer = new BufferedWriter(new FileWriter("ResultatFinalIA"+ formatter.format(date) +".txt"));
-            writer.write("Resultat Game : " + ((nbVictoryAttacker/AIGAMES)*100) + "% AttackerWin\n");
-            writer.write("                " + ((nbVictoryDefender/AIGAMES)*100) + "% DefenderWin\n");
-            writer.write("                " + ((nbMaxTurnEncountered/AIGAMES)*100) + "% > MAX_TURN\n");
-            writer.write("Total time execution : " + tpsAverage/Math.pow(10,9) + "s\n");
-            writer.write("Average time execution by game : " + (tpsAverage/AIGAMES)/Math.pow(10,9) + "s\n");
-            writer.write("Number of games : " + AIGAMES + "\n");
-            writer.close();
+            writeToFile(nbVictoryAttacker, nbVictoryDefender, nbMaxTurnEncountered, tpsAverage, date, AIGAMES);
         }
 
         //affichage de stats et paramètres utilisés
+
+    }
+
+    /**
+     * Writes result of tests in files
+     *
+     * @param nbVictoryAttacker nb of times attackers won
+     * @param nbVictoryDefender nb of times defenders won
+     * @param nbMaxTurnEncountered nb of games skipped
+     * @param tpsAverage average time
+     * @param date current date
+     * @param nbGames nb of games played
+     */
+    public static void writeToFile(double nbVictoryAttacker, double nbVictoryDefender, double nbMaxTurnEncountered, double tpsAverage, Date date, int nbGames){
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy__HH_mm_ss");
+            BufferedWriter writer = new BufferedWriter(new FileWriter("ResultatFinalIA"+ formatter.format(date) +".txt"));
+            writer.write("Resultat Game : " + ((nbVictoryAttacker/nbGames)*100) + "% AttackerWin\n");
+            writer.write("                " + ((nbVictoryDefender/nbGames)*100) + "% DefenderWin\n");
+            writer.write("                " + ((nbMaxTurnEncountered/nbGames)*100) + "% > MAX_TURN\n");
+            writer.write("Total time execution : " + tpsAverage/Math.pow(10,9) + "s\n");
+            writer.write("Average time execution by game : " + (tpsAverage/nbGames)/Math.pow(10,9) + "s\n");
+            writer.write("Number of games : " + nbGames + "\n");
+            writer.close();
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
