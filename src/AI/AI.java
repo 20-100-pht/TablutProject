@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 public abstract class AI {
 
@@ -168,7 +169,7 @@ public abstract class AI {
                         newGameRules.capture();
 
                         //Attack
-                        int c = newGameRules.attack(pieceToMove);
+                        Vector<Piece> c = newGameRules.attack(pieceToMove);
 
                         newGameRules.isDefenderWinConfiguration();
 
@@ -178,7 +179,7 @@ public abstract class AI {
 
 
                         //Add child to first place
-                        if(c>=1 || (end == ResultGame.ATTACKER_WIN && turn == PieceType.ATTACKER) || (end == ResultGame.DEFENDER_WIN && turn == PieceType.DEFENDER)){
+                        if(c.size()>=1 || (end == ResultGame.ATTACKER_WIN && turn == PieceType.ATTACKER) || (end == ResultGame.DEFENDER_WIN && turn == PieceType.DEFENDER)){
                             if(end != ResultGame.NO_END_GAME){
                                 //System.out.println(end + " in "+ ((dep+1)-depth) + " moves");
                                 /*System.out.println(end + " in "+ ((dep+1)-depth) + " moves");
