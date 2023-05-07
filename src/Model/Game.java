@@ -1,5 +1,7 @@
 package Model;
 
+import AI.*;
+
 import java.io.*;
 
 public class Game implements Serializable {
@@ -8,11 +10,15 @@ public class Game implements Serializable {
     boolean defenderAI;
     boolean attackerAI;
 
-    //Model.AIRandom aleatronDefender;
+    AIDifficulty attackerTypeAI;
+    AIDifficulty defenderTypeAI;
+
+
+    //AI.AIRandom aleatronDefender;
     AI aiMinMax;
+    AIRandom aleatron;
+
     GameRules gameRules;
-    AIRandom aleatronDefender;
-    AIRandom aleatronAttacker;
     String defenderName = "Alexandre";
     String attackerName = "Philippe";
     History history;
@@ -38,10 +44,11 @@ public class Game implements Serializable {
         attackerTurn = true;
         defenderAI = true;
         attackerAI = true;
-        aleatronDefender = new AIRandom(gameRules, PieceType.DEFENDER);
-        aleatronAttacker = new AIRandom(gameRules, PieceType.ATTACKER);
-        gameRules.resetGameControler();
-        aiMinMax = new AI();
+        attackerTypeAI = AIDifficulty.RANDOM;
+        defenderTypeAI = AIDifficulty.RANDOM;
+        gameRules = new GameRules();
+        aleatron = new AIRandom();
+        aiMinMax = new AIEasy();
     }
 
     public void loadFromFile(String filePath){
@@ -88,8 +95,7 @@ public class Game implements Serializable {
         return aiMinMax;
     }
 
-    public AIRandom getAleatronDefender(){ return aleatronDefender;}
-    public AIRandom getAleatronAttacker(){ return aleatronAttacker;}
+    public AIRandom getAleatron(){ return aleatron;}
 
     public boolean isAttackerAI() {
         return attackerAI;
@@ -126,5 +132,14 @@ public class Game implements Serializable {
     public History getHistoryInstance(){
         return history;
     }
+    
+    public void setGameDefenderAI(boolean isDefenderAI){defenderAI = isDefenderAI;}
+    public void setGameAttackerAI(boolean isAttackerAI){attackerAI = isAttackerAI;}
+
+    public void setAIAttackerDifficulty(AIDifficulty AIDiff){attackerTypeAI = AIDiff;}
+    public void setAIDefenderDifficulty(AIDifficulty AIDiff){defenderTypeAI = AIDiff;}
+
+    public AIDifficulty getAIDefenderDifficulty (){return attackerTypeAI;}
+    public AIDifficulty getAIAttackerDifficulty (){return defenderTypeAI;}
 
 }

@@ -29,6 +29,8 @@ public class Coordinate implements Serializable {
     @Override
     public String toString(){
         return "("+col+","+row+")";
+    public boolean isSameCoordinate(Coordinate obj){
+        return row == obj.getRow() && col == obj.getCol();
     }
 
 }

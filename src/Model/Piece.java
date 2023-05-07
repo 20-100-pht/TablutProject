@@ -27,8 +27,8 @@ public class Piece implements Serializable {
     }
 
     /*Structure.Position vulnérable = n'importe ou sur le plateau sauf sur le trone ou à directement à côté*/
-    public boolean kingIsOnVulnerablePosition(){
-        return !( (c.getRow() == 4 && c.getCol() == 4) || (c.getRow() == 4 && c.getCol() == 3) || (c.getRow() == 4 && c.getCol() == 5) || (c.getRow() == 3 && c.getCol() == 4) || (c.getRow() == 5 && c.getCol() == 4) );
+    public boolean kingIsOnVulnerablePosition() {
+        return !((c.getRow() == 4 && c.getCol() == 4) || (c.getRow() == 4 && c.getCol() == 3) || (c.getRow() == 4 && c.getCol() == 5) || (c.getRow() == 3 && c.getCol() == 4) || (c.getRow() == 5 && c.getCol() == 4));
     }
 
     public boolean isAttacker(){ return this.type == PieceType.ATTACKER;}
@@ -79,7 +79,7 @@ public class Piece implements Serializable {
         return new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
     }
 
-    public ArrayList possibleMoves(Piece[][] board) {
+    public ArrayList<Coordinate> possibleMoves(Piece[][] board) {
 
         int min = 1, max = 8;
         int throne = 4;

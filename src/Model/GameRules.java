@@ -36,7 +36,7 @@ public class GameRules implements Serializable {
 
     public void setEndGameVar(ResultGame r){ endGameVar = r;}
 
-    public ResultGame isEndGameType(){return endGameVar;}
+    public ResultGame getEndGameType(){return endGameVar;}
 
     public void print(){
         grid.print();
@@ -151,6 +151,11 @@ public class GameRules implements Serializable {
                     sideSideCurrent = grid.getPieceAtPosition(sideCurrentCord);
                     if (grid.isCastle(sideCurrentCord) || grid.isCornerPosition(sideCurrentCord) || sideSideCurrent != null && ((current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefender() && sideSideCurrent.isDefender()))) {
                         deletedPiece = sideCurrent;
+                        nbAttack++;
+                        /*if(sideCurrent.isKing()) {
+                            setEndGameVar(ResultGame.ATTACKER_WIN);
+                            return nbAttack;
+                        }*/
                         if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
                         if(sideCurrent.isDefender()) nbPieceDefenderOnGrid--;
                         grid.setPieceAtPosition(null, currentCord);
@@ -158,6 +163,11 @@ public class GameRules implements Serializable {
 
                 } else {
                     deletedPiece = sideCurrent;
+                    nbAttack++;
+                    /*if(sideCurrent.isKing()) {
+                        setEndGameVar(ResultGame.ATTACKER_WIN);
+                        return nbAttack;
+                    }*/
                     if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
                     if(sideCurrent.isDefender()) nbPieceDefenderOnGrid--;
                     grid.setPieceAtPosition(null, currentCord);
@@ -318,9 +328,15 @@ public class GameRules implements Serializable {
     public Grid getGrid(){
         return grid;
     }
+    public void setGrid(Grid g){
+        grid = g;
+    }
 
     public Piece getKing(){
         return king;
+    }
+    public void setKing(Piece k){
+        king = k;
     }
 
     public int getNbPieceAttackerOnGrid() {
@@ -345,5 +361,48 @@ public class GameRules implements Serializable {
     }
     public void setGrid(Grid grid){
         this.grid = grid;
+    }
+
+    public void setNbPieceAttackerOnGrid(int nbPieceAttackerOnGrid) {
+        this.nbPieceAttackerOnGrid = nbPieceAttackerOnGrid;
+    }
+
+    public GameRules cloneGameRules(){
+
+        //Create new GR
+        GameRules newGameRules = new GameRules();
+
+        //Clone grid
+        Grid newGrid = grid.cloneGrid();
+
+        //Add grid
+        newGameRules.setGrid(newGrid);
+
+        //Add king
+        newGameRules.setKing(newGrid.getPieceAtPosition(new Coordinate(king.getRow(), king.getCol())));
+
+        ResultGame a = ResultGame.NO_END_GAME;
+        switch (getEndGameType()){
+            case ATTACKER_WIN:
+                a = ResultGame.ATTACKER_WIN;
+                break;
+            case DEFENDER_WIN:
+                a = ResultGame.DEFENDER_WIN;
+                break;
+            case NO_END_GAME:
+                a = ResultGame.NO_END_GAME;
+                break;
+            case MAX_TURN_ENCOUTERED:
+                a = ResultGame.MAX_TURN_ENCOUTERED;
+                break;
+        }
+
+        //Add end game type
+        newGameRules.setEndGameVar(a);
+
+        //Add nb attckers
+        newGameRules.setNbPieceAttackerOnGrid(getNbPieceAttackerOnGrid());
+
+        return newGameRules;
     }
 }
