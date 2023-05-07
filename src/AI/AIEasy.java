@@ -1,5 +1,7 @@
-package Model;
+package AI;
 
+import Model.Grid;
+import Model.Piece;
 import Structure.Coordinate;
 import Structure.Node;
 
@@ -38,7 +40,6 @@ public class AIEasy extends AI {
             }
         }
 
-        //TODO ranger ce bordel
         if(current.endGame() == ResultGame.ATTACKER_WIN)
             return 10000*depth;
         else if (current.endGame() == ResultGame.DEFENDER_WIN) {

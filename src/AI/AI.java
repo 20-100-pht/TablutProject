@@ -1,4 +1,4 @@
-package Model;
+package AI;
 
 import Model.*;
 import Structure.Coordinate;
@@ -14,9 +14,6 @@ public abstract class AI {
 
     int dep = 0;
 
-    /*Les poids associés aux différents paramètres que nous évaluons dans l'heuristique*/
-    int WAttackerOnTot, WDefenderOnTot, WDistanceKingToCorner;
-//TODO multiplier les poids et les paramètres
     public AI(){
 
     }

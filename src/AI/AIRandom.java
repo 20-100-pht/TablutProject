@@ -1,8 +1,8 @@
-package Model;
+package AI;
 
-import Structure.Coordinate;
+import Model.GameRules;
+import Model.ResultGame;
 import Structure.Node;
-import java.util.Random;
 
 public class AIRandom extends AI{
 

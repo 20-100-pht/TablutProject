@@ -1,5 +1,6 @@
 package Controller;
 
+import AI.AIDifficulty;
 import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
@@ -11,14 +12,13 @@ public class GameConsoleController {
     Game game;
     UserController user;
 
-    int MAX_DEPTH = 3;
-
-    //Si un joueur peut gagner en 2 coups
+    int MAX_DEPTH = 3; //Exploration de l'IA avec heuristique
     int RANDOM_AI_MAX_DEPTH = 3;
 
     int nbTurn;
 
     boolean printGridTerminal;
+    private static final int MAX_TURN_ALLOWED = 200;
 
     public GameConsoleController(){
         user = new UserController();
@@ -31,16 +31,18 @@ public class GameConsoleController {
     public ResultGame playGame(){
         while(!gameRules.isEndGame()){
             playTurn();
-            if(game.isAiTest() && (nbTurn == 200)) gameRules.setEndGameVar(ResultGame.MAX_TURN_ENCOUTERED);
+            if(game.isAiTest() && (nbTurn == MAX_TURN_ALLOWED)) gameRules.setEndGameVar(ResultGame.MAX_TURN_ENCOUTERED);
             nbTurn++;
         }
         return gameRules.getEndGameType();
     }
 
     public void endGame(ResultGame result){
-        if(result == ResultGame.ATTACKER_WIN) if(printGridTerminal) System.out.println("Attacker win !");
-        else if(printGridTerminal) System.out.println("Defender win !");
-        if(printGridTerminal) gameRules.print();
+        //if(printGridTerminal){
+            if(result == ResultGame.ATTACKER_WIN) System.out.println("Attacker win !");
+            if (result == ResultGame.DEFENDER_WIN) System.out.println("Defender win !");
+            gameRules.print();
+        //}
     }
 
     public void playTurn(){
@@ -66,37 +68,7 @@ public class GameConsoleController {
             ReturnValue returnValue = gameRules.move(coupPlayer);
             current = returnValue.getPiece();
 
-            if(current == null){
-                switch(returnValue.getValue()){
-                    case 1:
-                        if(printGridTerminal) System.out.println("Coordonnées invalides (en dehors de la grille), veuillez saisir à nouveau.");
-                        break;
-
-                    case 2:
-                        if(printGridTerminal) System.out.println("Coordonnées invalides (pas un pion), veuillez saisir à nouveau.");
-                        break;
-
-                    case 3:
-                        if(printGridTerminal) System.out.println("Case de destination invalide, veuillez saisir à nouveau.");
-                        break;
-                    case 4:
-                        if(printGridTerminal) System.out.println("Case de destination invalide (château), veuillez saisir à nouveau.");
-                        break;
-                    case 5:
-                        if(printGridTerminal) System.out.println("Case de destination invalide (même position), veuillez saisir à nouveau.");
-                        break;
-                    case 6:
-                        if(printGridTerminal) System.out.println("La pièce sélectionnée ne peut pas se déplacer sur la case de destination, veuillez saisir à nouveau.");
-                        break;
-                    case 7:
-                        if(printGridTerminal) System.out.println("La pièce sélectionnée ne peut pas se déplacer sur une forteresse, veuillez saisir à nouveau.");
-                        break;
-                    default:
-                        if(printGridTerminal) System.out.println("Erreur valeur de retour");
-                        break;
-                }
-            }
-
+            if(current == null){errorPlayerMovingPiece(returnValue);}
 
             if (current != null && ( (current.isAttacker() && !game.isAttackerTurn()) || (current.isDefenderOrKing() && game.isAttackerTurn()) ) ){
                 if(printGridTerminal) System.out.println("Ce pion n'est pas le votre !");
@@ -115,12 +87,12 @@ public class GameConsoleController {
 
         if(game.isDefenderAI()){
             while(current == null) {
-                if(true){//nbTurn < 3) {
-                    //Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.DEFENDER);
+                if(game.getAIDefenderDifficulty() == AIDifficulty.RANDOM){
                     Coup coupAI = game.getAleatron().playMove(gameRules, RANDOM_AI_MAX_DEPTH, PieceType.DEFENDER);
                     ReturnValue returnValue = gameRules.move(coupAI);
                     current = returnValue.getPiece();
                 }
+                ////if (nbTurn < 3) {
                 else {
                     //Structure.Coup coupAI = aleatronDefender.playMove();
                     Coup coupAI = game.getAiMinMax().playMove(gameRules, MAX_DEPTH, PieceType.DEFENDER);
@@ -128,7 +100,7 @@ public class GameConsoleController {
                     current = returnValue.getPiece();
 
                     if (current == null) {
-                        System.out.println("\n\nError : Defender Coup : " + current);
+                        System.out.println("\n\nError : Defender Coup");
                         gameRules.getGrid().print();
                         System.out.println("Source:" + coupAI.getInit().getRow() + "," + coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + "," + coupAI.getDest().getCol());
                         System.exit(0);
@@ -153,19 +125,19 @@ public class GameConsoleController {
 
         if(game.isAttackerAI()){
             while(current == null) {
-                if(true){//nbTurn < 3) {
-                    //Coup coupAI = game.getAiMinMax().minimax(gameRules.getGrid().cloneGrid(), gameRules.getKing().clonePiece(),MAX_DEPTH, PieceType.ATTACKER);
+                if(game.getAIAttackerDifficulty() == AIDifficulty.RANDOM){
                     Coup coupAI = game.getAleatron().playMove(gameRules, RANDOM_AI_MAX_DEPTH, PieceType.ATTACKER);
                     ReturnValue returnValue = gameRules.move(coupAI);
                     current = returnValue.getPiece();
                 }
+                //if (nbTurn < 3) {
                 else {
                     Coup coupAI = game.getAiMinMax().playMove(gameRules,MAX_DEPTH, PieceType.ATTACKER);
                     ReturnValue returnValue = gameRules.move(coupAI);
                     current = returnValue.getPiece();
 
                     if(current == null){
-                        System.out.println("\n\nError : Attacker Coup : " + current);
+                        System.out.println("\n\nError : Attacker Coup");
                         gameRules.getGrid().print();
                         System.out.println("Source:" + coupAI.getInit().getRow() + ","+coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + ","+ coupAI.getDest().getCol());
                         System.exit(0);
@@ -188,4 +160,37 @@ public class GameConsoleController {
     }
 
     public void setPrintTerminal(boolean b) { printGridTerminal = b;}
+
+    public Game getGame(){return game;}
+
+    private void errorPlayerMovingPiece (ReturnValue returnValue){
+        switch(returnValue.getValue()){
+            case 1:
+                if(printGridTerminal) System.out.println("Coordonnées invalides (en dehors de la grille), veuillez saisir à nouveau.");
+                break;
+
+            case 2:
+                if(printGridTerminal) System.out.println("Coordonnées invalides (pas un pion), veuillez saisir à nouveau.");
+                break;
+
+            case 3:
+                if(printGridTerminal) System.out.println("Case de destination invalide, veuillez saisir à nouveau.");
+                break;
+            case 4:
+                if(printGridTerminal) System.out.println("Case de destination invalide (château), veuillez saisir à nouveau.");
+                break;
+            case 5:
+                if(printGridTerminal) System.out.println("Case de destination invalide (même position), veuillez saisir à nouveau.");
+                break;
+            case 6:
+                if(printGridTerminal) System.out.println("La pièce sélectionnée ne peut pas se déplacer sur la case de destination, veuillez saisir à nouveau.");
+                break;
+            case 7:
+                if(printGridTerminal) System.out.println("La pièce sélectionnée ne peut pas se déplacer sur une forteresse, veuillez saisir à nouveau.");
+                break;
+            default:
+                if(printGridTerminal) System.out.println("Erreur valeur de retour");
+                break;
+        }
+    }
 }

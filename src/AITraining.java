@@ -1,3 +1,4 @@
+import AI.AIDifficulty;
 import Controller.GameConsoleController;
 import Model.ResultGame;
 
@@ -9,29 +10,13 @@ import java.text.SimpleDateFormat;
 
 
 public class AITraining {
-    private static int AIGAMES = 1;
-    private static boolean PRINT = true;
-    private static boolean AITRAINING = true;
-    private static boolean LoadBar = false;
-
-    private static boolean WRITE_TO_FILE = false;
+    private static final  int AIGAMES = 1;
+    private static final boolean PRINT = true;
+    private static final boolean LoadBar = true;
+    private static final boolean WRITE_TO_FILE = false;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");
-/**
- * Poids
- * ranger ai, ptere changer des trucs
- * heuristique
- * opti
- *
- */
-
-
-        //Choix param
-        //envoie param aux fonc
-        int WAttackerOnTot, WDefenderOnTot, WDistanceKingToCorner;
-        //WAttackerOnTot = 10*Math.random() /*10 est val random*/
-        //
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy__HH_mm_ss");
         Date date = new Date();
@@ -43,6 +28,10 @@ public class AITraining {
         for (int i = 0; i < AIGAMES; i++) {
             GameConsoleController gcc = new GameConsoleController();
             gcc.setPrintTerminal(PRINT);
+            gcc.getGame().setGameAttackerAI(true);//Pas nécéssaire car par défault c'est true
+            gcc.getGame().setGameDefenderAI(true);//pareil
+            gcc.getGame().setAIAttackerDifficulty(AIDifficulty.RANDOM);
+            gcc.getGame().setAIDefenderDifficulty(AIDifficulty.RANDOM);
             start = System.nanoTime();
             Res = gcc.playGame();
             end = System.nanoTime();

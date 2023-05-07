@@ -1,5 +1,7 @@
 package Model;
 
+import AI.*;
+
 import java.io.*;
 
 public class Game {
@@ -8,7 +10,11 @@ public class Game {
     boolean defenderAI;
     boolean attackerAI;
 
-    //Model.AIRandom aleatronDefender;
+    AIDifficulty attackerTypeAI;
+    AIDifficulty defenderTypeAI;
+
+
+    //AI.AIRandom aleatronDefender;
     AI aiMinMax;
     GameRules gameRules;
 
@@ -22,6 +28,8 @@ public class Game {
         attackerTurn = true;
         defenderAI = true;
         attackerAI = true;
+        attackerTypeAI = AIDifficulty.RANDOM;
+        defenderTypeAI = AIDifficulty.RANDOM;
         gameRules = new GameRules();
         aleatron = new AIRandom();
         aiMinMax = new AIEasy();
@@ -92,4 +100,14 @@ public class Game {
     public boolean isAiTest(){
         return attackerAI && defenderAI;
     }
+
+    public void setGameDefenderAI(boolean isDefenderAI){defenderAI = isDefenderAI;}
+    public void setGameAttackerAI(boolean isAttackerAI){attackerAI = isAttackerAI;}
+
+    public void setAIAttackerDifficulty(AIDifficulty AIDiff){attackerTypeAI = AIDiff;}
+    public void setAIDefenderDifficulty(AIDifficulty AIDiff){defenderTypeAI = AIDiff;}
+
+    public AIDifficulty getAIDefenderDifficulty (){return attackerTypeAI;}
+    public AIDifficulty getAIAttackerDifficulty (){return defenderTypeAI;}
+
 }
