@@ -75,4 +75,8 @@ public abstract class Frame extends JComponent {
     public Interface getInterface(){
         return ui;
     }
+
+    public void display(){
+
+    }
 }

@@ -2,11 +2,13 @@ package Controller;
 
 import Model.*;
 import Structure.Coup;
-import Structure.ReturnValue;
 import View.GameFrame;
+import AI.AI;
 
 import java.io.*;
 import java.util.Vector;
+
+import static java.lang.Thread.sleep;
 
 public class GameGraphicController {
 
@@ -39,10 +41,10 @@ public class GameGraphicController {
             return;
         }
 
-        ReturnValue result = gameRules.move(coup);
-        if(result.getValue() != 0){
+        if(gameRules.isLegalMove(coup) != 0){
             return;
         }
+        gameRules.move(coup);
 
         gameRules.capture();
         Vector<Piece> killedPieces = gameRules.attack(pieceSelected);
@@ -60,6 +62,8 @@ public class GameGraphicController {
         }
 
         game.toogleAttackerTurn();
+
+        if(isAiTurn()) doAiTurn();
     }
 
     public void bttnReplayClickHandler(){
@@ -83,10 +87,8 @@ public class GameGraphicController {
     }
 
     public void bttnUndoClickHandler(){
-        System.out.println("Cluck undo");
         History history = game.getHistoryInstance();
         if(history.canUndo()){
-            System.out.println("Undo");
             HistoryMove move = history.undo();
             undoHistoryMove(move);
         }
@@ -118,14 +120,50 @@ public class GameGraphicController {
                 gameRules.incNbPieceAttackerOnGrid();
             }
         }
+
         game.setIsAttackerTurn(move.isAttackerMove());
     }
 
     public void redoHistoryMove(HistoryMove move){
         Coup coup = move.getCoup();
         Piece piece = grid.getPieceAtPosition(coup.getInit());
-        ReturnValue m = gameRules.move(coup);
+        gameRules.move(coup);
         gameRules.attack(piece);
         game.setIsAttackerTurn(!move.isAttackerMove());
+    }
+
+    public boolean isAiTurn(){
+        return game.isAttackerTurn() && game.isAttackerAI() || !game.isAttackerTurn() && game.isDefenderAI();
+    }
+
+    public void doAiTurn(){
+        AI ai;
+        PieceType t;
+        if(game.isAttackerTurn()){
+            ai = game.getAttackerAI();
+            t = PieceType.ATTACKER;
+        }
+        else{
+            ai = game.getDefenderAI();
+            t = PieceType.DEFENDER;
+        }
+        long start = System.currentTimeMillis();
+        Coup coupAI = ai.playMove(gameRules, 3, t);
+        play(coupAI);
+        long end = System.currentTimeMillis();
+
+        long timeToWait = 1000-(end-start);
+        //On évite d'enchainer les coups de l'IA trop vite
+        try {
+            if(timeToWait > 0) {
+                sleep(timeToWait);
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void startGame(){
+        if(isAiTurn()) doAiTurn();
     }
 }

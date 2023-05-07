@@ -1,5 +1,6 @@
 package View;
 
+import AI.AIDifficulty;
 import Model.Game;
 
 import javax.imageio.ImageIO;
@@ -290,7 +291,15 @@ public class NewGameFrame extends Frame {
         bttnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ui.createGameFrame(new Game(tfNamePlayer1.getText(), tfNamePlayer2.getText()));
+                AIDifficulty defDiff = AIDifficulty.HUMAN;
+                if(rdoEasyDefPart.isSelected()){
+                    defDiff = AIDifficulty.RANDOM;
+                }
+                AIDifficulty attDiff = AIDifficulty.HUMAN;
+                if(rdoEasyAttPart.isSelected()){
+                    attDiff = AIDifficulty.RANDOM;
+                }
+                ui.createGameFrame(new Game(tfNamePlayer1.getText(), tfNamePlayer2.getText(), defDiff, attDiff));
                 ui.changePage(InterfacePage.GAME);
             }
         });

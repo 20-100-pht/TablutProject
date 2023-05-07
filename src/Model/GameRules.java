@@ -2,7 +2,6 @@ package Model;
 
 import Structure.Coordinate;
 import Structure.Coup;
-import Structure.ReturnValue;
 
 import java.io.Serializable;
 import java.util.Vector;
@@ -74,58 +73,51 @@ public class GameRules implements Serializable {
      * @param coup pair of coordinates, source and destination
      * @return piece moved and error number
      */
-    public ReturnValue move(Coup coup){
-        // attention on doit avant appeler move vérifier que le pion est bien un pion du joueur courant
+    public int isLegalMove(Coup coup){
 
         Piece selectedPiece;
-        ReturnValue rtrn = new ReturnValue(0,null);
-
         // coordonnées initial
         if(!grid.isInside(coup.getInit())) {
-            rtrn.setValue(1);
-            return rtrn;
+            return 1;
         }
-        if( (selectedPiece = grid.getPieceAtPosition(coup.getInit())) == null) {
-            rtrn.setValue(2);
-            return rtrn;
+        if((selectedPiece = grid.getPieceAtPosition(coup.getInit())) == null) {
+            return 2;
         }
 
         // coordonnées destination
         if(!grid.isInside(coup.getDest())){
-            rtrn.setValue(3);
-            return rtrn;
+            return 3;
         }
 
         if(grid.isCastle(coup.getDest()) && !selectedPiece.isKing()){
-            rtrn.setValue(4);
-            return rtrn;
+            return 4;
         }
 
         if(selectedPiece.isSamePosition(coup.getDest())){
-            rtrn.setValue(5);
-            return rtrn;
+            return 5;
         }
 
         if(!selectedPiece.canMoveTo(coup.getDest(), grid)){
-            rtrn.setValue(6);
-            return rtrn;
+            return 6;
         }
 
         if(!selectedPiece.isKing() && grid.isCornerPosition(coup.getDest())){
-            rtrn.setValue(7);
-            return rtrn;
+            return 7;
         }
 
-        //selectedPiece.c = new Structure.Coordinate(coup.getDest().getRow(), coup.)
+        return 0;
+    }
+
+    public void move(Coup coup){
+        // attention on doit avant appeler move vérifier que le pion est bien un pion du joueur courant
+
+        Piece selectedPiece = grid.getPieceAtPosition(coup.getInit());
+
         selectedPiece.setRow(coup.getDest().getRow());
         selectedPiece.setCol(coup.getDest().getCol());
 
-        rtrn.setPiece(selectedPiece);
-
-        //System.out.println(coup.getDest());
         grid.setPieceAtPosition(selectedPiece, coup.getDest());
         grid.setPieceAtPosition(null, coup.getInit());
-        return rtrn;
     }
 
     /**
@@ -167,18 +159,16 @@ public class GameRules implements Serializable {
         Coordinate sideCurrentCord;
 
         if(grid.isInside(currentCord)){
+
             sideCurrent = grid.getPieceAtPosition(currentCord);
             if( sideCurrent != null && ( (current.isAttacker() && sideCurrent.isDefender() ) || (current.isDefender() && sideCurrent.isAttacker()) ) ){
+
                 sideCurrentCord = new Coordinate(sideCurrent.getRow() + rowIndex, sideCurrent.getCol() + colIndex);
                 if (grid.isInside(sideCurrentCord)) {
+
                     sideSideCurrent = grid.getPieceAtPosition(sideCurrentCord);
                     if (grid.isCastle(sideCurrentCord) || grid.isCornerPosition(sideCurrentCord) || sideSideCurrent != null && ((current.isAttacker() && sideSideCurrent.isAttacker()) || (current.isDefender() && sideSideCurrent.isDefender()))) {
                         deletedPiece = sideCurrent;
-                        //nbAttack++;
-                        /*if(sideCurrent.isKing()) {
-                            setEndGameVar(ResultGame.ATTACKER_WIN);
-                            return nbAttack;
-                        }*/
                         if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
                         if(sideCurrent.isDefender()) nbPieceDefenderOnGrid--;
                         grid.setPieceAtPosition(null, currentCord);
@@ -186,11 +176,6 @@ public class GameRules implements Serializable {
 
                 } else {
                     deletedPiece = sideCurrent;
-                    //nbAttack++;
-                    /*if(sideCurrent.isKing()) {
-                        setEndGameVar(ResultGame.ATTACKER_WIN);
-                        return nbAttack;
-                    }*/
                     if(sideCurrent.isAttacker()) nbPieceAttackerOnGrid--;
                     if(sideCurrent.isDefender()) nbPieceDefenderOnGrid--;
                     grid.setPieceAtPosition(null, currentCord);

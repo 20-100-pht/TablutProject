@@ -550,4 +550,9 @@ public class GameFrame extends Frame {
         }
         return file;
     }
+
+    @Override
+    public void display(){
+        gameGraphicController.startGame();
+    }
 }

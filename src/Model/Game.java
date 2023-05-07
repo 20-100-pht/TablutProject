@@ -7,8 +7,8 @@ import java.io.*;
 public class Game implements Serializable {
     boolean attackerTurn;
 
-    boolean defenderAI;
-    boolean attackerAI;
+    boolean defenderIsAI;
+    boolean attackerIsAI;
 
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
@@ -17,35 +17,60 @@ public class Game implements Serializable {
     //AI.AIRandom aleatronDefender;
     AI aiMinMax;
     AIRandom aleatron;
-
+    AI defenderAI;
+    AI attackerAI;
     GameRules gameRules;
     String defenderName = "Alexandre";
     String attackerName = "Philippe";
     History history;
 
 
-    public Game(String defenderName, String attackerName){
+    public Game(String defenderName, String attackerName, AIDifficulty defAiDifficulty, AIDifficulty attAiDifficulty){
 
-        System.out.println("d"+defenderName+"d");
+        if(defAiDifficulty != AIDifficulty.HUMAN) defenderIsAI = true;
+        else defenderIsAI = false;
+        if(attAiDifficulty != AIDifficulty.HUMAN) attackerIsAI = true;
+        else attackerIsAI = false;
 
-        if(defenderName.length() == 0) this.defenderName = "Defenseur humain";
-        else this.defenderName = defenderName;
-        if(attackerName.length() == 0) this.attackerName = "Attaqueur humain";
-        else this.attackerName = attackerName;
+        defenderTypeAI = defAiDifficulty;
+        attackerTypeAI = attAiDifficulty;
 
-        System.out.println("d"+defenderName+"d");
+        if(defenderName.length() == 0) {
+            if(!defenderIsAI) this.defenderName = "Defenseur humain";
+            else this.defenderName = "Défenseur IA";
+        } else{
+            this.defenderName = defenderName;
+        }
+        if(attackerName.length() == 0) {
+            if(!attackerIsAI) this.attackerName = "Attaqueur humain";
+            else this.attackerName = "Attaqueur IA";
+        }
+        else {
+            this.attackerName = attackerName;
+        }
+
+        createIaInstances();
 
         gameRules = new GameRules();
         history = new History();
         reset();
     }
 
+    void createIaInstances(){
+        if(defenderIsAI){
+            if(defenderTypeAI == AIDifficulty.RANDOM){
+                defenderAI = new AIRandom();
+            }
+        }
+        if(attackerIsAI){
+            if(attackerTypeAI == AIDifficulty.RANDOM){
+                attackerAI = new AIRandom();
+            }
+        }
+    }
+
     public void reset(){
         attackerTurn = true;
-        defenderAI = true;
-        attackerAI = true;
-        attackerTypeAI = AIDifficulty.RANDOM;
-        defenderTypeAI = AIDifficulty.RANDOM;
         gameRules = new GameRules();
         aleatron = new AIRandom();
         aiMinMax = new AIEasy();
@@ -98,11 +123,11 @@ public class Game implements Serializable {
     public AIRandom getAleatron(){ return aleatron;}
 
     public boolean isAttackerAI() {
-        return attackerAI;
+        return attackerIsAI;
     }
 
     public boolean isDefenderAI() {
-        return defenderAI;
+        return defenderIsAI;
     }
 
     public boolean isAttackerTurn(){
@@ -118,7 +143,7 @@ public class Game implements Serializable {
     }
 
     public boolean isAiTest(){
-        return attackerAI && defenderAI;
+        return attackerIsAI && defenderIsAI;
     }
 
     public String getDefenderName(){
@@ -133,13 +158,31 @@ public class Game implements Serializable {
         return history;
     }
     
-    public void setGameDefenderAI(boolean isDefenderAI){defenderAI = isDefenderAI;}
-    public void setGameAttackerAI(boolean isAttackerAI){attackerAI = isAttackerAI;}
+    public void setGameDefenderAI(boolean isDefenderAI){
+        defenderIsAI = isDefenderAI;
+    }
+    public void setGameAttackerAI(boolean isAttackerAI){
+        attackerIsAI = isAttackerAI;
+    }
 
-    public void setAIAttackerDifficulty(AIDifficulty AIDiff){attackerTypeAI = AIDiff;}
-    public void setAIDefenderDifficulty(AIDifficulty AIDiff){defenderTypeAI = AIDiff;}
+    public void setAIAttackerDifficulty(AIDifficulty AIDiff){
+        attackerTypeAI = AIDiff;
+    }
+    public void setAIDefenderDifficulty(AIDifficulty AIDiff){
+        defenderTypeAI = AIDiff;
+    }
 
-    public AIDifficulty getAIDefenderDifficulty (){return attackerTypeAI;}
-    public AIDifficulty getAIAttackerDifficulty (){return defenderTypeAI;}
+    public AIDifficulty getAIDefenderDifficulty (){
+        return attackerTypeAI;
+    }
+    public AIDifficulty getAIAttackerDifficulty (){
+        return defenderTypeAI;
+    }
 
+    public AI getDefenderAI(){
+        return defenderAI;
+    }
+    public AI getAttackerAI(){
+        return attackerAI;
+    }
 }

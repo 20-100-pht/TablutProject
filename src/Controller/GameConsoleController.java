@@ -4,11 +4,11 @@ import AI.AIDifficulty;
 import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
-import Structure.ReturnValue;
 
 public class GameConsoleController {
 
     GameRules gameRules;
+    Grid grid;
     Game game;
     UserController user;
 
@@ -22,10 +22,11 @@ public class GameConsoleController {
 
     public GameConsoleController(){
         user = new UserController();
-        game = new Game("", "");
+        game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.RANDOM);
         nbTurn = 0;
         printGridTerminal = false;
         gameRules = game.getGameRulesInstance();
+        grid = gameRules.getGrid();
     }
 
     public ResultGame playGame(){
@@ -65,18 +66,20 @@ public class GameConsoleController {
 
             coupPlayer = user.getCoupUser();
 
-            ReturnValue returnValue = gameRules.move(coupPlayer);
-            current = returnValue.getPiece();
+            int error;
+            if((error = gameRules.isLegalMove(coupPlayer)) != 0){
+                printMoveError(error);
+                return null;
+            }
 
-            if(current == null){errorPlayerMovingPiece(returnValue);}
+            gameRules.move(coupPlayer);
+            current = grid.getPieceAtPosition(coupPlayer.getDest());
 
             if (current != null && ( (current.isAttacker() && !game.isAttackerTurn()) || (current.isDefenderOrKing() && game.isAttackerTurn()) ) ){
                 if(printGridTerminal) System.out.println("Ce pion n'est pas le votre !");
                 current = null;
             }
-
         }
-
         return current;
     }
 
@@ -89,15 +92,15 @@ public class GameConsoleController {
             while(current == null) {
                 if(game.getAIDefenderDifficulty() == AIDifficulty.RANDOM){
                     Coup coupAI = game.getAleatron().playMove(gameRules, RANDOM_AI_MAX_DEPTH, PieceType.DEFENDER);
-                    ReturnValue returnValue = gameRules.move(coupAI);
-                    current = returnValue.getPiece();
+                    gameRules.move(coupAI);
+                    current = grid.getPieceAtPosition(coupAI.getDest());
                 }
                 ////if (nbTurn < 3) {
                 else {
                     //Structure.Coup coupAI = aleatronDefender.playMove();
                     Coup coupAI = game.getAiMinMax().playMove(gameRules, MAX_DEPTH, PieceType.DEFENDER);
-                    ReturnValue returnValue = gameRules.move(coupAI);
-                    current = returnValue.getPiece();
+                    gameRules.move(coupAI);
+                    current = grid.getPieceAtPosition(coupAI.getDest());
 
                     if (current == null) {
                         System.out.println("\n\nError : Defender Coup");
@@ -127,14 +130,14 @@ public class GameConsoleController {
             while(current == null) {
                 if(game.getAIAttackerDifficulty() == AIDifficulty.RANDOM){
                     Coup coupAI = game.getAleatron().playMove(gameRules, RANDOM_AI_MAX_DEPTH, PieceType.ATTACKER);
-                    ReturnValue returnValue = gameRules.move(coupAI);
-                    current = returnValue.getPiece();
+                    gameRules.move(coupAI);
+                    current = grid.getPieceAtPosition(coupAI.getDest());
                 }
                 //if (nbTurn < 3) {
                 else {
                     Coup coupAI = game.getAiMinMax().playMove(gameRules,MAX_DEPTH, PieceType.ATTACKER);
-                    ReturnValue returnValue = gameRules.move(coupAI);
-                    current = returnValue.getPiece();
+                    gameRules.move(coupAI);
+                    current = grid.getPieceAtPosition(coupAI.getDest());
 
                     if(current == null){
                         System.out.println("\n\nError : Attacker Coup");
@@ -163,8 +166,8 @@ public class GameConsoleController {
 
     public Game getGame(){return game;}
 
-    private void errorPlayerMovingPiece (ReturnValue returnValue){
-        switch(returnValue.getValue()){
+    private void printMoveError (int errorIndex){
+        switch(errorIndex){
             case 1:
                 if(printGridTerminal) System.out.println("Coordonnées invalides (en dehors de la grille), veuillez saisir à nouveau.");
                 break;

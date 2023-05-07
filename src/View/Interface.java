@@ -95,6 +95,7 @@ public class Interface {
         frame.adaptWindow();
         frame.build();
         window.add(frame);
+        frame.display();
     }
 
     public GameFrame getGameFrame(){
