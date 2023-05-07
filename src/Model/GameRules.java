@@ -102,6 +102,7 @@ public class GameRules implements Serializable {
 
         rtrn.setPiece(selectedPiece);
 
+        //System.out.println(coup.getDest());
         grid.setPieceAtPosition(selectedPiece, coup.getDest());
         grid.setPieceAtPosition(null, coup.getInit());
         return rtrn;
@@ -336,10 +337,13 @@ public class GameRules implements Serializable {
     public void setNbPieceDefenderOnGrid(int nbPieceDefenderOnGrid){
         this.nbPieceDefenderOnGrid = nbPieceDefenderOnGrid;
     }
+    public void incNbPieceAttackerOnGrid(){
+        nbPieceAttackerOnGrid++;
+    }
+    public void incNbPieceDefenderOnGrid(){
+        nbPieceDefenderOnGrid++;
+    }
     public void setGrid(Grid grid){
         this.grid = grid;
-    }
-    public void setKingPiece(Piece king){
-        this.king = king;
     }
 }

@@ -103,17 +103,29 @@ public class GameGraphicController {
     public void undoHistoryMove(HistoryMove move){
         Coup coup = move.getCoup();
         Piece piece = grid.getPieceAtPosition(coup.getDest());
+        piece.setCol(coup.getInit().getCol());
+        piece.setRow(coup.getInit().getRow());
         grid.setPieceAtPosition(piece, coup.getInit());
         grid.setPieceAtPosition(null, coup.getDest());
 
         for(int i = 0; i < move.getKilledPieces().size(); i++){
             Piece kPiece = move.getKilledPieces().get(i);
             grid.setPieceAtPosition(kPiece, kPiece.getCoords());
+            if(kPiece.getType() == PieceType.DEFENDER){
+                gameRules.incNbPieceDefenderOnGrid();
+            }
+            else if(kPiece.getType() == PieceType.ATTACKER){
+                gameRules.incNbPieceAttackerOnGrid();
+            }
         }
         game.setIsAttackerTurn(move.isAttackerMove());
     }
 
     public void redoHistoryMove(HistoryMove move){
-
+        Coup coup = move.getCoup();
+        Piece piece = grid.getPieceAtPosition(coup.getInit());
+        ReturnValue m = gameRules.move(coup);
+        gameRules.attack(piece);
+        game.setIsAttackerTurn(!move.isAttackerMove());
     }
 }

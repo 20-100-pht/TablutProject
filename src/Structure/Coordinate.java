@@ -26,4 +26,9 @@ public class Coordinate implements Serializable {
         return (int)col;
     }
 
+    @Override
+    public String toString(){
+        return "("+col+","+row+")";
+    }
+
 }

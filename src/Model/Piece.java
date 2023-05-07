@@ -128,6 +128,9 @@ public class Piece implements Serializable {
     public Coordinate getCoords(){
         return new Coordinate(getRow(), getCol());
     }
+    public void setCoords(Coordinate coords){
+        c = coords;
+    }
 
     public boolean inSameTeam(Piece otherPiece){
         return type == otherPiece.getType() || (type == PieceType.KING && otherPiece.getType() == PieceType.DEFENDER)

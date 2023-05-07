@@ -18,4 +18,9 @@ public class Coup {
         return dest;
     }
 
+    @Override
+    public String toString(){
+        return init + " -> " + dest;
+    }
+
 }
