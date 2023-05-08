@@ -63,17 +63,21 @@ public class GameGraphicController {
 
         game.toogleAttackerTurn();
 
-        if(isAiTurn()) doAiTurn();
+        if(isAiTurn()) doAiTurnInSeparateThread();
     }
 
     public void bttnReplayClickHandler(){
         gameFrame.hideAllMessages();
         gameFrame.hideEndGameButtons();
         game.reset();
+        startGame();
     }
 
     public void bttnSaveClickHandler(){
         File saveFile = gameFrame.showSaveDialog();
+        if(saveFile == null){
+            return;
+        }
         try {
             FileOutputStream fos = new FileOutputStream(saveFile);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -136,6 +140,16 @@ public class GameGraphicController {
         return game.isAttackerTurn() && game.isAttackerAI() || !game.isAttackerTurn() && game.isDefenderAI();
     }
 
+    public void doAiTurnInSeparateThread(){
+        Thread threadAI = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                doAiTurn();
+            }
+        });
+        threadAI.start();
+    }
+
     public void doAiTurn(){
         AI ai;
         PieceType t;
@@ -149,21 +163,23 @@ public class GameGraphicController {
         }
         long start = System.currentTimeMillis();
         Coup coupAI = ai.playMove(gameRules, 3, t);
-        play(coupAI);
         long end = System.currentTimeMillis();
 
-        long timeToWait = 1000-(end-start);
+        System.out.println(end-start);
+
+        long timeToWait = 1500-(end-start);
         //On évite d'enchainer les coups de l'IA trop vite
         try {
             if(timeToWait > 0) {
-                sleep(timeToWait);
+                Thread.sleep(timeToWait);
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        play(coupAI);
     }
 
     public void startGame(){
-        if(isAiTurn()) doAiTurn();
+        if(isAiTurn()) doAiTurnInSeparateThread();
     }
 }

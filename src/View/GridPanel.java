@@ -35,6 +35,8 @@ public class GridPanel extends JPanel {
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
     Coordinate moveMarksCoords;
+    boolean frozen;
+
     public static final int GRID_SIZE = 9;
 
     public GridPanel(GameFrame gameFrame){
@@ -172,5 +174,9 @@ public class GridPanel extends JPanel {
 
     public void setSelectionMarkCoords(Coordinate coords){
         selectionMarkCoords = coords;
+    }
+
+    public void setFrozen(boolean frozen){
+        this.frozen = frozen;
     }
 }

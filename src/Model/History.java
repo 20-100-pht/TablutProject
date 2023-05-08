@@ -51,4 +51,9 @@ public class History implements Serializable {
             return stack.lastElement();
         return null;
     }
+
+    public void reset(){
+        pos = 0;
+        stack.clear();
+    }
 }

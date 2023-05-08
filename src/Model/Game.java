@@ -71,9 +71,10 @@ public class Game implements Serializable {
 
     public void reset(){
         attackerTurn = true;
-        gameRules = new GameRules();
+        gameRules.resetGameControler();
         aleatron = new AIRandom();
         aiMinMax = new AIEasy();
+        history.reset();
     }
 
     public void loadFromFile(String filePath){

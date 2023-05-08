@@ -15,6 +15,9 @@ public class MenuController {
 
     public void loadGame(){
         File file = menuFrame.showLoadDialog();
+        if(file == null){
+            return;
+        }
         try {
             FileInputStream is = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(is);
