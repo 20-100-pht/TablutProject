@@ -6,7 +6,7 @@ import java.io.*;
 
 public class Game implements Serializable {
     boolean attackerTurn;
-
+    int turnIndex;
     boolean defenderIsAI;
     boolean attackerIsAI;
 
@@ -71,6 +71,7 @@ public class Game implements Serializable {
 
     public void reset(){
         attackerTurn = true;
+        turnIndex = 0;
         gameRules.resetGameControler();
         aleatron = new AIRandom();
         aiMinMax = new AIEasy();
@@ -185,5 +186,17 @@ public class Game implements Serializable {
     }
     public AI getAttackerAI(){
         return attackerAI;
+    }
+
+    public int getTurnIndex(){
+        return turnIndex;
+    }
+
+    public void incTurnIndex(){
+        turnIndex++;
+    }
+
+    public void setTurnIndex(int turnIndex) {
+        this.turnIndex = turnIndex;
     }
 }

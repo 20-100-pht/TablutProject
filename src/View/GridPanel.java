@@ -31,6 +31,7 @@ public class GridPanel extends JPanel {
     Image imageDefender;
     Image imageAttacker;
     Image imageKing;
+    Image imageTrone;
     Image imageFortress;
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
@@ -50,6 +51,8 @@ public class GridPanel extends JPanel {
 
         possibleMoveMarks = new Vector<Coordinate>();
 
+        frozen = false;
+
         loadAssets();
         setEventsHandlers();
     }
@@ -68,6 +71,9 @@ public class GridPanel extends JPanel {
 
                 if (grid.isCornerPosition(new Coordinate(l, c))) {
                     g.drawImage(imageFortress, pieceX, pieceY, pieceSize, pieceSize, null);
+                }
+                if(l == 4 && c == 4){
+                    //g.drawImage(imageTrone, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
 
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
@@ -125,6 +131,7 @@ public class GridPanel extends JPanel {
             imageAttacker = ImageIO.read(new File("assets/images/attacker.png"));
             imageKing = ImageIO.read(new File("assets/images/king.png"));
             imageFortress = ImageIO.read(new File("assets/images/fortress.png"));
+            imageTrone = ImageIO.read(new File("assets/images/trone.png"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -145,6 +152,7 @@ public class GridPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
+                if(frozen) return;
                 gridPanelController.mouseMovedHandler(e);
             }
         });
@@ -159,6 +167,7 @@ public class GridPanel extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e){
                 super.mouseClicked(e);
+                if(frozen) return;
                 gridPanelController.mouseReleasedHandler(e);
             }
         });

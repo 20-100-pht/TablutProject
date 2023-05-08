@@ -36,6 +36,8 @@ public class GameFrame extends Frame {
     JButton bttnRedo;
     CapturedPiecesPanel capturedPiecesPanel1;
     CapturedPiecesPanel capturedPiecesPanel2;
+    boolean frozen;
+    JLabel labelIndexTurn;
 
 
     public GameFrame(Interface ui, Game game){
@@ -43,6 +45,8 @@ public class GameFrame extends Frame {
 
         gameGraphicController = new GameGraphicController(this, game);
         this.game = game;
+
+        frozen = false;
 
         loadAssets();
     }
@@ -56,6 +60,7 @@ public class GameFrame extends Frame {
         //Main Panel
 
         JPanel mainPanel = new JPanel();
+        mainPanel.setOpaque(false);
         OverlayLayout oLayout = new OverlayLayout(mainPanel);
         mainPanel.setLayout(oLayout);
         this.add(mainPanel);
@@ -63,6 +68,7 @@ public class GameFrame extends Frame {
         //Panel background
 
         JPanel bgPanel = new JPanel();
+        bgPanel.setOpaque(false);
 
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
@@ -279,7 +285,7 @@ public class GameFrame extends Frame {
 
         Border borderIndexTurn = BorderFactory.createEmptyBorder(0, 30, 0 ,30);
 
-        JLabel labelIndexTurn = new JLabel("Tour 1");
+        labelIndexTurn = new JLabel("Tour 1");
         labelIndexTurn.setFont(fontDialog20);
         labelIndexTurn.setBorder(borderIndexTurn);
         turnPanel.add(labelIndexTurn);
@@ -369,6 +375,7 @@ public class GameFrame extends Frame {
         bttnUndo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(frozen) return;
                 gameGraphicController.bttnUndoClickHandler();
             }
         });
@@ -376,6 +383,7 @@ public class GameFrame extends Frame {
         bttnRedo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(frozen) return;
                 gameGraphicController.bttnRedoClickHandler();
             }
         });
@@ -554,5 +562,14 @@ public class GameFrame extends Frame {
     @Override
     public void display(){
         gameGraphicController.startGame();
+    }
+
+    public void setFrozen(boolean frozen){
+        this.frozen = frozen;
+        gridPanel.setFrozen(frozen);
+    }
+
+    public void setTurnLabelValue(int turnIndex){
+        labelIndexTurn.setText("Tour "+Integer.toString(turnIndex+1));
     }
 }
