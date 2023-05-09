@@ -6,6 +6,7 @@ import Structure.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AIMedium extends AI {
 
@@ -15,7 +16,7 @@ public class AIMedium extends AI {
         int defenders = 0;
         int nearKing = 0;
 
-        GameRules gRules = current.getGameRules();
+        LogicGrid gRules = current.getLogicGrid();
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
 
@@ -40,9 +41,9 @@ public class AIMedium extends AI {
             }
         }
 
-        if(current.getGameRules().getEndGameType() == ResultGame.ATTACKER_WIN)
+        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
             return 1000000*(depth+1);
-        else if (current.getGameRules().getEndGameType() == ResultGame.DEFENDER_WIN) {
+        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
             return -1000000*(depth+1);
         }
 
@@ -53,12 +54,12 @@ public class AIMedium extends AI {
         //                (attackers - defenders)*100 +
         //                (kingDistanceToCorner(k)+1)*1000 +
         //                //-nearKing*1000 +
-        //                isNextToKing(k,current.getGameRules().getGrid())*500 +
-        //                canKingGoToWall(current,current.getGameRules().getGrid()))*2000;
+        //                isNextToKing(k,current.getLogicGrid().getGrid())*500 +
+        //                canKingGoToWall(current,current.getLogicGrid().getGrid()))*2000;
 
         double value = (double)
                 (attackers)*500 +
-                isNextToKing(k,current.getGameRules().getGrid())*1000 +
+                isNextToKing(k,current.getLogicGrid().getGrid())*1000 +
                 canKingGoToWall(current)*5000;
 
         //Attackers want a high value, Defenders want a low value
@@ -117,9 +118,9 @@ public class AIMedium extends AI {
     }
 
     private int canKingGoToWall(Node n){
-        Grid grid = n.getGameRules().getGrid();
-        int x = n.getGameRules().getKing().getCol();
-        int y = n.getGameRules().getKing().getRow();
+        Grid grid = n.getLogicGrid().getGrid();
+        int x = n.getLogicGrid().getKing().getCol();
+        int y = n.getLogicGrid().getKing().getRow();
 
         int value = 4;
         if(x == 0 || x == 8){
@@ -129,16 +130,16 @@ public class AIMedium extends AI {
             value--;
         }
 
-        if(n.getGameRules().getKing().canMoveTo(new Coordinate(y,0),grid)){
+        if(n.getLogicGrid().getKing().canMoveTo(new Coordinate(y,0),grid)){
             value--;
         }
-        if(n.getGameRules().getKing().canMoveTo(new Coordinate(y,8),grid)){
+        if(n.getLogicGrid().getKing().canMoveTo(new Coordinate(y,8),grid)){
             value--;
         }
-        if(n.getGameRules().getKing().canMoveTo(new Coordinate(0,x),grid)){
+        if(n.getLogicGrid().getKing().canMoveTo(new Coordinate(0,x),grid)){
             value--;
         }
-        if(n.getGameRules().getKing().canMoveTo(new Coordinate(8,x),grid)){
+        if(n.getLogicGrid().getKing().canMoveTo(new Coordinate(8,x),grid)){
             value--;
         }
 
