@@ -11,12 +11,12 @@ import java.awt.event.MouseEvent;
 public class GridPanelController {
     Grid grid;
     GridPanel gridPanel;
-    GameRules logicGrid;
+    LogicGrid logicGrid;
     GameGraphicController gameGraphicController;
     Game game;
     Coordinate pieceSelectedCoords;
 
-    public GridPanelController(GridPanel gridPanel, GameRules logicGrid, GameGraphicController gameGraphicController){
+    public GridPanelController(GridPanel gridPanel, LogicGrid logicGrid, GameGraphicController gameGraphicController){
         this.gridPanel = gridPanel;
         this.logicGrid = logicGrid;
         this.gameGraphicController = gameGraphicController;

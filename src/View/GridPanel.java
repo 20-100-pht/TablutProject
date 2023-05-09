@@ -3,7 +3,7 @@ package View;
 import Controller.GameGraphicController;
 import Controller.GridPanelController;
 import Model.Game;
-import Model.GameRules;
+import Model.LogicGrid;
 import Model.Grid;
 import Model.Piece;
 import Structure.Coordinate;
@@ -26,7 +26,7 @@ public class GridPanel extends JPanel {
     GameGraphicController gameGraphicController;
     Game game;
     Grid grid;
-    GameRules gameLogic;
+    LogicGrid gameLogic;
     Image imageCase;
     Image imageDefender;
     Image imageAttacker;
@@ -46,7 +46,7 @@ public class GridPanel extends JPanel {
         gameGraphicController = gameFrame.getGraphicGameController();
         game = gameGraphicController.getGameInstance();
         grid = game.getGridInstance();
-        gameLogic = game.getGameRulesInstance();
+        gameLogic = game.getLogicGridInstance();
         this.gridPanelController = new GridPanelController(this, gameGraphicController.getGameInstance().getLogicGrid(), gameGraphicController);
 
         possibleMoveMarks = new Vector<Coordinate>();

@@ -1,6 +1,6 @@
 package View;
 
-import Model.GameRules;
+import Model.LogicGrid;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,7 +14,7 @@ public class CapturedPiecesPanel extends JPanel {
     Image imageDefender;
     Image imageAttacker;
     boolean isAttackerPieces;
-    GameRules gameLogic;
+    LogicGrid gameLogic;
     public CapturedPiecesPanel(GameFrame gameFrame, boolean isAttackerPieces){
         this.isAttackerPieces = isAttackerPieces;
         gameLogic = gameFrame.getGraphicGameController().getGameInstance().getLogicGrid();

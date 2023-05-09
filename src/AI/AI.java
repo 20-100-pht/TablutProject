@@ -21,14 +21,14 @@ public abstract class AI {
 
     /**
      * Returns the next (best or not) playable move
-     * /!\ GameRules must be cloned first
+     * /!\ LogicGrid must be cloned first
      *
      * @param g current game rules
      * @param depth depth of search
      * @param type type of piece playing
      * @return a coup
      */
-    public Coup playMove(GameRules g, int depth, PieceType type) {
+    public Coup playMove(LogicGrid g, int depth, PieceType type) {
 
         //Copy board
         dep = depth;
@@ -38,7 +38,7 @@ public abstract class AI {
         double beta = Double.POSITIVE_INFINITY;
 
         //Create first node
-        Node n = new Node(g.cloneGameRules(), null, ResultGame.NO_END_GAME);
+        Node n = new Node(g.cloneLogicGrid(), null, ResultGame.NO_END_GAME);
 
         //Call minimax
         return minimaxAlgo(n, depth, type, alpha, beta).getBestMove();
@@ -57,7 +57,7 @@ public abstract class AI {
      */
     private Node minimaxAlgo(Node node, int depth, PieceType maximizingPlayer, double alpha, double beta) {
 
-        GameRules currentGR = node.getGameRules();
+        LogicGrid currentGR = node.getLogicGrid();
 
         //Depth reached or end game
         if (depth == 0 || currentGR.getEndGameType() != ResultGame.NO_END_GAME ) {
@@ -116,7 +116,7 @@ public abstract class AI {
         for(int i = 0; i<children.size(); i++){
 
             //If child is a wining move return move
-            if(children.get(i).getGameRules().getEndGameType() == win){
+            if(children.get(i).getLogicGrid().getEndGameType() == win){
                 //System.out.println("Is wining move");
 
                 //The closer to the root, the faster we win, the bigger the value
@@ -171,7 +171,7 @@ public abstract class AI {
      */
     private void createNodeChildren(Node father, PieceType type, int depth){
 
-        GameRules fatherGR = father.getGameRules();
+        LogicGrid fatherGR = father.getLogicGrid();
         int boardSize = fatherGR.getGrid().getSizeGrid();
         Piece[][] board = fatherGR.getGrid().board;
 
@@ -192,32 +192,32 @@ public abstract class AI {
                     //Create and add children nodes
                     for (Coordinate coordDest : moves){
                         //Create ne game rules
-                        GameRules newGameRules = fatherGR.cloneGameRules();
+                        LogicGrid newLogicGrid = fatherGR.cloneLogicGrid();
 
                         //Get piece to move
-                        Piece pieceToMove = newGameRules.getGrid().getPieceAtPosition(current.c);
+                        Piece pieceToMove = newLogicGrid.getGrid().getPieceAtPosition(current.c);
 
                         //Create movement
                         Coup coup = new Coup(new Coordinate(pieceToMove.c.getRow(),pieceToMove.c.getCol()), new Coordinate(coordDest.getRow(),coordDest.getCol()));
 
                         //Move piece
-                        newGameRules.move(coup);
+                        newLogicGrid.move(coup);
 
                         //Check if king is captured
-                        newGameRules.capture();
+                        newLogicGrid.capture();
 
                         //Attack
-                        Vector<Piece> c = newGameRules.attack(pieceToMove);
+                        Vector<Piece> c = newLogicGrid.attack(pieceToMove);
 
                         //Check if defenders win
                         if(type == PieceType.DEFENDER){
                             //Call to check if defenders have won
-                            newGameRules.isDefenderWinConfiguration();
+                            newLogicGrid.isDefenderWinConfiguration();
                         }
 
-                        ResultGame end = newGameRules.getEndGameType();
+                        ResultGame end = newLogicGrid.getEndGameType();
 
-                        Node tmpNode = new Node(newGameRules, new Coup(new Coordinate(y,x),coordDest), end);
+                        Node tmpNode = new Node(newLogicGrid, new Coup(new Coordinate(y,x),coordDest), end);
 
 
                         //Add child to first place
@@ -225,7 +225,7 @@ public abstract class AI {
                             if(end != ResultGame.NO_END_GAME){
                                 //System.out.println(end + " in "+ ((dep+1)-depth) + " moves");
                                 /*System.out.println(end + " in "+ ((dep+1)-depth) + " moves");
-                                newGameRules.grid.print();
+                                newLogicGrid.grid.print();
                                 System.out.println("\n");*/
                             }
                             father.addChildTo(0,tmpNode);

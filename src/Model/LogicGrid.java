@@ -6,7 +6,7 @@ import Structure.Coup;
 import java.io.Serializable;
 import java.util.Vector;
 
-public class GameRules implements Serializable {
+public class LogicGrid implements Serializable {
     ResultGame endGameVar = ResultGame.NO_END_GAME;
 
     public Piece king;
@@ -16,15 +16,15 @@ public class GameRules implements Serializable {
     int nbPieceDefenderOnGrid;
 
 
-    public GameRules(){
+    public LogicGrid(){
         grid = new Grid();
-        resetGameControler();
+        reset();
     }
 
     /**
      * Reset game rules, ready for new game
      */
-    public void resetGameControler (){
+    public void reset(){
         grid.reset();
         king = grid.getPieceAtPosition(new Coordinate(4,4));
         nbPieceAttackerOnGrid = 16;
@@ -391,19 +391,19 @@ public class GameRules implements Serializable {
      * Clone game rules
      * @return cloned game rules
      */
-    public GameRules cloneGameRules(){
+    public LogicGrid cloneLogicGrid(){
 
         //Create new GR
-        GameRules newGameRules = new GameRules();
+        LogicGrid newLogicGrid = new LogicGrid();
 
         //Clone grid
         Grid newGrid = grid.cloneGrid();
 
         //Add grid
-        newGameRules.setGrid(newGrid);
+        newLogicGrid.setGrid(newGrid);
 
         //Add king
-        newGameRules.setKing(newGrid.getPieceAtPosition(new Coordinate(king.getRow(), king.getCol())));
+        newLogicGrid.setKing(newGrid.getPieceAtPosition(new Coordinate(king.getRow(), king.getCol())));
 
         ResultGame a = ResultGame.NO_END_GAME;
         switch (getEndGameType()){
@@ -422,11 +422,11 @@ public class GameRules implements Serializable {
         }
 
         //Add end game type
-        newGameRules.setEndGameVar(a);
+        newLogicGrid.setEndGameVar(a);
 
         //Add nb attckers
-        newGameRules.setNbPieceAttackerOnGrid(getNbPieceAttackerOnGrid());
+        newLogicGrid.setNbPieceAttackerOnGrid(getNbPieceAttackerOnGrid());
 
-        return newGameRules;
+        return newLogicGrid;
     }
 }

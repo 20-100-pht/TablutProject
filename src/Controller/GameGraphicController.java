@@ -13,15 +13,15 @@ import static java.lang.Thread.sleep;
 public class GameGraphicController {
 
     GameFrame gameFrame;
-    GameRules gameRules;
+    LogicGrid logicGrid;
     Grid grid;
     Game game;
 
     public GameGraphicController(GameFrame gameFrame, Game game){
         this.gameFrame = gameFrame;
         this.game = game;
-        gameRules = game.getGameRulesInstance();
-        grid = gameRules.getGrid();
+        logicGrid = game.getLogicGridInstance();
+        grid = logicGrid.getGrid();
     }
 
     public Game getGameInstance(){
@@ -30,24 +30,24 @@ public class GameGraphicController {
 
     public void play(Coup coup, boolean addToHistory){
 
-        if(gameRules.isEndGame()){
+        if(logicGrid.isEndGame()){
             return;
         }
 
-        Grid grid = gameRules.getGrid();
+        Grid grid = logicGrid.getGrid();
         Piece pieceSelected = grid.getPieceAtPosition(coup.getInit());
 
         if(pieceSelected.isAttacker() && !game.isAttackerTurn() || (pieceSelected.isDefender() || pieceSelected.isKing()) && game.isAttackerTurn()){
             return;
         }
 
-        if(gameRules.isLegalMove(coup) != 0){
+        if(logicGrid.isLegalMove(coup) != 0){
             return;
         }
-        gameRules.move(coup);
+        logicGrid.move(coup);
 
-        gameRules.capture();
-        Vector<Piece> killedPieces = gameRules.attack(pieceSelected);
+        logicGrid.capture();
+        Vector<Piece> killedPieces = logicGrid.attack(pieceSelected);
 
         if(addToHistory) {
             History history = game.getHistoryInstance();
@@ -64,14 +64,14 @@ public class GameGraphicController {
     }
 
     void TreatPossibleEndGame(){
-        if(gameRules.isAttackerWinConfiguration()) {
+        if(logicGrid.isAttackerWinConfiguration()) {
             gameFrame.showWinMessage(game.getAttackerName());
         }
-        else if(gameRules.isDefenderWinConfiguration()){
+        else if(logicGrid.isDefenderWinConfiguration()){
             gameFrame.showWinMessage(game.getDefenderName());
         }
 
-        if(gameRules.isAttackerWinConfiguration() || gameRules.isDefenderWinConfiguration()){
+        if(logicGrid.isAttackerWinConfiguration() || logicGrid.isDefenderWinConfiguration()){
             gameFrame.showEndGameButtons();
             gameFrame.setFrozen(true);
         }
@@ -130,10 +130,10 @@ public class GameGraphicController {
             Piece kPiece = move.getKilledPieces().get(i);
             grid.setPieceAtPosition(kPiece, kPiece.getCoords());
             if(kPiece.getType() == PieceType.DEFENDER){
-                gameRules.incNbPieceDefenderOnGrid();
+                logicGrid.incNbPieceDefenderOnGrid();
             }
             else if(kPiece.getType() == PieceType.ATTACKER){
-                gameRules.incNbPieceAttackerOnGrid();
+                logicGrid.incNbPieceAttackerOnGrid();
             }
         }
 
@@ -176,7 +176,7 @@ public class GameGraphicController {
             t = PieceType.DEFENDER;
         }
         long start = System.currentTimeMillis();
-        Coup coupAI = ai.playMove(gameRules, 3, t);
+        Coup coupAI = ai.playMove(logicGrid, 3, t);
         long end = System.currentTimeMillis();
 
 

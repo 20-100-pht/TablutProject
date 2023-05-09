@@ -19,7 +19,7 @@ public class Game implements Serializable {
     AIRandom aleatron;
     AI defenderAI;
     AI attackerAI;
-    GameRules gameRules;
+    LogicGrid logicGrid;
     String defenderName = "Alexandre";
     String attackerName = "Philippe";
     History history;
@@ -51,7 +51,7 @@ public class Game implements Serializable {
 
         createIaInstances();
 
-        gameRules = new GameRules();
+        logicGrid = new LogicGrid();
         history = new History();
         reset();
     }
@@ -72,50 +72,20 @@ public class Game implements Serializable {
     public void reset(){
         attackerTurn = true;
         turnIndex = 0;
-        gameRules.resetGameControler();
+        logicGrid.reset();
         aleatron = new AIRandom();
         aiMinMax = new AIEasy();
         history.reset();
     }
 
-    public void loadFromFile(String filePath){
-        try {
-            FileInputStream fis = new FileInputStream(filePath);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            gameRules = (GameRules) ois.readObject();
-
-            ois.close();
-
-        } catch (IOException e) {
-            System.out.println(e.toString());
-        } catch (ClassNotFoundException e){
-            System.out.println(e.toString());
-        }
-    }
-
-    public void saveInFile(String filePath){
-        try {
-            FileOutputStream fos = new FileOutputStream(filePath);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-            oos.writeObject(gameRules);
-
-            oos.close();
-
-        } catch(IOException e) {
-            System.out.println(e.toString());
-        }
-    }
-
     public Grid getGridInstance(){
-        return gameRules.grid;
+        return logicGrid.grid;
     }
-    public GameRules getGameRulesInstance(){
-        return gameRules;
+    public LogicGrid getLogicGridInstance(){
+        return logicGrid;
     }
-    public GameRules getLogicGrid(){
-        return gameRules;
+    public LogicGrid getLogicGrid(){
+        return logicGrid;
     }
 
     public AI getAiMinMax() {

@@ -1,6 +1,6 @@
 package AI;
 
-import Model.GameRules;
+import Model.LogicGrid;
 import Model.ResultGame;
 import Structure.Node;
 
@@ -10,7 +10,7 @@ public class AIRandom extends AI{
     @Override
     public double heuristic(Node current, int depth) {
 
-        GameRules gm = current.getGameRules();
+        LogicGrid gm = current.getLogicGrid();
 
         if(gm.getEndGameType() == ResultGame.DEFENDER_WIN){
             //If defender can win in max 3 moves (Defender - Attacker - Defender)
