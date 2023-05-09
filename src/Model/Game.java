@@ -60,11 +60,15 @@ public class Game implements Serializable {
         if(defenderIsAI){
             if(defenderTypeAI == AIDifficulty.RANDOM){
                 defenderAI = new AIRandom();
+            }else if(defenderTypeAI == AIDifficulty.MID){
+                defenderAI = new AIMedium();
             }
         }
         if(attackerIsAI){
             if(attackerTypeAI == AIDifficulty.RANDOM){
                 attackerAI = new AIRandom();
+            }else if(attackerTypeAI == AIDifficulty.MID){
+                attackerAI = new AIMedium();
             }
         }
     }
@@ -74,7 +78,7 @@ public class Game implements Serializable {
         turnIndex = 0;
         logicGrid.reset();
         aleatron = new AIRandom();
-        aiMinMax = new AIEasy();
+        aiMinMax = new AIMedium();
         history.reset();
     }
 

@@ -31,13 +31,12 @@ public class NewGameFrame extends Frame {
     JRadioButton rdoEasyDefPart;
     JRadioButton rdoMediumDefPart;
     JRadioButton rdoDifficultDefPart;
-    Image imageBackground;
     public NewGameFrame(Interface ui){
         super(ui);
 
         try{
             returnImage = new ImageIcon(ImageIO.read(new File("assets/images/arrow2.png")));
-            imageBackground = ImageIO.read(new File("assets/images/backgroundNewGame.jpg"));
+            //selectorImage= Global.GraphicUtils.resizeImage(selectorImage, 16, 16);
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -87,7 +86,6 @@ public class NewGameFrame extends Frame {
 
         centralPart = new JPanel();
         GridBagLayout gLayoutCP = new GridBagLayout();
-        centralPart.setOpaque(false);
         centralPart.setLayout(gLayoutCP);
 
         c.gridx = 1;
@@ -101,7 +99,6 @@ public class NewGameFrame extends Frame {
         c.weightx = 0.3;
 
         JPanel spaceLeft = new JPanel();
-        spaceLeft.setOpaque(false);
         c.gridx = 0;
         c.gridy = 1;
         c.fill = GridBagConstraints.BOTH;
@@ -109,7 +106,6 @@ public class NewGameFrame extends Frame {
         this.add(spaceLeft);
 
         JPanel spaceRight = new JPanel();
-        spaceRight.setOpaque(false);
         c.gridx = 2;
         c.gridy = 1;
         c.fill = GridBagConstraints.BOTH;
@@ -303,7 +299,7 @@ public class NewGameFrame extends Frame {
                 if(rdoEasyAttPart.isSelected()){
                     attDiff = AIDifficulty.RANDOM;
                 }
-                ui.createGameFrame(new Game(tfNamePlayer2.getText(), tfNamePlayer1.getText(), defDiff, attDiff));
+                ui.createGameFrame(new Game(tfNamePlayer1.getText(), tfNamePlayer2.getText(), defDiff, attDiff));
                 ui.changePage(InterfacePage.GAME);
             }
         });
@@ -335,6 +331,7 @@ public class NewGameFrame extends Frame {
     }
 
     public void textFieldEventHandler(DocumentEvent e){
+        //tfNamePlayer1.requestFocusInWindow();
         tfNamePlayer1.setCaretPosition(tfNamePlayer1.getDocument().getLength());
         tfNamePlayer2.setCaretPosition(tfNamePlayer2.getDocument().getLength());
     }
@@ -342,8 +339,6 @@ public class NewGameFrame extends Frame {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
-        //g.drawImage(imageBackground, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
 }
