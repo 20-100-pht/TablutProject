@@ -6,12 +6,13 @@ import Structure.Coup;
 import Structure.Node;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
-public abstract class AI {
+public abstract class AI implements Serializable {
 
     int dep = 0;
 
