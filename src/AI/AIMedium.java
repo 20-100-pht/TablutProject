@@ -1,22 +1,24 @@
 package AI;
 
-import Model.Grid;
-import Model.Piece;
+import Model.*;
 import Structure.Coordinate;
 import Structure.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AIEasy extends AI {
+public class AIMedium extends AI {
 
     @Override
     public double heuristic(Node current, int depth){
-        /*int king = 0;
         int attackers = 0;
         int defenders = 0;
 
         int nearKing = 0;
+
+        GameRules gRules = current.getGameRules();
+        Piece k = gRules.getKing();
+        Grid grid = gRules.getGrid();
 
         Piece[][] board = grid.board;
         for(int y = 0; y < board.length; y++){
@@ -40,30 +42,33 @@ public class AIEasy extends AI {
             }
         }
 
-        if(current.endGame() == ResultGame.ATTACKER_WIN)
-            return 10000*depth;
-        else if (current.endGame() == ResultGame.DEFENDER_WIN) {
-            return -10000*depth;
+        if(current.getGameRules().getEndGameType() == ResultGame.ATTACKER_WIN)
+            return 1000000*(depth+1);
+        else if (current.getGameRules().getEndGameType() == ResultGame.DEFENDER_WIN) {
+            return -1000000*(depth+1);
         }
 
         //Heuristic qui semble faire du 50/50
         //double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*10 + attackers + nearKing*17));
 
-        double value = ((double)
-                (attackers - defenders)*100 +
-                (kingDistanceToCorner(k)+1)*1000 +
-                -nearKing*1000 +
-                isNextToKing(k,grid)*500 +
-                canKingGoToWall(current,grid))*2000;
+        //double value = ((double)
+        //                (attackers - defenders)*100 +
+        //                (kingDistanceToCorner(k)+1)*1000 +
+        //                //-nearKing*1000 +
+        //                isNextToKing(k,current.getGameRules().getGrid())*500 +
+        //                canKingGoToWall(current,current.getGameRules().getGrid()))*2000;
+
+        double value = (double)
+                (attackers)*500 +
+                isNextToKing(k,current.getGameRules().getGrid())*1000 +
+                canKingGoToWall(current)*5000;
 
         //Attackers want a high value, Defenders want a low value
         //double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
-        //return heuristic20100(board, k);
-        return value;*/
-        return 0;
+        return value;
     }
 
-    public int kingDistanceToCorner(Coordinate king){
+    public int kingDistanceToCorner(Piece king){
         int x = king.getCol();
         int y = king.getRow();
 
@@ -86,6 +91,75 @@ public class AIEasy extends AI {
 
         return (valY+valX);
     }
+
+    private int isNextToKing(Piece king, Grid grid){
+        int x = king.getCol();
+        int y = king.getRow();
+
+        Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y, x - 1));
+        Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y, x + 1));
+        Piece topPiece = grid.getPieceAtPosition(new Coordinate(y - 1, x));
+        Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y + 1, x));
+
+        int times = 0;
+        if(leftPiece!=null && leftPiece.isAttacker()){
+            times++;
+        }
+        if(rightPiece!=null && rightPiece.isAttacker()){
+            times++;
+        }
+        if(topPiece!=null && topPiece.isAttacker()){
+            times++;
+        }
+        if(bottomPiece!=null && bottomPiece.isAttacker()){
+            times++;
+        }
+
+        return times;
+    }
+
+    private int canKingGoToWall(Node n){
+        Grid grid = n.getGameRules().getGrid();
+        int x = n.getGameRules().getKing().getCol();
+        int y = n.getGameRules().getKing().getRow();
+
+        int value = 4;
+        if(x == 0 || x == 8){
+            value--;
+        }
+        if(y == 0 || y == 8){
+            value--;
+        }
+
+        if(n.getGameRules().getKing().canMoveTo(new Coordinate(y,0),grid)){
+            value--;
+        }
+        if(n.getGameRules().getKing().canMoveTo(new Coordinate(y,8),grid)){
+            value--;
+        }
+        if(n.getGameRules().getKing().canMoveTo(new Coordinate(0,x),grid)){
+            value--;
+        }
+        if(n.getGameRules().getKing().canMoveTo(new Coordinate(8,x),grid)){
+            value--;
+        }
+
+        return value;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private double heuristic20100(Grid grid, Coordinate k, Node current, int depth){
@@ -141,59 +215,9 @@ public class AIEasy extends AI {
         return 0;
     }
 
-    private int isNextToKing(Coordinate king, Grid grid){
-        int x = king.getCol();
-        int y = king.getRow();
 
-        Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y, x - 1));
-        Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y, x + 1));
-        Piece topPiece = grid.getPieceAtPosition(new Coordinate(y - 1, x));
-        Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y + 1, x));
 
-        int times = 0;
-        if(leftPiece!=null && leftPiece.isAttacker()){
-            times++;
-        }
-        if(rightPiece!=null && rightPiece.isAttacker()){
-            times++;
-        }
-        if(topPiece!=null && topPiece.isAttacker()){
-            times++;
-        }
-        if(bottomPiece!=null && bottomPiece.isAttacker()){
-            times++;
-        }
 
-        return times;
-    }
-
-    private int canKingGoToWall(Node n, Grid grid){
-       /* int x = n.getKing().getCol();
-        int y = n.getKing().getRow();
-
-        int value = 4;
-        if(x == 0 || x == 8){
-            value--;
-        }
-        if(y == 0 || y == 8){
-            value--;
-        }
-        if(n.getKing().canMoveTo(new Coordinate(y,0),grid)){
-            value--;
-        }
-        if(n.getKing().canMoveTo(new Coordinate(y,8),grid)){
-            value--;
-        }
-        if(n.getKing().canMoveTo(new Coordinate(x,0),grid)){
-            value--;
-        }
-        if(n.getKing().canMoveTo(new Coordinate(x,8),grid)){
-            value--;
-        }
-
-        return value;*/
-        return 0;
-    }
 
 
 

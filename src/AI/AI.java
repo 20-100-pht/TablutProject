@@ -120,7 +120,7 @@ public abstract class AI {
                 //System.out.println("Is wining move");
 
                 //The closer to the root, the faster we win, the bigger the value
-                value = maxValue*depth;
+                value = maxValue*(depth+1);
                 rtNode = children.get(i);
                 break;
             }

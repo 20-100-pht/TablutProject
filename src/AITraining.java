@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 
 
 public class AITraining {
-    private static final  int AIGAMES = 10;
+    private static final  int AIGAMES = 50;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = false;
@@ -29,8 +29,8 @@ public class AITraining {
             gcc.setPrintTerminal(PRINT);
             gcc.getGame().setGameAttackerAI(true);//Pas nécéssaire car par défault c'est true
             gcc.getGame().setGameDefenderAI(true);//pareil
-            gcc.getGame().setAIAttackerDifficulty(AIDifficulty.RANDOM);
-            gcc.getGame().setAIDefenderDifficulty(AIDifficulty.RANDOM);
+            gcc.getGame().setAIAttackerDifficulty(AIDifficulty.MID);
+            gcc.getGame().setAIDefenderDifficulty(AIDifficulty.MID);
             start = System.nanoTime();
             Res = gcc.playGame();
             end = System.nanoTime();
