@@ -2,6 +2,7 @@ package View;
 
 import AI.AIDifficulty;
 import Model.Game;
+import Model.Grid;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,12 +23,14 @@ public class NewGameFrame extends Frame {
     JTextField tfNamePlayer1;
     JTextField tfNamePlayer2;
     JButton bttnStart;
-    JPanel centralPart;
+    JPanel centralPanel;
     ImageIcon returnImage;
     JLabel returnImageButton;
+    JRadioButton rdoHumanAttPart;
     JRadioButton rdoEasyAttPart;
     JRadioButton rdoMediumAttPart;
     JRadioButton rdoDifficultAttPart;
+    JRadioButton rdoHumanDefPart;
     JRadioButton rdoEasyDefPart;
     JRadioButton rdoMediumDefPart;
     JRadioButton rdoDifficultDefPart;
@@ -64,15 +67,21 @@ public class NewGameFrame extends Frame {
 
         JFrame window = ui.getWindow();
 
-        System.out.println(javax.swing.UIManager.getDefaults().getFont("Label.font"));
-
         Font fontArial25 = new Font("Arial", Font.BOLD, 25);
         Font fontArial20 = new Font("Arial", Font.BOLD, 20);
         Font fontDialog15 = new Font(Font.DIALOG, Font.BOLD, 15);
 
-        GridBagLayout gLayout = new GridBagLayout();
+        this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        this.setLayout(gLayout);
+
+        JPanel mainPanel = new JPanel();
+        c.fill = GridBagConstraints.BOTH;
+        this.add(mainPanel, c);
+
+        c.fill = GridBagConstraints.CENTER;
+
+        GridBagLayout gLayout = new GridBagLayout();
+        mainPanel.setLayout(gLayout);
 
         JLabel labelNewGame = new JLabel("Nouvelle partie");
         labelNewGame.setFont(fontArial25);
@@ -80,37 +89,24 @@ public class NewGameFrame extends Frame {
         c.gridy = 0;
         c.insets = new Insets(0, 0, 30, 0);
         gLayout.setConstraints(labelNewGame, c);
-        this.add(labelNewGame);
+        mainPanel.add(labelNewGame);
 
         c.insets = new Insets(0, 0, 0, 0);
 
-        centralPart = new JPanel();
+        centralPanel = new JPanel();
         GridBagLayout gLayoutCP = new GridBagLayout();
-        centralPart.setLayout(gLayoutCP);
+        centralPanel.setLayout(gLayoutCP);
 
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.4;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.CENTER;
-        gLayout.setConstraints(centralPart, c);
-        this.add(centralPart);
+        gLayout.setConstraints(centralPanel, c);
+        mainPanel.add(centralPanel);
 
-        c.weightx = 0.3;
-
-        JPanel spaceLeft = new JPanel();
-        c.gridx = 0;
-        c.gridy = 1;
-        c.fill = GridBagConstraints.BOTH;
-        gLayout.setConstraints(spaceLeft, c);
-        this.add(spaceLeft);
-
-        JPanel spaceRight = new JPanel();
-        c.gridx = 2;
-        c.gridy = 1;
-        c.fill = GridBagConstraints.BOTH;
-        gLayout.setConstraints(spaceRight, c);
-        this.add(spaceRight);
+        JPanel spaceLeft = createSpacePanel(mainPanel, 0, 1);
+        JPanel spaceRight = createSpacePanel(mainPanel, 2, 1);
 
         c.weightx = 1;
         c.fill = GridBagConstraints.NONE;
@@ -122,39 +118,26 @@ public class NewGameFrame extends Frame {
         c.gridy = 0;
         c.weightx = 0.5;
         gLayoutCP.setConstraints(labelAttPart, c);
-        centralPart.add(labelAttPart);
+        centralPanel.add(labelAttPart);
 
         JLabel labelDefPart = new JLabel("Défenseur");
         labelDefPart.setFont(fontArial20);
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 0.5;
-        //c.gridwidth = GridBagConstraints.REMAINDER;
         gLayoutCP.setConstraints(labelDefPart, c);
-        centralPart.add(labelDefPart);
+        centralPanel.add(labelDefPart);
 
         c.insets = new Insets(0, 0, 0, 0);
-
-        cbAttPartIA = new JCheckBox("Activate IA");
-        c.gridx = 0;
-        c.gridy = 1;
-        gLayoutCP.setConstraints(cbAttPartIA, c);
-        centralPart.add(cbAttPartIA);
-
-        cbDefPartIA = new JCheckBox("Activate IA");
-        c.gridx = 1;
-        c.gridy = 1;
-        gLayoutCP.setConstraints(cbDefPartIA, c);
-        centralPart.add(cbDefPartIA);
 
         JLabel labelNames = new JLabel("Nom des joueurs");
         labelNames.setFont(fontDialog15);
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 2;
-        c.insets = new Insets(50, 0, 20, 0);
+        c.insets = new Insets(0, 0, 20, 0);
         gLayoutCP.setConstraints(labelNames, c);
-        centralPart.add(labelNames);
+        centralPanel.add(labelNames);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 1;
@@ -165,14 +148,14 @@ public class NewGameFrame extends Frame {
         c.gridx = 0;
         c.gridy = 4;
         gLayoutCP.setConstraints(tfNamePlayer1, c);
-        centralPart.add(tfNamePlayer1);
+        centralPanel.add(tfNamePlayer1);
 
         tfNamePlayer2 = new JTextField(20);
         tfNamePlayer2.setPreferredSize(new Dimension(115, 20));
         c.gridx = 1;
         c.gridy = 4;
         gLayoutCP.setConstraints(tfNamePlayer2, c);
-        centralPart.add(tfNamePlayer2);
+        centralPanel.add(tfNamePlayer2);
 
         c.fill = GridBagConstraints.CENTER;
 
@@ -183,69 +166,14 @@ public class NewGameFrame extends Frame {
         c.gridwidth = 2;
         c.insets = new Insets(60, 0, 20, 0);
         gLayoutCP.setConstraints(labelDifficultyIA, c);
-        centralPart.add(labelDifficultyIA);
+        centralPanel.add(labelDifficultyIA);
 
         c.gridwidth = 1;
         c.insets = new Insets(0, 0, 0, 0);
 
-        ButtonGroup bttnGrpAttIA = new ButtonGroup();
+        buildIaParamsPart();
 
-        rdoEasyAttPart = new JRadioButton("Facile");
-        bttnGrpAttIA.add(rdoEasyAttPart);
-        c.gridx = 0;
-        c.gridy = 6;
-        gLayoutCP.setConstraints(rdoEasyAttPart, c);
-        centralPart.add(rdoEasyAttPart);
-
-        rdoMediumAttPart = new JRadioButton("Moyen");
-        bttnGrpAttIA.add(rdoMediumAttPart);
-        c.gridx = 0;
-        c.gridy = 7;
-        gLayoutCP.setConstraints(rdoMediumAttPart, c);
-        centralPart.add(rdoMediumAttPart);
-
-        rdoDifficultAttPart = new JRadioButton("Difficile");
-        bttnGrpAttIA.add(rdoDifficultAttPart);
-        c.gridx = 0;
-        c.gridy = 8;
-        gLayoutCP.setConstraints(rdoDifficultAttPart, c);
-        centralPart.add(rdoDifficultAttPart);
-
-
-        ButtonGroup bttnGrpDefIA = new ButtonGroup();
-
-        rdoEasyDefPart = new JRadioButton("Facile");
-        bttnGrpDefIA.add(rdoEasyDefPart);
-        c.gridx = 1;
-        c.gridy = 6;
-        gLayoutCP.setConstraints(rdoEasyDefPart, c);
-        centralPart.add(rdoEasyDefPart);
-
-        rdoMediumDefPart = new JRadioButton("Moyen");
-        bttnGrpDefIA.add(rdoMediumDefPart);
-        c.gridx = 1;
-        c.gridy = 7;
-        gLayoutCP.setConstraints(rdoMediumDefPart, c);
-        centralPart.add(rdoMediumDefPart);
-
-        rdoDifficultDefPart = new JRadioButton("Difficile");
-        bttnGrpDefIA.add(rdoDifficultDefPart);
-        c.gridx = 1;
-        c.gridy = 8;
-        gLayoutCP.setConstraints(rdoDifficultDefPart, c);
-        centralPart.add(rdoDifficultDefPart);
-
-        setAttDifficultyButtonsEnabled(false);
-        setDefDifficultyButtonsEnabled(false);
-
-        bttnStart = new JButton("Lancer la partie");
-        c.gridx = 1;
-        c.gridy = 2;
-        //c.anchor = GridBagConstraints.LAST_LINE_END;
-        c.insets = new Insets(50, 0, 0, 0);
-        bttnStart.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        gLayout.setConstraints(bttnStart, c);
-        this.add(bttnStart);
+        bttnStart = createBttnStart(mainPanel);
 
         returnImageButton = new JLabel(returnImage);
         returnImageButton.setPreferredSize(new Dimension(32, 32));
@@ -254,39 +182,82 @@ public class NewGameFrame extends Frame {
         c.anchor = GridBagConstraints.LAST_LINE_START;
         returnImageButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(returnImageButton, c);
-        this.add(returnImageButton);
+        mainPanel.add(returnImageButton);
 
         setEventHandlers();
     }
 
-    public void setAttDifficultyButtonsEnabled(boolean b){
-        rdoEasyAttPart.setEnabled(b);
-        rdoMediumAttPart.setEnabled(b);
-        rdoDifficultAttPart.setEnabled(b);
+    public void buildIaParamsPart(){
+        JPanel bttnAttIAPanel = createRadioBttnPanel(centralPanel, 0, 6);
+
+        ButtonGroup bttnGrpAttIA = new ButtonGroup();
+        rdoHumanAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Humain", 0, 0);
+        rdoEasyAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Facile", 0, 1);
+        rdoMediumAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Moyen", 0, 2);
+        rdoDifficultAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Difficile", 0, 3);
+
+        JPanel bttnDefIAPanel = createRadioBttnPanel(centralPanel, 1, 6);
+
+        ButtonGroup bttnGrpDefIA = new ButtonGroup();
+        rdoHumanDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Humain", 0, 0);
+        rdoEasyDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Facile", 0, 1);
+        rdoMediumDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Moyen", 0, 2);
+        rdoDifficultDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Difficile", 0, 3);
+
+        rdoHumanAttPart.setSelected(true);
+        rdoHumanDefPart.setSelected(true);
+    }
+    
+    public JPanel createRadioBttnPanel(JPanel parent, int posX, int posY){
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = posX;
+        c.gridy = posY;
+
+        parent.add(panel, c);
+        return panel;
     }
 
-    public void setDefDifficultyButtonsEnabled(boolean b){
-        rdoEasyDefPart.setEnabled(b);
-        rdoMediumDefPart.setEnabled(b);
-        rdoDifficultDefPart.setEnabled(b);
+    public JPanel createSpacePanel(JPanel parent, int posX, int posY){
+        JPanel spacePanel = new JPanel();
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = posX;
+        c.gridy = posY;
+        c.weightx = 0.3;
+        c.fill = GridBagConstraints.BOTH;
+        parent.add(spacePanel, c);
+        return spacePanel;
+    }
+
+    public JRadioButton createRadioButton(JPanel parent, ButtonGroup group, String text, int posX, int posY){
+        JRadioButton bttn = new JRadioButton(text);
+        group.add(bttn);
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = posX;
+        c.gridy = posY;
+        c.anchor = GridBagConstraints.BELOW_BASELINE_LEADING;
+        parent.add(bttn, c);
+
+        return bttn;
+    }
+
+    public JButton createBttnStart(JPanel parent){
+        JButton bttn = new JButton("Lancer la partie");
+        bttn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 1;
+        c.gridy = 2;
+        //c.anchor = GridBagConstraints.LAST_LINE_END;
+        c.insets = new Insets(50, 0, 0, 0);
+
+        parent.add(bttn, c);
+        return bttn;
     }
 
     public void setEventHandlers() {
-        cbAttPartIA.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tfNamePlayer1.setEnabled(!cbAttPartIA.isSelected());
-                setAttDifficultyButtonsEnabled(cbAttPartIA.isSelected());
-            }
-        });
-
-        cbDefPartIA.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tfNamePlayer2.setEnabled(!cbDefPartIA.isSelected());
-                setDefDifficultyButtonsEnabled(cbDefPartIA.isSelected());
-            }
-        });
 
         bttnStart.addActionListener(new ActionListener() {
             @Override
@@ -316,30 +287,6 @@ public class NewGameFrame extends Frame {
                 ui.changePage(InterfacePage.MENU);
             }
         });
-
-        DocumentListener docListenerForTf = new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                textFieldEventHandler(e);
-            }
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                textFieldEventHandler(e);
-            }
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                textFieldEventHandler(e);
-            }
-        };
-
-        tfNamePlayer1.getDocument().addDocumentListener(docListenerForTf);
-        tfNamePlayer2.getDocument().addDocumentListener(docListenerForTf);
-    }
-
-    public void textFieldEventHandler(DocumentEvent e){
-        //tfNamePlayer1.requestFocusInWindow();
-        tfNamePlayer1.setCaretPosition(tfNamePlayer1.getDocument().getLength());
-        tfNamePlayer2.setCaretPosition(tfNamePlayer2.getDocument().getLength());
     }
 
     @Override
