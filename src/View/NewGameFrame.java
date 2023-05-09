@@ -295,10 +295,18 @@ public class NewGameFrame extends Frame {
                 if(rdoEasyDefPart.isSelected()){
                     defDiff = AIDifficulty.RANDOM;
                 }
+                if(rdoMediumDefPart.isSelected()){
+                    defDiff = AIDifficulty.MID;
+                }
+
                 AIDifficulty attDiff = AIDifficulty.HUMAN;
                 if(rdoEasyAttPart.isSelected()){
                     attDiff = AIDifficulty.RANDOM;
                 }
+                if(rdoMediumAttPart.isSelected()){
+                    attDiff = AIDifficulty.MID;
+                }
+
                 ui.createGameFrame(new Game(tfNamePlayer1.getText(), tfNamePlayer2.getText(), defDiff, attDiff));
                 ui.changePage(InterfacePage.GAME);
             }

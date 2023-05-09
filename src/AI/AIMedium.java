@@ -13,7 +13,6 @@ public class AIMedium extends AI {
     public double heuristic(Node current, int depth){
         int attackers = 0;
         int defenders = 0;
-
         int nearKing = 0;
 
         GameRules gRules = current.getGameRules();
@@ -25,9 +24,6 @@ public class AIMedium extends AI {
             for(int x = 0; x < board.length; x++){
                 if(board[y][x]!=null){
                     switch (board[y][x].getType()){
-                        case KING :
-                            king++;
-                            break;
                         case DEFENDER:
                             defenders++;
                             break;
@@ -36,6 +32,8 @@ public class AIMedium extends AI {
                             int dX = Math.abs(k.getCol()-x);
                             int dY = Math.abs(k.getRow()-y);
                             nearKing+= dX+dY;
+                            break;
+                        default:
                             break;
                     }
                 }
