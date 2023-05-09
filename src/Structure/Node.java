@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 public class Node {
 
-    GameRules gameRules;
+    LogicGrid logicGrid;
     ArrayList<Node> children;
     Coup coup;
     Coup bestMove;
     double heuristic;
 
-    public Node(GameRules g, Coup c, ResultGame end){
-        gameRules = g;
+    public Node(LogicGrid g, Coup c, ResultGame end){
+        logicGrid = g;
         coup = c;
         children = new ArrayList<>();
     }
@@ -37,8 +37,8 @@ public class Node {
     public double getHeuristic(){
         return heuristic;
     }
-    public GameRules getGameRules(){
-        return gameRules;
+    public LogicGrid getLogicGrid(){
+        return logicGrid;
     }
 
     public Coup getCoup(){

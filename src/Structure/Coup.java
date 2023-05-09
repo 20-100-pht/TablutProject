@@ -2,7 +2,9 @@ package Structure;
 
 import Structure.Coordinate;
 
-public class Coup {
+import java.io.Serializable;
+
+public class Coup implements Serializable {
     Coordinate init;
     Coordinate dest;
 
