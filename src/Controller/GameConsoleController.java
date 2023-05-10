@@ -56,14 +56,14 @@ public class GameConsoleController {
 
         Piece current = null;
 
-        if(game.isDefenderAI() || game.isAttackerAI()){
+        if((game.isDefenderAI() && !game.isAttackerTurn()) || (game.isAttackerAI() && game.isAttackerTurn())){
 
             Coup coupAI;
             PieceType AiType;
-            if(game.isAttackerAI()) AiType = PieceType.ATTACKER;
+            if(game.isAttackerTurn()) AiType = PieceType.ATTACKER;
             else AiType = PieceType.DEFENDER;
 
-            if( (game.isDefenderAI() && (game.getAIDefenderDifficulty() == AIDifficulty.RANDOM) ) || (game.isAttackerAI() && (game.getAIDefenderDifficulty() == AIDifficulty.RANDOM) ) ){
+            if( (game.isDefenderAI() && (game.getAIDefenderDifficulty() == AIDifficulty.RANDOM)) || (game.isAttackerAI() && (game.getAIAttackerDifficulty() == AIDifficulty.RANDOM)) ){
                 coupAI = game.getAleatron().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, AiType);
             }
             else coupAI = game.getAiMinMax().playMove(logicGrid, MAX_DEPTH, AiType);
