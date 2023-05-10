@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 
 
 public class AITraining {
-    private static final  int AIGAMES = 50;
+    private static final  int AIGAMES = 1;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = false;

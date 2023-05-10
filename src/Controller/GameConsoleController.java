@@ -39,11 +39,11 @@ public class GameConsoleController {
     }
 
     public void endGame(ResultGame result){
-        //if(printGridTerminal){
+        if(printGridTerminal){
             if(result == ResultGame.ATTACKER_WIN) System.out.println("Attacker win !");
             if (result == ResultGame.DEFENDER_WIN) System.out.println("Defender win !");
             logicGrid.print();
-        //}
+        }
     }
 
     public void playTurn(){

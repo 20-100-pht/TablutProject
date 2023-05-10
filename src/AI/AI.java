@@ -172,6 +172,7 @@ public abstract class AI implements Serializable {
      */
     private void createNodeChildren(Node father, PieceType type, int depth){
 
+        int in = 0;
         LogicGrid fatherGR = father.getLogicGrid();
         int boardSize = fatherGR.getGrid().getSizeGrid();
         Piece[][] board = fatherGR.getGrid().board;
@@ -208,7 +209,16 @@ public abstract class AI implements Serializable {
                         newLogicGrid.capture();
 
                         //Attack
+                        int defendersKilled = 0;
+                        int attackersKilled = 0;
                         Vector<Piece> c = newLogicGrid.attack(pieceToMove);
+                        for(int i = 0; i < c.size(); i++){
+                            if(c.get(i).isDefender()){
+                                defendersKilled++;
+                            }else{
+                                attackersKilled++;
+                            }
+                        }
 
                         //Check if defenders win
                         if(type == PieceType.DEFENDER){
@@ -218,11 +228,19 @@ public abstract class AI implements Serializable {
 
                         ResultGame end = newLogicGrid.getEndGameType();
 
+
+                        //Cut the child only if father has children
+                        if(preEvaluate(newLogicGrid, type) && father.getChildren().size() > 0){
+                            in++;
+                            continue;
+                        }
+
+
                         Node tmpNode = new Node(newLogicGrid, new Coup(new Coordinate(y,x),coordDest), end);
 
 
                         //Add child to first place
-                        if(c.size()>=1 || (end == ResultGame.ATTACKER_WIN && type == PieceType.ATTACKER) || (end == ResultGame.DEFENDER_WIN && type == PieceType.DEFENDER)){
+                        if( defendersKilled>=1 || end == ResultGame.ATTACKER_WIN || attackersKilled>=1 || end == ResultGame.DEFENDER_WIN){
                             if(end != ResultGame.NO_END_GAME){
                                 //System.out.println(end + " in "+ ((dep+1)-depth) + " moves");
                                 /*System.out.println(end + " in "+ ((dep+1)-depth) + " moves");
@@ -237,6 +255,37 @@ public abstract class AI implements Serializable {
                     }
                 }
             }
+        }
+        //System.out.println("Cut " + in + " branches");
+    }
+
+    public boolean preEvaluate(LogicGrid logicGrid, PieceType type){
+        Grid grid = logicGrid.grid;
+        Piece[][] board = grid.board;
+        Piece king = logicGrid.king;
+
+        int defenders= 0;
+        int attackers = 0;
+
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board.length; j++){
+                Piece piece = grid.getPieceAtPosition(new Coordinate(i,j));
+
+                if(piece != null){
+                    if(piece.isAttacker()){
+                        attackers++;
+                    } else if (piece.isDefenderOrKing()) {
+                        defenders++;
+                    }
+                }
+            }
+        }
+
+        //Cut the child if
+        if(type == PieceType.ATTACKER){
+            return (attackers/defenders) < 1;
+        }else{
+            return (attackers/defenders) > 1;
         }
     }
 
