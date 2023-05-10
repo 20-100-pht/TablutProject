@@ -176,7 +176,7 @@ public class GameGraphicController {
             t = PieceType.DEFENDER;
         }
         long start = System.currentTimeMillis();
-        Coup coupAI = ai.playMove(logicGrid, 3, t);
+        Coup coupAI = ai.playMove(logicGrid, 5, t);
         long end = System.currentTimeMillis();
 
 

@@ -121,6 +121,7 @@ public class Piece implements Serializable {
 
     /**
      * Get all possible moves of piece
+     * Can jump throne
      * @param board current board
      * @return array of destination coordinates
      */
@@ -139,14 +140,14 @@ public class Piece implements Serializable {
         //Add coordinate if not throne and not fortress (if not king)
         for (int i = c.getCol() - 1; i >= min; i--){
             if (board[c.getRow()][i] == null){
-                if(c.getRow() == throne && i == throne) break;
+                if(c.getRow() == throne && i == throne) continue;
                 MovesToPieceList.add(new Coordinate(c.getRow(), i));
             }
             else break;
         }
         for (int i = c.getCol() + 1; i < max; i++){
             if (board[c.getRow()][i] == null){
-                if(c.getRow() == throne && i == throne) break;
+                if(c.getRow() == throne && i == throne) continue;
                 MovesToPieceList.add(new Coordinate(c.getRow(), i));
             }
             else break;
@@ -154,14 +155,14 @@ public class Piece implements Serializable {
 
         for (int r = c.getRow() - 1; r >= min; r--){
             if (board[r][c.getCol()] == null){
-                if(c.getCol() == throne && r == throne) break;
+                if(c.getCol() == throne && r == throne) continue;
                 MovesToPieceList.add(new Coordinate(r, c.getCol()));
             }
             else break;
         }
         for (int r = c.getRow() + 1; r < max; r++){
             if (board[r][c.getCol()] == null){
-                if(c.getCol() == throne && r == throne) break;
+                if(c.getCol() == throne && r == throne) continue;
                 MovesToPieceList.add(new Coordinate(r, c.getCol()));
             }
             else break;

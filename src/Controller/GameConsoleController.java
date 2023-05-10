@@ -12,7 +12,7 @@ public class GameConsoleController {
     Game game;
     UserController user;
 
-    int MAX_DEPTH = 3; //Exploration de l'IA avec heuristique
+    int MAX_DEPTH = 5; //Exploration de l'IA avec heuristique
     int RANDOM_AI_MAX_DEPTH = 3;
 
     int nbTurn;
