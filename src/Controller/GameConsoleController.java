@@ -5,7 +5,7 @@ import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
 
-public class GameConsoleController {
+public class GameConsoleController extends GameController {
 
     LogicGrid logicGrid;
     Grid grid;
@@ -20,9 +20,10 @@ public class GameConsoleController {
     boolean printGridTerminal;
     private static final int MAX_TURN_ALLOWED = 200;
 
-    public GameConsoleController(){
+    public GameConsoleController(Game game){
         user = new UserController();
-        game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.RANDOM);
+        this.game = game;
+        game.setGameControllerInstance(this);
         nbTurn = 0;
         printGridTerminal = false;
         logicGrid = game.getLogicGridInstance();

@@ -12,11 +12,9 @@ public class Tablut {
 
         Interface ui = new Interface();
 
-        GameConsoleController gcc = new GameConsoleController();
-        gcc.getGame().setGameAttackerAI(ATTACKER_AI);
-        gcc.getGame().setGameDefenderAI(DEFENDER_AI);
-        gcc.getGame().setAIAttackerDifficulty(AIDifficulty.RANDOM);
-        gcc.getGame().setAIDefenderDifficulty(AIDifficulty.EASY);
+        Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.EASY);
+        GameConsoleController gcc = new GameConsoleController(game);
+        game.setGameControllerInstance(gcc);
 
         gcc.setPrintTerminal(true);
         gcc.playGame();

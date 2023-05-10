@@ -10,7 +10,7 @@ import java.util.Vector;
 
 import static java.lang.Thread.sleep;
 
-public class GameGraphicController {
+public class GameGraphicController extends GameController {
 
     GameFrame gameFrame;
     LogicGrid logicGrid;
@@ -20,6 +20,7 @@ public class GameGraphicController {
     public GameGraphicController(GameFrame gameFrame, Game game){
         this.gameFrame = gameFrame;
         this.game = game;
+        game.setGameControllerInstance(this);
         logicGrid = game.getLogicGridInstance();
         grid = logicGrid.getGrid();
     }
@@ -28,42 +29,8 @@ public class GameGraphicController {
         return game;
     }
 
-    public void play(Coup coup, boolean addToHistory){
-
-        if(logicGrid.isEndGame()){
-            return;
-        }
-
-        Grid grid = logicGrid.getGrid();
-        Piece pieceSelected = grid.getPieceAtPosition(coup.getInit());
-
-        if(pieceSelected.isAttacker() && !game.isAttackerTurn() || (pieceSelected.isDefender() || pieceSelected.isKing()) && game.isAttackerTurn()){
-            return;
-        }
-
-        if(logicGrid.isLegalMove(coup) != 0){
-            return;
-        }
-        logicGrid.move(coup);
-
-        logicGrid.capture();
-        Vector<Piece> killedPieces = logicGrid.attack(pieceSelected);
-
-        if(addToHistory) {
-            History history = game.getHistoryInstance();
-            history.addMove(new HistoryMove(coup, killedPieces, game.isAttackerTurn(), game.getTurnIndex()));
-        }
-
-        TreatPossibleEndGame();
-
-        game.toogleAttackerTurn();
-        game.incTurnIndex();
-        gameFrame.setTurnLabelValue(game.getTurnIndex());
-
-        if(isAiTurn()) doAiTurnInSeparateThread();
-    }
-
-    void TreatPossibleEndGame(){
+    @Override
+    public void updateViewEndGame(){
         if(logicGrid.isAttackerWinConfiguration()) {
             gameFrame.showWinMessage(game.getAttackerName());
         }
@@ -71,10 +38,8 @@ public class GameGraphicController {
             gameFrame.showWinMessage(game.getDefenderName());
         }
 
-        if(logicGrid.isAttackerWinConfiguration() || logicGrid.isDefenderWinConfiguration()){
-            gameFrame.showEndGameButtons();
-            gameFrame.setFrozen(true);
-        }
+        gameFrame.showEndGameButtons();
+        gameFrame.setFrozen(true);
     }
 
     public void bttnReplayClickHandler(){
@@ -103,98 +68,24 @@ public class GameGraphicController {
     }
 
     public void bttnUndoClickHandler(){
-        History history = game.getHistoryInstance();
-        if(history.canUndo()){
-            HistoryMove move = history.undo();
-            undoHistoryMove(move);
-        }
+        game.undo();
     }
 
     public void bttnRedoClickHandler(){
-        History history = game.getHistoryInstance();
-        if(history.canRedo()){
-            HistoryMove move = history.redo();
-            redoHistoryMove(move);
-        }
+        game.redo();
     }
 
-    public void undoHistoryMove(HistoryMove move){
-        Coup coup = move.getCoup();
-        Piece piece = grid.getPieceAtPosition(coup.getDest());
-        piece.setCol(coup.getInit().getCol());
-        piece.setRow(coup.getInit().getRow());
-        grid.setPieceAtPosition(piece, coup.getInit());
-        grid.setPieceAtPosition(null, coup.getDest());
-
-        for(int i = 0; i < move.getKilledPieces().size(); i++){
-            Piece kPiece = move.getKilledPieces().get(i);
-            grid.setPieceAtPosition(kPiece, kPiece.getCoords());
-            if(kPiece.getType() == PieceType.DEFENDER){
-                logicGrid.incNbPieceDefenderOnGrid();
-            }
-            else if(kPiece.getType() == PieceType.ATTACKER){
-                logicGrid.incNbPieceAttackerOnGrid();
-            }
-        }
-
-        game.setIsAttackerTurn(move.isAttackerMove());
-        game.setTurnIndex(move.getTurnIndex());
-        gameFrame.setTurnLabelValue(move.getTurnIndex());
+    @Override
+    public void updateViewAfterMove() {
+        gameFrame.setTurnLabelValue(game.getTurnIndex());
     }
 
-    public void redoHistoryMove(HistoryMove move){
-        Coup coup = move.getCoup();
-        play(coup, false);
-    }
-
-    public boolean isAiTurn(){
-        return game.isAttackerTurn() && game.isAttackerAI() || !game.isAttackerTurn() && game.isDefenderAI();
-    }
-
-    public void doAiTurnInSeparateThread(){
-        Thread threadAI = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                doAiTurn();
-            }
-        });
-        threadAI.start();
-    }
-
-    public void doAiTurn(){
-        //On empêche le joueur de faire des actions pendant que l'IA joue
-        gameFrame.setFrozen(true);
-
-        AI ai;
-        PieceType t;
-        if(game.isAttackerTurn()){
-            ai = game.getAttackerAI();
-            t = PieceType.ATTACKER;
-        }
-        else{
-            ai = game.getDefenderAI();
-            t = PieceType.DEFENDER;
-        }
-        long start = System.currentTimeMillis();
-        Coup coupAI = ai.playMove(logicGrid, 5, t);
-        long end = System.currentTimeMillis();
-
-
-        long timeToWait = 1500-(end-start);
-        //On évite d'enchainer les coups de l'IA trop vite
-        try {
-            if(timeToWait > 0) {
-                Thread.sleep(timeToWait);
-            }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        play(coupAI, true);
-
-        gameFrame.setFrozen(false);
+    @Override
+    public void setFrozenView(boolean frozen){
+        gameFrame.setFrozen(frozen);
     }
 
     public void startGame(){
-        if(isAiTurn()) doAiTurnInSeparateThread();
+        if(game.isAiTurn()) game.doAiTurnInSeparateThread();
     }
 }

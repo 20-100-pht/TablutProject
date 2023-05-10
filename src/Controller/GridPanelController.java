@@ -93,7 +93,7 @@ public class GridPanelController {
         if(pieceSelectedCoords != null && pieceClicked == null){
 
             Coup coup = new Coup(pieceSelectedCoords, caseCoords);
-            gameGraphicController.play(coup, true);
+            game.play(coup, true);
             pieceSelectedCoords = null;
             gridPanel.setSelectionMarkCoords(null);
         }

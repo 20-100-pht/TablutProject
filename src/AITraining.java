@@ -1,5 +1,6 @@
 import AI.AIDifficulty;
 import Controller.GameConsoleController;
+import Model.Game;
 import Model.ResultGame;
 
 import java.io.BufferedWriter;
@@ -25,12 +26,10 @@ public class AITraining {
         long tpsAverage = 0;
         long start, end;
         for (int i = 0; i < AIGAMES; i++) {
-            GameConsoleController gcc = new GameConsoleController();
+            Game game = new Game("", "", AIDifficulty.MID, AIDifficulty.MID);
+            GameConsoleController gcc = new GameConsoleController(game);
+            game.setGameControllerInstance(gcc);
             gcc.setPrintTerminal(PRINT);
-            gcc.getGame().setGameAttackerAI(true);//Pas nécéssaire car par défault c'est true
-            gcc.getGame().setGameDefenderAI(true);//pareil
-            gcc.getGame().setAIAttackerDifficulty(AIDifficulty.MID);
-            gcc.getGame().setAIDefenderDifficulty(AIDifficulty.MID);
             start = System.nanoTime();
             Res = gcc.playGame();
             end = System.nanoTime();
