@@ -388,8 +388,8 @@ public class LogicGrid implements Serializable {
     }
 
     /**
-     * Clone game rules
-     * @return cloned game rules
+     * Clone logic grid
+     * @return cloned logic grid
      */
     public LogicGrid cloneLogicGrid(){
 
