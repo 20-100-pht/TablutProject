@@ -314,7 +314,7 @@ public class GameFrame extends Frame {
 
         bttnUndo = new JButton("Annuler");
         bttnUndo.setPreferredSize(new Dimension(110, 30));
-        bttnUndo.setBorder(new ButtonRoundBorder(15));
+        bttnUndo.setBorder(new RoundBorder(15));
         c.gridx = 0;
         c.gridy = 0;
         bttnUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -323,7 +323,7 @@ public class GameFrame extends Frame {
 
         bttnRedo = new JButton("Refaire");
         bttnRedo.setPreferredSize(new Dimension(110, 30));
-        bttnRedo.setBorder(new ButtonRoundBorder(15));
+        bttnRedo.setBorder(new RoundBorder(15));
         c.gridx = 0;
         c.gridy = 1;
         c.insets = new Insets(8, 0, 20, 0);

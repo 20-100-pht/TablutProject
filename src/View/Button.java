@@ -8,20 +8,27 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Button extends JButton {
+public class Button extends JPanel {
 
     final int SELECTOR_SIZE = 16;
     boolean selector;
-    boolean hovered = false;
-    View.Frame frame;
+    boolean hovered;
+    Frame frame;
+    String name;
+    Font font;
+    int roundValue;
 
-    public Button(String name) {
-        this(name, false, null);
-    }
     public Button(String name, boolean selector, Frame frame){
-        super(name);
         this.selector = selector;
         this.frame = frame;
+        this.name = name;
+        hovered = false;
+        roundValue = 0;
+
+        font = new Font(Font.DIALOG, Font.BOLD, 23);
+
+        this.setOpaque(false);
+        //this.setBackground(Color.blue);
 
         this.addMouseListener(new MouseAdapter(){
             @Override
@@ -39,7 +46,24 @@ public class Button extends JButton {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
+        g.setColor(Color.WHITE);
+        g.fillRoundRect(0, 0, this.getWidth()-1, this.getHeight()-1, roundValue, roundValue);
+        //g.fillRect(this.getX(), this.getY(), this.getWidth()-1, this.getHeight()-1);
+
+        g.setColor(Color.BLACK);
+        g.setFont(font);
+
+        FontMetrics fontMetrics = g.getFontMetrics(font);
+        int textWidth = fontMetrics.stringWidth(name);
+        int textHeight = fontMetrics.getHeight();
+        int textX = getWidth()/2 - textWidth/2;
+        int textY = getHeight()/2 + textHeight/4;
+
+        g.drawString(name, textX, textY);
+        System.out.println(textWidth);
+        System.out.println(textHeight);
     }
+
 
     public void mouseEnteredHandler(MouseEvent e){
         if(!hovered){
@@ -58,5 +82,16 @@ public class Button extends JButton {
             //ui.menuFrame.setVisibleSelector(false);
         }
         hovered = false;
+    }
+
+    public void setRoundValue(int roundValue){
+        this.roundValue = roundValue;
+    }
+    public void setFont(Font font){
+        this.font = font;
+    }
+
+    public void setBackgroundColor(Color color){
+        setBackground(color);
     }
 }
