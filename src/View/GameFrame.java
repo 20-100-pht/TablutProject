@@ -36,6 +36,9 @@ public class GameFrame extends Frame {
     JButton bttnRedo;
     CapturedPiecesPanel capturedPiecesPanel1;
     CapturedPiecesPanel capturedPiecesPanel2;
+
+    JLabel labelPlayer1Status;
+    JLabel labelPlayer2Status;
     boolean frozen;
     JLabel labelIndexTurn;
 
@@ -178,7 +181,7 @@ public class GameFrame extends Frame {
 
         //Status joueur 1
 
-        JLabel labelPlayer1Status = new JLabel("Ton tour...");
+        labelPlayer1Status = new JLabel("Observe...");
         c.gridx = 0;
         c.gridy = 2;
         layoutPlayer1Info.setConstraints(labelPlayer1Status, c);
@@ -255,7 +258,7 @@ public class GameFrame extends Frame {
 
         //Status joueur 2
 
-        JLabel labelPlayer2Status = new JLabel("Observe...");
+        labelPlayer2Status = new JLabel("Ton tour...");
         c.gridx = 0;
         c.gridy = 2;
         layoutPlayer2Info.setConstraints(labelPlayer2Status, c);
@@ -571,5 +574,16 @@ public class GameFrame extends Frame {
 
     public void setTurnLabelValue(int turnIndex){
         labelIndexTurn.setText("Tour "+Integer.toString(turnIndex+1));
+    }
+
+    public void setPlayerStatus(int index){
+        if(index%2 == 0){
+            labelPlayer1Status.setText("Observe...");
+            labelPlayer2Status.setText("Ton tour...");
+        }
+        else{
+            labelPlayer2Status.setText("Observe...");
+            labelPlayer1Status.setText("Ton tour...");
+        }
     }
 }

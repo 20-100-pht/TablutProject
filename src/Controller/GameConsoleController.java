@@ -39,18 +39,48 @@ public class GameConsoleController {
     }
 
     public void endGame(ResultGame result){
-        //if(printGridTerminal){
+        if(printGridTerminal){
             if(result == ResultGame.ATTACKER_WIN) System.out.println("Attacker win !");
             if (result == ResultGame.DEFENDER_WIN) System.out.println("Defender win !");
             logicGrid.print();
-        //}
+        }
     }
 
     public void playTurn(){
         if(printGridTerminal) logicGrid.print();
 
-        if(game.isAttackerTurn()) playTurnAttacker();
-        else playTurnDefender();
+        if(printGridTerminal){
+            if(game.isAttackerTurn()) System.out.println("\nAttaquant, à vous de jouer !");
+            else System.out.println("\nDéfenseur, à vous de jouer !");
+        }
+
+        Piece current = null;
+
+        if(game.isDefenderAI() || game.isAttackerAI()){
+
+            Coup coupAI;
+            PieceType AiType;
+            if(game.isAttackerAI()) AiType = PieceType.ATTACKER;
+            else AiType = PieceType.DEFENDER;
+
+            if( (game.isDefenderAI() && (game.getAIDefenderDifficulty() == AIDifficulty.RANDOM) ) || (game.isAttackerAI() && (game.getAIDefenderDifficulty() == AIDifficulty.RANDOM) ) ){
+                coupAI = game.getAleatron().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, AiType);
+            }
+            else coupAI = game.getAiMinMax().playMove(logicGrid, MAX_DEPTH, AiType);
+
+            logicGrid.move(coupAI);
+            current = grid.getPieceAtPosition(coupAI.getDest());
+
+        }
+        else current = movePlayer();
+
+        int kill = logicGrid.attack(current).size();
+        if(printGridTerminal) System.out.println("nb kill : " + kill);
+
+        if (game.isAttackerTurn()) logicGrid.capture();
+
+        if(logicGrid.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
+        else if(logicGrid.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);
 
         game.toogleAttackerTurn();
 
@@ -81,85 +111,6 @@ public class GameConsoleController {
             }
         }
         return current;
-    }
-
-    public void playTurnDefender(){
-        if(printGridTerminal) System.out.println("\nDéfenseur, à vous de jouer !");
-
-        Piece current = null;
-
-        if(game.isDefenderAI()){
-            while(current == null) {
-                if(game.getAIDefenderDifficulty() == AIDifficulty.RANDOM){
-                    Coup coupAI = game.getAleatron().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, PieceType.DEFENDER);
-                    logicGrid.move(coupAI);
-                    current = grid.getPieceAtPosition(coupAI.getDest());
-                }
-                ////if (nbTurn < 3) {
-                else {
-                    //Structure.Coup coupAI = aleatronDefender.playMove();
-                    Coup coupAI = game.getAiMinMax().playMove(logicGrid, MAX_DEPTH, PieceType.DEFENDER);
-                    logicGrid.move(coupAI);
-                    current = grid.getPieceAtPosition(coupAI.getDest());
-
-                    if (current == null) {
-                        System.out.println("\n\nError : Defender Coup");
-                        logicGrid.getGrid().print();
-                        System.out.println("Source:" + coupAI.getInit().getRow() + "," + coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + "," + coupAI.getDest().getCol());
-                        System.exit(0);
-                    }
-                }
-            }
-        }
-        else {
-            current = movePlayer();
-        }
-
-        int kill = logicGrid.attack(current).size();
-        if(printGridTerminal) System.out.println("nb kill : " + kill);
-
-        if(logicGrid.isDefenderWinConfiguration()) endGame(ResultGame.DEFENDER_WIN);
-    }
-
-    public void playTurnAttacker(){
-        if(printGridTerminal) System.out.println("\nAttaquant, à vous de jouer !");
-
-        Piece current = null;
-
-        if(game.isAttackerAI()){
-            while(current == null) {
-                if(game.getAIAttackerDifficulty() == AIDifficulty.RANDOM){
-                    Coup coupAI = game.getAleatron().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, PieceType.ATTACKER);
-                    logicGrid.move(coupAI);
-                    current = grid.getPieceAtPosition(coupAI.getDest());
-                }
-                //if (nbTurn < 3) {
-                else {
-                    Coup coupAI = game.getAiMinMax().playMove(logicGrid,MAX_DEPTH, PieceType.ATTACKER);
-                    logicGrid.move(coupAI);
-                    current = grid.getPieceAtPosition(coupAI.getDest());
-
-                    if(current == null){
-                        System.out.println("\n\nError : Attacker Coup");
-                        logicGrid.getGrid().print();
-                        System.out.println("Source:" + coupAI.getInit().getRow() + ","+coupAI.getInit().getCol() + ", Dest:" + coupAI.getDest().getRow() + ","+ coupAI.getDest().getCol());
-                        System.exit(0);
-                    }
-                }
-            }
-        }
-        else {
-            current = movePlayer();
-        }
-
-        //Check if the king has been captured while on or next to the throne
-        logicGrid.capture();
-
-        int kill = logicGrid.attack(current).size();
-        if(printGridTerminal) System.out.println("nb kill : " + kill);
-
-
-        if(logicGrid.isAttackerWinConfiguration()) endGame(ResultGame.ATTACKER_WIN);
     }
 
     public void setPrintTerminal(boolean b) { printGridTerminal = b;}
