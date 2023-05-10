@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 
 public class AITraining {
     private static final  int AIGAMES = 1;
-    private static final boolean PRINT = false;
-    private static final boolean LoadBar = true;
+    private static final boolean PRINT = true;
+    private static final boolean LoadBar = false;
     private static final boolean WRITE_TO_FILE = false;
 
     public static void main(String[] args) throws IOException {

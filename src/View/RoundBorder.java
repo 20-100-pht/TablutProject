@@ -3,9 +3,9 @@ package View;
 import javax.swing.border.Border;
 import java.awt.*;
 
-class ButtonRoundBorder implements Border {
+class RoundBorder implements Border {
     private int r;
-    ButtonRoundBorder(int r) {
+    RoundBorder(int r) {
         this.r = r;
     }
     public Insets getBorderInsets(Component c) {

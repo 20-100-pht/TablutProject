@@ -1,12 +1,15 @@
 package View;
 
 import Controller.MenuController;
+import Model.Grid;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 
 import static java.awt.Font.BOLD;
 
@@ -17,6 +20,8 @@ public class MenuFrame extends Frame {
     Button bttnLoadGame;
     Button bttnStatistics;
     Button bttnOption;
+    Image imageBackground;
+    JLabel labelTitle;
 
     public MenuFrame(Interface ui){
         super(ui);
@@ -29,14 +34,13 @@ public class MenuFrame extends Frame {
     public void build() {
 
         JFrame window = ui.getWindow();
-        Font fontArial45 = new Font("Arial", BOLD, 45);
+        Font fontArial50 = new Font("Arial", BOLD, 50);
 
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
 
-        JLabel labelTitle = new JLabel("Tablut");
-        labelTitle.setFont(fontArial45);
-
+        labelTitle = new JLabel("Tablut");
+        labelTitle.setFont(fontArial50);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 0;
@@ -52,48 +56,35 @@ public class MenuFrame extends Frame {
         gLayout.setConstraints(space, c);
         this.add(space);
 
-        c.ipady = 0;
-        c.insets = new Insets(20, 20, 20, 20);
-
-        bttnNewGame = new Button("Nouvelle partie", true, this);
-        //c.fill = GridBagConstraints.NONE;
-        bttnNewGame.setBorder(new ButtonRoundBorder(10));
-        c.gridx = 1;
-        c.gridy = 2;
-        bttnNewGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        gLayout.setConstraints(bttnNewGame, c);
+        bttnNewGame = createClassicButton(gLayout, 1, 2, "Nouvelle partie");
         this.add(bttnNewGame);
-
-        bttnLoadGame = new Button("Charger une partie", true, this);
-        //c.fill = GridBagConstraints.NONE;
-        bttnLoadGame.setBorder(new ButtonRoundBorder(10));
-        c.gridx = 1;
-        c.gridy = 3;
-        bttnLoadGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        gLayout.setConstraints(bttnLoadGame, c);
+        bttnLoadGame = createClassicButton(gLayout, 1, 3, "Charger une partie");
         this.add(bttnLoadGame);
-
-        bttnStatistics = new Button("Statistiques", true, this);
-        // c.fill = GridBagConstraints.NONE;
-        bttnStatistics.setBorder(new ButtonRoundBorder(10));
-        c.gridx = 1;
-        c.gridy = 4;
-        bttnStatistics.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        gLayout.setConstraints(bttnStatistics, c);
+        bttnStatistics = createClassicButton(gLayout, 1, 4, "Statistiques");
         this.add(bttnStatistics);
-
-        bttnOption = new Button("Options", true, this);
-        //c.fill = GridBagConstraints.NONE;
-        bttnOption.setBorder(new ButtonRoundBorder(10));
-        c.gridx = 1;
-        c.gridy = 5;
-        bttnOption.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        gLayout.setConstraints(bttnOption, c);
+        bttnOption = createClassicButton(gLayout, 1, 5, "Options");
         this.add(bttnOption);
 
         setButtonHandlers();
 
         this.setLayout(gLayout);
+    }
+
+    Button createClassicButton(GridBagLayout layout, int posX, int posY, String text){
+        Button bttn = new Button(text, true, this);
+        bttn.setPreferredSize(new Dimension(275, 55));
+        bttn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        bttn.setRoundValue(110);
+        bttn.setFont(new Font(Font.DIALOG, Font.BOLD, 23));
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = posX;
+        c.gridy = posY;
+        c.ipady = 0;
+        c.insets = new Insets(20, 20, 20, 20);
+        layout.setConstraints(bttn, c);
+
+        return bttn;
     }
 
     public void setButtonHandlers(){
@@ -118,8 +109,8 @@ public class MenuFrame extends Frame {
         window.setMinimumSize(new Dimension(400, 600));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int) (sizeScreen.height * 0.6);
-        int width = (int) (sizeScreen.width * 0.4);
+        int height = (int) (sizeScreen.height * 0.75);
+        int width = (int) (sizeScreen.width * 0.6);
         int x = (int) (sizeScreen.width/2 - width/2);
         int y = (int) (sizeScreen.height/2 - height/2);
 
@@ -134,10 +125,16 @@ public class MenuFrame extends Frame {
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
+
+        g.drawImage(imageBackground, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
     public void loadAssets(){
-
+        try{
+            imageBackground = ImageIO.read(new File("assets/images/backgroundMenu.jpg"));
+        } catch(IOException exp){
+            exp.printStackTrace();
+        }
     }
 
     public File showLoadDialog(){
@@ -150,114 +147,3 @@ public class MenuFrame extends Frame {
         return file;
     }
 }
-/**import java.awt.BorderLayout;
- import java.awt.Dimension;
- import java.awt.GridBagConstraints;
- import java.awt.GridBagLayout;
- import java.awt.Insets;
- import java.awt.event.ActionEvent;
- import java.awt.event.ActionListener;
- import javax.swing.Box;
- import javax.swing.JButton;
- import javax.swing.JFrame;
- import javax.swing.JLabel;
- import javax.swing.JPanel;
-
- public class TablutMenu extends JFrame implements ActionListener {
- private static final long serialVersionUID = 1L;
-
- public TablutMenu() {
- super("Controller.Menu principal");
-
- // Créer les boutons pour chaque option du menu
- JButton newGameButton = new JButton("Nouvelle partie");
- JButton loadGameButton = new JButton("Charger partie");
- JButton statsButton = new JButton("Statistiques");
- JButton optionsButton = new JButton("Options");
-
- // Ajouter un écouteur d'événements pour chaque bouton
- newGameButton.addActionListener(this);
- loadGameButton.addActionListener(this);
- statsButton.addActionListener(this);
- optionsButton.addActionListener(this);
-
- // Créer le panneau pour les boutons du menu
- JPanel menuPanel = new JPanel(new GridBagLayout());
- GridBagConstraints c = new GridBagConstraints();
- c.insets = new Insets(5, 0, 5, 0);
- c.gridx = 0;
- c.gridy = 0;
- menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide en haut
- menuPanel.add(newGameButton, c);
- c.gridy++;
- menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide entre les boutons
- menuPanel.add(loadGameButton, c);
- c.gridy++;
- menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide entre les boutons
- menuPanel.add(statsButton, c);
- c.gridy++;
- menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide entre les boutons
- menuPanel.add(optionsButton, c);
- menuPanel.add(Box.createRigidArea(new Dimension(0, 10))); // espace vide en bas
-
- // Créer le panneau pour le titre du jeu
- JPanel titlePanel = new JPanel();
- titlePanel.add(new JLabel("Tablut"));
-
- // Ajouter les panneaux au cadre principal
- add(titlePanel, BorderLayout.NORTH);
- add(menuPanel, BorderLayout.CENTER);
-
- // Configurer le cadre principal
- setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
- pack();
- setLocationRelativeTo(null);
- setVisible(true);
- }
-
- @Override
- public void actionPerformed(ActionEvent e) {
- String command = e.getActionCommand();
-
- switch (command) {
- case "Nouvelle partie":
- startNewGame();
- break;
- case "Charger partie":
- loadSavedGame();
- break;
- case "Statistiques":
- displayStats();
- break;
- case "Options":
- showOptions();
- break;
- }
- }
-
- private void startNewGame() {
- // Code pour commencer une nouvelle partie
- System.out.println("Nouvelle partie démarrée.");
- }
-
- private void loadSavedGame() {
- // Code pour charger une partie sauvegardée
- System.out.println("Partie chargée.");
- }
-
- private void displayStats() {
- // Code pour afficher les statistiques
- System.out.println("Statistiques affichées.");
- }
-
- private void showOptions() {
- // Code pour afficher les options
- System.out.println("Options affichées.");
- }
-
- public static void main(String[] args) {
- TablutMenu menu = new TablutMenu();
- }
- }
-
-**/
