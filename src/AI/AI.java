@@ -230,10 +230,10 @@ public abstract class AI implements Serializable {
 
 
                         //Cut the child only if father has children
-                        /*if(preEvaluate(newLogicGrid, type) && father.getChildren().size() > 0){
+                        if(preEvaluate(newLogicGrid, type) && end == ResultGame.NO_END_GAME && father.getChildren().size() > 0){
                             in++;
                             continue;
-                        }*/
+                        }
 
 
                         Node tmpNode = new Node(newLogicGrid, new Coup(new Coordinate(y,x),coordDest), end);
@@ -283,9 +283,9 @@ public abstract class AI implements Serializable {
 
         //Cut the child if
         if(type == PieceType.ATTACKER){
-            return (attackers/defenders) < 1;
+            return ((double) attackers /defenders) < 1.6;
         }else{
-            return (attackers/defenders) > 1;
+            return ((double) attackers/defenders) > 1.8;
         }
     }
 

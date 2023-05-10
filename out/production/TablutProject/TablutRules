@@ -1,0 +1,38 @@
+OK 1. Le tablut se joue sur un plateau de 9×9 cases.
+
+OK 2. Il y a 25 pièces : un roi et ses huit défenseurs, et seize attaquants. Ceux-ci sont placés sous la forme d'une croix avec empattements, comme dans le schéma.
+
+OK 3. Le côté attaquant fait le premier pas.
+
+OK 4. Les pièces se déplacent sur n'importe quelle distance orthogonalement, sans atterrir ni sauter par-dessus d'autres pièces sur le plateau.
+
+OK 5. Aucune pièce ne peut atterrir sur la place centrale, appelée "château", pas même le roi une fois qu'il l'a quittée.
+
+OK 6. Une pièce autre que le roi est capturée lorsqu'elle est entourée orthogonalement sur deux cases opposées par des ennemis. Le roi ne peut pas s'associer à un défenseur dans le but de capturer des attaquants.
+
+OK 7. Une pièce peut également être capturée entre un ennemi et le château vide.
+
+OK 8. Lorsqu'il est dans le château, le roi est capturé en l'entourant sur quatre côtés orthogonaux d'attaquants.
+
+OK 9. Lorsqu'il se tient à côté du château, le roi peut être capturé en l'entourant des trois côtés restants avec des attaquants.
+
+A FAIRE 10. Ailleurs sur le plateau, le roi est capturé comme les autres pièces.
+
+OK 11. Si le roi, lorsqu'il est dans le château, est entouré sur trois côtés par des attaquants et sur le quatrième par un défenseur, le défenseur peut être capturé en l'entourant entre un attaquant et le roi.
+
+A FAIRE 12. Le roi gagne la partie en atteignant n'importe quelle coin au bord du plateau. Les attaquants gagnent s'ils capturent le roi.
+
+
+
+La règle 3 est une invention moderne. Linnaeus n'indique pas qui se déplace en premier, mais le fait de régler la question d'une manière ou d'une autre facilite l'enregistrement des matchs et l'organisation de tournois.
+
+Dans la règle 5, le roi est interdit d'accès à son propre château. Linnaeus déclare qu'aucune pièce ne peut entrer dans cette place centrale, et cette règle interprète cela littéralement.
+
+Un ajout aux règles qui ne se trouve pas dans le texte latin de Linnaeus est le mot "vide" dans la règle 7. Cela a été ajouté car, sans lui, la règle 11 serait complètement redondante. Dans l'état actuel des choses, la règle 11 décrit le seul cas où une pièce en défense peut être capturée contre la case centrale non vide.
+
+La règle 12 est formulée par inférence. Linnaeus ne donne que quelques exemples de l'endroit où le roi doit atteindre pour gagner la partie, le tout à divers points sur le bord du plateau.
+
+
+pion contre forteresse
+rois retourne sur trone
+plus de move possible
