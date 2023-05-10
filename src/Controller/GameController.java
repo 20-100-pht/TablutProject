@@ -9,4 +9,8 @@ public class GameController {
     public void setFrozenView(boolean frozen){
 
     }
+
+    public void updateViewEndGame(){
+
+    }
 }

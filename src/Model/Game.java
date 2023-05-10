@@ -165,9 +165,11 @@ public class Game implements Serializable {
         incTurnIndex();
 
         if(logicGrid.isAttackerWinConfiguration() || logicGrid.isDefenderWinConfiguration()) {
-            gameController.updateViewAfterMove();
+            gameController.updateViewEndGame();
             return;
         }
+
+        gameController.updateViewAfterMove();
 
         if(isAiTurn()) doAiTurnInSeparateThread();
     }
