@@ -1,5 +1,6 @@
 package View;
 
+import Animation.Animation;
 import Structure.Position;
 import Global.GraphicUtils;
 
@@ -10,6 +11,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 
 public abstract class Frame extends JComponent {
 
@@ -17,6 +19,7 @@ public abstract class Frame extends JComponent {
     Image selectorImage;
     boolean selectorDisplayed;
     Position selectorPos;
+    Vector<Animation> animations;
     public Frame(Interface ui){
         this.ui = ui;
 
@@ -78,5 +81,11 @@ public abstract class Frame extends JComponent {
 
     public void display(){
 
+    }
+
+    public void updateAnimations(int timeElapsed){
+        for(int i = 0; i < animations.size(); i++){
+            animations.get(i).update(timeElapsed);
+        }
     }
 }

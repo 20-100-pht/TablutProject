@@ -1,12 +1,12 @@
 package Controller;
 
+import Animation.AnimationMove;
 import Model.*;
+import Structure.Coordinate;
 import Structure.Coup;
 import View.GameFrame;
-import AI.AI;
 
 import java.io.*;
-import java.util.Vector;
 
 import static java.lang.Thread.sleep;
 
@@ -67,6 +67,18 @@ public class GameGraphicController extends GameController {
 
     }
 
+    @Override
+    public void startMoveAnimation(Coordinate piece1, Coordinate piece2){
+        gameFrame.setPieceHided1Coords(piece1);
+        gameFrame.setPieceHided2Coords(piece2);
+        //AnimationMove animation = new AnimationMove(2000, );
+    }
+
+    @Override
+    public void endMoveAnimation(){
+
+    }
+
     public void bttnUndoClickHandler(){
         game.undo();
     }
@@ -78,6 +90,7 @@ public class GameGraphicController extends GameController {
     @Override
     public void updateViewAfterMove() {
         gameFrame.setTurnLabelValue(game.getTurnIndex());
+        //gameFrame.setPlayerStatus(Integer.(game.isAttackerTurn()));
     }
 
     @Override

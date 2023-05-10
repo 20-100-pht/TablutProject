@@ -69,6 +69,7 @@ public class Interface {
     }
 
     public void refresh(){
+        frame.updateAnimations(200); //A modifier
         frame.updateUI();
         frame.revalidate();
         frame.repaint();

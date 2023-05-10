@@ -3,6 +3,9 @@ package View;
 import Controller.GameGraphicController;
 import Model.Game;
 import Model.Grid;
+import Model.PieceType;
+import Structure.Coordinate;
+import Structure.Position;
 
 import javax.swing.border.Border;
 
@@ -12,7 +15,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.security.DigestException;
 
 public class GameFrame extends Frame {
 
@@ -36,11 +38,12 @@ public class GameFrame extends Frame {
     JButton bttnRedo;
     CapturedPiecesPanel capturedPiecesPanel1;
     CapturedPiecesPanel capturedPiecesPanel2;
-
     JLabel labelPlayer1Status;
     JLabel labelPlayer2Status;
     boolean frozen;
     JLabel labelIndexTurn;
+    Coordinate pieceHided1Coords = null;
+    Coordinate pieceHided2Coords = null;
 
 
     public GameFrame(Interface ui, Game game){
@@ -585,5 +588,13 @@ public class GameFrame extends Frame {
             labelPlayer2Status.setText("Observe...");
             labelPlayer1Status.setText("Ton tour...");
         }
+    }
+
+    public void setPieceHided1Coords(Coordinate pieceHided1Coords){
+        this.pieceHided1Coords = pieceHided1Coords;
+    }
+
+    public void setPieceHided2Coords(Coordinate pieceHided2Coords){
+        this.pieceHided2Coords = pieceHided2Coords;
     }
 }
