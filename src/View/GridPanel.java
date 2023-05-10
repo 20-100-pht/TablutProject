@@ -90,13 +90,13 @@ public class GridPanel extends JPanel {
             }
         }
 
-        for (int l = 0; l <= GRID_SIZE; l++) {
+        /*for (int l = 0; l <= GRID_SIZE; l++) {
             g.drawLine(0, l * getCaseSize(), GRID_SIZE * getCaseSize(), l * getCaseSize());
         }
 
         for (int c = 0; c <= GRID_SIZE; c++) {
             g.drawLine(c * getCaseSize(), 0, c * getCaseSize(), GRID_SIZE * getCaseSize());
-        }
+        }*/
 
         if (!gameLogic.isEndGame()){
             for (int i = 0; i < possibleMoveMarks.size(); i++) {
