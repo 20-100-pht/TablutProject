@@ -24,6 +24,7 @@ public abstract class Frame extends JComponent {
         this.ui = ui;
 
         selectorDisplayed = false;
+        animations = new Vector<Animation>();
 
         try{
             selectorImage = ImageIO.read(new File("assets/images/arrow.png"));
@@ -85,7 +86,14 @@ public abstract class Frame extends JComponent {
 
     public void updateAnimations(int timeElapsed){
         for(int i = 0; i < animations.size(); i++){
-            animations.get(i).update(timeElapsed);
+            Animation animation = animations.get(i);
+            if(!animation.isTerminated()) {
+                animation.update(timeElapsed);
+            }
         }
+    }
+
+    public void addAnimation(Animation animation){
+        animations.add(animation);
     }
 }

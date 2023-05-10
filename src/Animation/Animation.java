@@ -16,4 +16,8 @@ public class Animation {
     public void stop(){
 
     }
+
+    public boolean isTerminated() {
+        return true;
+    }
 }

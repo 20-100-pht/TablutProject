@@ -42,8 +42,6 @@ public class GameFrame extends Frame {
     JLabel labelPlayer2Status;
     boolean frozen;
     JLabel labelIndexTurn;
-    Coordinate pieceHided1Coords = null;
-    Coordinate pieceHided2Coords = null;
 
 
     public GameFrame(Interface ui, Game game){
@@ -579,22 +577,18 @@ public class GameFrame extends Frame {
         labelIndexTurn.setText("Tour "+Integer.toString(turnIndex+1));
     }
 
-    public void setPlayerStatus(int index){
-        if(index%2 == 0){
+    public void setPlayerStatus(int index) {
+        if (index % 2 == 0) {
             labelPlayer1Status.setText("Observe...");
             labelPlayer2Status.setText("Ton tour...");
-        }
-        else{
+        } else {
             labelPlayer2Status.setText("Observe...");
             labelPlayer1Status.setText("Ton tour...");
         }
     }
 
-    public void setPieceHided1Coords(Coordinate pieceHided1Coords){
-        this.pieceHided1Coords = pieceHided1Coords;
+    public GridPanel getGridPanelInstance(){
+        return gridPanel;
     }
 
-    public void setPieceHided2Coords(Coordinate pieceHided2Coords){
-        this.pieceHided2Coords = pieceHided2Coords;
-    }
 }

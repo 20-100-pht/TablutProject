@@ -1,5 +1,6 @@
 package Controller;
 
+import Animation.AnimationMove;
 import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
@@ -89,11 +90,14 @@ public class GridPanelController {
         Coordinate caseCoords = getCaseFromPixelPosition(e.getX(), e.getY());
         Piece pieceClicked = grid.getPieceAtPosition(caseCoords);
 
+        if(gridPanel.anAnimationNotTerminated()) return;
+
         //Si il y a une pièce sur la case d'arrivée inutile d'essayer de bouger
         if(pieceSelectedCoords != null && pieceClicked == null){
 
             Coup coup = new Coup(pieceSelectedCoords, caseCoords);
-            game.play(coup, true);
+            //game.play(coup, true);
+            gameGraphicController.startMoveAnimation(coup);
             pieceSelectedCoords = null;
             gridPanel.setSelectionMarkCoords(null);
         }

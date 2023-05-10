@@ -64,12 +64,12 @@ public class Interface {
                 refresh();
             }
         };
-        refreshTimer = new Timer(200, refreshPerformer);
+        refreshTimer = new Timer(40, refreshPerformer);
         refreshTimer.start();
     }
 
     public void refresh(){
-        frame.updateAnimations(200); //A modifier
+        frame.updateAnimations(40); //A modifier
         frame.updateUI();
         frame.revalidate();
         frame.repaint();

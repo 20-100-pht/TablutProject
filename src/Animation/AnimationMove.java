@@ -1,5 +1,12 @@
 package Animation;
 
+import Controller.GameGraphicController;
+import Model.Piece;
+import Model.PieceType;
+import Structure.Coup;
+
+import java.awt.*;
+
 public class AnimationMove extends Animation {
 
     int xStart;
@@ -8,14 +15,20 @@ public class AnimationMove extends Animation {
     int yEnd;
     int x;
     int y;
+    GameGraphicController gameGraphicController;
+    Coup coup;
+    PieceType pieceType;
 
-    public AnimationMove(int duration, int xStart, int yStart, int xEnd, int yEnd){
+    public AnimationMove(GameGraphicController gameGraphicController, Coup coup, PieceType pieceType, int duration, int xStart, int yStart, int xEnd, int yEnd){
         this.duration = duration;
         this.xStart = xStart;
         this.yStart = yStart;
         this.xEnd = xEnd;
         this.yEnd = yEnd;
         this.timeRemained = duration;
+        this.gameGraphicController = gameGraphicController;
+        this.coup = coup;
+        this.pieceType = pieceType;
     }
 
     @Override
@@ -26,16 +39,27 @@ public class AnimationMove extends Animation {
     @Override
     public void update(int timeElapsed){
 
-        int distanceX = xEnd - xStart;
-        int distanceY = yEnd - yStart;
+        int distanceX = xStart-xEnd;
+        int distanceY = yStart-yEnd;
 
-        float a = (float) timeRemained / (float) duration;
-        x = (int) (xStart + a*(float)distanceX);
-        y = (int) (yStart + a*(float)distanceY);
+        float a = (float) (duration-timeRemained) / (float) duration;
+        System.out.println(a);
+        if(distanceX > 0) {
+            x = (int) (xStart - a * (float) distanceX);
+        }
+        else{
+            x = (int) (xStart - a * (float) distanceX);
+        }
+        if(distanceY > 0) {
+            y = (int) (yStart - a * (float) distanceY);
+        }
+        else{
+            y = (int) (yStart - a * (float) distanceY);
+        }
 
         timeRemained -= timeElapsed;
         if(timeRemained <= 0){
-
+            gameGraphicController.endMoveAnimation(coup);
         }
     }
 
@@ -44,11 +68,19 @@ public class AnimationMove extends Animation {
 
     }
 
-    int getX(){
+    public int getX(){
         return x;
     }
 
-    int getY(){
+    public int getY(){
         return y;
+    }
+
+    public boolean isTerminated() {
+        return timeRemained <= 0;
+    }
+
+    public PieceType getPieceType(){
+        return pieceType;
     }
 }

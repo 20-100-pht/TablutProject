@@ -5,6 +5,7 @@ import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
 import View.GameFrame;
+import View.GridPanel;
 
 import java.io.*;
 
@@ -67,16 +68,36 @@ public class GameGraphicController extends GameController {
 
     }
 
-    @Override
-    public void startMoveAnimation(Coordinate piece1, Coordinate piece2){
-        gameFrame.setPieceHided1Coords(piece1);
-        gameFrame.setPieceHided2Coords(piece2);
-        //AnimationMove animation = new AnimationMove(2000, );
+    public void startMoveAnimation(Coup coup){
+
+        System.out.println("dsqdd");
+
+        Coordinate piece1Coords = coup.getInit();
+        Coordinate piece2Coords = coup.getDest();
+        Piece piece1 = grid.getPieceAtPosition(piece1Coords);
+
+        GridPanel gridPanel = gameFrame.getGridPanelInstance();
+        gridPanel.setPieceHidedCoords(piece1Coords);
+
+        int xStart = piece1Coords.getCol()*gridPanel.getCaseSize();
+        int yStart = piece1Coords.getRow()*gridPanel.getCaseSize();
+        int xEnd = piece2Coords.getCol()*gridPanel.getCaseSize();
+        int yEnd = piece2Coords.getRow()*gridPanel.getCaseSize();
+
+        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 1500, xStart, yStart, xEnd, yEnd);
+        animation.start();
+
+        gameFrame.addAnimation(animation);
+        gridPanel.setAnimationMove(animation);
     }
 
-    @Override
-    public void endMoveAnimation(){
 
+
+    public void endMoveAnimation(Coup coup){
+        game.play(coup, true);
+        GridPanel gridPanel = gameFrame.getGridPanelInstance();
+        gridPanel.setPieceHidedCoords(null);
+        gridPanel.setAnimationMove(null);
     }
 
     public void bttnUndoClickHandler(){

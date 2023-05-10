@@ -1,11 +1,9 @@
 package View;
 
+import Animation.AnimationMove;
 import Controller.GameGraphicController;
 import Controller.GridPanelController;
-import Model.Game;
-import Model.LogicGrid;
-import Model.Grid;
-import Model.Piece;
+import Model.*;
 import Structure.Coordinate;
 import View.GameFrame;
 
@@ -37,6 +35,8 @@ public class GridPanel extends JPanel {
     Coordinate selectionMarkCoords;
     Coordinate moveMarksCoords;
     boolean frozen;
+    Coordinate pieceHidedCoords = null;
+    AnimationMove animationMove;
 
     public static final int GRID_SIZE = 9;
 
@@ -80,12 +80,14 @@ public class GridPanel extends JPanel {
                 if (piece == null) {
                     continue;
                 }
-                if (piece.isDefender()) {
-                    g.drawImage(imageDefender, pieceX, pieceY, pieceSize, pieceSize, null);
-                } else if (piece.isKing()) {
-                    g.drawImage(imageKing, pieceX, pieceY, pieceSize, pieceSize, null);
-                } else if (piece.isAttacker()) {
-                    g.drawImage(imageAttacker, pieceX, pieceY, pieceSize, pieceSize, null);
+                if(pieceHidedCoords != null && c == pieceHidedCoords.getCol() && l == pieceHidedCoords.getRow()) continue;
+
+                Image pieceImage = getPieceImage(piece.getType());
+                g.drawImage(pieceImage, pieceX, pieceY, pieceSize, pieceSize, null);
+
+                if(animationMove != null){
+                    Image imagePieceAnim = getPieceImage(animationMove.getPieceType());
+                    g.drawImage(imagePieceAnim, (int) (animationMove.getX()+getCaseSize() * 0.15), (int) (animationMove.getY()+getCaseSize() * 0.15), pieceSize, pieceSize, null);
                 }
             }
         }
@@ -187,5 +189,28 @@ public class GridPanel extends JPanel {
 
     public void setFrozen(boolean frozen){
         this.frozen = frozen;
+    }
+
+    public void setPieceHidedCoords(Coordinate pieceHidedCoords){
+        this.pieceHidedCoords = pieceHidedCoords;
+    }
+
+    public void setAnimationMove(AnimationMove animation){
+        animationMove = animation;
+    }
+
+    public boolean anAnimationNotTerminated(){
+        return animationMove != null && !animationMove.isTerminated();
+    }
+
+    public Image getPieceImage(PieceType type){
+        if (type == PieceType.DEFENDER) {
+            return imageDefender;
+        } else if (type == PieceType.KING) {
+            return imageKing;
+        } else if (type == PieceType.ATTACKER) {
+            return imageAttacker;
+        }
+        return null;
     }
 }
