@@ -10,7 +10,7 @@ import java.util.Vector;
 
 import static java.lang.Thread.sleep;
 
-public class GameGraphicController extends GameController {
+public class GameGraphicController {
 
     GameFrame gameFrame;
     LogicGrid logicGrid;
@@ -29,7 +29,42 @@ public class GameGraphicController extends GameController {
         return game;
     }
 
-    void updateViewEndGame(){
+    public void play(Coup coup, boolean addToHistory){
+
+        if(logicGrid.isEndGame()){
+            return;
+        }
+
+        Grid grid = logicGrid.getGrid();
+        Piece pieceSelected = grid.getPieceAtPosition(coup.getInit());
+
+        if(pieceSelected.isAttacker() && !game.isAttackerTurn() || (pieceSelected.isDefender() || pieceSelected.isKing()) && game.isAttackerTurn()){
+            return;
+        }
+
+        if(logicGrid.isLegalMove(coup) != 0){
+            return;
+        }
+        logicGrid.move(coup);
+
+        logicGrid.capture();
+        Vector<Piece> killedPieces = logicGrid.attack(pieceSelected);
+
+        if(addToHistory) {
+            History history = game.getHistoryInstance();
+            history.addMove(new HistoryMove(coup, killedPieces, game.isAttackerTurn(), game.getTurnIndex()));
+        }
+
+        TreatPossibleEndGame();
+
+        game.toogleAttackerTurn();
+        game.incTurnIndex();
+        gameFrame.setTurnLabelValue(game.getTurnIndex());
+
+        if(isAiTurn()) doAiTurnInSeparateThread();
+    }
+
+    void TreatPossibleEndGame(){
         if(logicGrid.isAttackerWinConfiguration()) {
             gameFrame.showWinMessage(game.getAttackerName());
         }
