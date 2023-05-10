@@ -59,8 +59,8 @@ public class AIMedium extends AI {
 
         double value = (double)
                 (attackers)*500 +
-                isNextToKing(k,current.getLogicGrid().getGrid())*1000 +
-                canKingGoToWall(current)*5000;
+                isNextToKingAndSafe(k,current.getLogicGrid().getGrid())*1000 +
+                canKingGoToWall(current)*1000;
 
         //Attackers want a high value, Defenders want a low value
         //double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
@@ -115,6 +115,162 @@ public class AIMedium extends AI {
         }
 
         return times;
+    }
+
+    private int isNextToKingAndSafe(Piece king, Grid grid){
+        int x = king.getCol();
+        int y = king.getRow();
+
+        Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y, x - 1));
+        Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y, x + 1));
+        Piece topPiece = grid.getPieceAtPosition(new Coordinate(y - 1, x));
+        Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y + 1, x));
+//todo je vais le réduire no soucis les frérot et en vrai à tester
+        int times = 0;
+        boolean Secure = true;
+        if(leftPiece!=null && leftPiece.isAttacker()){
+           // regarde la colonne de la ièce gauche -1
+            if (x-2>=0) {
+                for (int i = y; i >= 0 ; i--) {
+                    Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x - 2));
+                    if (tmp == null) continue;
+                    if (tmp.isAttacker()){
+                        break;
+                    }
+                    if (tmp.isDefender()){
+                        Secure = false;
+                    }
+                }
+                for (int i = y; i <= 8 ; i++) {
+                    Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x - 2));
+                    if (tmp == null) continue;
+                    if (tmp.isAttacker()){
+                        break;
+                    }
+                    if (tmp.isDefender()){
+                        Secure = false;
+                    }
+                }
+
+            }
+            if (Secure) times++;
+            Secure = true;
+        }
+        if(rightPiece!=null && rightPiece.isAttacker()){
+            // regarde la colonne de la ièce gauche -1
+            if (x+2<9) {
+                for (int i = y; i >= 0 ; i--) {
+                    Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x + 2));
+                    if (tmp == null) continue;
+                    if (tmp.isAttacker()){
+                        break;
+                    }
+                    if (tmp.isDefender()){
+                        Secure = false;
+                    }
+                }
+                for (int i = y; i <= 8 ; i++) {
+                    Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x + 2));
+                    if (tmp == null) continue;
+                    if (tmp.isAttacker()){
+                        break;
+                    }
+                    if (tmp.isDefender()){
+                        Secure = false;
+                    }
+                }
+
+            }
+            if (Secure) times++;
+            Secure = true;
+        }
+        if(topPiece!=null && topPiece.isAttacker()){
+            // regarde la colonne de la ièce gauche -1
+            if (y+2<9) {
+                for (int i = x; i >= 0 ; i--) {
+                    Piece tmp = grid.getPieceAtPosition(new Coordinate(y+2, i));
+                    if (tmp == null) continue;
+                    if (tmp.isAttacker()){
+                        break;
+                    }
+                    if (tmp.isDefender()){
+                        Secure = false;
+                    }
+                }
+                for (int i = x; i <= 8 ; i++) {
+                    Piece tmp = grid.getPieceAtPosition(new Coordinate(y+2, i));
+                    if (tmp == null) continue;
+                    if (tmp.isAttacker()){
+                        break;
+                    }
+                    if (tmp.isDefender()){
+                        Secure = false;
+                    }
+                }
+
+            }
+            if (Secure) times++;
+            Secure = true;
+        }
+        if(bottomPiece!=null && bottomPiece.isAttacker()){
+            // regarde la colonne de la ièce gauche -1
+            if (y-2>=0) {
+                for (int i = x; i >= 0 ; i--) {
+                    Piece tmp = grid.getPieceAtPosition(new Coordinate(y-2, i));
+                    if (tmp == null) continue;
+                    if (tmp.isAttacker()){
+                        break;
+                    }
+                    if (tmp.isDefender()){
+                        Secure = false;
+                    }
+                }
+                for (int i = x; i <= 8 ; i++) {
+                    Piece tmp = grid.getPieceAtPosition(new Coordinate(y-2, i));
+                    if (tmp == null) continue;
+                    if (tmp.isAttacker()){
+                        break;
+                    }
+                    if (tmp.isDefender()){
+                        Secure = false;
+                    }
+                }
+
+            }
+            if (Secure) times++;
+            Secure = true;
+        }
+
+        return times;
+    }
+
+
+    private boolean isPieceSafe(Piece p, Grid grid, boolean isHorizontal){
+        int x = p.getCol();
+        int y = p.getRow();
+        if (x-1>0) {
+            for (int i = y; i >= 0 ; i--) {
+                Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x - 1));
+                if (tmp.isAttacker()){
+                    break;
+                }
+                if (tmp.isDefender()){
+                    return false;
+                }
+            }
+            for (int i = y; i <= 8 ; i++) {
+                Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x - 1));
+                if (tmp.isAttacker()){
+                    break;
+                }
+                if (tmp.isDefender()){
+                    return false;
+                }
+            }
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private int canKingGoToWall(Node n){
