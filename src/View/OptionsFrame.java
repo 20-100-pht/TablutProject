@@ -82,14 +82,19 @@ public class OptionsFrame extends JFrame {
         gbc.gridy = 1;
         mainPanel.add(themeComboBox, gbc);
 
-        okButton = new JButton("Ok");
+        okButton = new JButton("Save");
+        okButton.setBackground(new Color(0,220,0));
+        okButton.setForeground(Color.white);
         okButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        exitButton = new JButton("Exit");
+        exitButton = new JButton("Undo");
+        exitButton.setBackground(new Color(220,0,0));
+        exitButton.setForeground(Color.white);
         exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(okButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10,0)));
         buttonPanel.add(exitButton);
 
         gbc.gridx = 0;
@@ -99,6 +104,10 @@ public class OptionsFrame extends JFrame {
         mainPanel.add(buttonPanel, gbc);
 
         add(mainPanel);
+        setResizable(false);
+        setVisible(true);
+
+        setEventHandlersOptions();
     }
 
     public void setEventHandlersOptions(){
@@ -132,4 +141,5 @@ public class OptionsFrame extends JFrame {
             }
         });
     }
+
 }
