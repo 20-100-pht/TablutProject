@@ -12,11 +12,11 @@ public class Tablut {
 
         Interface ui = new Interface();
 
-        Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.EASY);
-        GameConsoleController gcc = new GameConsoleController(game);
+        //Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.EASY);
+        /*GameConsoleController gcc = new GameConsoleController(game);
         game.setGameControllerInstance(gcc);
 
         gcc.setPrintTerminal(true);
-        gcc.playGame();
+        gcc.playGame();*/
     }
 }
