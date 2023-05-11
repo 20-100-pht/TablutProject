@@ -44,17 +44,19 @@ public class GridPanel extends JPanel {
     Coordinate pieceHidedCoords = null;
     AnimationMove animationMove;
 
-    String KING_ASSET_PATH = "assets/images/king.png";
-    String DEFENDER_ASSET_PATH = "assets/images/defender2.png";
-    String ATTACKER_ASSET_PATH ="assets/images/attacker2.png";
-    String THRONE_ASSET_PATH = "assets/images/throne3.png";
-    String FORTRESS_ASSET_PATH = "assets/images/fortress2.png";
-    String TILE_ASSET_PATH= "assets/images/tile_11.png";
-    String TILE_2_ASSET_PATH= "assets/images/tile_12.png";
-    String STEPS_HORIZONTAL_ASSET_PATH= "assets/images/steps2H.png";
-    String STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/steps2HE.png";
-    String STEPS_VERTICAL_ASSET_PATH= "assets/images/steps2V.png";
-    String STEPS_VERTICAL_END_ASSET_PATH= "assets/images/steps2VE.png";
+    String KING_ASSET_PATH;
+    String DEFENDER_ASSET_PATH;
+    String ATTACKER_ASSET_PATH;
+    String THRONE_ASSET_PATH;
+    String FORTRESS_ASSET_PATH;
+    String TILE_ASSET_PATH;
+    String TILE_2_ASSET_PATH;
+    String STEPS_HORIZONTAL_ASSET_PATH;
+    String STEPS_HORIZONTAL_END_ASSET_PATH;
+    String STEPS_VERTICAL_ASSET_PATH;
+    String STEPS_VERTICAL_END_ASSET_PATH;
+
+    int theme = 0;
 
     public static final int GRID_SIZE = 9;
 
@@ -70,6 +72,19 @@ public class GridPanel extends JPanel {
         possibleMoveMarks = new Vector<Coordinate>();
 
         frozen = false;
+
+        theme = 0;
+
+        switch (theme){
+            case 0:
+                theme_simple();
+                break;
+            case 1:
+                theme_pixelart();
+                break;
+            default:
+                theme_simple();
+        }
 
         loadAssets();
         setEventsHandlers();
@@ -115,13 +130,13 @@ public class GridPanel extends JPanel {
                     steps = imageStepsV;
                 }
 
-                if(i == 0){
+                if(i == 0 && theme != 0){
                     if(dir.getCol()<0 || dir.getRow()<0){
                         padX=0;
                         padY=0;
                     }
                     g.drawImage(stepsEnd,markX+padX, markY+padY, getCaseSize(), getCaseSize(), null);
-                } else if (i == moveMarksCoords.size()-1) {
+                } else if (i == moveMarksCoords.size()-1  && theme != 0) {
                     if(dir.getCol()>0 || dir.getRow()>0){
                         padX=0;
                         padY=0;
@@ -198,7 +213,7 @@ public class GridPanel extends JPanel {
         int x = (int) (caseX*caseSize + caseSize*0.35);
         int y = (int) (caseY*caseSize + caseSize*0.35);
         int markSize = (int) (caseSize*0.3);
-        g.setColor(Color.green);
+        g.setColor(new Color(50,50,50,50));
         g.fillOval(x, y, markSize, markSize);
     }
 
@@ -312,5 +327,33 @@ public class GridPanel extends JPanel {
 
     public GridPanelController getGridPanelController(){
         return gridPanelController;
+    }
+
+    public void theme_pixelart(){
+        KING_ASSET_PATH = "assets/images/king.png";
+        DEFENDER_ASSET_PATH = "assets/images/defender2.png";
+        ATTACKER_ASSET_PATH ="assets/images/attacker2.png";
+        THRONE_ASSET_PATH = "assets/images/throne3.png";
+        FORTRESS_ASSET_PATH = "assets/images/fortress2.png";
+        TILE_ASSET_PATH= "assets/images/tile_11.png";
+        TILE_2_ASSET_PATH= "assets/images/tile_12.png";
+        STEPS_HORIZONTAL_ASSET_PATH= "assets/images/steps2H.png";
+        STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/steps2HE.png";
+        STEPS_VERTICAL_ASSET_PATH= "assets/images/steps2V.png";
+        STEPS_VERTICAL_END_ASSET_PATH= "assets/images/steps2VE.png";
+    }
+
+    public void theme_simple(){
+        KING_ASSET_PATH = "assets/images/theme_1_king.png";
+        DEFENDER_ASSET_PATH = "assets/images/theme_1_defender.png";
+        ATTACKER_ASSET_PATH ="assets/images/theme_1_attacker.png";
+        THRONE_ASSET_PATH = "assets/images/theme_1_throne.png";
+        FORTRESS_ASSET_PATH = "assets/images/theme_1_fortress.png";
+        TILE_ASSET_PATH= "assets/images/theme_1_tile_1.png";
+        TILE_2_ASSET_PATH= "assets/images/theme_1_tile_0.png";
+        STEPS_HORIZONTAL_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_VERTICAL_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_VERTICAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
     }
 }
