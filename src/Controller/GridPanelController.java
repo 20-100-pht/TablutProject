@@ -81,7 +81,6 @@ public class GridPanelController {
             if (hoveredPiece != null) {
                 processPossibleMoveMarks(hoveredPiece);
             } else {
-                System.out.println("aaaaaa");
                 gridPanel.clearMovePossibleMarks();
             }
         }

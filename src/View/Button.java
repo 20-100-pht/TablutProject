@@ -30,7 +30,7 @@ public class Button extends JPanel {
         roundValue = 0;
         backgroundColor = Color.WHITE;
         textColor = Color.BLACK;
-        backgroundColorHov = Color.ORANGE;
+        backgroundColorHov = new Color(150,158,255);
         textColorHov = Color.WHITE;
 
         font = new Font(Font.DIALOG, Font.BOLD, 23);
@@ -54,7 +54,9 @@ public class Button extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        if(hovered) g.setColor(backgroundColorHov);
+        if(hovered) {
+            g.setColor(backgroundColorHov);
+        }
         else g.setColor(backgroundColor);
 
         g.fillRoundRect(0, 0, this.getWidth()-1, this.getHeight()-1, roundValue, roundValue);

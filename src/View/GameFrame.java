@@ -76,11 +76,13 @@ public class GameFrame extends Frame {
         //Panel background
 
         JPanel bgPanel = new JPanel();
-        bgPanel.setOpaque(false);
+        bgPanel.setOpaque(true);
+        //bgPanel.setBackground(new Color(60,60,60));
 
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         bgPanel.setLayout(gLayout);
+
 
 
         // MENU
@@ -351,6 +353,7 @@ public class GameFrame extends Frame {
 
         mainPanel.add(fgPanel);
         mainPanel.add(bgPanel);
+
 
         setEventHandlers();
     }

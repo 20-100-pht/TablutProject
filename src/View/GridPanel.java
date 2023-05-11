@@ -26,17 +26,37 @@ public class GridPanel extends JPanel {
     Grid grid;
     LogicGrid gameLogic;
     Image imageCase;
+    Image imageCase2;
     Image imageDefender;
     Image imageAttacker;
     Image imageKing;
     Image imageTrone;
     Image imageFortress;
+    Image imageStepsH;
+    Image imageStepsV;
+    Image imageStepsHEnd;
+    Image imageStepsVEnd;
+
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
     Vector<Coordinate> moveMarksCoords;
     boolean frozen;
     Coordinate pieceHidedCoords = null;
     AnimationMove animationMove;
+
+    String KING_ASSET_PATH;
+    String DEFENDER_ASSET_PATH;
+    String ATTACKER_ASSET_PATH;
+    String THRONE_ASSET_PATH;
+    String FORTRESS_ASSET_PATH;
+    String TILE_ASSET_PATH;
+    String TILE_2_ASSET_PATH;
+    String STEPS_HORIZONTAL_ASSET_PATH;
+    String STEPS_HORIZONTAL_END_ASSET_PATH;
+    String STEPS_VERTICAL_ASSET_PATH;
+    String STEPS_VERTICAL_END_ASSET_PATH;
+
+    int theme = 0;
 
     public static final int GRID_SIZE = 9;
 
@@ -53,6 +73,19 @@ public class GridPanel extends JPanel {
 
         frozen = false;
 
+        theme = 0;
+
+        switch (theme){
+            case 0:
+                theme_simple();
+                break;
+            case 1:
+                theme_pixelart();
+                break;
+            default:
+                theme_simple();
+        }
+
         loadAssets();
         setEventsHandlers();
     }
@@ -63,19 +96,56 @@ public class GridPanel extends JPanel {
 
         for (int l = 0; l < GRID_SIZE; l++) {
             for (int c = 0; c < GRID_SIZE; c++) {
-                g.drawImage(imageCase, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
+
+                Image tileImage = imageCase;
+                if((c+l)%2 == 0) tileImage = imageCase2;
+
+                g.drawImage(tileImage, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
             }
         }
 
         if(moveMarksCoords != null){
+
+            Coordinate dir = new Coordinate(Integer.compare(moveMarksCoords.get(1).getRow(),moveMarksCoords.get(0).getRow()),Integer.compare(moveMarksCoords.get(1).getCol(),moveMarksCoords.get(0).getCol()));
+
             for(int i = 0; i < moveMarksCoords.size(); i++){
                 Coordinate markCoords = moveMarksCoords.get(i);
-                int markX = (int) (markCoords.getCol() * getCaseSize() + getCaseSize() * 0.10);
-                int markY = (int) (markCoords.getRow() * getCaseSize() + getCaseSize() * 0.10);
-                int markSize = (int) (getCaseSize() * 0.8);
 
-                g.setColor(Color.BLUE);
-                g.fillRect(markX, markY, markSize, markSize);
+                int markX = (int) (markCoords.getCol() * getCaseSize());
+                int markY = (int) (markCoords.getRow() * getCaseSize());
+
+                Image stepsEnd = imageStepsHEnd;
+                Image steps = imageStepsH;
+
+                int padX = (int) (getCaseSize()*0.5);
+                int padY = (int) (getCaseSize()*0.5);
+
+                if (dir.getCol() == 0) {
+                    padX=0;
+                }
+                if (dir.getRow() == 0) {
+                    padY=0;
+                }else{
+                    stepsEnd = imageStepsVEnd;
+                    steps = imageStepsV;
+                }
+
+                if(i == 0 && theme != 0){
+                    if(dir.getCol()<0 || dir.getRow()<0){
+                        padX=0;
+                        padY=0;
+                    }
+                    g.drawImage(stepsEnd,markX+padX, markY+padY, getCaseSize(), getCaseSize(), null);
+                } else if (i == moveMarksCoords.size()-1  && theme != 0) {
+                    if(dir.getCol()>0 || dir.getRow()>0){
+                        padX=0;
+                        padY=0;
+                    }
+                    g.drawImage(stepsEnd,markX+padX, markY+padY, getCaseSize(), getCaseSize(), null);
+                }else{
+                    g.drawImage(steps,markCoords.getCol() * getCaseSize(), markCoords.getRow() * getCaseSize(), getCaseSize(), getCaseSize(), null);
+                }
+
             }
         }
 
@@ -89,15 +159,18 @@ public class GridPanel extends JPanel {
                     g.drawImage(imageFortress, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
 
+
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
+
                 if(l == 4 && c == 4){
-                    if(piece == null || (animationMove != null && animationMove.getPieceType() == PieceType.KING)) {
-                        g.drawImage(imageTrone, pieceX, pieceY, pieceSize, pieceSize, null);
-                    }
+                    g.drawImage(imageTrone, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
                 }
+
                 if (piece == null) {
                     continue;
                 }
+
+
                 if(pieceHidedCoords != null && c == pieceHidedCoords.getCol() && l == pieceHidedCoords.getRow()) continue;
 
                 Image pieceImage = getPieceImage(piece.getType());
@@ -140,18 +213,23 @@ public class GridPanel extends JPanel {
         int x = (int) (caseX*caseSize + caseSize*0.35);
         int y = (int) (caseY*caseSize + caseSize*0.35);
         int markSize = (int) (caseSize*0.3);
-        g.setColor(Color.green);
+        g.setColor(new Color(50,50,50,50));
         g.fillOval(x, y, markSize, markSize);
     }
 
     public void loadAssets(){
         try{
-            imageCase = ImageIO.read(new File("assets/images/case2.jpg"));
-            imageDefender = ImageIO.read(new File("assets/images/defender.png"));
-            imageAttacker = ImageIO.read(new File("assets/images/attacker.png"));
-            imageKing = ImageIO.read(new File("assets/images/king.png"));
-            imageFortress = ImageIO.read(new File("assets/images/fortress.png"));
-            imageTrone = ImageIO.read(new File("assets/images/trone.png"));
+            imageCase = ImageIO.read(new File(TILE_ASSET_PATH));
+            imageCase2 = ImageIO.read(new File(TILE_2_ASSET_PATH));
+            imageDefender = ImageIO.read(new File(DEFENDER_ASSET_PATH));
+            imageAttacker = ImageIO.read(new File(ATTACKER_ASSET_PATH));
+            imageKing = ImageIO.read(new File(KING_ASSET_PATH));
+            imageFortress = ImageIO.read(new File(FORTRESS_ASSET_PATH));
+            imageTrone = ImageIO.read(new File(THRONE_ASSET_PATH));
+            imageStepsH = ImageIO.read(new File(STEPS_HORIZONTAL_ASSET_PATH));
+            imageStepsHEnd = ImageIO.read(new File(STEPS_HORIZONTAL_END_ASSET_PATH));
+            imageStepsV = ImageIO.read(new File(STEPS_VERTICAL_ASSET_PATH));
+            imageStepsVEnd = ImageIO.read(new File(STEPS_VERTICAL_END_ASSET_PATH));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -249,5 +327,33 @@ public class GridPanel extends JPanel {
 
     public GridPanelController getGridPanelController(){
         return gridPanelController;
+    }
+
+    public void theme_pixelart(){
+        KING_ASSET_PATH = "assets/images/king.png";
+        DEFENDER_ASSET_PATH = "assets/images/defender2.png";
+        ATTACKER_ASSET_PATH ="assets/images/attacker2.png";
+        THRONE_ASSET_PATH = "assets/images/throne3.png";
+        FORTRESS_ASSET_PATH = "assets/images/fortress2.png";
+        TILE_ASSET_PATH= "assets/images/tile_11.png";
+        TILE_2_ASSET_PATH= "assets/images/tile_12.png";
+        STEPS_HORIZONTAL_ASSET_PATH= "assets/images/steps2H.png";
+        STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/steps2HE.png";
+        STEPS_VERTICAL_ASSET_PATH= "assets/images/steps2V.png";
+        STEPS_VERTICAL_END_ASSET_PATH= "assets/images/steps2VE.png";
+    }
+
+    public void theme_simple(){
+        KING_ASSET_PATH = "assets/images/theme_1_king.png";
+        DEFENDER_ASSET_PATH = "assets/images/theme_1_defender.png";
+        ATTACKER_ASSET_PATH ="assets/images/theme_1_attacker.png";
+        THRONE_ASSET_PATH = "assets/images/theme_1_throne.png";
+        FORTRESS_ASSET_PATH = "assets/images/theme_1_fortress.png";
+        TILE_ASSET_PATH= "assets/images/theme_1_tile_1.png";
+        TILE_2_ASSET_PATH= "assets/images/theme_1_tile_0.png";
+        STEPS_HORIZONTAL_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_VERTICAL_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_VERTICAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
     }
 }
