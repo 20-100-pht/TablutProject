@@ -72,11 +72,13 @@ public class GridPanel extends JPanel {
                 if (grid.isCornerPosition(new Coordinate(l, c))) {
                     g.drawImage(imageFortress, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
-                if(l == 4 && c == 4){
-                    //g.drawImage(imageTrone, pieceX, pieceY, pieceSize, pieceSize, null);
-                }
 
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
+                if(l == 4 && c == 4){
+                    if(piece == null || (animationMove != null && animationMove.getPieceType() == PieceType.KING)) {
+                        g.drawImage(imageTrone, pieceX, pieceY, pieceSize, pieceSize, null);
+                    }
+                }
                 if (piece == null) {
                     continue;
                 }
