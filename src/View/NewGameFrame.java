@@ -34,15 +34,11 @@ public class NewGameFrame extends Frame {
     JRadioButton rdoEasyDefPart;
     JRadioButton rdoMediumDefPart;
     JRadioButton rdoDifficultDefPart;
+    Image imageChrono;
     public NewGameFrame(Interface ui){
         super(ui);
 
-        try{
-            returnImage = new ImageIcon(ImageIO.read(new File("assets/images/arrow2.png")));
-            //selectorImage= Global.GraphicUtils.resizeImage(selectorImage, 16, 16);
-        } catch(IOException exp){
-            exp.printStackTrace();
-        }
+        loadAssets();
     }
 
     @Override
@@ -164,7 +160,7 @@ public class NewGameFrame extends Frame {
         c.gridx = 0;
         c.gridy = 5;
         c.gridwidth = 2;
-        c.insets = new Insets(60, 0, 20, 0);
+        c.insets = new Insets(40, 0, 20, 0);
         gLayoutCP.setConstraints(labelDifficultyIA, c);
         centralPanel.add(labelDifficultyIA);
 
@@ -172,6 +168,17 @@ public class NewGameFrame extends Frame {
         c.insets = new Insets(0, 0, 0, 0);
 
         buildIaParamsPart();
+
+        JLabel labelBlitzTitle = new JLabel("Paramètres blitz");
+        labelBlitzTitle.setFont(fontDialog15);
+        c.gridx = 0;
+        c.gridy = 7;
+        c.gridwidth = 2;
+        c.insets = new Insets(40, 0, 20, 0);
+        gLayoutCP.setConstraints(labelBlitzTitle, c);
+        centralPanel.add(labelBlitzTitle);
+
+        buildBlitzParamsPart();
 
         bttnStart = createBttnStart(mainPanel);
 
@@ -185,6 +192,37 @@ public class NewGameFrame extends Frame {
         mainPanel.add(returnImageButton);
 
         setEventHandlers();
+    }
+
+    public void buildBlitzParamsPart(){
+        GridBagConstraints c = new GridBagConstraints();
+        JPanel blitzPanel = new JPanel();
+        c.gridx = 0;
+        c.gridy = 8;
+        c.gridwidth = 2;
+        blitzPanel.setLayout(new GridBagLayout());
+        centralPanel.add(blitzPanel, c);
+
+        c.gridy = 0;
+        c.gridwidth = 1;
+
+        JLabel labelChronoImage = new JLabel(new ImageIcon(imageChrono));
+        labelChronoImage.setPreferredSize(new Dimension(32, 32));
+        c.gridx = 0;
+        blitzPanel.add(labelChronoImage, c);
+
+        JTextField tfTime = new JTextField();
+        tfTime.setPreferredSize(new Dimension(65, 20));
+        c.gridx = 1;
+        c.insets = new Insets(0, 10, 0, 15);
+        blitzPanel.add(tfTime, c);
+
+        c.insets = new Insets(0, 0, 0, 0);
+
+        JLabel labelInSeconds = new JLabel("(En secondes)");
+        c.gridx = 2;
+        blitzPanel.add(labelInSeconds, c);
+
     }
 
     public void buildIaParamsPart(){
@@ -287,6 +325,16 @@ public class NewGameFrame extends Frame {
                 ui.changePage(InterfacePage.MENU);
             }
         });
+    }
+
+    public void loadAssets(){
+        try{
+            imageChrono = ImageIO.read(new File("assets/images/chrono.png"));
+            imageChrono = imageChrono.getScaledInstance(32, 32, Image.SCALE_DEFAULT);
+            returnImage = new ImageIcon(ImageIO.read(new File("assets/images/arrow2.png")));
+        } catch(IOException exp){
+            exp.printStackTrace();
+        }
     }
 
     @Override
