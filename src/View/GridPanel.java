@@ -168,15 +168,15 @@ public class GridPanel extends JPanel {
     }
 
     void setEventsHandlers(){
-        /*this.addMouseMotionListener(new MouseMotionAdapter() {
+        this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
                 if(frozen) return;
                 gridPanelController.mouseMovedHandler(e);
             }
-        }); */
-        this.addMouseListener(new MouseAdapter() {
+        });
+        /*this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -184,13 +184,15 @@ public class GridPanel extends JPanel {
                 gridPanelController.mouseClickedHandler(e);
 
             }
-        });
+        });*/
 
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                possibleMoveMarks.clear();
+                if(selectionMarkCoords == null) {
+                    possibleMoveMarks.clear();
+                }
             }
 
             @Override
