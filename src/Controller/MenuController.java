@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Game;
+import View.Interface;
 import View.InterfacePage;
 import View.MenuFrame;
 
@@ -23,8 +24,11 @@ public class MenuController {
             ObjectInputStream ois = new ObjectInputStream(is);
 
             Game game = (Game) ois.readObject();
-            menuFrame.getInterface().createGameFrame(game);
-            menuFrame.getInterface().changePage(InterfacePage.GAME);
+
+            Interface inter = menuFrame.getInterface();
+            inter.createGameFrame(game);
+            inter.changePage(InterfacePage.GAME);
+            inter.getGameFrame().showTextMessage("Partie chargée avec succès !");
 
             ois.close();
         } catch (IOException e) {

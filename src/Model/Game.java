@@ -27,7 +27,7 @@ public class Game implements Serializable {
     String defenderName = "Alexandre";
     String attackerName = "Philippe";
     History history;
-    GameController gameController;
+    transient GameController gameController;
 
 
     public Game(String defenderName, String attackerName, AIDifficulty defAiDifficulty, AIDifficulty attAiDifficulty){

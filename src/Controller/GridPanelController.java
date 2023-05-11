@@ -134,4 +134,8 @@ public class GridPanelController {
         gridPanel.setSelectionMarkCoords(null);
         gridPanel.clearMovePossibleMarks();
     }
+
+    public void updateViewAfterReplay(){
+        gridPanel.setMoveMarkCoords(null);
+    }
 }

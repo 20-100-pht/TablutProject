@@ -309,4 +309,8 @@ public class GridPanel extends JPanel {
     public void setMoveMarkCoords(Vector<Coordinate> markCoords){
         moveMarksCoords = markCoords;
     }
+
+    public GridPanelController getGridPanelController(){
+        return gridPanelController;
+    }
 }
