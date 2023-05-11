@@ -43,6 +43,9 @@ public class GameFrame extends Frame {
     JLabel labelPlayer2Status;
     boolean frozen;
     JLabel labelIndexTurn;
+    TextMessagePanel textMessagePanel;
+    Timer timerTextMessage;
+
 
 
     public GameFrame(Interface ui, Game game){
@@ -344,17 +347,26 @@ public class GameFrame extends Frame {
         fgPanel.setOpaque(false);
         fgPanel.setLayout(null);
 
-        winMessagePanel = new WinMessagePanel();
-        winMessagePanel.setSize(new Dimension(750, 100));
-        winMessagePanel.setOpaque(true);
-        winMessagePanel.setVisible(false);
-        fgPanel.add(winMessagePanel);
+        createMessages(fgPanel);
 
         mainPanel.add(fgPanel);
         mainPanel.add(bgPanel);
 
         setEventHandlers();
     }
+
+    public void createMessages(JPanel parent){
+        winMessagePanel = new WinMessagePanel();
+        winMessagePanel.setSize(new Dimension(750, 100));
+        winMessagePanel.setVisible(false);
+        parent.add(winMessagePanel);
+
+        textMessagePanel = new TextMessagePanel("");
+        textMessagePanel.setSize(new Dimension(750, 100));
+        textMessagePanel.setVisible(false);
+        parent.add(textMessagePanel);
+    }
+
     void loadAssets(){
         try{
             imageRobot = new ImageIcon(ImageIO.read(new File("assets/images/human-robot.png")));
@@ -486,7 +498,6 @@ public class GameFrame extends Frame {
     public void showWinMessage(String winnerName){
 
         int x = ui.getWindow().getWidth()/2 - winMessagePanel.getWidth()/2;
-        System.out.println(ui.getWindow().getWidth());
         winMessagePanel.setLocation(new Point(x, 300));
 
         winMessagePanel.setWinnerName(winnerName);
@@ -501,6 +512,27 @@ public class GameFrame extends Frame {
         timerWinMessage.start();
 
     }
+
+    public void showTextMessage(String text){
+
+        int x = ui.getWindow().getWidth()/2 - textMessagePanel.getWidth()/2;
+        textMessagePanel.setLocation(new Point(x, 300));
+
+        textMessagePanel.setText(text);
+        textMessagePanel.setVisible(true);
+        timerTextMessage = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hideTextMessage();
+            }
+        });
+        timerTextMessage.start();
+    }
+
+    public void hideTextMessage(){
+        textMessagePanel.setVisible(false);
+    }
+
     public void openGiveupDialog(){
         JDialog dialog = new JDialog();
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -560,6 +592,7 @@ public class GameFrame extends Frame {
 
     public void hideAllMessages(){
         hideWinMessage();
+        hideTextMessage();
     }
 
     public File showSaveDialog(){

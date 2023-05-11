@@ -45,9 +45,7 @@ public class GameGraphicController extends GameController {
     }
 
     public void bttnReplayClickHandler(){
-        gameFrame.hideAllMessages();
-        gameFrame.hideEndGameButtons();
-        gameFrame.setFrozen(false);
+        updateViewAfterReplay();
         game.reset();
         startGame();
     }
@@ -67,6 +65,7 @@ public class GameGraphicController extends GameController {
             throw new RuntimeException(e);
         }
 
+        gameFrame.showTextMessage("Partie sauvegardée avec succès !");
     }
 
     public void startMoveAnimation(Coup coup){
@@ -131,5 +130,14 @@ public class GameGraphicController extends GameController {
 
     public void startGame(){
         if(game.isAiTurn()) game.doAiTurnInSeparateThread();
+    }
+
+    public void updateViewAfterReplay(){
+        gameFrame.hideAllMessages();
+        gameFrame.hideEndGameButtons();
+        gameFrame.setFrozen(false);
+
+        GridPanelController gridPanelController = gameFrame.getGridPanelInstance().getGridPanelController();
+        gridPanelController.updateViewAfterReplay();
     }
 }

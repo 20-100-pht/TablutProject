@@ -47,12 +47,6 @@ public class WinMessagePanel extends JPanel {
         textLabel.setText("C'est " + name + " qui gagne !");
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-    }
-
     public void loadImages(){
         try {
             imageVictory = new ImageIcon(ImageIO.read(new File("assets/images/victory.png")));
