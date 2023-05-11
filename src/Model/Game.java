@@ -169,7 +169,7 @@ public class Game implements Serializable {
             return;
         }
 
-        gameController.updateViewAfterMove();
+        gameController.updateViewAfterMove(coup);
 
         if(isAiTurn()) doAiTurnInSeparateThread();
     }
@@ -203,7 +203,7 @@ public class Game implements Serializable {
         setIsAttackerTurn(move.isAttackerMove());
         setTurnIndex(move.getTurnIndex());
 
-        gameController.updateViewAfterMove();
+        gameController.updateViewAfterMove(null);
     }
 
     public void redo(){

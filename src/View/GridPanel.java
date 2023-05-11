@@ -33,7 +33,7 @@ public class GridPanel extends JPanel {
     Image imageFortress;
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
-    Coordinate moveMarksCoords;
+    Vector<Coordinate> moveMarksCoords;
     boolean frozen;
     Coordinate pieceHidedCoords = null;
     AnimationMove animationMove;
@@ -64,7 +64,23 @@ public class GridPanel extends JPanel {
         for (int l = 0; l < GRID_SIZE; l++) {
             for (int c = 0; c < GRID_SIZE; c++) {
                 g.drawImage(imageCase, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
+            }
+        }
 
+        if(moveMarksCoords != null){
+            for(int i = 0; i < moveMarksCoords.size(); i++){
+                Coordinate markCoords = moveMarksCoords.get(i);
+                int markX = (int) (markCoords.getCol() * getCaseSize() + getCaseSize() * 0.10);
+                int markY = (int) (markCoords.getRow() * getCaseSize() + getCaseSize() * 0.10);
+                int markSize = (int) (getCaseSize() * 0.8);
+
+                g.setColor(Color.BLUE);
+                g.fillRect(markX, markY, markSize, markSize);
+            }
+        }
+
+        for (int l = 0; l < GRID_SIZE; l++) {
+            for (int c = 0; c < GRID_SIZE; c++) {
                 int pieceX = (int) (c * getCaseSize() + getCaseSize() * 0.15);
                 int pieceY = (int) (l * getCaseSize() + getCaseSize() * 0.15);
                 int pieceSize = (int) (getCaseSize() * 0.7);
@@ -214,5 +230,9 @@ public class GridPanel extends JPanel {
             return imageAttacker;
         }
         return null;
+    }
+
+    public void setMoveMarkCoords(Vector<Coordinate> markCoords){
+        moveMarksCoords = markCoords;
     }
 }
