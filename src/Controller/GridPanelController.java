@@ -75,7 +75,7 @@ public class GridPanelController {
         addPossibleMoveMarksRight(x+1, y, t);
     }
 
-    public void mouseMovedHandler(MouseEvent e){
+    public void mouseClickedHandler(MouseEvent e){
         Piece hoveredPiece = getPieceHovered(e.getX(), e.getY());
         if(hoveredPiece != null){
             processPossibleMoveMarks(hoveredPiece);

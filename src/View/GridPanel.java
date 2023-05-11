@@ -150,12 +150,21 @@ public class GridPanel extends JPanel {
     }
 
     void setEventsHandlers(){
-        this.addMouseMotionListener(new MouseMotionAdapter() {
+        /*this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
                 if(frozen) return;
                 gridPanelController.mouseMovedHandler(e);
+            }
+        }); */
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(frozen) return;
+                gridPanelController.mouseClickedHandler(e);
+
             }
         });
 
