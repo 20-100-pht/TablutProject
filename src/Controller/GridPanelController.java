@@ -96,7 +96,9 @@ public class GridPanelController {
         if(pieceSelectedCoords != null && pieceClicked == null){
 
             Coup coup = new Coup(pieceSelectedCoords, caseCoords);
-            //game.play(coup, true);
+            if(logicGrid.isLegalMove(coup) != 0){
+                return;
+            }
             gameGraphicController.startMoveAnimation(coup);
             pieceSelectedCoords = null;
             gridPanel.setSelectionMarkCoords(null);

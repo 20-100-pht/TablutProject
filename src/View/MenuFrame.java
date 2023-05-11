@@ -72,7 +72,7 @@ public class MenuFrame extends Frame {
 
     Button createClassicButton(GridBagLayout layout, int posX, int posY, String text){
         Button bttn = new Button(text, true, this);
-        bttn.setPreferredSize(new Dimension(275, 55));
+        bttn.setPreferredSize(new Dimension(300, 55));
         bttn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         bttn.setRoundValue(110);
         bttn.setFont(new Font(Font.DIALOG, Font.BOLD, 23));
