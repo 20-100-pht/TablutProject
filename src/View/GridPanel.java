@@ -32,6 +32,11 @@ public class GridPanel extends JPanel {
     Image imageKing;
     Image imageTrone;
     Image imageFortress;
+    Image imageStepsH;
+    Image imageStepsV;
+    Image imageStepsHEnd;
+    Image imageStepsVEnd;
+
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
     Vector<Coordinate> moveMarksCoords;
@@ -46,6 +51,10 @@ public class GridPanel extends JPanel {
     String FORTRESS_ASSET_PATH = "assets/images/fortress2.png";
     String TILE_ASSET_PATH= "assets/images/tile_11.png";
     String TILE_2_ASSET_PATH= "assets/images/tile_12.png";
+    String STEPS_HORIZONTAL_ASSET_PATH= "assets/images/steps2H.png";
+    String STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/steps2HE.png";
+    String STEPS_VERTICAL_ASSET_PATH= "assets/images/steps2V.png";
+    String STEPS_VERTICAL_END_ASSET_PATH= "assets/images/steps2VE.png";
 
     public static final int GRID_SIZE = 9;
 
@@ -79,15 +88,49 @@ public class GridPanel extends JPanel {
                 g.drawImage(tileImage, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
             }
         }
+
         if(moveMarksCoords != null){
+
+            Coordinate dir = new Coordinate(Integer.compare(moveMarksCoords.get(1).getRow(),moveMarksCoords.get(0).getRow()),Integer.compare(moveMarksCoords.get(1).getCol(),moveMarksCoords.get(0).getCol()));
+
             for(int i = 0; i < moveMarksCoords.size(); i++){
                 Coordinate markCoords = moveMarksCoords.get(i);
-                int markX = (int) (markCoords.getCol() * getCaseSize() + getCaseSize() * 0.10);
-                int markY = (int) (markCoords.getRow() * getCaseSize() + getCaseSize() * 0.10);
-                int markSize = (int) (getCaseSize() * 0.8);
 
-                g.setColor(Color.BLUE);
-                g.fillRect(markX, markY, markSize, markSize);
+                int markX = (int) (markCoords.getCol() * getCaseSize());
+                int markY = (int) (markCoords.getRow() * getCaseSize());
+
+                Image stepsEnd = imageStepsHEnd;
+                Image steps = imageStepsH;
+
+                int padX = (int) (getCaseSize()*0.5);
+                int padY = (int) (getCaseSize()*0.5);
+
+                if (dir.getCol() == 0) {
+                    padX=0;
+                }
+                if (dir.getRow() == 0) {
+                    padY=0;
+                }else{
+                    stepsEnd = imageStepsVEnd;
+                    steps = imageStepsV;
+                }
+
+                if(i == 0){
+                    if(dir.getCol()<0 || dir.getRow()<0){
+                        padX=0;
+                        padY=0;
+                    }
+                    g.drawImage(stepsEnd,markX+padX, markY+padY, getCaseSize(), getCaseSize(), null);
+                } else if (i == moveMarksCoords.size()-1) {
+                    if(dir.getCol()>0 || dir.getRow()>0){
+                        padX=0;
+                        padY=0;
+                    }
+                    g.drawImage(stepsEnd,markX+padX, markY+padY, getCaseSize(), getCaseSize(), null);
+                }else{
+                    g.drawImage(steps,markCoords.getCol() * getCaseSize(), markCoords.getRow() * getCaseSize(), getCaseSize(), getCaseSize(), null);
+                }
+
             }
         }
 
@@ -100,19 +143,19 @@ public class GridPanel extends JPanel {
                 if (grid.isCornerPosition(new Coordinate(l, c))) {
                     g.drawImage(imageFortress, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
+
+
+                Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
+
                 if(l == 4 && c == 4){
                     g.drawImage(imageTrone, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
                 }
 
-                Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
-                if(l == 4 && c == 4){
-                    if(piece == null || (animationMove != null && animationMove.getPieceType() == PieceType.KING)) {
-                        g.drawImage(imageTrone, pieceX, pieceY, pieceSize, pieceSize, null);
-                    }
-                }
                 if (piece == null) {
                     continue;
                 }
+
+
                 if(pieceHidedCoords != null && c == pieceHidedCoords.getCol() && l == pieceHidedCoords.getRow()) continue;
 
                 Image pieceImage = getPieceImage(piece.getType());
@@ -168,6 +211,10 @@ public class GridPanel extends JPanel {
             imageKing = ImageIO.read(new File(KING_ASSET_PATH));
             imageFortress = ImageIO.read(new File(FORTRESS_ASSET_PATH));
             imageTrone = ImageIO.read(new File(THRONE_ASSET_PATH));
+            imageStepsH = ImageIO.read(new File(STEPS_HORIZONTAL_ASSET_PATH));
+            imageStepsHEnd = ImageIO.read(new File(STEPS_HORIZONTAL_END_ASSET_PATH));
+            imageStepsV = ImageIO.read(new File(STEPS_VERTICAL_ASSET_PATH));
+            imageStepsVEnd = ImageIO.read(new File(STEPS_VERTICAL_END_ASSET_PATH));
         } catch(IOException exp){
             exp.printStackTrace();
         }

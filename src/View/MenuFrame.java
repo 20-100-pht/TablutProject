@@ -117,8 +117,6 @@ public class MenuFrame extends Frame {
         window.setSize(width, height);
         window.setLocation(x, y);
 
-        System.out.println(window.getWidth() + " " + window.getHeight());
-
         ui.getWindow().setJMenuBar(null);
     }
 

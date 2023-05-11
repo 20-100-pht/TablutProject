@@ -489,7 +489,7 @@ public class GameFrame extends Frame {
     public void showWinMessage(String winnerName){
 
         int x = ui.getWindow().getWidth()/2 - winMessagePanel.getWidth()/2;
-        System.out.println(ui.getWindow().getWidth());
+
         winMessagePanel.setLocation(new Point(x, 300));
 
         winMessagePanel.setWinnerName(winnerName);
