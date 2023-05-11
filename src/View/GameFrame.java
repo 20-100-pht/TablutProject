@@ -76,7 +76,7 @@ public class GameFrame extends Frame {
         //Panel background
 
         JPanel bgPanel = new JPanel();
-        bgPanel.setOpaque(true);
+        bgPanel.setOpaque(false);
         //bgPanel.setBackground(new Color(60,60,60));
 
         GridBagLayout gLayout = new GridBagLayout();
@@ -587,7 +587,7 @@ public class GameFrame extends Frame {
         dialog.setVisible(true);
     }
     public void openOptionsWindow(){
-        optionsFrame = new OptionsFrame();
+        optionsFrame = new OptionsFrame(this);
     }
     public void hideWinMessage(){
         winMessagePanel.setVisible(false);

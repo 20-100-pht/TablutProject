@@ -1,5 +1,7 @@
 package View;
 
+import Global.Configuration;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,11 +13,28 @@ public class OptionsFrame extends JFrame {
     JComboBox<String> themeComboBox;
     JButton okButton;
     JButton exitButton;
-    public OptionsFrame() {
+    GameFrame gameFrame;
+    public OptionsFrame(GameFrame gameFrame) {
+        //this.setLocationRelativeTo(null);
+
+        this.gameFrame = gameFrame;
+
         setTitle("Options");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(300, 200);
 
+        Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) (sizeScreen.width/2 - getWidth()/2);
+        int y = (int) (sizeScreen.height/2 - getHeight()/2);
+        setLocation(x, y);
+
+        build();
+
+        setVisible(true);
+        setEventHandlersOptions();
+    }
+
+    public void build(){
         JPanel mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -35,6 +54,13 @@ public class OptionsFrame extends JFrame {
         animationGroup.add(yesButton);
         animationGroup.add(noButton);
 
+        if(Configuration.isAnimationActived()){
+            yesButton.setSelected(true);
+        }
+        else{
+            noButton.setSelected(true);
+        }
+
         JPanel animationPanel = new JPanel();
         animationPanel.add(yesButton);
         animationPanel.add(noButton);
@@ -51,6 +77,7 @@ public class OptionsFrame extends JFrame {
         String[] themes = {"Thème 1", "Thème 2"};
         themeComboBox = new JComboBox<>(themes);
         themeComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        themeComboBox.setSelectedIndex(Configuration.getThemeIndex());
         gbc.gridx = 1;
         gbc.gridy = 1;
         mainPanel.add(themeComboBox, gbc);
@@ -72,14 +99,29 @@ public class OptionsFrame extends JFrame {
         mainPanel.add(buttonPanel, gbc);
 
         add(mainPanel);
-        setVisible(true);
-        setEventHandlersOptions();
     }
+
     public void setEventHandlersOptions(){
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // A COMPLETER
+                String themeValue = (String) themeComboBox.getSelectedItem();
+                if(themeValue == "Thème 1"){
+                    Configuration.setThemeIndex(0);
+                }
+                else if(themeValue == "Thème 2"){
+                    Configuration.setThemeIndex(1);
+                }
+
+                gameFrame.getGridPanelInstance().updateTheme();
+
+                if(yesButton.isSelected()){
+                    Configuration.setAnimationActived(true);
+                }
+                else{
+                    Configuration.setAnimationActived(false);
+                }
+
                 dispose();
             }
         });

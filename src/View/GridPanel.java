@@ -3,6 +3,7 @@ package View;
 import Animation.AnimationMove;
 import Controller.GameGraphicController;
 import Controller.GridPanelController;
+import Global.Configuration;
 import Model.*;
 import Structure.Coordinate;
 import View.GameFrame;
@@ -56,7 +57,7 @@ public class GridPanel extends JPanel {
     String STEPS_VERTICAL_ASSET_PATH;
     String STEPS_VERTICAL_END_ASSET_PATH;
 
-    int theme = 0;
+    int theme;
 
     public static final int GRID_SIZE = 9;
 
@@ -72,20 +73,9 @@ public class GridPanel extends JPanel {
         possibleMoveMarks = new Vector<Coordinate>();
 
         frozen = false;
+        theme = Configuration.getThemeIndex();
 
-        theme = 0;
-
-        switch (theme){
-            case 0:
-                theme_simple();
-                break;
-            case 1:
-                theme_pixelart();
-                break;
-            default:
-                theme_simple();
-        }
-
+        loadThemeFileNames();
         loadAssets();
         setEventsHandlers();
     }
@@ -170,7 +160,6 @@ public class GridPanel extends JPanel {
                     continue;
                 }
 
-
                 if(pieceHidedCoords != null && c == pieceHidedCoords.getCol() && l == pieceHidedCoords.getRow()) continue;
 
                 Image pieceImage = getPieceImage(piece.getType());
@@ -254,15 +243,6 @@ public class GridPanel extends JPanel {
                 gridPanelController.mouseMovedHandler(e);
             }
         });
-        /*this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if(frozen) return;
-                gridPanelController.mouseClickedHandler(e);
-
-            }
-        });*/
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -329,7 +309,7 @@ public class GridPanel extends JPanel {
         return gridPanelController;
     }
 
-    public void theme_pixelart(){
+    public void loadThemePixelartFileNames(){
         KING_ASSET_PATH = "assets/images/king.png";
         DEFENDER_ASSET_PATH = "assets/images/defender2.png";
         ATTACKER_ASSET_PATH ="assets/images/attacker2.png";
@@ -343,7 +323,7 @@ public class GridPanel extends JPanel {
         STEPS_VERTICAL_END_ASSET_PATH= "assets/images/steps2VE.png";
     }
 
-    public void theme_simple(){
+    public void loadThemeSimpleFileNames(){
         KING_ASSET_PATH = "assets/images/theme_1_king.png";
         DEFENDER_ASSET_PATH = "assets/images/theme_1_defender.png";
         ATTACKER_ASSET_PATH ="assets/images/theme_1_attacker.png";
@@ -355,5 +335,28 @@ public class GridPanel extends JPanel {
         STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
         STEPS_VERTICAL_ASSET_PATH= "assets/images/theme_1_step.png";
         STEPS_VERTICAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
+    }
+
+    public void updateTheme(){
+        int aTheme = theme;
+        theme = Configuration.getThemeIndex();
+        System.out.println(aTheme + " " + theme);
+        if(aTheme != theme){
+            loadThemeFileNames();
+            loadAssets();
+        }
+    }
+
+    public void loadThemeFileNames(){
+        switch (theme){
+            case 0:
+                loadThemeSimpleFileNames();
+                break;
+            case 1:
+                loadThemePixelartFileNames();
+                break;
+            default:
+                loadThemeSimpleFileNames();
+        }
     }
 }

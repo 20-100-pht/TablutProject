@@ -1,5 +1,6 @@
 import AI.AIDifficulty;
 import Controller.GameConsoleController;
+import Global.Configuration;
 import Model.Game;
 import View.Interface;
 
@@ -9,6 +10,8 @@ public class Tablut {
 
     public static void main(String[] args) {
         System.out.println("Tablut");
+
+        Configuration.instance();
 
         Interface ui = new Interface();
 

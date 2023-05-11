@@ -36,6 +36,5 @@ public class MenuController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }

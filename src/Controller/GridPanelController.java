@@ -1,6 +1,7 @@
 package Controller;
 
 import Animation.AnimationMove;
+import Global.Configuration;
 import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
@@ -113,7 +114,12 @@ public class GridPanelController {
             //On enlève les indications sur les mouvements possibles avant de bouger
             gridPanel.clearMovePossibleMarks();
 
-            gameGraphicController.startMoveAnimation(coup);
+            if(Configuration.isAnimationActived()) {
+                gameGraphicController.startMoveAnimation(coup);
+            }
+            else{
+                game.play(coup, true);
+            }
             pieceSelectedCoords = null;
             gridPanel.setSelectionMarkCoords(null);
         }
