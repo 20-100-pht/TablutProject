@@ -74,7 +74,7 @@ public class MenuFrame extends Frame {
         Button bttn = new Button(text, true, this);
         bttn.setPreferredSize(new Dimension(275, 55));
         bttn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        bttn.setRoundValue(110);
+        bttn.setRoundValue(40);
         bttn.setFont(new Font(Font.DIALOG, Font.BOLD, 23));
 
         GridBagConstraints c = new GridBagConstraints();

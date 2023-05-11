@@ -26,6 +26,7 @@ public class GridPanel extends JPanel {
     Grid grid;
     LogicGrid gameLogic;
     Image imageCase;
+    Image imageCase2;
     Image imageDefender;
     Image imageAttacker;
     Image imageKing;
@@ -37,6 +38,14 @@ public class GridPanel extends JPanel {
     boolean frozen;
     Coordinate pieceHidedCoords = null;
     AnimationMove animationMove;
+
+    String KING_ASSET_PATH = "assets/images/king.png";
+    String DEFENDER_ASSET_PATH = "assets/images/defender2.png";
+    String ATTACKER_ASSET_PATH ="assets/images/attacker2.png";
+    String THRONE_ASSET_PATH = "assets/images/throne3.png";
+    String FORTRESS_ASSET_PATH = "assets/images/fortress2.png";
+    String TILE_ASSET_PATH= "assets/images/tile_11.png";
+    String TILE_2_ASSET_PATH= "assets/images/tile_12.png";
 
     public static final int GRID_SIZE = 9;
 
@@ -63,7 +72,11 @@ public class GridPanel extends JPanel {
 
         for (int l = 0; l < GRID_SIZE; l++) {
             for (int c = 0; c < GRID_SIZE; c++) {
-                g.drawImage(imageCase, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
+
+                Image tileImage = imageCase;
+                if((c+l)%2 == 0) tileImage = imageCase2;
+
+                g.drawImage(tileImage, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
 
                 int pieceX = (int) (c * getCaseSize() + getCaseSize() * 0.15);
                 int pieceY = (int) (l * getCaseSize() + getCaseSize() * 0.15);
@@ -73,7 +86,7 @@ public class GridPanel extends JPanel {
                     g.drawImage(imageFortress, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
                 if(l == 4 && c == 4){
-                    //g.drawImage(imageTrone, pieceX, pieceY, pieceSize, pieceSize, null);
+                    g.drawImage(imageTrone, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
                 }
 
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
@@ -128,12 +141,13 @@ public class GridPanel extends JPanel {
 
     public void loadAssets(){
         try{
-            imageCase = ImageIO.read(new File("assets/images/case2.jpg"));
-            imageDefender = ImageIO.read(new File("assets/images/defender.png"));
-            imageAttacker = ImageIO.read(new File("assets/images/attacker.png"));
-            imageKing = ImageIO.read(new File("assets/images/king.png"));
-            imageFortress = ImageIO.read(new File("assets/images/fortress.png"));
-            imageTrone = ImageIO.read(new File("assets/images/trone.png"));
+            imageCase = ImageIO.read(new File(TILE_ASSET_PATH));
+            imageCase2 = ImageIO.read(new File(TILE_2_ASSET_PATH));
+            imageDefender = ImageIO.read(new File(DEFENDER_ASSET_PATH));
+            imageAttacker = ImageIO.read(new File(ATTACKER_ASSET_PATH));
+            imageKing = ImageIO.read(new File(KING_ASSET_PATH));
+            imageFortress = ImageIO.read(new File(FORTRESS_ASSET_PATH));
+            imageTrone = ImageIO.read(new File(THRONE_ASSET_PATH));
         } catch(IOException exp){
             exp.printStackTrace();
         }
