@@ -31,6 +31,7 @@ public class GameFrame extends Frame {
     JPopupMenu menu;
     JMenuItem save, forfeit, options;
     WinMessagePanel winMessagePanel;
+    OptionsFrame optionsFrame;
     Timer timerWinMessage;
     JButton bttnBackMenu;
     JButton bttnReplay;
@@ -411,6 +412,12 @@ public class GameFrame extends Frame {
                 openGiveupDialog();
             }
         });
+        options.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openOptionsWindow();
+            }
+        });
 
         bttnReplay.addActionListener(new ActionListener() {
             @Override
@@ -547,7 +554,9 @@ public class GameFrame extends Frame {
         dialog.setResizable(false);
         dialog.setVisible(true);
     }
-
+    public void openOptionsWindow(){
+        optionsFrame = new OptionsFrame();
+    }
     public void hideWinMessage(){
         winMessagePanel.setVisible(false);
     }

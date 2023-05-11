@@ -8,6 +8,7 @@ import View.GameFrame;
 import View.GridPanel;
 
 import java.io.*;
+import java.util.Vector;
 
 import static java.lang.Thread.sleep;
 
@@ -84,7 +85,7 @@ public class GameGraphicController extends GameController {
         int xEnd = piece2Coords.getCol()*gridPanel.getCaseSize();
         int yEnd = piece2Coords.getRow()*gridPanel.getCaseSize();
 
-        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 1500, xStart, yStart, xEnd, yEnd);
+        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 500, xStart, yStart, xEnd, yEnd);
         animation.start();
 
         gameFrame.addAnimation(animation);
@@ -109,8 +110,17 @@ public class GameGraphicController extends GameController {
     }
 
     @Override
-    public void updateViewAfterMove() {
+    public void updateViewAfterMove(Coup coup) {
         gameFrame.setTurnLabelValue(game.getTurnIndex());
+
+        GridPanel gridPanel = gameFrame.getGridPanelInstance();
+        if(coup != null) {
+            Vector<Coordinate> casesCoords = logicGrid.getCoupCasesCrossed(coup);
+            gridPanel.setMoveMarkCoords(casesCoords);
+        }
+        else{
+            gridPanel.setMoveMarkCoords(null);
+        }
         //gameFrame.setPlayerStatus(Integer.(game.isAttackerTurn()));
     }
 

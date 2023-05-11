@@ -351,6 +351,25 @@ public class LogicGrid implements Serializable {
         return ((x == 0 && ((y == 0) || (y == grid.sizeGrid - 1))) || (x == grid.sizeGrid -1 && ((y == 0) || (y == grid.sizeGrid -1))));
     }
 
+    public Vector<Coordinate> getCoupCasesCrossed(Coup coup){
+        int cStart = coup.getInit().getCol();
+        int lStart = coup.getInit().getRow();
+        int cEnd = coup.getDest().getCol();
+        int lEnd = coup.getDest().getRow();
+
+        int distanceC = cEnd - cStart;
+        int distanceL = lEnd - lStart;
+
+        Vector<Coordinate> coords = new Vector<Coordinate>();
+        int max = Math.max(Math.abs(distanceC), Math.abs(distanceL));
+        for(int i = 0; i <= max; i++){
+            int c = cStart + i*(distanceC/max);
+            int l = lStart + i*(distanceL/max);
+            coords.add(new Coordinate(l, c));
+        }
+        return coords;
+    }
+
     public Grid getGrid(){
         return grid;
     }

@@ -17,6 +17,10 @@ public class Button extends JPanel {
     String name;
     Font font;
     int roundValue;
+    Color backgroundColor;
+    Color textColor;
+    Color backgroundColorHov;
+    Color textColorHov;
 
     public Button(String name, boolean selector, Frame frame){
         this.selector = selector;
@@ -24,6 +28,10 @@ public class Button extends JPanel {
         this.name = name;
         hovered = false;
         roundValue = 0;
+        backgroundColor = Color.WHITE;
+        textColor = Color.BLACK;
+        backgroundColorHov = Color.ORANGE;
+        textColorHov = Color.WHITE;
 
         font = new Font(Font.DIALOG, Font.BOLD, 23);
 
@@ -46,11 +54,13 @@ public class Button extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        g.setColor(Color.WHITE);
-        g.fillRoundRect(0, 0, this.getWidth()-1, this.getHeight()-1, roundValue, roundValue);
-        //g.fillRect(this.getX(), this.getY(), this.getWidth()-1, this.getHeight()-1);
+        if(hovered) g.setColor(backgroundColorHov);
+        else g.setColor(backgroundColor);
 
-        g.setColor(Color.BLACK);
+        g.fillRoundRect(0, 0, this.getWidth()-1, this.getHeight()-1, roundValue, roundValue);
+
+        if(hovered) g.setColor(textColorHov);
+        else g.setColor(textColor);
         g.setFont(font);
 
         FontMetrics fontMetrics = g.getFontMetrics(font);
@@ -92,6 +102,9 @@ public class Button extends JPanel {
     }
 
     public void setBackgroundColor(Color color){
-        setBackground(color);
+        backgroundColor = color;
+    }
+    public void setTextColor(Color color){
+        textColor = color;
     }
 }

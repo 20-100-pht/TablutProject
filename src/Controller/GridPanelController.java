@@ -76,17 +76,28 @@ public class GridPanelController {
     }
 
     public void mouseMovedHandler(MouseEvent e){
-        Piece hoveredPiece = getPieceHovered(e.getX(), e.getY());
-        if(hoveredPiece != null){
-            processPossibleMoveMarks(hoveredPiece);
-        }
-        else{
-            gridPanel.clearMovePossibleMarks();
+        if(pieceSelectedCoords == null) {
+            Piece hoveredPiece = getPieceHovered(e.getX(), e.getY());
+            if (hoveredPiece != null) {
+                processPossibleMoveMarks(hoveredPiece);
+            } else {
+                System.out.println("aaaaaa");
+                gridPanel.clearMovePossibleMarks();
+            }
         }
     }
 
     public void mouseReleasedHandler(MouseEvent e){
 
+        if(e.getButton() == MouseEvent.BUTTON1){
+            mouseLeftBttnReleasedHandler(e);
+        }
+        else if(e.getButton() == MouseEvent.BUTTON3){
+            mouseRightBttnReleasedHandler(e);
+        }
+    }
+
+    public void mouseLeftBttnReleasedHandler(MouseEvent e){
         Coordinate caseCoords = getCaseFromPixelPosition(e.getX(), e.getY());
         Piece pieceClicked = grid.getPieceAtPosition(caseCoords);
 
@@ -95,8 +106,14 @@ public class GridPanelController {
         //Si il y a une pièce sur la case d'arrivée inutile d'essayer de bouger
         if(pieceSelectedCoords != null && pieceClicked == null){
 
+            //On récupère le coup choisis par le joueur et si est autorisé on l'exécute après l'animation
             Coup coup = new Coup(pieceSelectedCoords, caseCoords);
-            //game.play(coup, true);
+            if(logicGrid.isLegalMove(coup) != 0){
+                return;
+            }
+            //On enlève les indications sur les mouvements possibles avant de bouger
+            gridPanel.clearMovePossibleMarks();
+
             gameGraphicController.startMoveAnimation(coup);
             pieceSelectedCoords = null;
             gridPanel.setSelectionMarkCoords(null);
@@ -107,8 +124,15 @@ public class GridPanelController {
                 if((pieceClicked.isAttacker() && game.isAttackerTurn()) || ((pieceClicked.isDefender() || pieceClicked.isKing()) && !game.isAttackerTurn())){
                     pieceSelectedCoords = caseCoords;
                     gridPanel.setSelectionMarkCoords(caseCoords);
+                    processPossibleMoveMarks(grid.getPieceAtPosition(pieceSelectedCoords));
                 }
             }
         }
+    }
+
+    public void mouseRightBttnReleasedHandler(MouseEvent e){
+        pieceSelectedCoords = null;
+        gridPanel.setSelectionMarkCoords(null);
+        gridPanel.clearMovePossibleMarks();
     }
 }

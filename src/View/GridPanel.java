@@ -34,7 +34,7 @@ public class GridPanel extends JPanel {
     Image imageFortress;
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
-    Coordinate moveMarksCoords;
+    Vector<Coordinate> moveMarksCoords;
     boolean frozen;
     Coordinate pieceHidedCoords = null;
     AnimationMove animationMove;
@@ -77,7 +77,22 @@ public class GridPanel extends JPanel {
                 if((c+l)%2 == 0) tileImage = imageCase2;
 
                 g.drawImage(tileImage, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
+            }
+        }
+        if(moveMarksCoords != null){
+            for(int i = 0; i < moveMarksCoords.size(); i++){
+                Coordinate markCoords = moveMarksCoords.get(i);
+                int markX = (int) (markCoords.getCol() * getCaseSize() + getCaseSize() * 0.10);
+                int markY = (int) (markCoords.getRow() * getCaseSize() + getCaseSize() * 0.10);
+                int markSize = (int) (getCaseSize() * 0.8);
 
+                g.setColor(Color.BLUE);
+                g.fillRect(markX, markY, markSize, markSize);
+            }
+        }
+
+        for (int l = 0; l < GRID_SIZE; l++) {
+            for (int c = 0; c < GRID_SIZE; c++) {
                 int pieceX = (int) (c * getCaseSize() + getCaseSize() * 0.15);
                 int pieceY = (int) (l * getCaseSize() + getCaseSize() * 0.15);
                 int pieceSize = (int) (getCaseSize() * 0.7);
@@ -90,6 +105,11 @@ public class GridPanel extends JPanel {
                 }
 
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
+                if(l == 4 && c == 4){
+                    if(piece == null || (animationMove != null && animationMove.getPieceType() == PieceType.KING)) {
+                        g.drawImage(imageTrone, pieceX, pieceY, pieceSize, pieceSize, null);
+                    }
+                }
                 if (piece == null) {
                     continue;
                 }
@@ -172,12 +192,23 @@ public class GridPanel extends JPanel {
                 gridPanelController.mouseMovedHandler(e);
             }
         });
+        /*this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(frozen) return;
+                gridPanelController.mouseClickedHandler(e);
+
+            }
+        });*/
 
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                possibleMoveMarks.clear();
+                if(selectionMarkCoords == null) {
+                    possibleMoveMarks.clear();
+                }
             }
 
             @Override
@@ -226,5 +257,9 @@ public class GridPanel extends JPanel {
             return imageAttacker;
         }
         return null;
+    }
+
+    public void setMoveMarkCoords(Vector<Coordinate> markCoords){
+        moveMarksCoords = markCoords;
     }
 }

@@ -1,10 +1,11 @@
 package Controller;
 
 import Structure.Coordinate;
+import Structure.Coup;
 
 public class GameController {
 
-    public void updateViewAfterMove(){
+    public void updateViewAfterMove(Coup coup){
 
     }
 
