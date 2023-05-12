@@ -88,7 +88,9 @@ public abstract class Frame extends JComponent {
         for(int i = 0; i < animations.size(); i++){
             Animation animation = animations.get(i);
             if(!animation.isTerminated()) {
-                animation.update(timeElapsed);
+                if(!animation.isPaused()) {
+                    animation.update(timeElapsed);
+                }
             }
             else{
                 animations.remove(i);

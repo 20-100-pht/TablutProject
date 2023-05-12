@@ -13,11 +13,14 @@ public class Game implements Serializable {
     int turnIndex;
     boolean defenderIsAI;
     boolean attackerIsAI;
+    int defTimeRemainedMs;
+    int attTimeRemainedMs;
+    boolean blitzMode;
+    int blitzTime;
 
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
 
-    
     AI aiMinMax;
     AIRandom aleatron;
     AI defenderAI;
@@ -30,7 +33,7 @@ public class Game implements Serializable {
     transient GameController gameController;
 
 
-    public Game(String defenderName, String attackerName, AIDifficulty defAiDifficulty, AIDifficulty attAiDifficulty){
+    public Game(String defenderName, String attackerName, AIDifficulty defAiDifficulty, AIDifficulty attAiDifficulty, int blitzTime){
 
         if(defAiDifficulty != AIDifficulty.HUMAN) defenderIsAI = true;
         else defenderIsAI = false;
@@ -52,6 +55,11 @@ public class Game implements Serializable {
         }
         else {
             this.attackerName = attackerName;
+        }
+
+        this.blitzTime = blitzTime;
+        if(blitzTime != 0){
+            blitzMode = true;
         }
 
         createIaInstances();
@@ -86,6 +94,8 @@ public class Game implements Serializable {
         aleatron = new AIRandom();
         aiMinMax = new AIMedium();
         history.reset();
+        attTimeRemainedMs = blitzTime*1000;
+        defTimeRemainedMs = blitzTime*1000;
     }
 
     public boolean isAiTurn(){
@@ -312,5 +322,32 @@ public class Game implements Serializable {
 
     public void setGameControllerInstance(GameController gameController){
         this.gameController = gameController;
+    }
+
+    public int getDefTimeRemained(){
+        return defTimeRemainedMs/1000;
+    }
+
+    public int getAttTimeRemained(){
+        return attTimeRemainedMs/1000;
+    }
+
+    public void updatePlayerTurnChrono(int timeElapsed){
+        if(isAttackerTurn()){
+            if(attTimeRemainedMs - timeElapsed < 0) attTimeRemainedMs = 0;
+            else attTimeRemainedMs -= timeElapsed;
+        }
+        else{
+            if(defTimeRemainedMs - timeElapsed < 0) defTimeRemainedMs = 0;
+            else defTimeRemainedMs -= timeElapsed;
+        }
+
+        if(attTimeRemainedMs == 0 || defTimeRemainedMs == 0) {
+            gameController.updateViewEndGame();
+        }
+    }
+
+    public boolean isBlitzMode(){
+        return blitzMode;
     }
 }

@@ -1,12 +1,9 @@
 package View;
 
+import Animation.AnimationChrono;
 import Controller.GameGraphicController;
 import Global.Configuration;
 import Model.Game;
-import Model.Grid;
-import Model.PieceType;
-import Structure.Coordinate;
-import Structure.Position;
 
 import javax.swing.border.Border;
 
@@ -51,6 +48,9 @@ public class GameFrame extends Frame {
     int theme;
     JPanel panelImagePlayer1;
     JPanel panelImagePlayer2;
+    TimerLabel chronoLabelDef;
+    TimerLabel chronoLabelAtt;
+    AnimationChrono animationChrono;
 
 
     public GameFrame(Interface ui, Game game){
@@ -61,6 +61,11 @@ public class GameFrame extends Frame {
 
         frozen = false;
         theme = Configuration.getThemeIndex();
+
+        if(game.isBlitzMode()) {
+            animationChrono = new AnimationChrono(game, this);
+            addAnimation(animationChrono);
+        }
 
         loadAssets();
     }
@@ -168,8 +173,6 @@ public class GameFrame extends Frame {
 
         //Image player 1
 
-        //imagePlayer1Border = BorderFactory.createLineBorder(COLOR_DEFENDER, 5);
-
         panelImagePlayer1 = new JPanel();
         panelImagePlayer1.setPreferredSize(new Dimension(104, 104));
         //panelImagePlayer1.setBorder(imagePlayer1Border);
@@ -192,12 +195,18 @@ public class GameFrame extends Frame {
         layoutImagePlayer1.setConstraints(labelImagePlayer1, c2);
         panelImagePlayer1.add(labelImagePlayer1);
 
+        //Chrono défenseur
+        chronoLabelDef = new TimerLabel(game.getDefTimeRemained());
+        c.gridx = 0;
+        c.gridy = 3;
+        player1InfoPart.add(chronoLabelDef, c);
+
         //Pieces capturées par le joueur 1
 
         capturedPiecesPanel1 = new CapturedPiecesPanel(this, true);
         capturedPiecesPanel1.setPreferredSize(new Dimension(160, 80));
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 4;
         layoutPlayer1Info.setConstraints(capturedPiecesPanel1, c);
         player1InfoPart.add(capturedPiecesPanel1);
 
@@ -239,8 +248,6 @@ public class GameFrame extends Frame {
 
         //Image player 2
 
-        //imagePlayer2Border = BorderFactory.createLineBorder(COLOR_ATTACKER, 5);
-
         panelImagePlayer2 = new JPanel();
         panelImagePlayer2.setPreferredSize(new Dimension(104, 104));
         //panelImagePlayer2.setBorder(imagePlayer2Border);
@@ -262,10 +269,17 @@ public class GameFrame extends Frame {
         layoutImagePlayer2.setConstraints(labelImagePlayer2, c2);
         panelImagePlayer2.add(labelImagePlayer2);
 
+        //Chrono Attacker
+
+        chronoLabelAtt = new TimerLabel(game.getAttTimeRemained());
+        c.gridx = 0;
+        c.gridy = 3;
+        player2InfoPart.add(chronoLabelAtt, c);
+
         capturedPiecesPanel2 = new CapturedPiecesPanel(this, false);
         capturedPiecesPanel2.setPreferredSize(new Dimension(160, 80));
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 4;
         layoutPlayer2Info.setConstraints(capturedPiecesPanel2, c);
         player2InfoPart.add(capturedPiecesPanel2);
 
@@ -329,7 +343,7 @@ public class GameFrame extends Frame {
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
 
-        //Panel background
+        //Panel foreground
 
         JPanel fgPanel = new JPanel(){
             public boolean isOptimizedDrawingEnabled() {
@@ -559,6 +573,7 @@ public class GameFrame extends Frame {
     public void setFrozen(boolean frozen){
         this.frozen = frozen;
         gridPanel.setFrozen(frozen);
+        animationChrono.setPaused(frozen);
     }
 
     public void setTurnLabelValue(int turnIndex){
@@ -603,5 +618,12 @@ public class GameFrame extends Frame {
                 COLOR_ATTACKER = Color.WHITE;
                 COLOR_DEFENDER = Color.BLACK;
         }
+    }
+
+    public void updateChronoLabels() {
+        chronoLabelDef.setDuration(game.getDefTimeRemained());
+        chronoLabelDef.updateTextValue();
+        chronoLabelAtt.setDuration(game.getAttTimeRemained());
+        chronoLabelAtt.updateTextValue();
     }
 }

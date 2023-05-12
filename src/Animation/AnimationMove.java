@@ -75,6 +75,7 @@ public class AnimationMove extends Animation {
         return y;
     }
 
+    @Override
     public boolean isTerminated() {
         return timeRemained <= 0;
     }

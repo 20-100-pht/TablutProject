@@ -33,10 +33,10 @@ public class GameGraphicController extends GameController {
 
     @Override
     public void updateViewEndGame(){
-        if(logicGrid.isAttackerWinConfiguration()) {
+        if(logicGrid.isAttackerWinConfiguration() || (game.getDefTimeRemained() == 0 && game.isBlitzMode())) {
             gameFrame.showWinMessage(game.getAttackerName());
         }
-        else if(logicGrid.isDefenderWinConfiguration()){
+        else if(logicGrid.isDefenderWinConfiguration() || (game.getAttTimeRemained() == 0 && game.isBlitzMode())){
             gameFrame.showWinMessage(game.getDefenderName());
         }
 
