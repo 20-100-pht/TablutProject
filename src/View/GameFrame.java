@@ -192,14 +192,6 @@ public class GameFrame extends Frame {
         layoutImagePlayer1.setConstraints(labelImagePlayer1, c2);
         panelImagePlayer1.add(labelImagePlayer1);
 
-        //Status joueur 1
-
-        labelPlayer1Status = new JLabel("Observe...");
-        c.gridx = 0;
-        c.gridy = 2;
-        layoutPlayer1Info.setConstraints(labelPlayer1Status, c);
-        player1InfoPart.add(labelPlayer1Status);
-
         //Pieces capturées par le joueur 1
 
         capturedPiecesPanel1 = new CapturedPiecesPanel(this, true);
@@ -269,14 +261,6 @@ public class GameFrame extends Frame {
         c2.gridy = 0;
         layoutImagePlayer2.setConstraints(labelImagePlayer2, c2);
         panelImagePlayer2.add(labelImagePlayer2);
-
-        //Status joueur 2
-
-        labelPlayer2Status = new JLabel("Ton tour...");
-        c.gridx = 0;
-        c.gridy = 2;
-        layoutPlayer2Info.setConstraints(labelPlayer2Status, c);
-        player2InfoPart.add(labelPlayer2Status);
 
         capturedPiecesPanel2 = new CapturedPiecesPanel(this, false);
         capturedPiecesPanel2.setPreferredSize(new Dimension(160, 80));
