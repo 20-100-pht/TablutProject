@@ -149,12 +149,12 @@ public abstract class AI implements Serializable {
             //Compare best value with calculated heuristic
             if((tmpHeuristic > value && type == PieceType.ATTACKER) ||
                     (tmpHeuristic < value && type == PieceType.DEFENDER) ||
-                    (tmpHeuristic == value && (r.nextInt()%(children.size()*2))==0)){
+             ( tmpHeuristic == value && r.nextInt()%children.size()==0)){
                 value = tmpHeuristic;
                 rtNode=tmp;
             }*/
 
-            if(type == PieceType.ATTACKER){
+            /*if(type == PieceType.ATTACKER){
                 //Beta pruning
                 alpha = Math.max(alpha,value);
                 if(alpha >= beta){
@@ -166,7 +166,7 @@ public abstract class AI implements Serializable {
                 if(beta <= alpha){
                     break;
                 }
-            }
+            }*/
 
         }
 
@@ -244,10 +244,10 @@ public abstract class AI implements Serializable {
 
 
                         //Cut the child only if father has children
-                        if(preEvaluate(newLogicGrid, type) && end == ResultGame.NO_END_GAME && father.getChildren().size() > 0){
+                        /*if(preEvaluate(newLogicGrid, type) && end == ResultGame.NO_END_GAME && father.getChildren().size() > 0){
                             in++;
                             continue;
-                        }
+                        }*/
 
 
                         Node tmpNode = new Node(newLogicGrid, new Coup(new Coordinate(y,x),coordDest), end);

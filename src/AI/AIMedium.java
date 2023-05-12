@@ -20,7 +20,7 @@ public class AIMedium extends AI {
         LogicGrid gRules = current.getLogicGrid();
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
-
+        /*
         Piece[][] board = grid.board;
         for(int y = 0; y < board.length; y++){
             for(int x = 0; x < board.length; x++){
