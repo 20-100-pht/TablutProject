@@ -43,18 +43,17 @@ public class AnimationMove extends Animation {
         int distanceY = yStart-yEnd;
 
         float a = (float) (duration-timeRemained) / (float) duration;
-
-        if(distanceX > 0) {
-            x = (int) (xStart - a * (float) distanceX);
-        }
-        else{
-            x = (int) (xStart - a * (float) distanceX);
-        }
-        if(distanceY > 0) {
-            y = (int) (yStart - a * (float) distanceY);
-        }
-        else{
-            y = (int) (yStart - a * (float) distanceY);
+        if(a != 0) {
+            if (distanceX > 0) {
+                x = (int) (xStart - a * (float) distanceX);
+            } else {
+                x = (int) (xStart - a * (float) distanceX);
+            }
+            if (distanceY > 0) {
+                y = (int) (yStart - a * (float) distanceY);
+            } else {
+                y = (int) (yStart - a * (float) distanceY);
+            }
         }
 
         timeRemained -= timeElapsed;

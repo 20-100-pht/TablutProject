@@ -17,8 +17,7 @@ public class Game implements Serializable {
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
 
-
-    //AI.AIRandom aleatronDefender;
+    
     AI aiMinMax;
     AIRandom aleatron;
     AI defenderAI;

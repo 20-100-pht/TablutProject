@@ -90,6 +90,9 @@ public abstract class Frame extends JComponent {
             if(!animation.isTerminated()) {
                 animation.update(timeElapsed);
             }
+            else{
+                animations.remove(i);
+            }
         }
     }
 

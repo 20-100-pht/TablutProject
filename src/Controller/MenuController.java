@@ -29,6 +29,7 @@ public class MenuController {
             inter.createGameFrame(game);
             inter.changePage(InterfacePage.GAME);
             inter.getGameFrame().showTextMessage("Partie chargée avec succès !");
+            inter.getGameFrame().getGraphicGameController().startGame();
 
             ois.close();
         } catch (IOException e) {
