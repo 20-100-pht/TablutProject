@@ -123,7 +123,7 @@ public class Piece implements Serializable {
      * Get all possible moves of piece
      * Can jump throne
      * @param board current board
-     * @return array of destination coordinates
+     * @return list of destination coordinates
      */
     public ArrayList<Coordinate> possibleMoves(Piece[][] board) {
         boolean isKing = getType() == PieceType.KING;
