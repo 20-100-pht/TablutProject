@@ -49,8 +49,6 @@ public class GameFrame extends Frame {
     Color COLOR_ATTACKER;
     Color COLOR_DEFENDER;
     int theme;
-    Border imagePlayer1Border;
-    Border imagePlayer2Border;
     JPanel panelImagePlayer1;
     JPanel panelImagePlayer2;
 
@@ -613,12 +611,12 @@ public class GameFrame extends Frame {
     public void loadTheme(){
         switch (theme){
             case 1:
-                COLOR_ATTACKER = Color.RED;
-                COLOR_DEFENDER = Color.BLUE;
+                COLOR_ATTACKER = new Color(98, 124, 160);
+                COLOR_DEFENDER = new Color(214, 206, 71);
                 break;
             default:
-                COLOR_ATTACKER = Color.ORANGE;
-                COLOR_DEFENDER = Color.BLACK;
+                COLOR_ATTACKER = Color.RED;
+                COLOR_DEFENDER = Color.BLUE;
         }
     }
 }
