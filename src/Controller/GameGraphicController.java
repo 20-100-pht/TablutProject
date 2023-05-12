@@ -68,6 +68,7 @@ public class GameGraphicController extends GameController {
         gameFrame.showTextMessage("Partie sauvegardée avec succès !");
     }
 
+    @Override
     public void startMoveAnimation(Coup coup){
 
         System.out.println("dsqdd");

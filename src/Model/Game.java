@@ -2,6 +2,7 @@ package Model;
 
 import AI.*;
 import Controller.GameController;
+import Global.Configuration;
 import Structure.Coup;
 
 import java.io.*;
@@ -130,8 +131,13 @@ public class Game implements Serializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        play(coupAI, true);
-
+        //play(coupAI, true);
+        if(Configuration.isAnimationActived()) {
+            gameController.startMoveAnimation(coupAI);
+        }
+        else{
+            play(coupAI, true);
+        }
         gameController.setFrozenView(false);
     }
 

@@ -122,7 +122,7 @@ public class OptionsFrame extends JFrame {
                     Configuration.setThemeIndex(1);
                 }
 
-                gameFrame.getGridPanelInstance().updateTheme();
+                gameFrame.updateTheme();
 
                 if(yesButton.isSelected()){
                     Configuration.setAnimationActived(true);

@@ -1,5 +1,6 @@
 package View;
 
+import Global.Configuration;
 import Model.LogicGrid;
 
 import javax.imageio.ImageIO;
@@ -15,16 +16,20 @@ public class CapturedPiecesPanel extends JPanel {
     Image imageAttacker;
     boolean isAttackerPieces;
     LogicGrid gameLogic;
+    int theme;
+    String DEFENDER_ASSET_PATH;
+    String ATTACKER_ASSET_PATH;
+
     public CapturedPiecesPanel(GameFrame gameFrame, boolean isAttackerPieces){
         this.isAttackerPieces = isAttackerPieces;
         gameLogic = gameFrame.getGraphicGameController().getGameInstance().getLogicGrid();
-        loadAssets();
+        updateTheme();
     }
 
     public void loadAssets(){
         try{
-            imageDefender = ImageIO.read(new File("assets/images/defender.png"));
-            imageAttacker = ImageIO.read(new File("assets/images/attacker.png"));
+            imageDefender = ImageIO.read(new File(DEFENDER_ASSET_PATH));
+            imageAttacker = ImageIO.read(new File(ATTACKER_ASSET_PATH));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -73,5 +78,23 @@ public class CapturedPiecesPanel extends JPanel {
     public int getSecondLineWidth(){
         int n = getNPiece()%8;
         return n * (PIECE_SIZE/2) + PIECE_SIZE/2;
+    }
+
+    public void updateTheme(){
+        theme = Configuration.getThemeIndex();
+        loadThemeFileNames();
+        loadAssets();
+    }
+
+    public void loadThemeFileNames(){
+        switch (theme){
+            case 1:
+                DEFENDER_ASSET_PATH = "assets/images/defender2.png";
+                ATTACKER_ASSET_PATH ="assets/images/attacker2.png";
+                break;
+            default:
+                DEFENDER_ASSET_PATH = "assets/images/theme_1_defender.png";
+                ATTACKER_ASSET_PATH = "assets/images/theme_1_attacker.png";
+        }
     }
 }

@@ -588,4 +588,10 @@ public class GameFrame extends Frame {
         return gridPanel;
     }
 
+    public void updateTheme(){
+        gridPanel.updateTheme();
+        capturedPiecesPanel1.updateTheme();
+        capturedPiecesPanel2.updateTheme();
+    }
+
 }

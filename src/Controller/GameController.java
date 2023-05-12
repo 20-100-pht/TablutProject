@@ -16,4 +16,8 @@ public class GameController {
     public void updateViewEndGame(){
 
     }
+
+    public void startMoveAnimation(Coup coup){
+
+    }
 }

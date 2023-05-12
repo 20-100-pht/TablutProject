@@ -340,7 +340,6 @@ public class GridPanel extends JPanel {
     public void updateTheme(){
         int aTheme = theme;
         theme = Configuration.getThemeIndex();
-        System.out.println(aTheme + " " + theme);
         if(aTheme != theme){
             loadThemeFileNames();
             loadAssets();
