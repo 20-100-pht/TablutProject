@@ -12,11 +12,11 @@ public class Tablut {
         System.out.println("Tablut");
 
         Configuration.instance();
-        Configuration.load();
+        //Configuration.load();
 
         Interface ui = new Interface();
 
-        //Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.EASY);
+        //Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.EASY, 0);
         /*GameConsoleController gcc = new GameConsoleController(game);
         game.setGameControllerInstance(gcc);
 
