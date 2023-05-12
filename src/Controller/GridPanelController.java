@@ -109,6 +109,7 @@ public class GridPanelController {
             //On récupère le coup choisis par le joueur et si est autorisé on l'exécute après l'animation
             Coup coup = new Coup(pieceSelectedCoords, caseCoords);
             if(logicGrid.isLegalMove(coup) != 0){
+                resetSelection();
                 return;
             }
             //On enlève les indications sur les mouvements possibles avant de bouger
@@ -131,11 +132,18 @@ public class GridPanelController {
                     gridPanel.setSelectionMarkCoords(caseCoords);
                     processPossibleMoveMarks(grid.getPieceAtPosition(pieceSelectedCoords));
                 }
+                else{
+                    resetSelection();
+                }
             }
         }
     }
 
     public void mouseRightBttnReleasedHandler(MouseEvent e){
+        resetSelection();
+    }
+
+    public void resetSelection(){
         pieceSelectedCoords = null;
         gridPanel.setSelectionMarkCoords(null);
         gridPanel.clearMovePossibleMarks();
