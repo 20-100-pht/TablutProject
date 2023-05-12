@@ -1,6 +1,7 @@
 package View;
 
 import AI.AIDifficulty;
+import Global.Utils;
 import Model.Game;
 import Model.Grid;
 
@@ -33,6 +34,10 @@ public class NewGameFrame extends Frame {
     JRadioButton rdoMediumDefPart;
     JRadioButton rdoDifficultDefPart;
     Image imageChrono;
+    JPanel bttnDefIAPanel;
+    JPanel bttnAttIAPanel;
+    JTextField tfTime;
+
     public NewGameFrame(Interface ui){
         super(ui);
 
@@ -209,10 +214,10 @@ public class NewGameFrame extends Frame {
         c.gridx = 0;
         blitzPanel.add(labelChronoImage, c);
 
-        JTextField tfTime = new JTextField();
+        tfTime = new JTextField();
         tfTime.setPreferredSize(new Dimension(65, 20));
         c.gridx = 1;
-        c.insets = new Insets(0, 10, 0, 15);
+        c.insets = new Insets(0, 15, 0, 10);
         blitzPanel.add(tfTime, c);
 
         c.insets = new Insets(0, 0, 0, 0);
@@ -224,7 +229,7 @@ public class NewGameFrame extends Frame {
     }
 
     public void buildIaParamsPart(){
-        JPanel bttnDefIAPanel = createRadioBttnPanel(centralPanel, 0, 6);
+        bttnDefIAPanel = createRadioBttnPanel(centralPanel, 0, 6);
 
         ButtonGroup bttnGrpDefIA = new ButtonGroup();
         rdoHumanDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Humain", 0, 0);
@@ -232,7 +237,7 @@ public class NewGameFrame extends Frame {
         rdoMediumDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Moyen", 0, 2);
         rdoDifficultDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Difficile", 0, 3);
 
-        JPanel bttnAttIAPanel = createRadioBttnPanel(centralPanel, 1, 6);
+        bttnAttIAPanel = createRadioBttnPanel(centralPanel, 1, 6);
 
         ButtonGroup bttnGrpAttIA = new ButtonGroup();
         rdoHumanAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Humain", 0, 0);
@@ -312,7 +317,11 @@ public class NewGameFrame extends Frame {
                 else if(rdoMediumAttPart.isSelected()){
                     attDiff = AIDifficulty.MID;
                 }
-                ui.createGameFrame(new Game(tfNameDef.getText(), tfNameAtt.getText(), defDiff, attDiff));
+                int blitzTime;
+                if(!Utils.isNumeric(tfTime.getText())) blitzTime = 0;
+                else blitzTime = Integer.parseInt(tfTime.getText());
+
+                ui.createGameFrame(new Game(tfNameDef.getText(), tfNameAtt.getText(), defDiff, attDiff, blitzTime));
                 ui.changePage(InterfacePage.GAME);
             }
         });
@@ -321,6 +330,33 @@ public class NewGameFrame extends Frame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ui.changePage(InterfacePage.MENU);
+            }
+        });
+
+        bttnAttIAPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //super.mouseReleased(e);
+                System.out.println("");
+                if(rdoEasyAttPart.isSelected() || rdoMediumAttPart.isSelected() ||rdoDifficultAttPart.isSelected()){
+                    tfTime.setEnabled(false);
+                }
+                else{
+                    tfTime.setEnabled(true);
+                }
+            }
+        });
+
+        bttnDefIAPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //super.mouseReleased(e);
+                if(rdoEasyAttPart.isSelected() || rdoMediumAttPart.isSelected() || rdoDifficultAttPart.isSelected()){
+                    tfTime.setEnabled(false);
+                }
+                else{
+                    tfTime.setEnabled(true);
+                }
             }
         });
     }

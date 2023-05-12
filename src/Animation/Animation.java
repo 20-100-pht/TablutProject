@@ -4,6 +4,7 @@ public class Animation {
 
     int duration;
     int timeRemained;
+    boolean isPaused = false;
 
     public void start(){
 
@@ -19,5 +20,13 @@ public class Animation {
 
     public boolean isTerminated() {
         return true;
+    }
+
+    public void setPaused(boolean paused){
+        isPaused = paused;
+    }
+
+    public boolean isPaused(){
+        return isPaused;
     }
 }
