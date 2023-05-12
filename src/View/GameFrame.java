@@ -212,6 +212,7 @@ public class GameFrame extends Frame {
         //Model.Grid
 
         gridPanel = new GridPanel(this);
+        //c.insets = new Insets(10, 10, 10, 10);
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
@@ -580,14 +581,12 @@ public class GameFrame extends Frame {
         labelIndexTurn.setText("Tour "+Integer.toString(turnIndex+1));
     }
 
-    public void setPlayerStatus(int index) {
-        if (index % 2 == 0) {
-            labelPlayer1Status.setText("Observe...");
-            labelPlayer2Status.setText("Ton tour...");
-        } else {
-            labelPlayer2Status.setText("Observe...");
-            labelPlayer1Status.setText("Ton tour...");
-        }
+    public void updatePlayerStatus() {
+        Color colorTurn;
+        if(game.isAttackerTurn()) colorTurn = COLOR_ATTACKER;
+        else colorTurn = COLOR_DEFENDER;
+
+        gridPanel.setBorder(BorderFactory.createLineBorder(colorTurn, 7));
     }
 
     public GridPanel getGridPanelInstance(){
@@ -606,6 +605,8 @@ public class GameFrame extends Frame {
 
         panelImagePlayer1.setBorder(BorderFactory.createLineBorder(COLOR_DEFENDER, 5));
         panelImagePlayer2.setBorder(BorderFactory.createLineBorder(COLOR_ATTACKER, 5));
+
+        updatePlayerStatus();
     }
 
     public void loadTheme(){
@@ -615,8 +616,8 @@ public class GameFrame extends Frame {
                 COLOR_DEFENDER = new Color(214, 206, 71);
                 break;
             default:
-                COLOR_ATTACKER = Color.RED;
-                COLOR_DEFENDER = Color.BLUE;
+                COLOR_ATTACKER = Color.WHITE;
+                COLOR_DEFENDER = Color.BLACK;
         }
     }
 }

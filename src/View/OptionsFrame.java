@@ -121,6 +121,7 @@ public class OptionsFrame extends JFrame {
                 else if(themeValue == "Thème 2"){
                     Configuration.setThemeIndex(1);
                 }
+                Configuration.save();
 
                 gameFrame.updateTheme();
 

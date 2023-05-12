@@ -121,7 +121,7 @@ public class GameGraphicController extends GameController {
         else{
             gridPanel.setMoveMarkCoords(null);
         }
-        //gameFrame.setPlayerStatus(Integer.(game.isAttackerTurn()));
+        gameFrame.updatePlayerStatus();
     }
 
     @Override

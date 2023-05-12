@@ -12,6 +12,7 @@ public class Tablut {
         System.out.println("Tablut");
 
         Configuration.instance();
+        Configuration.load();
 
         Interface ui = new Interface();
 
