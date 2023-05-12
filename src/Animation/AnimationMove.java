@@ -43,7 +43,7 @@ public class AnimationMove extends Animation {
         int distanceY = yStart-yEnd;
 
         float a = (float) (duration-timeRemained) / (float) duration;
-        System.out.println(a);
+
         if(distanceX > 0) {
             x = (int) (xStart - a * (float) distanceX);
         }

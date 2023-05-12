@@ -1,6 +1,7 @@
 package View;
 
 import Controller.GameGraphicController;
+import Global.Configuration;
 import Model.Game;
 import Model.Grid;
 import Model.PieceType;
@@ -45,7 +46,13 @@ public class GameFrame extends Frame {
     JLabel labelIndexTurn;
     TextMessagePanel textMessagePanel;
     Timer timerTextMessage;
-
+    Color COLOR_ATTACKER;
+    Color COLOR_DEFENDER;
+    int theme;
+    Border imagePlayer1Border;
+    Border imagePlayer2Border;
+    JPanel panelImagePlayer1;
+    JPanel panelImagePlayer2;
 
 
     public GameFrame(Interface ui, Game game){
@@ -55,6 +62,7 @@ public class GameFrame extends Frame {
         this.game = game;
 
         frozen = false;
+        theme = Configuration.getThemeIndex();
 
         loadAssets();
     }
@@ -162,11 +170,11 @@ public class GameFrame extends Frame {
 
         //Image player 1
 
-        Border bluelineBorder = BorderFactory.createLineBorder(new Color(0, 143, 213), 5);
+        //imagePlayer1Border = BorderFactory.createLineBorder(COLOR_DEFENDER, 5);
 
-        JPanel panelImagePlayer1 = new JPanel();
+        panelImagePlayer1 = new JPanel();
         panelImagePlayer1.setPreferredSize(new Dimension(104, 104));
-        panelImagePlayer1.setBorder(bluelineBorder);
+        //panelImagePlayer1.setBorder(imagePlayer1Border);
         c.gridx = 0;
         c.gridy = 1;
         layoutPlayer1Info.setConstraints(panelImagePlayer1, c);
@@ -240,11 +248,11 @@ public class GameFrame extends Frame {
 
         //Image player 2
 
-        Border orangelineBorder = BorderFactory.createLineBorder(new Color(197, 137, 47), 5);
+        //imagePlayer2Border = BorderFactory.createLineBorder(COLOR_ATTACKER, 5);
 
-        JPanel panelImagePlayer2 = new JPanel();
+        panelImagePlayer2 = new JPanel();
         panelImagePlayer2.setPreferredSize(new Dimension(104, 104));
-        panelImagePlayer2.setBorder(orangelineBorder);
+        //panelImagePlayer2.setBorder(imagePlayer2Border);
         c.gridx = 0;
         c.gridy = 1;
         layoutPlayer2Info.setConstraints(panelImagePlayer2, c);
@@ -354,7 +362,7 @@ public class GameFrame extends Frame {
         mainPanel.add(fgPanel);
         mainPanel.add(bgPanel);
 
-
+        updateTheme();
         setEventHandlers();
     }
 
@@ -589,9 +597,28 @@ public class GameFrame extends Frame {
     }
 
     public void updateTheme(){
+        theme = Configuration.getThemeIndex();
+        loadTheme();
+
+        if(gridPanel == null) return;
+
         gridPanel.updateTheme();
         capturedPiecesPanel1.updateTheme();
         capturedPiecesPanel2.updateTheme();
+
+        panelImagePlayer1.setBorder(BorderFactory.createLineBorder(COLOR_DEFENDER, 5));
+        panelImagePlayer2.setBorder(BorderFactory.createLineBorder(COLOR_ATTACKER, 5));
     }
 
+    public void loadTheme(){
+        switch (theme){
+            case 1:
+                COLOR_ATTACKER = Color.RED;
+                COLOR_DEFENDER = Color.BLUE;
+                break;
+            default:
+                COLOR_ATTACKER = Color.ORANGE;
+                COLOR_DEFENDER = Color.BLACK;
+        }
+    }
 }

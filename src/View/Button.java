@@ -72,8 +72,6 @@ public class Button extends JPanel {
         int textY = getHeight()/2 + textHeight/4;
 
         g.drawString(name, textX, textY);
-        System.out.println(textWidth);
-        System.out.println(textHeight);
     }
 
 

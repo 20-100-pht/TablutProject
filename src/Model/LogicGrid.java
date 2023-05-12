@@ -145,6 +145,9 @@ public class LogicGrid implements Serializable {
         if(p3 != null) lPiece.add(p3);
         if(p4 != null) lPiece.add(p4);
 
+        /*System.out.println("N attacker : " + nbPieceAttackerOnGrid);
+        System.out.println("N defender : " + nbPieceDefenderOnGrid);*/
+
         return lPiece;
     }
 
