@@ -573,7 +573,9 @@ public class GameFrame extends Frame {
     public void setFrozen(boolean frozen){
         this.frozen = frozen;
         gridPanel.setFrozen(frozen);
-        animationChrono.setPaused(frozen);
+        if(game.isBlitzMode()) {
+            animationChrono.setPaused(frozen);
+        }
     }
 
     public void setTurnLabelValue(int turnIndex){
