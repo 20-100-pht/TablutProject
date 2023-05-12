@@ -69,6 +69,9 @@ public abstract class AI implements Serializable {
 
         //Create all children of node (all possible states of current board)
         createNodeChildren(node, maximizingPlayer, depth);
+        if(maximizingPlayer == PieceType.DEFENDER) {
+            System.out.println("Size : " + node.getChildren().size());
+        }
         ArrayList<Node> children = node.getChildren();
 
         if(children.size() == 0){
@@ -129,6 +132,17 @@ public abstract class AI implements Serializable {
             //Calculate next best move
             Node tmp = minimaxAlgo(children.get(i), tmpD, opponent, alpha, beta);
 
+            if(type == PieceType.ATTACKER){
+                value = Math.max(value, tmp.getHeuristic());
+            }else{
+                value = Math.min(value, tmp.getHeuristic());
+            }
+
+            if(value == tmp.getHeuristic()){
+                rtNode=tmp;
+            }
+
+            /*
             //Randomize selection of best heuristics
             Random r = new Random();
             double tmpHeuristic = tmp.getHeuristic();
@@ -138,7 +152,7 @@ public abstract class AI implements Serializable {
                     (tmpHeuristic == value && (r.nextInt()%(children.size()*2))==0)){
                 value = tmpHeuristic;
                 rtNode=tmp;
-            }
+            }*/
 
             if(type == PieceType.ATTACKER){
                 //Beta pruning
