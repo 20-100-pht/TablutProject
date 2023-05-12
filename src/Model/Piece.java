@@ -126,44 +126,39 @@ public class Piece implements Serializable {
      * @return array of destination coordinates
      */
     public ArrayList<Coordinate> possibleMoves(Piece[][] board) {
-
-        int min = 1, max = 8;
+        boolean isKing = getType() == PieceType.KING;
         int throne = 4;
-
-        if(this.isKing()){
-            min = 0;
-            max = 9;
-        }
-
+        int col = c.getCol();
+        int row = c.getRow();
         ArrayList<Coordinate> MovesToPieceList = new ArrayList<>();
 
         //Add coordinate if not throne and not fortress (if not king)
-        for (int i = c.getCol() - 1; i >= min; i--){
-            if (board[c.getRow()][i] == null){
-                if(c.getRow() == throne && i == throne) continue;
-                MovesToPieceList.add(new Coordinate(c.getRow(), i));
-            }
+        for (int i = col -1; i >= 0; i--){
+            if (board[row][i] == null){
+                if(row == throne && i == throne ||((i ==0 || i == 8)&&(row == 0 || row == 8) && !isKing)) continue;
+                MovesToPieceList.add(new Coordinate(row, i));
+                }
             else break;
         }
-        for (int i = c.getCol() + 1; i < max; i++){
-            if (board[c.getRow()][i] == null){
-                if(c.getRow() == throne && i == throne) continue;
-                MovesToPieceList.add(new Coordinate(c.getRow(), i));
+        for (int i = col + 1; i < 9; i++){
+            if (board[row][i] == null){
+                if(row == throne && i == throne ||((i ==0 || i == 8)&&(row == 0 || row == 8) && !isKing)) continue;
+                MovesToPieceList.add(new Coordinate(row, i));
             }
             else break;
         }
 
-        for (int r = c.getRow() - 1; r >= min; r--){
-            if (board[r][c.getCol()] == null){
-                if(c.getCol() == throne && r == throne) continue;
-                MovesToPieceList.add(new Coordinate(r, c.getCol()));
+        for (int r = row - 1; r >= 0; r--){
+            if (board[r][col] == null){
+                if(col == throne && r == throne || ((r ==0 || r == 8)&&(col == 0 || col == 8) && !isKing)) continue;
+                MovesToPieceList.add(new Coordinate(r, col));
             }
             else break;
         }
-        for (int r = c.getRow() + 1; r < max; r++){
-            if (board[r][c.getCol()] == null){
-                if(c.getCol() == throne && r == throne) continue;
-                MovesToPieceList.add(new Coordinate(r, c.getCol()));
+        for (int r = row + 1; r < 9; r++){
+            if (board[r][col] == null){
+                if(col == throne && r == throne || ((r ==0 || r == 8)&&(col == 0 || col == 8)&& !isKing)) continue;
+                MovesToPieceList.add(new Coordinate(r, col));
             }
             else break;
         }
@@ -171,6 +166,16 @@ public class Piece implements Serializable {
         return MovesToPieceList;
     }
 
+
+    public PieceType[] piecesNextToIt(Grid grid){
+        PieceType[] tab = new PieceType[4];
+        int r = getRow(); int c = getCol();
+        if(r < 8 && grid.board[r+1][c] != null) tab[0] = grid.board[r+1][c].getType();
+        if(r > 0 && grid.board[r-1][c] != null) tab[1] = grid.board[r-1][c].getType();
+        if(c < 8 && grid.board[r][c+1] != null) tab[2] = grid.board[r][c+1].getType();
+        if(c > 0 && grid.board[r][c-1] != null) tab[3] = grid.board[r][c-1].getType();
+        return tab;
+    }
     public Coordinate getCoords(){
         return new Coordinate(getRow(), getCol());
     }

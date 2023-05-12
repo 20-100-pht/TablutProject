@@ -47,23 +47,13 @@ public class AIMedium extends AI {
             return -1000000*(depth+1);
         }
 
-        //Heuristic qui semble faire du 50/50
-        //double value = ((double) (1-king)*( defenders + (kingDistanceToCorner(k)+1)*10 + attackers + nearKing*17));
-
-        //double value = ((double)
-        //                (attackers - defenders)*100 +
-        //                (kingDistanceToCorner(k)+1)*1000 +
-        //                //-nearKing*1000 +
-        //                isNextToKing(k,current.getLogicGrid().getGrid())*500 +
-        //                canKingGoToWall(current,current.getLogicGrid().getGrid()))*2000;
-
         double value = (double)
-                (attackers)*500 +
-                //isNextToKingAndSafe(k,current.getLogicGrid().getGrid())*1000 +
-                canKingGoToWall(current)*1000;
+                (attackers)*.05 +
+                isNextToKing(k,current.getLogicGrid().getGrid())*0.15 -
+                canKingGoToWall(current)*1;
+
 
         //Attackers want a high value, Defenders want a low value
-        //double value = ((double) (1-king)*( (attackers - defenders) + (kingDistanceToCorner(k)+1)*100));
         return value;
     }
 
@@ -117,7 +107,7 @@ public class AIMedium extends AI {
         return times;
     }
 
-    private int isNextToKingAndSafe(Piece king, Grid grid){
+    private int isNextToKingAndSafe(Piece king, Grid grid) {
         int x = king.getCol();
         int y = king.getRow();
 
@@ -125,154 +115,25 @@ public class AIMedium extends AI {
         Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y, x + 1));
         Piece topPiece = grid.getPieceAtPosition(new Coordinate(y - 1, x));
         Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y + 1, x));
-//todo je vais le réduire no soucis les frérot et en vrai à tester
+
         int times = 0;
-        boolean Secure = true;
-        if(leftPiece!=null && leftPiece.isAttacker()){
-           // regarde la colonne de la ièce gauche -1
-            if (x-2>=0) {
-                for (int i = y; i >= 0 ; i--) {
-                    Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x - 2));
-                    if (tmp == null) continue;
-                    if (tmp.isAttacker()){
-                        break;
-                    }
-                    if (tmp.isDefender()){
-                        Secure = false;
-                    }
-                }
-                for (int i = y; i <= 8 ; i++) {
-                    Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x - 2));
-                    if (tmp == null) continue;
-                    if (tmp.isAttacker()){
-                        break;
-                    }
-                    if (tmp.isDefender()){
-                        Secure = false;
-                    }
-                }
-
-            }
-            if (Secure) times++;
-            Secure = true;
-        }
-        if(rightPiece!=null && rightPiece.isAttacker()){
-            // regarde la colonne de la ièce gauche -1
-            if (x+2<9) {
-                for (int i = y; i >= 0 ; i--) {
-                    Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x + 2));
-                    if (tmp == null) continue;
-                    if (tmp.isAttacker()){
-                        break;
-                    }
-                    if (tmp.isDefender()){
-                        Secure = false;
-                    }
-                }
-                for (int i = y; i <= 8 ; i++) {
-                    Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x + 2));
-                    if (tmp == null) continue;
-                    if (tmp.isAttacker()){
-                        break;
-                    }
-                    if (tmp.isDefender()){
-                        Secure = false;
-                    }
-                }
-
-            }
-            if (Secure) times++;
-            Secure = true;
-        }
-        if(topPiece!=null && topPiece.isAttacker()){
-            // regarde la colonne de la ièce gauche -1
-            if (y+2<9) {
-                for (int i = x; i >= 0 ; i--) {
-                    Piece tmp = grid.getPieceAtPosition(new Coordinate(y+2, i));
-                    if (tmp == null) continue;
-                    if (tmp.isAttacker()){
-                        break;
-                    }
-                    if (tmp.isDefender()){
-                        Secure = false;
-                    }
-                }
-                for (int i = x; i <= 8 ; i++) {
-                    Piece tmp = grid.getPieceAtPosition(new Coordinate(y+2, i));
-                    if (tmp == null) continue;
-                    if (tmp.isAttacker()){
-                        break;
-                    }
-                    if (tmp.isDefender()){
-                        Secure = false;
-                    }
-                }
-
-            }
-            if (Secure) times++;
-            Secure = true;
-        }
-        if(bottomPiece!=null && bottomPiece.isAttacker()){
-            // regarde la colonne de la ièce gauche -1
-            if (y-2>=0) {
-                for (int i = x; i >= 0 ; i--) {
-                    Piece tmp = grid.getPieceAtPosition(new Coordinate(y-2, i));
-                    if (tmp == null) continue;
-                    if (tmp.isAttacker()){
-                        break;
-                    }
-                    if (tmp.isDefender()){
-                        Secure = false;
-                    }
-                }
-                for (int i = x; i <= 8 ; i++) {
-                    Piece tmp = grid.getPieceAtPosition(new Coordinate(y-2, i));
-                    if (tmp == null) continue;
-                    if (tmp.isAttacker()){
-                        break;
-                    }
-                    if (tmp.isDefender()){
-                        Secure = false;
-                    }
-                }
-
-            }
-            if (Secure) times++;
-            Secure = true;
-        }
-
+        if(leftPiece != null && leftPiece.getType() == PieceType.ATTACKER) times += isDefenderNextToIt(leftPiece, grid, 0,1);
+        if(rightPiece != null && rightPiece.getType() == PieceType.ATTACKER) times += isDefenderNextToIt(rightPiece, grid, 0,1);
+        if(topPiece != null && topPiece.getType() == PieceType.ATTACKER) times += isDefenderNextToIt(topPiece, grid, 2,3);
+        if(bottomPiece != null && bottomPiece.getType() == PieceType.ATTACKER) times += isDefenderNextToIt(bottomPiece, grid, 2,3);
         return times;
     }
 
-
-    private boolean isPieceSafe(Piece p, Grid grid, boolean isHorizontal){
-        int x = p.getCol();
-        int y = p.getRow();
-        if (x-1>0) {
-            for (int i = y; i >= 0 ; i--) {
-                Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x - 1));
-                if (tmp.isAttacker()){
-                    break;
-                }
-                if (tmp.isDefender()){
-                    return false;
-                }
+    private int isDefenderNextToIt(Piece p, Grid grid, int i, int j){
+        PieceType[] tab;
+        if (p != null && p.isAttacker()) {
+            tab = p.piecesNextToIt(grid);
+            if (!(tab[i] == PieceType.DEFENDER ^ tab[j] == PieceType.DEFENDER)){
+                return 1;
             }
-            for (int i = y; i <= 8 ; i++) {
-                Piece tmp = grid.getPieceAtPosition(new Coordinate(i, x - 1));
-                if (tmp.isAttacker()){
-                    break;
-                }
-                if (tmp.isDefender()){
-                    return false;
-                }
-            }
-            return true;
-        }else{
-            return false;
         }
+        return 0;
     }
-
     private int canKingGoToWall(Node n){
         Grid grid = n.getLogicGrid().getGrid();
         int x = n.getLogicGrid().getKing().getCol();
