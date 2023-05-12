@@ -6,40 +6,15 @@ import Structure.Node;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class AIMedium extends AI {
 
     @Override
     public double heuristic(Node current, int depth){
-        int attackers = 0;
-        int defenders = 0;
-        int nearKing = 0;
 
         LogicGrid gRules = current.getLogicGrid();
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
-
-        Piece[][] board = grid.board;
-        for(int y = 0; y < board.length; y++){
-            for(int x = 0; x < board.length; x++){
-                if(board[y][x]!=null){
-                    switch (board[y][x].getType()){
-                        case DEFENDER:
-                            defenders++;
-                            break;
-                        case ATTACKER:
-                            attackers++;
-                            int dX = Math.abs(k.getCol()-x);
-                            int dY = Math.abs(k.getRow()-y);
-                            nearKing+= dX+dY;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
 
         if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
             return 1000000*(depth+1);
@@ -48,7 +23,7 @@ public class AIMedium extends AI {
         }
 
         double value = (double)
-                (attackers)*.05 +
+                (gRules.getNbPieceAttackerOnGrid())*.05 +
                 isNextToKing(k,current.getLogicGrid().getGrid())*0.15 -
                 canKingGoToWall(current)*1;
 
