@@ -333,32 +333,31 @@ public class NewGameFrame extends Frame {
             }
         });
 
-        bttnAttIAPanel.addMouseListener(new MouseAdapter() {
+        ActionListener mA = new ActionListener(){
             @Override
-            public void mouseReleased(MouseEvent e) {
-                //super.mouseReleased(e);
-                System.out.println("");
-                if(rdoEasyAttPart.isSelected() || rdoMediumAttPart.isSelected() ||rdoDifficultAttPart.isSelected()){
-                    tfTime.setEnabled(false);
-                }
-                else{
-                    tfTime.setEnabled(true);
-                }
+            public void actionPerformed(ActionEvent e) {
+                updateBlitzTextfield();
             }
-        });
+        };
 
-        bttnDefIAPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                //super.mouseReleased(e);
-                if(rdoEasyAttPart.isSelected() || rdoMediumAttPart.isSelected() || rdoDifficultAttPart.isSelected()){
-                    tfTime.setEnabled(false);
-                }
-                else{
-                    tfTime.setEnabled(true);
-                }
-            }
-        });
+        rdoHumanAttPart.addActionListener(mA);
+        rdoEasyAttPart.addActionListener(mA);
+        rdoMediumAttPart.addActionListener(mA);
+        rdoDifficultAttPart.addActionListener(mA);
+        rdoHumanDefPart.addActionListener(mA);
+        rdoEasyDefPart.addActionListener(mA);
+        rdoMediumDefPart.addActionListener(mA);
+        rdoDifficultDefPart.addActionListener(mA);
+    }
+
+    public void updateBlitzTextfield(){
+        if(rdoEasyAttPart.isSelected() || rdoMediumAttPart.isSelected() || rdoDifficultAttPart.isSelected()
+                || rdoEasyDefPart.isSelected() || rdoMediumDefPart.isSelected() || rdoDifficultDefPart.isSelected()){
+            tfTime.setEnabled(false);
+        }
+        else{
+            tfTime.setEnabled(true);
+        }
     }
 
     public void loadAssets(){

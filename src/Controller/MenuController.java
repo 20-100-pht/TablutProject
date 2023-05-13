@@ -28,8 +28,8 @@ public class MenuController {
             Interface inter = menuFrame.getInterface();
             inter.createGameFrame(game);
             inter.changePage(InterfacePage.GAME);
-            inter.getGameFrame().showTextMessage("Partie chargée avec succès !");
-            inter.getGameFrame().getGraphicGameController().startGame();
+            inter.getGameFrame().showTextMessage("Partie chargée avec succès !", 3000);
+            game.startGame();
 
             ois.close();
         } catch (IOException e) {

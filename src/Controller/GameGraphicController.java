@@ -7,6 +7,9 @@ import Structure.Coup;
 import View.GameFrame;
 import View.GridPanel;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Vector;
 
@@ -18,6 +21,9 @@ public class GameGraphicController extends GameController {
     LogicGrid logicGrid;
     Grid grid;
     Game game;
+    Timer timerCount;
+    int count;
+
 
     public GameGraphicController(GameFrame gameFrame, Game game){
         this.gameFrame = gameFrame;
@@ -47,7 +53,7 @@ public class GameGraphicController extends GameController {
     public void bttnReplayClickHandler(){
         updateViewAfterReplay();
         game.reset();
-        startGame();
+        game.startGame();
     }
 
     public void bttnSaveClickHandler(){
@@ -65,7 +71,7 @@ public class GameGraphicController extends GameController {
             throw new RuntimeException(e);
         }
 
-        gameFrame.showTextMessage("Partie sauvegardée avec succès !");
+        gameFrame.showTextMessage("Partie sauvegardée avec succès !", 3000);
     }
 
     @Override
@@ -129,10 +135,6 @@ public class GameGraphicController extends GameController {
         gameFrame.setFrozen(frozen);
     }
 
-    public void startGame(){
-        if(game.isAiTurn()) game.doAiTurnInSeparateThread();
-    }
-
     public void updateViewAfterReplay(){
         gameFrame.hideAllMessages();
         gameFrame.hideEndGameButtons();
@@ -141,4 +143,34 @@ public class GameGraphicController extends GameController {
         GridPanelController gridPanelController = gameFrame.getGridPanelInstance().getGridPanelController();
         gridPanelController.updateViewAfterReplay();
     }
+
+    @Override
+    public void startStartCount(){
+        gameFrame.showTextMessage("Début dans 3 secondes...", -1);
+        count = 3;
+        timerCount = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                count -= 1;
+
+                if(count == -1){
+                    gameFrame.hideAllMessages();
+                    timerCount.stop();
+                    game.setStartTimerEnded();
+                    game.startGame();
+                    return;
+                }
+
+                if(count != 0) {
+                    gameFrame.setTextMessage("Début dans " + count + " secondes...");
+                }
+                else{
+                    gameFrame.setTextMessage("C'est parti !");
+                }
+            }
+        });
+        timerCount.setRepeats(true);
+        timerCount.start();
+    }
 }
+

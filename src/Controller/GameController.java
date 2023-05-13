@@ -20,4 +20,8 @@ public class GameController {
     public void startMoveAnimation(Coup coup){
 
     }
+
+    public void startStartCount(){
+
+    }
 }

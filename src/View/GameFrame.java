@@ -521,24 +521,34 @@ public class GameFrame extends Frame {
 
     }
 
-    public void showTextMessage(String text){
+    public void showTextMessage(String text, int delay){
 
         int x = ui.getWindow().getWidth()/2 - textMessagePanel.getWidth()/2;
         textMessagePanel.setLocation(new Point(x, 300));
 
         textMessagePanel.setText(text);
         textMessagePanel.setVisible(true);
-        timerTextMessage = new Timer(3000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                hideTextMessage();
-            }
-        });
-        timerTextMessage.start();
+
+        if(delay != -1) {
+            timerTextMessage = new Timer(delay, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    hideTextMessage();
+                }
+            });
+            timerTextMessage.start();
+        }
     }
 
     public void hideTextMessage(){
+        if(timerTextMessage != null) {
+            timerTextMessage.stop();
+        }
         textMessagePanel.setVisible(false);
+    }
+
+    public void setTextMessage(String text){
+        textMessagePanel.setText(text);
     }
 
     public void openGiveupDialog(){ forfeitDialog = new ForfeitDialog(ui);
@@ -547,6 +557,9 @@ public class GameFrame extends Frame {
         optionsFrame = new OptionsFrame(this);
     }
     public void hideWinMessage(){
+        if(timerWinMessage != null){
+            timerWinMessage.stop();
+        }
         winMessagePanel.setVisible(false);
     }
 
@@ -567,7 +580,7 @@ public class GameFrame extends Frame {
 
     @Override
     public void display(){
-        gameGraphicController.startGame();
+        game.startGame();
     }
 
     public void setFrozen(boolean frozen){

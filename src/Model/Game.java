@@ -17,6 +17,7 @@ public class Game implements Serializable {
     int attTimeRemainedMs;
     boolean blitzMode;
     int blitzTime;
+    boolean startTimerEnded;
 
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
@@ -115,6 +116,7 @@ public class Game implements Serializable {
         history.reset();
         attTimeRemainedMs = blitzTime*1000;
         defTimeRemainedMs = blitzTime*1000;
+        startTimerEnded = false;
     }
 
     public boolean isAiTurn(){
@@ -352,6 +354,11 @@ public class Game implements Serializable {
     }
 
     public void updatePlayerTurnChrono(int timeElapsed){
+
+        if(!startTimerEnded){
+            return;
+        }
+
         if(isAttackerTurn()){
             if(attTimeRemainedMs - timeElapsed < 0) attTimeRemainedMs = 0;
             else attTimeRemainedMs -= timeElapsed;
@@ -368,5 +375,17 @@ public class Game implements Serializable {
 
     public boolean isBlitzMode(){
         return blitzMode;
+    }
+
+    public void setStartTimerEnded(){
+        startTimerEnded = true;
+    }
+
+    public void startGame(){
+        if((isAiTurn() || blitzMode) && !startTimerEnded){
+            gameController.startStartCount();
+            return;
+        }
+        if(isAiTurn()) doAiTurnInSeparateThread();
     }
 }
