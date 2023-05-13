@@ -26,7 +26,7 @@ public class AITraining {
         long tpsAverage = 0;
         long start, end;
         for (int i = 0; i < AIGAMES; i++) {
-            Game game = new Game("", "", AIDifficulty.MID, AIDifficulty.MID);
+            Game game = new Game("", "", AIDifficulty.MID, AIDifficulty.MID, 0);
             GameConsoleController gcc = new GameConsoleController(game);
             game.setGameControllerInstance(gcc);
             gcc.setPrintTerminal(PRINT);
