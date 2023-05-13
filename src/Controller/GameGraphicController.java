@@ -77,8 +77,6 @@ public class GameGraphicController extends GameController {
     @Override
     public void startMoveAnimation(Coup coup){
 
-        System.out.println("dsqdd");
-
         Coordinate piece1Coords = coup.getInit();
         Coordinate piece2Coords = coup.getDest();
         Piece piece1 = grid.getPieceAtPosition(piece1Coords);

@@ -317,12 +317,12 @@ public class Game implements Serializable {
         defenderTypeAI = AIDiff;
     }
 
+//modif entre les deux (c'était inversé)
     public AIDifficulty getAIDefenderDifficulty (){
-        return attackerTypeAI;
-    }
-    public AIDifficulty getAIAttackerDifficulty (){
         return defenderTypeAI;
     }
+    public AIDifficulty getAIAttackerDifficulty (){return attackerTypeAI;}
+    //
 
     public AI getDefenderAI(){
         return defenderAI;

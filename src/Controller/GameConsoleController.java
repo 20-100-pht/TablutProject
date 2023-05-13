@@ -63,8 +63,9 @@ public class GameConsoleController extends GameController {
             PieceType AiType;
             if(game.isAttackerTurn()) AiType = PieceType.ATTACKER;
             else AiType = PieceType.DEFENDER;
-
-            if( (game.isDefenderAI() && (game.getAIDefenderDifficulty() == AIDifficulty.RANDOM)) || (game.isAttackerAI() && (game.getAIAttackerDifficulty() == AIDifficulty.RANDOM)) ){
+//TODO ?? de base y'avait pas AiType == PieceType.DEFENDER en vrai je suis pas sur si c'est nécéssaire car le problème venait d'une autre fonction mais bon
+            //TODO à modifier quand il y aura plusieurs difficultées
+            if( (AiType == PieceType.DEFENDER && game.isDefenderAI() && (game.getAIDefenderDifficulty() == AIDifficulty.RANDOM)) || (AiType == PieceType.ATTACKER && game.isAttackerAI() && (game.getAIAttackerDifficulty() == AIDifficulty.RANDOM)) ){
                 coupAI = game.getAleatron().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, AiType);
             }
             else coupAI = game.getAiMinMax().playMove(logicGrid, MAX_DEPTH, AiType);

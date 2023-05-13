@@ -11,9 +11,9 @@ import java.text.SimpleDateFormat;
 
 
 public class AITraining {
-    private static final  int AIGAMES = 1;
-    private static final boolean PRINT = true;
-    private static final boolean LoadBar = false;
+    private static final  int AIGAMES = 10;
+    private static final boolean PRINT = false;
+    private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = false;
 
     public static void main(String[] args) throws IOException {
@@ -26,7 +26,7 @@ public class AITraining {
         long tpsAverage = 0;
         long start, end;
         for (int i = 0; i < AIGAMES; i++) {
-            Game game = new Game("", "", AIDifficulty.MID, AIDifficulty.MID, 0);
+            Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.MID,100);
             GameConsoleController gcc = new GameConsoleController(game);
             game.setGameControllerInstance(gcc);
             gcc.setPrintTerminal(PRINT);
