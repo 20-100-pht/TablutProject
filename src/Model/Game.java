@@ -45,15 +45,34 @@ public class Game implements Serializable {
 
         if(defenderName.length() == 0) {
             if(!defenderIsAI) this.defenderName = "Defenseur humain";
-            else this.defenderName = "Défenseur IA";
-        } else{
+            else if(defAiDifficulty == AIDifficulty.RANDOM ){
+                this.defenderName = "Défenseur IA [RANDOM]";
+            }
+            else if(defAiDifficulty == AIDifficulty.MID ) {
+                this.defenderName = "Défenseur IA [MOYEN]";
+            }
+            /*
+            else if(defAiDifficulty == AIDifficulty.HARD ) {
+                this.defenderName = "Défenseur IA [DIFFICILE]";
+            }
+            */
+        } else {
             this.defenderName = defenderName;
-        }
-        if(attackerName.length() == 0) {
-            if(!attackerIsAI) this.attackerName = "Attaqueur humain";
-            else this.attackerName = "Attaqueur IA";
-        }
-        else {
+
+        } if(attackerName.length() == 0) {
+            if(!attackerIsAI) this.attackerName = "Attaquant humain";
+            else if(attAiDifficulty == AIDifficulty.RANDOM){
+                this.attackerName = "Attaquant IA [RANDOM]";
+            }
+            else if(attAiDifficulty == AIDifficulty.MID){
+                this.attackerName = "Attaquant IA [MOYEN]";
+            }
+            /*
+            else if(attAiDifficulty == AIDifficulty.HARD){
+                this.attackerName = "Attaquant IA [DIFFICILE]";
+            }
+            */
+        } else {
             this.attackerName = attackerName;
         }
 

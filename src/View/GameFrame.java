@@ -469,15 +469,15 @@ public class GameFrame extends Frame {
 
         g.setFont(new Font("Arial", Font.BOLD, 15));
 
-        int xN = gridPanel.getX()-22;
-        int yI = gridPanel.getY() + gridPanel.getCaseSize()/2;
+        int xN = gridPanel.getX()-18;
+        int yI = gridPanel.getY() + gridPanel.getCaseSize()/2 + 5;
         for(int i = 0; i < GridPanel.GRID_SIZE; i++){
             int y = yI + i*gridPanel.getCaseSize();
             g.drawString(Integer.toString(9-i), xN, y);
         }
 
         String letters = "ABCDEFGHIJK";
-        int xI = gridPanel.getX() + gridPanel.getCaseSize()/2;
+        int xI = gridPanel.getX() + gridPanel.getCaseSize()/2 - 3;
         int y = gridPanel.getY() + gridPanel.getHeight() + 20;
         for(int i = 0; i < GridPanel.GRID_SIZE; i++){
             int xL = xI + i*gridPanel.getCaseSize();
