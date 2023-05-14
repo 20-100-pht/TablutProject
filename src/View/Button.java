@@ -104,7 +104,13 @@ public class Button extends JPanel {
     public void setBackgroundColor(Color color){
         backgroundColor = color;
     }
+    public void setBackgroundColorHov(Color color){
+        backgroundColorHov = color;
+    }
     public void setTextColor(Color color){
         textColor = color;
+    }
+    public void setTextColorHov(Color color){
+        textColorHov = color;
     }
 }

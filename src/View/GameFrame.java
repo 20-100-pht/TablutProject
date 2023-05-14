@@ -31,10 +31,10 @@ public class GameFrame extends Frame {
     OptionsFrame optionsFrame;
     ForfeitDialog forfeitDialog;
     Timer timerWinMessage;
-    JButton bttnBackMenu;
-    JButton bttnReplay;
-    JButton bttnUndo;
-    JButton bttnRedo;
+    Button bttnBackMenu;
+    Button bttnReplay;
+    Button bttnUndo;
+    Button bttnRedo;
     CapturedPiecesPanel capturedPiecesPanel1;
     CapturedPiecesPanel capturedPiecesPanel2;
     JLabel labelPlayer1Status;
@@ -51,6 +51,8 @@ public class GameFrame extends Frame {
     TimerLabel chronoLabelDef;
     TimerLabel chronoLabelAtt;
     AnimationChrono animationChrono;
+    Image imageBackground;
+    RoundPanel borderGridPanel;
 
 
     public GameFrame(Interface ui, Game game){
@@ -127,19 +129,28 @@ public class GameFrame extends Frame {
         //Buttons game ended
 
         JPanel bttnsAfterGamePanel = new JPanel();
+        bttnsAfterGamePanel.setOpaque(false);
         bttnsAfterGamePanel.setLayout(new GridBagLayout());
         c.gridx = 1;
         c.gridy = 0;
         bgPanel.add(bttnsAfterGamePanel, c);
 
-        bttnBackMenu = new JButton("Retour au menu");
+        bttnBackMenu = new Button("Retour au menu", false, this);
+        bttnBackMenu.setPreferredSize(new Dimension(200, 35));
+        bttnBackMenu.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
+        bttnBackMenu.setRoundValue(35);
+        bttnBackMenu.setBackgroundColorHov(Color.orange);
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(12, 0, 0, 30);
+        c.insets = new Insets(12, 0, 0, 35);
         bttnsAfterGamePanel.add(bttnBackMenu, c);
         bttnBackMenu.setVisible(false);
 
-        bttnReplay = new JButton("Recommencer");
+        bttnReplay = new Button("Recommencer", false, this);
+        bttnReplay.setPreferredSize(new Dimension(200, 35));
+        bttnReplay.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
+        bttnReplay.setRoundValue(35);
+        bttnReplay.setBackgroundColorHov(Color.orange);
         c.gridx = 1;
         c.gridy = 0;
         c.insets = new Insets(12, 0, 0, 0);
@@ -149,7 +160,8 @@ public class GameFrame extends Frame {
 
         //Infos player 1
 
-        JPanel player1InfoPart = new JPanel();
+        RoundPanel player1InfoPart = new RoundPanel(35);
+        player1InfoPart.setOpaque(false);
         //player1InfoPart.setBackground(Color.orange);
         c.gridx = 0;
         c.gridy = 1;
@@ -168,8 +180,11 @@ public class GameFrame extends Frame {
         labelPlayer1Name.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
         c.gridx = 0;
         c.gridy = 0;
+        c.insets = new Insets(12, 20, 0,20);
         layoutPlayer1Info.setConstraints(labelPlayer1Name, c);
         player1InfoPart.add(labelPlayer1Name);
+
+        c.insets = new Insets(12, 0, 0,0);
 
         //Image player 1
 
@@ -205,6 +220,7 @@ public class GameFrame extends Frame {
 
         capturedPiecesPanel1 = new CapturedPiecesPanel(this, true);
         capturedPiecesPanel1.setPreferredSize(new Dimension(160, 80));
+        capturedPiecesPanel1.setOpaque(false);
         c.gridx = 0;
         c.gridy = 4;
         layoutPlayer1Info.setConstraints(capturedPiecesPanel1, c);
@@ -212,20 +228,30 @@ public class GameFrame extends Frame {
 
         //Model.Grid
 
-        gridPanel = new GridPanel(this);
-        //c.insets = new Insets(10, 10, 10, 10);
+        borderGridPanel = new RoundPanel(35);
+        borderGridPanel.setLayout(new GridBagLayout());
+        borderGridPanel.setColor(new Color(236, 240, 241));
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
-        c.weighty = 0.7;
-        gLayout.setConstraints(gridPanel, c);
-        bgPanel.add(gridPanel);
+        c.weighty = 0.85;
+        gLayout.setConstraints(borderGridPanel, c);
+        bgPanel.add(borderGridPanel);
 
+        gridPanel = new GridPanel(this);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 0;
         c.weighty = 0;
+        c.insets = new Insets(30, 30, 30, 30);
+        borderGridPanel.add(gridPanel, c);
+
+        c.insets = new Insets(12, 0, 0, 0);
 
         //Infos player 2
 
-        JPanel player2InfoPart = new JPanel();
+        RoundPanel player2InfoPart = new RoundPanel(35);
+        player2InfoPart.setOpaque(false);
         c.gridx = 2;
         c.gridy = 1;
         c.weightx = 0.25;
@@ -243,8 +269,11 @@ public class GameFrame extends Frame {
         labelPlayer2Name.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
         c.gridx = 0;
         c.gridy = 0;
+        c.insets = new Insets(12, 20, 0,20);
         layoutPlayer2Info.setConstraints(labelPlayer2Name, c);
         player2InfoPart.add(labelPlayer2Name);
+
+        c.insets = new Insets(12, 0, 0,0);
 
         //Image player 2
 
@@ -278,6 +307,7 @@ public class GameFrame extends Frame {
 
         capturedPiecesPanel2 = new CapturedPiecesPanel(this, false);
         capturedPiecesPanel2.setPreferredSize(new Dimension(160, 80));
+        capturedPiecesPanel2.setOpaque(false);
         c.gridx = 0;
         c.gridy = 4;
         layoutPlayer2Info.setConstraints(capturedPiecesPanel2, c);
@@ -285,10 +315,10 @@ public class GameFrame extends Frame {
 
         //Turns
 
-        JPanel turnPanel = new JPanel();
+        RoundPanel turnPanel = new RoundPanel(35);
         c.gridx = 1;
         c.gridy = 2;
-        c.insets = new Insets(30, 0,20, 0);
+        c.insets = new Insets(10, 15,20, 15);
         gLayout.setConstraints(turnPanel, c);
         bgPanel.add(turnPanel);
 
@@ -312,6 +342,7 @@ public class GameFrame extends Frame {
         //Undo - Redo
 
         JPanel panelHistory = new JPanel();
+        panelHistory.setOpaque(false);
         c.gridx = 2;
         c.gridy = 2;
         c.weighty = 0.15;
@@ -324,18 +355,18 @@ public class GameFrame extends Frame {
         GridBagLayout layoutPanelHistory = new GridBagLayout();
         panelHistory.setLayout(layoutPanelHistory);
 
-        bttnUndo = new JButton("Annuler");
-        bttnUndo.setPreferredSize(new Dimension(110, 30));
-        bttnUndo.setBorder(new RoundBorder(15));
+        bttnUndo = new Button("Annuler", false, this);
+        bttnUndo.setPreferredSize(new Dimension(160, 40));
+        bttnUndo.setRoundValue(35);
         c.gridx = 0;
         c.gridy = 0;
         bttnUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         layoutPanelHistory.setConstraints(bttnUndo, c);
         panelHistory.add(bttnUndo);
 
-        bttnRedo = new JButton("Refaire");
-        bttnRedo.setPreferredSize(new Dimension(110, 30));
-        bttnRedo.setBorder(new RoundBorder(15));
+        bttnRedo = new Button("Refaire", false, this);
+        bttnRedo.setPreferredSize(new Dimension(160, 40));
+        bttnRedo.setRoundValue(35);
         c.gridx = 0;
         c.gridy = 1;
         c.insets = new Insets(8, 0, 20, 0);
@@ -382,6 +413,7 @@ public class GameFrame extends Frame {
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
             imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
             imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu.png")));
+            imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -390,24 +422,31 @@ public class GameFrame extends Frame {
 
     public void setEventHandlers(){
 
-        bttnBackMenu.addActionListener(new ActionListener() {
+        bttnBackMenu.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 ui.changePage(InterfacePage.MENU);
             }
         });
 
-        bttnUndo.addActionListener(new ActionListener() {
+        bttnReplay.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseReleased(MouseEvent e) {
+                gameGraphicController.bttnReplayClickHandler();
+            }
+        });
+
+        bttnUndo.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
                 if(frozen) return;
                 gameGraphicController.bttnUndoClickHandler();
             }
         });
 
-        bttnRedo.addActionListener(new ActionListener() {
+        bttnRedo.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 if(frozen) return;
                 gameGraphicController.bttnRedoClickHandler();
             }
@@ -436,13 +475,6 @@ public class GameFrame extends Frame {
             }
         });
 
-        bttnReplay.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gameGraphicController.bttnReplayClickHandler();
-            }
-        });
-
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -467,18 +499,20 @@ public class GameFrame extends Frame {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
 
+        g.drawImage(imageBackground, 0, 0, this.getWidth(), this.getHeight(), null);
+
         g.setFont(new Font("Arial", Font.BOLD, 15));
 
-        int xN = gridPanel.getX()-18;
-        int yI = gridPanel.getY() + gridPanel.getCaseSize()/2 + 5;
+        int xN = borderGridPanel.getX()+30;
+        int yI = borderGridPanel.getY() + gridPanel.getCaseSize()/2 + 5;
         for(int i = 0; i < GridPanel.GRID_SIZE; i++){
             int y = yI + i*gridPanel.getCaseSize();
             g.drawString(Integer.toString(9-i), xN, y);
         }
 
         String letters = "ABCDEFGHIJK";
-        int xI = gridPanel.getX() + gridPanel.getCaseSize()/2 - 3;
-        int y = gridPanel.getY() + gridPanel.getHeight() + 20;
+        int xI = borderGridPanel.getX() - gridPanel.getCaseSize()/2 + 65;
+        int y = borderGridPanel.getY() + borderGridPanel.getHeight();
         for(int i = 0; i < GridPanel.GRID_SIZE; i++){
             int xL = xI + i*gridPanel.getCaseSize();
             g.drawString(Character.toString(letters.charAt(i)), xL, y);
