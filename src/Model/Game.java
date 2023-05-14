@@ -200,12 +200,12 @@ public class Game implements Serializable {
         toogleAttackerTurn();
         incTurnIndex();
 
+        gameController.updateViewAfterMove(coup);
+
         if(logicGrid.isAttackerWinConfiguration() || logicGrid.isDefenderWinConfiguration()) {
             gameController.updateViewEndGame();
             return;
         }
-
-        gameController.updateViewAfterMove(coup);
 
         if(isAiTurn()) doAiTurnInSeparateThread();
     }
