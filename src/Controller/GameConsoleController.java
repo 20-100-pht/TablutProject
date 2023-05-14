@@ -59,16 +59,21 @@ public class GameConsoleController extends GameController {
 
         if((game.isDefenderAI() && !game.isAttackerTurn()) || (game.isAttackerAI() && game.isAttackerTurn())){
 
-            Coup coupAI;
-            PieceType AiType;
-            if(game.isAttackerTurn()) AiType = PieceType.ATTACKER;
-            else AiType = PieceType.DEFENDER;
-//TODO ?? de base y'avait pas AiType == PieceType.DEFENDER en vrai je suis pas sur si c'est nécéssaire car le problème venait d'une autre fonction mais bon
+            Coup coupAI = null;
+            PieceType AiPieces;
+            if(game.isAttackerTurn()) AiPieces = PieceType.ATTACKER;
+            else AiPieces = PieceType.DEFENDER;
+//TODO ?? de base y'avait pas AiPieces == PieceType.DEFENDER en vrai je suis pas sur si c'est nécéssaire car le problème venait d'une autre fonction mais bon
             //TODO à modifier quand il y aura plusieurs difficultées
-            if( (AiType == PieceType.DEFENDER && game.isDefenderAI() && (game.getAIDefenderDifficulty() == AIDifficulty.RANDOM)) || (AiType == PieceType.ATTACKER && game.isAttackerAI() && (game.getAIAttackerDifficulty() == AIDifficulty.RANDOM)) ){
-                coupAI = game.getAleatron().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, AiType);
-            }
-            else coupAI = game.getAiMinMax().playMove(logicGrid, MAX_DEPTH, AiType);
+
+           if(game.isDefenderAI() && !game.isAttackerTurn()){
+               if(game.getAIDefenderDifficulty() == AIDifficulty.RANDOM) coupAI = game.getDefenderAI().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, AiPieces);
+               else coupAI = game.getDefenderAI().playMove(logicGrid, MAX_DEPTH, AiPieces);
+           }
+           else if(game.isAttackerAI() && game.isAttackerTurn()){
+               if(game.getAIAttackerDifficulty() == AIDifficulty.RANDOM) coupAI = game.getAttackerAI().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, AiPieces);
+               else coupAI = game.getAttackerAI().playMove(logicGrid, MAX_DEPTH, AiPieces);
+           }
 
             logicGrid.move(coupAI);
             current = grid.getPieceAtPosition(coupAI.getDest());
