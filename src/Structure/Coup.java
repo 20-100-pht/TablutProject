@@ -20,6 +20,12 @@ public class Coup implements Serializable {
         return dest;
     }
 
+    public void reverse(){
+        Coordinate tmp = init;
+        init = dest;
+        dest = tmp;
+    }
+
     @Override
     public String toString(){
         return init + " -> " + dest;

@@ -116,10 +116,10 @@ public class GridPanelController {
             gridPanel.clearMovePossibleMarks();
 
             if(Configuration.isAnimationActived()) {
-                gameGraphicController.startMoveAnimation(coup);
+                gameGraphicController.startMoveAnimation(coup, MoveAnimationType.CLASSIC);
             }
             else{
-                game.play(coup, true);
+                game.play(coup, MoveAnimationType.CLASSIC);
             }
             pieceSelectedCoords = null;
             gridPanel.setSelectionMarkCoords(null);

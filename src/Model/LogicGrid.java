@@ -355,6 +355,11 @@ public class LogicGrid implements Serializable {
     }
 
     public Vector<Coordinate> getCoupCasesCrossed(Coup coup){
+
+        if(coup == null){
+            return new Vector<Coordinate>();
+        }
+
         int cStart = coup.getInit().getCol();
         int lStart = coup.getInit().getRow();
         int cEnd = coup.getDest().getCol();

@@ -1,6 +1,7 @@
 package Animation;
 
 import Controller.GameGraphicController;
+import Controller.MoveAnimationType;
 import Model.Piece;
 import Model.PieceType;
 import Structure.Coup;
@@ -18,8 +19,9 @@ public class AnimationMove extends Animation {
     GameGraphicController gameGraphicController;
     Coup coup;
     PieceType pieceType;
+    MoveAnimationType moveAnimationType;
 
-    public AnimationMove(GameGraphicController gameGraphicController, Coup coup, PieceType pieceType, int duration, int xStart, int yStart, int xEnd, int yEnd){
+    public AnimationMove(GameGraphicController gameGraphicController, Coup coup, PieceType pieceType, int duration, int xStart, int yStart, int xEnd, int yEnd, MoveAnimationType moveAnimationType){
         this.duration = duration;
         this.xStart = xStart;
         this.yStart = yStart;
@@ -31,6 +33,7 @@ public class AnimationMove extends Animation {
         this.pieceType = pieceType;
         x = xStart;
         y = yStart;
+        this.moveAnimationType = moveAnimationType;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class AnimationMove extends Animation {
 
         timeRemained -= timeElapsed;
         if(timeRemained <= 0){
-            gameGraphicController.endMoveAnimation(coup);
+            gameGraphicController.endMoveAnimation(coup, moveAnimationType);
         }
     }
 

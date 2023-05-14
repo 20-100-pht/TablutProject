@@ -2,8 +2,11 @@ package Model;
 
 import AI.*;
 import Controller.GameController;
+import Controller.MoveAnimationType;
 import Global.Configuration;
+import Structure.Coordinate;
 import Structure.Coup;
+import View.GridPanel;
 
 import java.io.*;
 import java.util.Vector;
@@ -19,6 +22,7 @@ public class Game implements Serializable {
     int blitzTime;
     boolean startTimerEnded;
     boolean iaPause;
+    Coup previousCoup;
 
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
@@ -119,6 +123,7 @@ public class Game implements Serializable {
         defTimeRemainedMs = blitzTime*1000;
         startTimerEnded = false;
         iaPause = false;
+        previousCoup = null;
     }
 
     public boolean isAiTurn(){
@@ -166,17 +171,16 @@ public class Game implements Serializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        //play(coupAI, true);
         if(Configuration.isAnimationActived()) {
-            gameController.startMoveAnimation(coupAI);
+            gameController.startMoveAnimation(coupAI, MoveAnimationType.CLASSIC);
         }
         else{
-            play(coupAI, true);
+            play(coupAI, MoveAnimationType.CLASSIC);
         }
         gameController.setFrozenView(false);
     }
 
-    public void play(Coup coup, boolean addToHistory){
+    public void play(Coup coup, MoveAnimationType moveAnimationType){
 
         if(logicGrid.isEndGame()){
             return;
@@ -197,15 +201,15 @@ public class Game implements Serializable {
         logicGrid.capture();
         Vector<Piece> killedPieces = logicGrid.attack(pieceSelected);
 
-        if(addToHistory) {
-            History history = getHistoryInstance();
-            history.addMove(new HistoryMove(coup, killedPieces, isAttackerTurn(), getTurnIndex()));
-        }
-
         toogleAttackerTurn();
         incTurnIndex();
 
-        gameController.updateViewAfterMove(coup);
+        gameController.updateViewAfterMove(coup, moveAnimationType);
+        if(moveAnimationType == MoveAnimationType.CLASSIC) {
+            History history = getHistoryInstance();
+            history.addMove(new HistoryMove(coup, killedPieces, isAttackerTurn(), getTurnIndex(), previousCoup));
+            previousCoup = coup;
+        }
 
         if(logicGrid.isAttackerWinConfiguration() || logicGrid.isDefenderWinConfiguration()) {
             gameController.updateViewEndGame();
@@ -223,12 +227,12 @@ public class Game implements Serializable {
 
         HistoryMove move = history.undo();
 
-        Coup coup = move.getCoup();
-        Piece piece = grid.getPieceAtPosition(coup.getDest());
+        Coup coup = new Coup(move.getCoup().getDest(), move.getCoup().getInit());
+        /*Piece piece = grid.getPieceAtPosition(coup.getDest());
         piece.setCol(coup.getInit().getCol());
         piece.setRow(coup.getInit().getRow());
         grid.setPieceAtPosition(piece, coup.getInit());
-        grid.setPieceAtPosition(null, coup.getDest());
+        grid.setPieceAtPosition(null, coup.getDest());*/
 
         for(int i = 0; i < move.getKilledPieces().size(); i++){
             Piece kPiece = move.getKilledPieces().get(i);
@@ -241,10 +245,13 @@ public class Game implements Serializable {
             }
         }
 
-        setIsAttackerTurn(move.isAttackerMove());
-        setTurnIndex(move.getTurnIndex());
+        setIsAttackerTurn(!move.isAttackerMove());
+        setTurnIndex(move.getTurnIndex()-1);
+        previousCoup = move.previousCoup;
 
-        gameController.updateViewAfterMove(null);
+        gameController.startMoveAnimation(coup, MoveAnimationType.UNDO);
+
+        //gameController.updateViewAfterMove(coup, MoveAnimationType.UNDO);
     }
 
     public void redo(){
@@ -253,7 +260,7 @@ public class Game implements Serializable {
         }
         HistoryMove move = history.redo();
         Coup coup = move.getCoup();
-        play(coup, false);
+        gameController.startMoveAnimation(coup, MoveAnimationType.REDO);
     }
 
     public Grid getGridInstance(){
@@ -401,4 +408,9 @@ public class Game implements Serializable {
     public boolean isIaPaused(){
         return iaPause;
     }
+
+    public Coup getPreviousCoup(){
+        return previousCoup;
+    }
+
 }

@@ -5,7 +5,7 @@ import Structure.Coup;
 
 public class GameController {
 
-    public void updateViewAfterMove(Coup coup){
+    public void updateViewAfterMove(Coup coup, MoveAnimationType moveAnimationType){
 
     }
 
@@ -17,7 +17,7 @@ public class GameController {
 
     }
 
-    public void startMoveAnimation(Coup coup){
+    public void startMoveAnimation(Coup coup, MoveAnimationType moveAnimationType){
 
     }
 

@@ -11,7 +11,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.Collections;
 import java.util.Vector;
+import java.util.Collections;
 
 import static java.lang.Thread.sleep;
 
@@ -75,7 +77,7 @@ public class GameGraphicController extends GameController {
     }
 
     @Override
-    public void startMoveAnimation(Coup coup){
+    public void startMoveAnimation(Coup coup, MoveAnimationType moveAnimationType){
 
         Coordinate piece1Coords = coup.getInit();
         Coordinate piece2Coords = coup.getDest();
@@ -89,7 +91,7 @@ public class GameGraphicController extends GameController {
         int xEnd = piece2Coords.getCol()*gridPanel.getCaseSize();
         int yEnd = piece2Coords.getRow()*gridPanel.getCaseSize();
 
-        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 500, xStart, yStart, xEnd, yEnd);
+        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 500, xStart, yStart, xEnd, yEnd, moveAnimationType);
         animation.start();
 
         gameFrame.addAnimation(animation);
@@ -98,9 +100,15 @@ public class GameGraphicController extends GameController {
 
 
 
-    public void endMoveAnimation(Coup coup){
-        game.play(coup, true);
+    public void endMoveAnimation(Coup coup, MoveAnimationType moveAnimationType){
         GridPanel gridPanel = gameFrame.getGridPanelInstance();
+        if(moveAnimationType == MoveAnimationType.UNDO){
+            logicGrid.move(coup);
+            updateViewAfterMove(coup, moveAnimationType);
+        }
+        else {
+            game.play(coup, moveAnimationType);
+        }
         gridPanel.setPieceHidedCoords(null);
         gridPanel.setAnimationMove(null);
     }
@@ -114,16 +122,17 @@ public class GameGraphicController extends GameController {
     }
 
     @Override
-    public void updateViewAfterMove(Coup coup) {
+    public void updateViewAfterMove(Coup coup, MoveAnimationType moveAnimationType) {
         gameFrame.setTurnLabelValue(game.getTurnIndex());
 
         GridPanel gridPanel = gameFrame.getGridPanelInstance();
-        if(coup != null) {
+        if(moveAnimationType != MoveAnimationType.UNDO) {
             Vector<Coordinate> casesCoords = logicGrid.getCoupCasesCrossed(coup);
             gridPanel.setMoveMarkCoords(casesCoords);
         }
         else{
-            gridPanel.setMoveMarkCoords(null);
+            Vector<Coordinate> casesCoords = logicGrid.getCoupCasesCrossed(game.getPreviousCoup());
+            gridPanel.setMoveMarkCoords(casesCoords);
         }
         gameFrame.updatePlayerStatus();
     }

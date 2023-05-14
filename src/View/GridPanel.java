@@ -94,7 +94,7 @@ public class GridPanel extends JPanel {
             }
         }
 
-        if(moveMarksCoords != null){
+        if(moveMarksCoords != null && !moveMarksCoords.isEmpty()){
 
             Coordinate dir = new Coordinate(Integer.compare(moveMarksCoords.get(1).getRow(),moveMarksCoords.get(0).getRow()),Integer.compare(moveMarksCoords.get(1).getCol(),moveMarksCoords.get(0).getCol()));
 
