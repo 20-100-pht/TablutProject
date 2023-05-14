@@ -358,4 +358,8 @@ public class GridPanel extends JPanel {
                 loadThemeSimpleFileNames();
         }
     }
+
+    public AnimationMove getAnimationMove(){
+        return animationMove;
+    }
 }

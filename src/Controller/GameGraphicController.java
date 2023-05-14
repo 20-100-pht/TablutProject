@@ -170,5 +170,21 @@ public class GameGraphicController extends GameController {
         timerCount.setRepeats(true);
         timerCount.start();
     }
+
+    public void bttnPauseIaClickHandler(){
+        if(game.isIaPaused()){
+            game.setIaPause(false);
+            gameFrame.setBttnIaPauseText("Stopper IAs");
+        }
+        else{
+            game.setIaPause(true);
+            gameFrame.setBttnIaPauseText("Relancer IAs");
+        }
+        if((game.isAttackerTurn() && game.isAttackerAI()) || (!game.isAttackerTurn() && game.isDefenderAI())){
+            AnimationMove anim = gameFrame.getGridPanelInstance().getAnimationMove();
+            if(anim == null || anim.isTerminated())
+                game.doAiTurnInSeparateThread();
+        }
+    }
 }
 

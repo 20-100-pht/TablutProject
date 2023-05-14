@@ -1,6 +1,7 @@
 package View;
 
 import Animation.AnimationChrono;
+import Animation.AnimationMove;
 import Controller.GameGraphicController;
 import Global.Configuration;
 import Model.Game;
@@ -53,6 +54,7 @@ public class GameFrame extends Frame {
     AnimationChrono animationChrono;
     Image imageBackground;
     RoundPanel borderGridPanel;
+    Button bttnStatusIa;
 
 
     public GameFrame(Interface ui, Game game){
@@ -313,6 +315,21 @@ public class GameFrame extends Frame {
         layoutPlayer2Info.setConstraints(capturedPiecesPanel2, c);
         player2InfoPart.add(capturedPiecesPanel2);
 
+        //Button pause ia
+
+        if(game.isAttackerAI() | game.isDefenderAI()) {
+            bttnStatusIa = new Button("Stopper IAs", false, this);
+            bttnStatusIa.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
+            bttnStatusIa.setPreferredSize(new Dimension(160, 40));
+            bttnStatusIa.setRoundValue(35);
+            c.gridx = 0;
+            c.gridy = 2;
+            bttnStatusIa.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            gLayout.setConstraints(bttnStatusIa, c);
+            bgPanel.add(bttnStatusIa);
+        }
+
+
         //Turns
 
         RoundPanel turnPanel = new RoundPanel(35);
@@ -452,10 +469,21 @@ public class GameFrame extends Frame {
             }
         });
 
+        if(bttnStatusIa != null){
+            bttnStatusIa.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    super.mouseReleased(e);
+                    gameGraphicController.bttnPauseIaClickHandler();
+                }
+            });
+        }
+
         setMenuHandlers();
     }
 
     void setMenuHandlers(){
+
         bttnMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -674,5 +702,9 @@ public class GameFrame extends Frame {
         chronoLabelDef.updateTextValue();
         chronoLabelAtt.setDuration(game.getAttTimeRemained());
         chronoLabelAtt.updateTextValue();
+    }
+
+    public void setBttnIaPauseText(String text){
+        bttnStatusIa.setText(text);
     }
 }

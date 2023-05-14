@@ -18,6 +18,7 @@ public class Game implements Serializable {
     boolean blitzMode;
     int blitzTime;
     boolean startTimerEnded;
+    boolean iaPause;
 
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
@@ -117,6 +118,7 @@ public class Game implements Serializable {
         attTimeRemainedMs = blitzTime*1000;
         defTimeRemainedMs = blitzTime*1000;
         startTimerEnded = false;
+        iaPause = false;
     }
 
     public boolean isAiTurn(){
@@ -134,6 +136,9 @@ public class Game implements Serializable {
     }
 
     public void doAiTurn(){
+        if(isIaPaused()){
+            return;
+        }
         //On empêche le joueur de faire des actions pendant que l'IA joue
         gameController.setFrozenView(true);
 
@@ -387,5 +392,13 @@ public class Game implements Serializable {
             return;
         }
         if(isAiTurn()) doAiTurnInSeparateThread();
+    }
+
+    public void setIaPause(boolean paused){
+        iaPause = paused;
+    }
+
+    public boolean isIaPaused(){
+        return iaPause;
     }
 }
