@@ -147,9 +147,9 @@ public class Grid implements Serializable {
         }
     }
 
-    public List<Piece> returnListOfPiece(PieceType type){
+    public ArrayList<Piece> returnListOfPiece(PieceType type){
         Piece current;
-        List<Piece> list = new ArrayList<>();
+        ArrayList<Piece> list = new ArrayList<>();
         for (int i = 0; i < sizeGrid; i++) {
             for (int j = 0; j < sizeGrid; j++) {
                 if( (current = board[i][j]) != null && ( (current.isKing() && type == PieceType.DEFENDER) || current.getType() == type) ){

@@ -81,7 +81,6 @@ public class Interface {
 
     public void changePage(InterfacePage newPage){
         if(frame != null){
-            System.out.println(frame.getComponentCount());
             window.remove(frame);
         }
 

@@ -185,6 +185,13 @@ public class AIMedium extends AI {
         return value;
     }
 
+    private int isKingAtWalls(Grid grid, Piece King){
+        if (King.getCol() == 0 || King.getCol() == 8 || King.getRow() == 0 || King.getRow() == 8){
+            return 1;
+        }
+        return 0;
+    }
+
     /**
      * Check if corners are accessible from source position
      *

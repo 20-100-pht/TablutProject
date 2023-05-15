@@ -23,7 +23,7 @@ public class Coupstest {
             Piece[][] board = game.getLogicGrid().grid.board;
             for(int y = 0; y < board.length; y++){
                 for(int x = 0; x < board.length; x++){
-                    if(board[y][x]!=null && board[y][x].isDefender()){
+                    if(board[y][x]!=null && board[y][x].isAttacker()){
 //                        possible += board[y][x].possibleMoves(board).size();
                         System.out.println("rowp " + y + "colp " + x);
                         for (int i =0 ; i<board[y][x].possibleMoves(board).size(); i++){

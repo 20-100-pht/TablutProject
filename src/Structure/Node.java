@@ -11,13 +11,25 @@ public class Node {
     Coup coup;
     Coup bestMove;
     double heuristic;
+    ResultGame resGame;
 
     public Node(LogicGrid g, Coup c, ResultGame end){
         logicGrid = g;
         coup = c;
         children = new ArrayList<>();
+        resGame = end;
     }
 
+    public void setLogicGrid(LogicGrid logicGrid) {
+        this.logicGrid = logicGrid;
+    }
+    public ResultGame getResultGame (){
+        return resGame;
+    }
+
+    public void setResGame(ResultGame res){
+        resGame = res;
+    }
     public void addChild(Node n){
         children.add(n);
     }
