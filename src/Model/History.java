@@ -19,6 +19,9 @@ public class History implements Serializable {
             System.err.println("Error - Max history length reached.");
             return;
         }
+        for(int i = stack.size()-1; i != pos-1; i--){
+            stack.removeElementAt(i);
+        }
         stack.push(historyState);
         pos = stack.size();
     }
@@ -37,12 +40,14 @@ public class History implements Serializable {
 
     public HistoryMove undo(){
         pos--;
+        System.out.println(pos);
         return stack.elementAt(pos);
     }
 
     public HistoryMove redo(){
         HistoryMove move = stack.elementAt(pos);
         pos++;
+        System.out.println(pos);
         return move;
     }
 

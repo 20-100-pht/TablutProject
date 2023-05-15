@@ -53,7 +53,7 @@ public class GameFrame extends Frame {
     TimerLabel chronoLabelAtt;
     AnimationChrono animationChrono;
     Image imageBackground;
-    RoundPanel borderGridPanel;
+    JPanel gridBorderPanel;
     Button bttnStatusIa;
 
 
@@ -229,23 +229,30 @@ public class GameFrame extends Frame {
 
         //Model.Grid
 
-        borderGridPanel = new RoundPanel(35);
-        borderGridPanel.setLayout(new GridBagLayout());
-        borderGridPanel.setColor(new Color(236, 240, 241));
+        gridPanel = new GridPanel(this);
+
+        GridPanelContainer gridPanelContainer = new GridPanelContainer(gridPanel, 35);
+        gridPanelContainer.setLayout(new GridBagLayout());
+        gridPanelContainer.setColor(new Color(236, 240, 241));
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
         c.weighty = 0.85;
-        gLayout.setConstraints(borderGridPanel, c);
-        bgPanel.add(borderGridPanel);
+        gLayout.setConstraints(gridPanelContainer, c);
+        bgPanel.add(gridPanelContainer);
 
-        gridPanel = new GridPanel(this);
+        gridBorderPanel = new JPanel();
+        gridBorderPanel.setBackground(Color.red);
+        gridBorderPanel.setLayout(new GridBagLayout());
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 0;
         c.weighty = 0;
-        c.insets = new Insets(30, 30, 30, 30);
-        borderGridPanel.add(gridPanel, c);
+        c.insets = new Insets(25, 25, 25, 25);
+        gridPanelContainer.add(gridBorderPanel, c);
+
+        c.insets = new Insets(5, 5, 5, 5);
+        gridBorderPanel.add(gridPanel, c);
 
         c.insets = new Insets(12, 0, 0, 0);
 
@@ -510,10 +517,12 @@ public class GameFrame extends Frame {
         window.setMinimumSize(new Dimension(1000, 750));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int) (sizeScreen.height * 0.85);
-        int width = (int) (sizeScreen.width * 0.8);
+        int height = (int) (sizeScreen.height);
+        int width = (int) (sizeScreen.width);
         window.setSize(width, height);
-        window.setLocationRelativeTo(null);
+        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //window.setLocationRelativeTo(null);
+        window.setLocation(0, 0);
     }
 
     @Override
@@ -521,23 +530,6 @@ public class GameFrame extends Frame {
         super.paintComponent(g);
 
         g.drawImage(imageBackground, 0, 0, this.getWidth(), this.getHeight(), null);
-
-        g.setFont(new Font("Arial", Font.BOLD, 15));
-
-        int xN = borderGridPanel.getX()+30;
-        int yI = borderGridPanel.getY() + gridPanel.getCaseSize()/2 + 5;
-        for(int i = 0; i < GridPanel.GRID_SIZE; i++){
-            int y = yI + i*gridPanel.getCaseSize();
-            g.drawString(Integer.toString(9-i), xN, y);
-        }
-
-        String letters = "ABCDEFGHIJK";
-        int xI = borderGridPanel.getX() - gridPanel.getCaseSize()/2 + 65;
-        int y = borderGridPanel.getY() + borderGridPanel.getHeight();
-        for(int i = 0; i < GridPanel.GRID_SIZE; i++){
-            int xL = xI + i*gridPanel.getCaseSize();
-            g.drawString(Character.toString(letters.charAt(i)), xL, y);
-        }
     }
 
     public void setGameInstance(Game game){
@@ -655,7 +647,8 @@ public class GameFrame extends Frame {
         if(game.isAttackerTurn()) colorTurn = COLOR_ATTACKER;
         else colorTurn = COLOR_DEFENDER;
 
-        gridPanel.setBorder(BorderFactory.createLineBorder(colorTurn, 7));
+        gridPanel.setBorder(BorderFactory.createLineBorder(colorTurn, 2));
+        gridBorderPanel.setBackground(colorTurn);
     }
 
     public GridPanel getGridPanelInstance(){
@@ -699,5 +692,9 @@ public class GameFrame extends Frame {
 
     public void setBttnIaPauseText(String text){
         bttnStatusIa.setText(text);
+    }
+
+    public boolean isAnimationMoveTerminated(){
+        return gridPanel.getAnimationMove() == null || gridPanel.getAnimationMove().isTerminated();
     }
 }
