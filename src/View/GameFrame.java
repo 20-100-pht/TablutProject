@@ -517,10 +517,12 @@ public class GameFrame extends Frame {
         window.setMinimumSize(new Dimension(1000, 750));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int) (sizeScreen.height * 0.85);
-        int width = (int) (sizeScreen.width * 0.8);
+        int height = (int) (sizeScreen.height);
+        int width = (int) (sizeScreen.width);
         window.setSize(width, height);
-        window.setLocationRelativeTo(null);
+        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //window.setLocationRelativeTo(null);
+        window.setLocation(0, 0);
     }
 
     @Override
@@ -706,5 +708,9 @@ public class GameFrame extends Frame {
 
     public void setBttnIaPauseText(String text){
         bttnStatusIa.setText(text);
+    }
+
+    public boolean isAnimationMoveTerminated(){
+        return gridPanel.getAnimationMove() == null || gridPanel.getAnimationMove().isTerminated();
     }
 }
