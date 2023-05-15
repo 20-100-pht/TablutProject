@@ -2,6 +2,7 @@ package AI;
 
 import Model.*;
 import Structure.Coordinate;
+import Structure.Direction;
 import Structure.Node;
 
 import java.util.ArrayList;
@@ -9,9 +10,26 @@ import java.util.List;
 
 public class AIMedium extends AI {
 
-    @Override
-    public double heuristic(Node current, int depth){
+    Coordinate CornerTopLeft = new Coordinate(0, 0);
+    Coordinate CornerTopRight = new Coordinate(0, 8);
+    Coordinate CornerBottomLeft = new Coordinate(8, 0);
+    Coordinate CornerBottomRight = new Coordinate(8, 8);
 
+    @Override
+    public double heuristic(Node current, int depth, PieceType maximizingPlayer){
+        switch (maximizingPlayer){
+            case ATTACKER:
+                return attackerHeuristic(current, depth, maximizingPlayer);
+            case DEFENDER:
+                return  defenderHeuristic(current, depth, maximizingPlayer);
+            case KING:
+                return  defenderHeuristic(current, depth, maximizingPlayer);
+            default:
+                return 0;
+        }
+    }
+
+    private double attackerHeuristic(Node current, int depth, PieceType maximizingPlayer){
         LogicGrid gRules = current.getLogicGrid();
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
@@ -23,9 +41,29 @@ public class AIMedium extends AI {
         }
 
         double value = (double)
-                (gRules.getNbPieceAttackerOnGrid())*.05 +
-                isNextToKing(k,current.getLogicGrid().getGrid())*0.15 -
-                canKingGoToWall(current)*1;
+                (gRules.getNbPieceAttackerOnGrid())*5+
+                isNextToKing(k,current.getLogicGrid().getGrid())*10 -
+                canKingGoToCorner(current)*100;
+
+
+        //Attackers want a high value, Defenders want a low value
+        return value;
+    }
+    private double defenderHeuristic(Node current, int depth, PieceType maximizingPlayer){
+        LogicGrid gRules = current.getLogicGrid();
+        Piece k = gRules.getKing();
+        Grid grid = gRules.getGrid();
+
+        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
+            return 1000000*(depth+1);
+        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
+            return -1000000*(depth+1);
+        }
+
+        double value = (double)
+                -(gRules.getNbPieceDefenderOnGrid()*5) +
+                isNextToKing(k,current.getLogicGrid().getGrid())*10 -
+                canKingGoToCorner(current)*100;
 
 
         //Attackers want a high value, Defenders want a low value
@@ -65,21 +103,36 @@ public class AIMedium extends AI {
         Piece topPiece = grid.getPieceAtPosition(new Coordinate(y - 1, x));
         Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y + 1, x));
 
-        int times = 0;
+        int risk = 0;
         if(leftPiece!=null && leftPiece.isAttacker()){
-            times++;
+            risk = incrementalRisk(risk);
         }
         if(rightPiece!=null && rightPiece.isAttacker()){
-            times++;
+            risk = incrementalRisk(risk);
         }
         if(topPiece!=null && topPiece.isAttacker()){
-            times++;
+            risk = incrementalRisk(risk);
         }
         if(bottomPiece!=null && bottomPiece.isAttacker()){
-            times++;
+            risk = incrementalRisk(risk);
         }
 
-        return times;
+        return risk;
+    }
+
+    private int incrementalRisk(int risk){
+        switch (risk){
+            case 0:
+                return 1;
+            case 1:
+                return 4;
+            case 4:
+                return 10;
+            case 10:
+                return 10000;
+            default:
+                return 0;
+        }
     }
 
     private int isNextToKingAndSafe(Piece king, Grid grid) {
@@ -109,28 +162,24 @@ public class AIMedium extends AI {
         }
         return 0;
     }
-    private int canKingGoToWall(Node n){
+    private int canKingGoToCorner(Node n){
         Grid grid = n.getLogicGrid().getGrid();
         int x = n.getLogicGrid().getKing().getCol();
         int y = n.getLogicGrid().getKing().getRow();
 
-        int value = 12;
+        int value = 0;
 
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 0), grid)) {
-            value--;
-            value -= canGoTo(n.getLogicGrid().grid, new Coordinate(y, 0));
+            value += canGoTo(n.getLogicGrid().grid, new Coordinate(y, 0), Direction.LEFT);
         }
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 8), grid)) {
-            value--;
-            value -= canGoTo(n.getLogicGrid().grid, new Coordinate(y, 8));
+            value += canGoTo(n.getLogicGrid().grid, new Coordinate(y, 8), Direction.RIGHT);
         }
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(0, x), grid)) {
-            value--;
-            value -= canGoTo(n.getLogicGrid().grid, new Coordinate(0, x));
+            value += canGoTo(n.getLogicGrid().grid, new Coordinate(0, x), Direction.TOP);
         }
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(8, x), grid)) {
-            value--;
-            value -= canGoTo(n.getLogicGrid().grid, new Coordinate(8, x));
+            value += canGoTo(n.getLogicGrid().grid, new Coordinate(8, x), Direction.BOTTOM);
         }
 
         return value;
@@ -143,46 +192,60 @@ public class AIMedium extends AI {
      * @param source
      * @return
      */
-    private int canGoTo(Grid grid, Coordinate source) {
-        
-        int dirX = 0;
-        int dirY = 0;
+    /**
+     * Check if corners are accessible from source position
+     *
+     * @param grid
+     * @param source
+     * @return
+     */
+    private int canGoTo(Grid grid, Coordinate source, Direction bord){
 
-        int y = source.getRow();
-        int x = source.getCol();
+        switch (bord){
+            case TOP:
+                return fautLuiTrouverUnNom(CornerTopLeft, CornerTopRight, source, grid);
+            case LEFT:
+                return fautLuiTrouverUnNom(CornerTopLeft, CornerBottomLeft, source, grid);
+            case RIGHT:
+                return fautLuiTrouverUnNom(CornerTopRight, CornerBottomRight, source, grid);
+            case BOTTOM:
+                return fautLuiTrouverUnNom(CornerBottomLeft, CornerBottomRight, source, grid);
+            default:
+                return 0;
 
-        if(source.getRow() == 0 || source.getRow() == 8){
-            dirY = 1;
-        } else if(source.getCol() == 0 || source.getCol() == 8){
-            dirX = 1;
-        }else if ((source.getRow() == 0 || source.getRow() == 8) &&(source.getCol() == 0 || source.getCol() == 8)){
-            return 0;
         }
-
-        Coordinate top = new Coordinate(y + dirY, x + dirX);
-        Coordinate bottom = new Coordinate(y - dirY, x - dirX);
-
-        int exits = 0;
-        while (top.getRow() < 9 && top.getCol() < 9) {
-            if (grid.getPieceAtPosition(top) != null) {
-                exits++;
-                break;
-            }
-            top.setRowCoord(top.getRow() + dirY);
-            top.setColCoord(top.getCol() + dirX);
-        }
-
-        while (bottom.getCol() >= 0 && bottom.getRow() >= 0) {
-            if (grid.getPieceAtPosition(bottom) != null) {
-                exits++;
-                break;
-            }
-            bottom.setRowCoord(bottom.getRow() - dirY);
-            bottom.setColCoord(bottom.getCol() - dirX);
-        }
-
-        return exits;
     }
+
+    private int fautLuiTrouverUnNom(Coordinate corner1, Coordinate corner2, Coordinate source, Grid grid){
+        int result = 0;
+        if(canMoveToSC(corner1, source, grid) ) result++;
+        if(canMoveToSC(corner2, source, grid) ){
+            if(result == 1) result = 10;
+            else result ++;
+        }
+        return result;
+    }
+
+    public boolean canMoveToSC(Coordinate dest, Coordinate c, Grid grid){
+
+        if (grid.getPieceAtPosition(dest) != null) return false;
+        if(dest.getCol() != c.getCol() && dest.getRow() != c.getRow()) return false;
+
+        Coordinate dir = new Coordinate(Integer.compare(dest.getRow(), c.getRow()), Integer.compare(dest.getCol(), c.getCol()));
+
+        Coordinate next = new Coordinate(c.getRow() + dir.getRow(), c.getCol() + dir.getCol());
+
+        while (next.getRow() != dest.getRow() || next.getCol() != dest.getCol()) {
+            if (grid.getPieceAtPosition(next) != null) {
+                return false;
+            }
+            next.setRowCoord(next.getRow() + dir.getRow());
+            next.setColCoord(next.getCol() + dir.getCol());
+        }
+
+        return true;
+    }
+
 
 
 

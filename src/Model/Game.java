@@ -158,7 +158,7 @@ public class Game implements Serializable {
             t = PieceType.DEFENDER;
         }
         long start = System.currentTimeMillis();
-        Coup coupAI = ai.playMove(logicGrid, 3, t);
+        Coup coupAI = ai.playMove(logicGrid, 4, t);
         long end = System.currentTimeMillis();
 
 
