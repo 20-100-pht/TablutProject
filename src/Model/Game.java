@@ -24,6 +24,9 @@ public class Game implements Serializable {
     boolean iaPause;
     Coup previousCoup;
 
+    boolean reviewMode;
+    int reviewTurnIndex;
+
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
 
@@ -124,6 +127,8 @@ public class Game implements Serializable {
         startTimerEnded = false;
         iaPause = false;
         previousCoup = null;
+        reviewMode = false;
+        reviewTurnIndex = turnIndex;
     }
 
     public boolean isAiTurn(){
@@ -202,7 +207,10 @@ public class Game implements Serializable {
         Vector<Piece> killedPieces = logicGrid.attack(pieceSelected);
 
         toogleAttackerTurn();
-        incTurnIndex();
+        if(!isReviewMode()) {
+            incTurnIndex();
+        }
+        reviewTurnIndex = turnIndex;
 
         gameController.updateViewAfterMove(coup, moveAnimationType);
         if(moveAnimationType == MoveAnimationType.CLASSIC) {
@@ -227,7 +235,6 @@ public class Game implements Serializable {
         gameController.setFrozenView(true);
 
         HistoryMove move = history.undo();
-
         Coup coup = new Coup(move.getCoup().getDest(), move.getCoup().getInit());
 
         for(int i = 0; i < move.getKilledPieces().size(); i++){
@@ -242,7 +249,12 @@ public class Game implements Serializable {
         }
 
         setIsAttackerTurn(!move.isAttackerMove());
-        setTurnIndex(move.getTurnIndex()-1);
+        if(!isReviewMode()) {
+            setTurnIndex(move.getTurnIndex() - 1);
+            if(reviewTurnIndex == turnIndex){
+                reviewMode = false;
+            }
+        }
         previousCoup = move.previousCoup;
 
         MoveAnimationType mat = null;
@@ -459,5 +471,25 @@ public class Game implements Serializable {
 
     public boolean canRedo(){
         return history.canRedo();
+    }
+
+    public boolean isReviewMode(){
+        return reviewMode;
+    }
+
+    public void setPreviewMode(boolean reviewMode){
+        this.reviewMode = reviewMode;
+    }
+
+    public int getReviewTurnIndex(){
+        return reviewTurnIndex;
+    }
+
+    public void incReviewTurnIndex(){
+        reviewTurnIndex++;
+    }
+
+    public void decReviewTurnIndex(){
+        reviewTurnIndex--;
     }
 }

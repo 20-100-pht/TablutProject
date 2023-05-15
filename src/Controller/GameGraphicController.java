@@ -148,7 +148,8 @@ public class GameGraphicController extends GameController {
 
     @Override
     public void updateViewAfterMove(Coup coup, MoveAnimationType moveAnimationType) {
-        gameFrame.setTurnLabelValue(game.getTurnIndex());
+
+        updateTurnLabel();
 
         GridPanel gridPanel = gameFrame.getGridPanelInstance();
         if(moveAnimationType != MoveAnimationType.UNDO) {
@@ -160,6 +161,15 @@ public class GameGraphicController extends GameController {
             gridPanel.setMoveMarkCoords(casesCoords);
         }
         gameFrame.updatePlayerStatus();
+    }
+
+    public void updateTurnLabel(){
+        if(game.isReviewMode()){
+            gameFrame.setTurnLabelValue("Tour "+(game.getReviewTurnIndex()+1)+"/"+(game.getTurnIndex()+1));
+        }
+        else{
+            gameFrame.setTurnLabelValue("Tour "+Integer.toString(game.getTurnIndex()+1));
+        }
     }
 
     @Override
@@ -219,6 +229,27 @@ public class GameGraphicController extends GameController {
             if(anim == null || anim.isTerminated())
                 game.doAiTurnInSeparateThread();
         }
+    }
+
+    public void bttnPreviousTurnClickHandler(){
+        if(!game.canUndo()) return;
+
+        game.setPreviewMode(true);
+        game.undo(false);
+        game.decReviewTurnIndex();
+
+        updateTurnLabel();
+    }
+
+    public void bttnNextTurnClickHandler(){
+        if(!game.canRedo()) return;
+
+        game.setPreviewMode(true);
+        game.redo(false);
+
+        game.incReviewTurnIndex();
+
+        updateTurnLabel();
     }
 }
 
