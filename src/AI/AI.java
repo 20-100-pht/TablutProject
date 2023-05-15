@@ -16,21 +16,13 @@ public abstract class AI implements Serializable {
     public AI(){
 
     }
-//TODO bug au bout d'un moment les IA jouent le premier coup possible genre tour 4-6
-    /** BUG
-     * Cela ne ce passe que pour 1 IA si l'autre est random
-     * -> L'IA random bug et pas l'autre
-     *  En vrai l'ia random est peut-être pas si random que ça
-     *  * Dès le début
-     * Cela ce produit sur l'interface et sur le terminal
-     * Bon ben on va mettre des prints de partouts hein
-     * - print à chaque fils le coups choisi et surtout print celui qu'on choisis pour le père
-     * - print heuristique ?
-     * -
-     *
-     * */
-//
-
+/***
+ * OK BON le code est pas super propre donc j'explique :
+ * là c'est comme hier les ia marchent pas mal et j'ai corrigé le bug qui fait que au bout d'un moment elle devenait folle
+ * Mais les mouves sont pas random, j'ai un peu fixé des trucs mais l'ia est quand même moins forte que sans.
+ * Si vous voulez tester le random il suffit de décommenter/commenter toutes les lignes avec un [...]
+ * si ça marche pas demandez moi je serais peut-être réveillé
+ * /
     /**
      * Returns the next (best or not) playable move
      * /!\ LogicGrid must be cloned first
@@ -124,7 +116,7 @@ public abstract class AI implements Serializable {
             maxValue = -1000000;
         }
 
-        ArrayList<Node> bestNodes = new ArrayList<>();
+//        ArrayList<Node> bestNodes = new ArrayList<>(); //[...]
 
         //For each child of node
         for (int i = 0; i < children.size(); i++) {
@@ -137,8 +129,8 @@ public abstract class AI implements Serializable {
                 value = maxValue * (depth + 1);
                 rtNode = children.get(i);
 
-                /*bestNodes.clear();
-                bestNodes.add(rtNode);*/
+//                bestNodes.clear();//[...]
+//                bestNodes.add(rtNode);//[...]
 
                 break;
             }
@@ -153,13 +145,13 @@ public abstract class AI implements Serializable {
                     (tmpHeuristic < value && type == PieceType.DEFENDER) ) {
                 value = tmpHeuristic;
                 rtNode = tmp;
+//                bestNodes.clear();//[...]
+//                bestNodes.add(rtNode);//[...]
 
-                bestNodes.clear();
-                bestNodes.add(rtNode);
-
-            } else if (tmpHeuristic == value) {
-                bestNodes.add(tmp);
             }
+//            else if (tmpHeuristic == value) {//[...]
+//                bestNodes.add(tmp);//[...]
+//            }//[...]
 
             if (type == PieceType.ATTACKER) {
                 //Beta pruning
@@ -176,22 +168,34 @@ public abstract class AI implements Serializable {
             }
 
         }
-
-        /*Random r = new Random();
+/*//[...]
         if(bestNodes.size() > 1){
+            Random r = new Random();
             currentNode.setBestMove(bestNodes.get(r.nextInt(bestNodes.size())).getCoup());
-        }else{
-            currentNode.setBestMove(rtNode.getCoup());
-        }*/
+//            if (bestNodes.size() < 15) {
+//                for (Node cp : bestNodes) {
+//                    System.out.println(cp.getCoup().toString() + cp.getHeuristic());
+//                }
+//                System.out.println("Coup choisis :" + currentNode.getBestMove().toString());
+//            }
+            //A tester : voir tous les coups dans la liste si ils sont équivalents => changer heuristique
+            currentNode.setHeuristic(value);
+            bestNodes.clear();
+            return currentNode;
 
+        }else{
+            currentNode.setHeuristic(value);
+            currentNode.setBestMove(rtNode.getCoup());
+            bestNodes.clear();
+            return currentNode;
+        }//[...]*/
 
 
         //Set current node's heuristic to best calculated value and best move
         currentNode.setHeuristic(value);
-        currentNode.setBestMove(rtNode.getCoup());
-       /* System.out.print("row " + currentNode.getCoup().getDest().getRow());
-        System.out.print("col " + currentNode.getCoup().getDest().getCol());
-        System.out.println("");*/
+        currentNode.setBestMove(rtNode.getCoup()); //[...] // A decommenter si on utilise pas random et qu'on prend le 1er fils
+
+
         return currentNode;
     }
 
@@ -262,11 +266,11 @@ public abstract class AI implements Serializable {
 
 
                         //Cut the child only if father has children
-
-                        if (preEvaluate(newLogicGrid, type) && end == ResultGame.NO_END_GAME && father.getChildren().size() > 0) {
-                            in++;
-                            continue;
-                        }
+//          MARCHE PAS NE PAS DECOMMENTER POUR L'INSTANT
+//                        if (preEvaluate(newLogicGrid, type) && end == ResultGame.NO_END_GAME && father.getChildren().size() > 0) {
+//                            in++;
+//                            continue;
+//                        }
 
 
                         Node tmpNode = new Node(newLogicGrid, new Coup(new Coordinate(y, x), coordDest), end);
