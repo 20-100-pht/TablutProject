@@ -112,7 +112,6 @@ public class GameFrame extends Frame {
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(10, 15, 0, 0);
         c.weighty = 0.15;
-        bttnMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         gLayout.setConstraints(bttnMenu, c);
         bgPanel.add(bttnMenu);
 
@@ -324,11 +323,9 @@ public class GameFrame extends Frame {
             bttnStatusIa.setRoundValue(35);
             c.gridx = 0;
             c.gridy = 2;
-            bttnStatusIa.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             gLayout.setConstraints(bttnStatusIa, c);
             bgPanel.add(bttnStatusIa);
         }
-
 
         //Turns
 
@@ -342,7 +339,6 @@ public class GameFrame extends Frame {
         BoxLayout layoutTurnPanel = new BoxLayout(turnPanel, BoxLayout.X_AXIS);
 
         JLabel labelPreviousTurn = new JLabel(imageArrowLeft);
-        labelPreviousTurn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         turnPanel.add(labelPreviousTurn);
 
         Border borderIndexTurn = BorderFactory.createEmptyBorder(0, 30, 0 ,30);
@@ -353,7 +349,6 @@ public class GameFrame extends Frame {
         turnPanel.add(labelIndexTurn);
 
         JLabel labelNextTurn = new JLabel(imageArrowRight);
-        labelNextTurn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         turnPanel.add(labelNextTurn);
 
         //Undo - Redo
@@ -377,7 +372,6 @@ public class GameFrame extends Frame {
         bttnUndo.setRoundValue(35);
         c.gridx = 0;
         c.gridy = 0;
-        bttnUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         layoutPanelHistory.setConstraints(bttnUndo, c);
         panelHistory.add(bttnUndo);
 
@@ -387,7 +381,6 @@ public class GameFrame extends Frame {
         c.gridx = 0;
         c.gridy = 1;
         c.insets = new Insets(8, 0, 20, 0);
-        bttnRedo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
 

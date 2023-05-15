@@ -22,6 +22,7 @@ public class MenuFrame extends Frame {
     Button bttnOption;
     Image imageBackground;
     JLabel labelTitle;
+    Font fontTitle;
 
     public MenuFrame(Interface ui){
         super(ui);
@@ -29,18 +30,19 @@ public class MenuFrame extends Frame {
         menuController = new MenuController(this);
 
         loadAssets();
+        loadFonts();
     }
     @Override
     public void build() {
 
         JFrame window = ui.getWindow();
-        Font fontArial50 = new Font("Arial", BOLD, 50);
 
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
 
         labelTitle = new JLabel("Tablut");
-        labelTitle.setFont(fontArial50);
+        labelTitle.setFont(fontTitle);
+        labelTitle.setForeground(Color.black);
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 0;
@@ -52,7 +54,7 @@ public class MenuFrame extends Frame {
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 1;
-        c.ipady = (int) ((double) window.getHeight()*0.15);
+        c.ipady = (int) ((double) window.getHeight()*0.05);
         gLayout.setConstraints(space, c);
         this.add(space);
 
@@ -132,6 +134,16 @@ public class MenuFrame extends Frame {
             imageBackground = ImageIO.read(new File("assets/images/backgroundMenu.jpg"));
         } catch(IOException exp){
             exp.printStackTrace();
+        }
+    }
+
+    public void loadFonts(){
+        try{
+            fontTitle = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/fantasy.otf")).deriveFont(130f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/fantasy.otf")));
+        } catch(IOException | FontFormatException e){
+            e.printStackTrace();
         }
     }
 

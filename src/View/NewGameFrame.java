@@ -10,10 +10,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -143,6 +140,12 @@ public class NewGameFrame extends Frame {
         c.insets = new Insets(0, 30, 0, 30);
 
         tfNameDef = new JTextField(20);
+        tfNameDef.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                if (tfNameDef.getText().length() >= 20)
+                    e.consume();
+            }
+        });
         tfNameDef.setPreferredSize(new Dimension(115, 20));
         c.gridx = 0;
         c.gridy = 4;
@@ -150,6 +153,12 @@ public class NewGameFrame extends Frame {
         centralPanel.add(tfNameDef);
 
         tfNameAtt = new JTextField(20);
+        tfNameAtt.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                if (tfNameAtt.getText().length() >= 20)
+                    e.consume();
+            }
+        });
         tfNameAtt.setPreferredSize(new Dimension(115, 20));
         c.gridx = 1;
         c.gridy = 4;
@@ -287,7 +296,6 @@ public class NewGameFrame extends Frame {
     public JButton createBttnStart(JPanel parent){
         JButton bttn = new JButton("Lancer la partie");
         bttn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 2;
