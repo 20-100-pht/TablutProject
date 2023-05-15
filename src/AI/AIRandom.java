@@ -1,6 +1,7 @@
 package AI;
 
 import Model.LogicGrid;
+import Model.PieceType;
 import Model.ResultGame;
 import Structure.Node;
 
@@ -8,7 +9,7 @@ public class AIRandom extends AI{
 
 
     @Override
-    public double heuristic(Node current, int depth) {
+    public double heuristic(Node current, int depth, PieceType maximizingPlayer) {
 
         LogicGrid gm = current.getLogicGrid();
 
