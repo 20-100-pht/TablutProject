@@ -52,8 +52,6 @@ public abstract class AI implements Serializable {
      * @param node current game state
      * @param depth current depth of search
      * @param maximizingPlayer type of player playing
-     * @param alpha value of best board
-     * @param beta value of worst board
      * @return current node with his children and best move
      */
     private Node minimaxAlgo(Node node, int depth, PieceType maximizingPlayer, double alpha, double beta) {
@@ -62,7 +60,7 @@ public abstract class AI implements Serializable {
 
         //Depth reached or end game
         if (depth == 0 || currentGR.getEndGameType() != ResultGame.NO_END_GAME ) {
-            node.setHeuristic(heuristic(node, depth));
+            node.setHeuristic(heuristic(node, depth, maximizingPlayer));
 
             return node;
         }
@@ -296,6 +294,6 @@ public abstract class AI implements Serializable {
      * @param depth depth of the board
      * @return a value indicating the winnability of the board
      */
-    public abstract double heuristic(Node current, int depth);
+    public abstract double heuristic(Node current, int depth, PieceType maximizingPlayer);
 
 }
