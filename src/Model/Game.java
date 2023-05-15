@@ -220,10 +220,11 @@ public class Game implements Serializable {
     }
 
     public void undo(boolean doubleUndo){
-
         if(!history.canUndo()){
             return;
         }
+
+        gameController.setFrozenView(true);
 
         HistoryMove move = history.undo();
 
@@ -255,10 +256,13 @@ public class Game implements Serializable {
         }
         else{
             logicGrid.move(coup);
+            if(doubleUndo){
+                undo(false);
+            }
+            else {
+                gameController.setFrozenView(false);
+            }
             gameController.updateViewAfterMove(coup, mat);
-        }
-        if(doubleUndo){
-            undo(false);
         }
     }
 
@@ -266,6 +270,9 @@ public class Game implements Serializable {
         if(!history.canRedo()){
             return;
         }
+
+        gameController.setFrozenView(true);
+
         HistoryMove move = history.redo();
         Coup coup = move.getCoup();
 
@@ -280,10 +287,12 @@ public class Game implements Serializable {
         }
         else{
             play(coup, mat);
-        }
-
-        if(doubleRedo){
-            redo(false);
+            if(doubleRedo){
+                redo(false);
+            }
+            else {
+                gameController.setFrozenView(false);
+            }
         }
     }
 

@@ -130,10 +130,6 @@ public class GameGraphicController extends GameController {
         if(!game.canUndo()) return;
 
         if(!game.isAiTurn()){
-            if(Configuration.isAnimationActived()) {
-                gameFrame.setFrozen(true);
-            }
-
             if(game.getNbIa() == 1) game.undo(true);
             else game.undo(false);
         }
@@ -145,10 +141,6 @@ public class GameGraphicController extends GameController {
         if(!game.canRedo()) return;
 
         if(!game.isAiTurn()) {
-            if(Configuration.isAnimationActived()) {
-                gameFrame.setFrozen(true);
-            }
-
             if (game.getNbIa() == 1) game.redo(true);
             else game.redo(false);
         }
