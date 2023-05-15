@@ -232,11 +232,12 @@ public class GameFrame extends Frame {
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
+        centerPanel.setOpaque(false);
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
         c.weighty = 0.6;
-        c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.CENTER;
         gLayout.setConstraints(centerPanel, c);
         bgPanel.add(centerPanel);
 
@@ -257,6 +258,7 @@ public class GameFrame extends Frame {
         gridPanelContainer.add(gridBorderPanel, c);
 
         c.insets = new Insets(5, 5, 5, 5);
+        //c.insets = new Insets(0,0,0,0);
         gridBorderPanel.add(gridPanel, c);
 
         c.insets = new Insets(12, 0, 0, 0);

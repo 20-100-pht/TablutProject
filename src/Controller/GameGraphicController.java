@@ -221,6 +221,7 @@ public class GameGraphicController extends GameController {
 
     public void bttnPreviousTurnClickHandler(){
         if(!game.canUndo()) return;
+        if(!gameFrame.isAnimationMoveTerminated()) return;
 
         game.setPreviewMode(true);
         game.undo(false);
@@ -231,6 +232,7 @@ public class GameGraphicController extends GameController {
     public void bttnNextTurnClickHandler(){
         if(!game.canRedo()) return;
         if(game.getReviewTurnIndex() >= game.getTurnIndex()) return;
+        if(!gameFrame.isAnimationMoveTerminated()) return;
 
         game.setPreviewMode(true);
         game.redo(false);
