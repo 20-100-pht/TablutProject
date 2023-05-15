@@ -225,11 +225,12 @@ public class GridPanel extends JPanel {
     }
 
     public int getCaseSize(){
-        return this.getWidth()/GRID_SIZE;
+        return (this.getWidth()+4)/GRID_SIZE;
     }
 
     @Override
     public Dimension getPreferredSize(){
+        System.out.println("resized");
         int i = 0;
         if(gameFrame.getHeight() > 880)
             i = Math.min((int) ((gameFrame.getWidth()*0.5) / 2), (int) ((gameFrame.getHeight()*0.7) / 2));
