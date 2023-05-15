@@ -1,6 +1,7 @@
 package Controller;
 
 import Animation.AnimationMove;
+import Global.Configuration;
 import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
@@ -102,7 +103,7 @@ public class GameGraphicController extends GameController {
 
     public void endMoveAnimation(Coup coup, MoveAnimationType moveAnimationType){
         GridPanel gridPanel = gameFrame.getGridPanelInstance();
-        if(moveAnimationType == MoveAnimationType.UNDO){
+        if(moveAnimationType == MoveAnimationType.UNDO || moveAnimationType == MoveAnimationType.DOUBLE_UNDO){
             logicGrid.move(coup);
             updateViewAfterMove(coup, moveAnimationType);
         }
@@ -111,14 +112,46 @@ public class GameGraphicController extends GameController {
         }
         gridPanel.setPieceHidedCoords(null);
         gridPanel.setAnimationMove(null);
+
+        if(moveAnimationType == MoveAnimationType.DOUBLE_UNDO){
+            game.undo(false);
+        }
+        if(moveAnimationType == MoveAnimationType.DOUBLE_REDO){
+            game.redo(false);
+        }
+        if(moveAnimationType == MoveAnimationType.CLASSIC || moveAnimationType == MoveAnimationType.REDO || moveAnimationType == MoveAnimationType.UNDO){
+            gameFrame.setFrozen(false);
+        }
     }
 
     public void bttnUndoClickHandler(){
-        game.undo();
+        if(!gameFrame.isAnimationMoveTerminated()) return;
+        if(game.isAttackerAI() && game.isDefenderAI()) return;
+        if(!game.canUndo()) return;
+
+        if(!game.isAiTurn()){
+            if(Configuration.isAnimationActived()) {
+                gameFrame.setFrozen(true);
+            }
+
+            if(game.getNbIa() == 1) game.undo(true);
+            else game.undo(false);
+        }
     }
 
     public void bttnRedoClickHandler(){
-        game.redo();
+        if(!gameFrame.isAnimationMoveTerminated()) return;
+        if(game.isAttackerAI() && game.isDefenderAI()) return;
+        if(!game.canRedo()) return;
+
+        if(!game.isAiTurn()) {
+            if(Configuration.isAnimationActived()) {
+                gameFrame.setFrozen(true);
+            }
+
+            if (game.getNbIa() == 1) game.redo(true);
+            else game.redo(false);
+        }
     }
 
     @Override

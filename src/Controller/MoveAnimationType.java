@@ -4,5 +4,7 @@ public enum MoveAnimationType {
 
     CLASSIC,
     UNDO,
-    REDO
+    DOUBLE_UNDO,
+    REDO,
+    DOUBLE_REDO
 }

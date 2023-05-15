@@ -216,10 +216,10 @@ public class Game implements Serializable {
             return;
         }
 
-        if(isAiTurn()) doAiTurnInSeparateThread();
+        if(isAiTurn() && moveAnimationType != MoveAnimationType.DOUBLE_REDO) doAiTurnInSeparateThread();
     }
 
-    public void undo(){
+    public void undo(boolean doubleUndo){
 
         if(!history.canUndo()){
             return;
@@ -228,11 +228,6 @@ public class Game implements Serializable {
         HistoryMove move = history.undo();
 
         Coup coup = new Coup(move.getCoup().getDest(), move.getCoup().getInit());
-        /*Piece piece = grid.getPieceAtPosition(coup.getDest());
-        piece.setCol(coup.getInit().getCol());
-        piece.setRow(coup.getInit().getRow());
-        grid.setPieceAtPosition(piece, coup.getInit());
-        grid.setPieceAtPosition(null, coup.getDest());*/
 
         for(int i = 0; i < move.getKilledPieces().size(); i++){
             Piece kPiece = move.getKilledPieces().get(i);
@@ -249,18 +244,47 @@ public class Game implements Serializable {
         setTurnIndex(move.getTurnIndex()-1);
         previousCoup = move.previousCoup;
 
-        gameController.startMoveAnimation(coup, MoveAnimationType.UNDO);
+        MoveAnimationType mat = null;
+        if(doubleUndo)
+            mat = MoveAnimationType.DOUBLE_UNDO;
+        else
+            mat = MoveAnimationType.UNDO;
 
-        //gameController.updateViewAfterMove(coup, MoveAnimationType.UNDO);
+        if(Configuration.isAnimationActived()){
+            gameController.startMoveAnimation(coup, mat);
+        }
+        else{
+            logicGrid.move(coup);
+            gameController.updateViewAfterMove(coup, mat);
+        }
+        if(doubleUndo){
+            undo(false);
+        }
     }
 
-    public void redo(){
+    public void redo(boolean doubleRedo){
         if(!history.canRedo()){
             return;
         }
         HistoryMove move = history.redo();
         Coup coup = move.getCoup();
-        gameController.startMoveAnimation(coup, MoveAnimationType.REDO);
+
+        MoveAnimationType mat = null;
+        if(doubleRedo)
+            mat = MoveAnimationType.DOUBLE_REDO;
+        else
+            mat = MoveAnimationType.REDO;
+
+        if(Configuration.isAnimationActived()){
+            gameController.startMoveAnimation(coup, mat);
+        }
+        else{
+            play(coup, mat);
+        }
+
+        if(doubleRedo){
+            redo(false);
+        }
     }
 
     public Grid getGridInstance(){
@@ -413,4 +437,18 @@ public class Game implements Serializable {
         return previousCoup;
     }
 
+    public int getNbIa(){
+        int r = 0;
+        if(isAttackerAI()) r++;
+        if(isDefenderAI()) r++;
+        return r;
+    }
+
+    public boolean canUndo(){
+        return history.canUndo();
+    }
+
+    public boolean canRedo(){
+        return history.canRedo();
+    }
 }
