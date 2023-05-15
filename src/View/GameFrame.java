@@ -213,6 +213,7 @@ public class GameFrame extends Frame {
 
         //Chrono défenseur
         chronoLabelDef = new TimerLabel(game.getDefTimeRemained());
+        chronoLabelDef.setFont(new Font("Arial", Font.BOLD, 20));
         c.gridx = 0;
         c.gridy = 3;
         player1InfoPart.add(chronoLabelDef, c);
@@ -309,6 +310,7 @@ public class GameFrame extends Frame {
         //Chrono Attacker
 
         chronoLabelAtt = new TimerLabel(game.getAttTimeRemained());
+        chronoLabelAtt.setFont(new Font("Arial", Font.BOLD, 20));
         c.gridx = 0;
         c.gridy = 3;
         player2InfoPart.add(chronoLabelAtt, c);
