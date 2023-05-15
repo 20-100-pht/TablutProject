@@ -124,6 +124,8 @@ public abstract class AI implements Serializable {
             maxValue = -1000000;
         }
 
+        ArrayList<Node> bestNodes = new ArrayList<>();
+
         //For each child of node
         for (int i = 0; i < children.size(); i++) {
 
@@ -134,6 +136,10 @@ public abstract class AI implements Serializable {
                 //The closer to the root, the faster we win, the bigger the value
                 value = maxValue * (depth + 1);
                 rtNode = children.get(i);
+
+                /*bestNodes.clear();
+                bestNodes.add(rtNode);*/
+
                 break;
             }
 
@@ -141,7 +147,6 @@ public abstract class AI implements Serializable {
             Node tmp = minimaxAlgo(children.get(i), tmpD, opponent, alpha, beta);
 
             //Randomize selection of best heuristics
-            Random r = new Random();
             double tmpHeuristic = tmp.getHeuristic();
             //Compare best value with calculated heuristic
             if ((tmpHeuristic > value && type == PieceType.ATTACKER) ||
@@ -171,6 +176,15 @@ public abstract class AI implements Serializable {
             }
 
         }
+
+        /*Random r = new Random();
+        if(bestNodes.size() > 1){
+            currentNode.setBestMove(bestNodes.get(r.nextInt(bestNodes.size())).getCoup());
+        }else{
+            currentNode.setBestMove(rtNode.getCoup());
+        }*/
+
+
 
         //Set current node's heuristic to best calculated value and best move
         currentNode.setHeuristic(value);
