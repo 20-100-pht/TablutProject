@@ -70,9 +70,9 @@ public class Interface {
 
     public void refresh(){
         frame.updateAnimations(40); //A modifier
-        frame.updateUI();
-        frame.revalidate();
-        frame.repaint();
+        //window.updateUI();
+        window.revalidate();
+        window.repaint();
     }
 
     public JFrame getWindow(){

@@ -230,17 +230,22 @@ public class GameFrame extends Frame {
 
         //Model.Grid
 
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
+        c.gridx = 1;
+        c.gridy = 1;
+        c.weightx = 0.5;
+        c.weighty = 0.6;
+        c.fill = GridBagConstraints.NONE;
+        gLayout.setConstraints(centerPanel, c);
+        bgPanel.add(centerPanel);
+
         gridPanel = new GridPanel(this);
 
         GridPanelContainer gridPanelContainer = new GridPanelContainer(gridPanel, 35);
         gridPanelContainer.setLayout(new GridBagLayout());
         gridPanelContainer.setColor(new Color(236, 240, 241));
-        c.gridx = 1;
-        c.gridy = 1;
-        c.weightx = 0.5;
-        c.weighty = 0.85;
-        gLayout.setConstraints(gridPanelContainer, c);
-        bgPanel.add(gridPanelContainer);
+        centerPanel.add(gridPanelContainer);
 
         gridBorderPanel = new JPanel();
         gridBorderPanel.setBackground(Color.red);
@@ -440,6 +445,15 @@ public class GameFrame extends Frame {
 
 
     public void setEventHandlers(){
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                gridPanel.setPreferredSize(gridPanel.getPreferredSize());
+                gridPanel.revalidate();
+            }
+        });
 
         bttnBackMenu.addMouseListener(new MouseAdapter() {
             @Override
