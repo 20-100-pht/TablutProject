@@ -101,31 +101,18 @@ public class GameGraphicController extends GameController {
 
 
 
-    public void endMoveAnimation(Coup coup, MoveAnimationType moveAnimationType){
+    public void executeMoveAnimation(Coup coup, MoveAnimationType moveAnimationType){
+
         GridPanel gridPanel = gameFrame.getGridPanelInstance();
-        if(moveAnimationType == MoveAnimationType.UNDO || moveAnimationType == MoveAnimationType.DOUBLE_UNDO){
-            logicGrid.move(coup);
-            updateViewAfterMove(coup, moveAnimationType);
-        }
-        else {
-            game.play(coup, moveAnimationType);
-        }
         gridPanel.setPieceHidedCoords(null);
         gridPanel.setAnimationMove(null);
 
-        if(moveAnimationType == MoveAnimationType.DOUBLE_UNDO){
-            game.undo(false);
-        }
-        if(moveAnimationType == MoveAnimationType.DOUBLE_REDO){
-            game.redo(false);
-        }
-        if(moveAnimationType == MoveAnimationType.CLASSIC || moveAnimationType == MoveAnimationType.REDO || moveAnimationType == MoveAnimationType.UNDO){
-            gameFrame.setFrozen(false);
-        }
+        game.executeMove(coup, moveAnimationType);
     }
 
     public void bttnUndoClickHandler(){
         if(!gameFrame.isAnimationMoveTerminated()) return;
+        if(game.isReviewMode()) return;
         if(game.isAttackerAI() && game.isDefenderAI()) return;
         if(!game.canUndo()) return;
 
@@ -137,6 +124,7 @@ public class GameGraphicController extends GameController {
 
     public void bttnRedoClickHandler(){
         if(!gameFrame.isAnimationMoveTerminated()) return;
+        if(game.isReviewMode()) return;
         if(game.isAttackerAI() && game.isDefenderAI()) return;
         if(!game.canRedo()) return;
 
@@ -236,18 +224,16 @@ public class GameGraphicController extends GameController {
 
         game.setPreviewMode(true);
         game.undo(false);
-        game.decReviewTurnIndex();
 
         updateTurnLabel();
     }
 
     public void bttnNextTurnClickHandler(){
         if(!game.canRedo()) return;
+        if(game.getReviewTurnIndex() >= game.getTurnIndex()) return;
 
         game.setPreviewMode(true);
         game.redo(false);
-
-        game.incReviewTurnIndex();
 
         updateTurnLabel();
     }

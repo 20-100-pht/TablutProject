@@ -64,7 +64,7 @@ public class AnimationMove extends Animation {
 
         timeRemained -= timeElapsed;
         if(timeRemained <= 0){
-            gameGraphicController.endMoveAnimation(coup, moveAnimationType);
+            gameGraphicController.executeMoveAnimation(coup, moveAnimationType);
         }
     }
 

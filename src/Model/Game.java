@@ -209,8 +209,8 @@ public class Game implements Serializable {
         toogleAttackerTurn();
         if(!isReviewMode()) {
             incTurnIndex();
+            reviewTurnIndex = turnIndex;
         }
-        reviewTurnIndex = turnIndex;
 
         gameController.updateViewAfterMove(coup, moveAnimationType);
         if(moveAnimationType == MoveAnimationType.CLASSIC) {
@@ -227,6 +227,19 @@ public class Game implements Serializable {
         if(isAiTurn() && moveAnimationType != MoveAnimationType.DOUBLE_REDO) doAiTurnInSeparateThread();
     }
 
+    public void respawnKilledPieces(Vector<Piece> pieces){
+        for(int i = 0; i < pieces.size(); i++){
+            Piece kPiece = pieces.get(i);
+            grid.setPieceAtPosition(kPiece, kPiece.getCoords());
+            if(kPiece.getType() == PieceType.DEFENDER){
+                logicGrid.incNbPieceDefenderOnGrid();
+            }
+            else if(kPiece.getType() == PieceType.ATTACKER){
+                logicGrid.incNbPieceAttackerOnGrid();
+            }
+        }
+    }
+
     public void undo(boolean doubleUndo){
         if(!history.canUndo()){
             return;
@@ -237,23 +250,11 @@ public class Game implements Serializable {
         HistoryMove move = history.undo();
         Coup coup = new Coup(move.getCoup().getDest(), move.getCoup().getInit());
 
-        for(int i = 0; i < move.getKilledPieces().size(); i++){
-            Piece kPiece = move.getKilledPieces().get(i);
-            grid.setPieceAtPosition(kPiece, kPiece.getCoords());
-            if(kPiece.getType() == PieceType.DEFENDER){
-                logicGrid.incNbPieceDefenderOnGrid();
-            }
-            else if(kPiece.getType() == PieceType.ATTACKER){
-                logicGrid.incNbPieceAttackerOnGrid();
-            }
-        }
+        respawnKilledPieces(move.killedPieces);
 
         setIsAttackerTurn(!move.isAttackerMove());
         if(!isReviewMode()) {
             setTurnIndex(move.getTurnIndex() - 1);
-            if(reviewTurnIndex == turnIndex){
-                reviewMode = false;
-            }
         }
         previousCoup = move.previousCoup;
 
@@ -263,18 +264,13 @@ public class Game implements Serializable {
         else
             mat = MoveAnimationType.UNDO;
 
+        reviewTurnIndex--;
+
         if(Configuration.isAnimationActived()){
             gameController.startMoveAnimation(coup, mat);
         }
         else{
-            logicGrid.move(coup);
-            if(doubleUndo){
-                undo(false);
-            }
-            else {
-                gameController.setFrozenView(false);
-            }
-            gameController.updateViewAfterMove(coup, mat);
+            executeMove(coup, mat);
         }
     }
 
@@ -294,18 +290,41 @@ public class Game implements Serializable {
         else
             mat = MoveAnimationType.REDO;
 
+        if(reviewMode){
+            reviewTurnIndex++;
+        }
+
         if(Configuration.isAnimationActived()){
             gameController.startMoveAnimation(coup, mat);
         }
         else{
-            play(coup, mat);
-            if(doubleRedo){
-                redo(false);
-            }
-            else {
-                gameController.setFrozenView(false);
-            }
+            executeMove(coup, mat);
         }
+    }
+
+    public void executeMove(Coup coup, MoveAnimationType moveAnimationType){
+        if(moveAnimationType == MoveAnimationType.UNDO || moveAnimationType == MoveAnimationType.DOUBLE_UNDO){
+            logicGrid.move(coup);
+        }
+        else {
+            play(coup, moveAnimationType);
+        }
+
+        if(reviewTurnIndex == turnIndex){
+            reviewMode = false;
+        }
+        
+        if(moveAnimationType == MoveAnimationType.DOUBLE_UNDO){
+            undo(false);
+        }
+        if(moveAnimationType == MoveAnimationType.DOUBLE_REDO){
+            redo(false);
+        }
+        if(moveAnimationType == MoveAnimationType.CLASSIC || moveAnimationType == MoveAnimationType.REDO || moveAnimationType == MoveAnimationType.UNDO){
+            gameController.setFrozenView(false);
+        }
+
+        gameController.updateViewAfterMove(coup, moveAnimationType);
     }
 
     public Grid getGridInstance(){
