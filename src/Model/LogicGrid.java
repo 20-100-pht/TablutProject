@@ -47,6 +47,9 @@ public class LogicGrid implements Serializable {
     public void print(){
         grid.print();
     }
+    public String toString(){
+        return grid.toString();
+    }
 
     /**
      * Check if defender has won
@@ -453,6 +456,7 @@ public class LogicGrid implements Serializable {
 
         //Add nb attckers
         newLogicGrid.setNbPieceAttackerOnGrid(getNbPieceAttackerOnGrid());
+        newLogicGrid.setNbPieceDefenderOnGrid(getNbPieceDefenderOnGrid());
 
         return newLogicGrid;
     }

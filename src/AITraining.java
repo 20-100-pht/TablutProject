@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 
 
 public class AITraining {
-    private static final  int AIGAMES = 10;
+    private static final  int AIGAMES = 100;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = false;
@@ -25,13 +25,19 @@ public class AITraining {
         double nbVictoryAttacker = 0, nbVictoryDefender = 0, nbMaxTurnEncountered = 0;
         long tpsAverage = 0;
         long start, end;
+        String lastGamesStates = "";
         for (int i = 0; i < AIGAMES; i++) {
-            Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.MID,100);
+            Game game = new Game("", "", AIDifficulty.MID, AIDifficulty.RANDOM,100);
             GameConsoleController gcc = new GameConsoleController(game);
             game.setGameControllerInstance(gcc);
             gcc.setPrintTerminal(PRINT);
             start = System.nanoTime();
             Res = gcc.playGame();
+
+            lastGamesStates += "\nAttackers :" + gcc.getGame().getLogicGrid().getNbPieceAttackerOnGrid() + "\n";
+            lastGamesStates += "Defenders :" + gcc.getGame().getLogicGrid().getNbPieceDefenderOnGrid();
+            lastGamesStates += gcc.getGame().getLogicGrid().toString();
+
             end = System.nanoTime();
             switch (Res) {
                 case ATTACKER_WIN:
@@ -68,6 +74,8 @@ public class AITraining {
             }
 
         }
+
+        System.out.println(lastGamesStates);
 
         System.out.println("\nResultat Game : " + ((nbVictoryAttacker/AIGAMES)*100) + "% AttackerWin");
         System.out.println("                " + ((nbVictoryDefender/AIGAMES)*100) + "% DefenderWin");

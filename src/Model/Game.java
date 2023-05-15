@@ -38,6 +38,7 @@ public class Game implements Serializable {
     History history;
     transient GameController gameController;
 
+    int MAX_AI_DEPTH = 4;
 
     public Game(String defenderName, String attackerName, AIDifficulty defAiDifficulty, AIDifficulty attAiDifficulty, int blitzTime){
 
@@ -158,7 +159,7 @@ public class Game implements Serializable {
             t = PieceType.DEFENDER;
         }
         long start = System.currentTimeMillis();
-        Coup coupAI = ai.playMove(logicGrid, 4, t);
+        Coup coupAI = ai.playMove(logicGrid, MAX_AI_DEPTH, t);
         long end = System.currentTimeMillis();
 
 

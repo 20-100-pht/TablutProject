@@ -17,7 +17,19 @@ public class AIMedium extends AI {
 
     @Override
     public double heuristic(Node current, int depth, PieceType maximizingPlayer){
-        switch (maximizingPlayer){
+
+        double val = 0;
+        /*if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
+            val += 1000000*(depth+1);
+        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
+            val -= 1000000*(depth+1);
+        }*/
+
+        //Maximize the players' pieces
+        val += (double) current.getLogicGrid().getNbPieceAttackerOnGrid()/current.getLogicGrid().getNbPieceDefenderOnGrid();
+        return val;
+
+        /*switch (maximizingPlayer){
             case ATTACKER:
                 return attackerHeuristic(current, depth, maximizingPlayer);
             case DEFENDER:
@@ -26,7 +38,7 @@ public class AIMedium extends AI {
                 return  defenderHeuristic(current, depth, maximizingPlayer);
             default:
                 return 0;
-        }
+        }*/
     }
 
     private double attackerHeuristic(Node current, int depth, PieceType maximizingPlayer){

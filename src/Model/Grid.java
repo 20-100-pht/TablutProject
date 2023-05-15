@@ -147,6 +147,29 @@ public class Grid implements Serializable {
         }
     }
 
+    public String toString() {
+        String stringGrid = "";
+        for( int k = 0; k < sizeGrid; k++){
+            if(k == 0) stringGrid += "  ";
+            stringGrid +=k+" ";
+        }
+        stringGrid += "\n";
+        for (int i = 0; i < sizeGrid; i++) {
+            stringGrid += i+" ";
+
+            for (int j = 0; j < sizeGrid; j++) {
+                if (board[i][j] == null) {
+                    stringGrid += ". ";
+                } else {
+                    stringGrid += board[i][j].getSymbol() + " ";
+                }
+            }
+            stringGrid += "\n";
+        }
+        stringGrid += "\n";
+        return stringGrid;
+    }
+
     public ArrayList<Piece> returnListOfPiece(PieceType type){
         Piece current;
         ArrayList<Piece> list = new ArrayList<>();
