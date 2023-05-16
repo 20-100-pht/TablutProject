@@ -29,8 +29,8 @@ public class Game implements Serializable {
 
     AI aiMinMax;
     AIRandom aleatron;
-    AI defenderAI;
-    AI attackerAI;
+    public AI defenderAI;
+    public AI attackerAI;
     LogicGrid logicGrid;
     Grid grid;
     String defenderName = "Alexandre";

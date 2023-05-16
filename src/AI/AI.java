@@ -121,7 +121,7 @@ public abstract class AI implements Serializable {
                 bestMovesArray.add(bmToReturn);
             }
 
-            if(colour==1){
+            /*if(colour==-1){
                 if(alpha >= value){
                     break;
                 }
@@ -131,7 +131,7 @@ public abstract class AI implements Serializable {
                     break;
                 }
                 alpha = Math.max(alpha,value);
-            }
+            }*/
         }
 
         return bestMovesArray;
@@ -158,7 +158,6 @@ public abstract class AI implements Serializable {
                     for(int i = 0; i < moves.size(); i++){
                         Node child = createChild(node, current, moves.get(i));
 
-                        //A optimiser
                         if(child.getLogicGrid().getEndGameType() == winType){
                             children.add(0,child);
                         }else{

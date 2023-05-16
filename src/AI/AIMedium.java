@@ -18,23 +18,26 @@ public class AIMedium extends AI {
     @Override
     public double heuristic(Node current, int depth, PieceType maximizingPlayer){
 
-        double val = 0;
-        /*if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
+        /*double val = 0;
+        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
             val += 1000000*(depth+1);
         else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
             val -= 1000000*(depth+1);
         }*/
 
+
+        double value = 0;
         //Maximize the players' pieces
-        val += (double) current.getLogicGrid().getNbPieceAttackerOnGrid()/current.getLogicGrid().getNbPieceDefenderOnGrid();
-        return val;
+        value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1))*0.5;
+        value += canKingGoToCorner(current)*-10;
+        value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid())*6;
+
+        return value;
 
         /*switch (maximizingPlayer){
             case ATTACKER:
                 return attackerHeuristic(current, depth, maximizingPlayer);
-            case DEFENDER:
-                return  defenderHeuristic(current, depth, maximizingPlayer);
-            case KING:
+            case KING: case DEFENDER:
                 return  defenderHeuristic(current, depth, maximizingPlayer);
             default:
                 return 0;
@@ -174,7 +177,7 @@ public class AIMedium extends AI {
         }
         return 0;
     }
-    private int canKingGoToCorner(Node n){
+    public int canKingGoToCorner(Node n){
         Grid grid = n.getLogicGrid().getGrid();
         int x = n.getLogicGrid().getKing().getCol();
         int y = n.getLogicGrid().getKing().getRow();
@@ -204,13 +207,7 @@ public class AIMedium extends AI {
         return 0;
     }
 
-    /**
-     * Check if corners are accessible from source position
-     *
-     * @param grid
-     * @param source
-     * @return
-     */
+
     /**
      * Check if corners are accessible from source position
      *
@@ -239,7 +236,7 @@ public class AIMedium extends AI {
         int result = 0;
         if(canMoveToSC(corner1, source, grid) ) result++;
         if(canMoveToSC(corner2, source, grid) ){
-            if(result == 1) result = 10;
+            if(result == 1) result = 1000;
             else result ++;
         }
         return result;
