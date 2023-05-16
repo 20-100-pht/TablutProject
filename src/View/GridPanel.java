@@ -37,6 +37,7 @@ public class GridPanel extends JPanel {
     Image imageStepsV;
     Image imageStepsHEnd;
     Image imageStepsVEnd;
+    Image imageSelection;
 
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
@@ -192,6 +193,8 @@ public class GridPanel extends JPanel {
             int markX = (int) (selectionMarkCoords.getCol() * getCaseSize() + getCaseSize() * 0.1);
             int markY = (int) (selectionMarkCoords.getRow() * getCaseSize() + getCaseSize() * 0.1);
 
+            g.drawImage(imageSelection, markX, markY, getCaseSize(), getCaseSize(), null);
+
             g.setColor(Color.red);
             g.drawRect(markX, markY, (int) (getCaseSize() * 0.8), (int) (getCaseSize() * 0.8));
         }
@@ -219,6 +222,7 @@ public class GridPanel extends JPanel {
             imageStepsHEnd = ImageIO.read(new File(STEPS_HORIZONTAL_END_ASSET_PATH));
             imageStepsV = ImageIO.read(new File(STEPS_VERTICAL_ASSET_PATH));
             imageStepsVEnd = ImageIO.read(new File(STEPS_VERTICAL_END_ASSET_PATH));
+            imageSelection = ImageIO.read(new File("assets/imageSelection.png"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -230,7 +234,6 @@ public class GridPanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize(){
-        System.out.println("resized");
         int i = 0;
         if(gameFrame.getHeight() > 880)
             i = Math.min((int) ((gameFrame.getWidth()*0.5) / 2), (int) ((gameFrame.getHeight()*0.7) / 2));
@@ -368,4 +371,5 @@ public class GridPanel extends JPanel {
     public AnimationMove getAnimationMove(){
         return animationMove;
     }
+
 }

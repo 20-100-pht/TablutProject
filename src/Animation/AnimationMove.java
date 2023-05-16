@@ -20,6 +20,7 @@ public class AnimationMove extends Animation {
     Coup coup;
     PieceType pieceType;
     MoveAnimationType moveAnimationType;
+    boolean finished;
 
     public AnimationMove(GameGraphicController gameGraphicController, Coup coup, PieceType pieceType, int duration, int xStart, int yStart, int xEnd, int yEnd, MoveAnimationType moveAnimationType){
         this.duration = duration;
@@ -34,6 +35,7 @@ public class AnimationMove extends Animation {
         x = xStart;
         y = yStart;
         this.moveAnimationType = moveAnimationType;
+        finished = false;
     }
 
     @Override
@@ -65,6 +67,7 @@ public class AnimationMove extends Animation {
         timeRemained -= timeElapsed;
         if(timeRemained <= 0){
             gameGraphicController.executeMoveAnimation(coup, moveAnimationType);
+            finished = true;
         }
     }
 
@@ -83,7 +86,7 @@ public class AnimationMove extends Animation {
 
     @Override
     public boolean isTerminated() {
-        return timeRemained <= 0;
+        return finished;
     }
 
     public PieceType getPieceType(){
