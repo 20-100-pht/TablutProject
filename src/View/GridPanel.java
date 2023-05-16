@@ -57,6 +57,7 @@ public class GridPanel extends JPanel {
     String STEPS_HORIZONTAL_END_ASSET_PATH;
     String STEPS_VERTICAL_ASSET_PATH;
     String STEPS_VERTICAL_END_ASSET_PATH;
+    String SELECTION_ASSET_PATH;
 
     int theme;
 
