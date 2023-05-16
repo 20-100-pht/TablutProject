@@ -108,7 +108,7 @@ public class MenuFrame extends Frame {
     @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
-        window.setMinimumSize(new Dimension(400, 600));
+        window.setMinimumSize(new Dimension(600, 700));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) (sizeScreen.height * 0.75);

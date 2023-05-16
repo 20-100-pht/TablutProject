@@ -1,7 +1,6 @@
 package View;
 
 import Animation.AnimationChrono;
-import Animation.AnimationMove;
 import Controller.GameGraphicController;
 import Global.Configuration;
 import Model.Game;
@@ -26,6 +25,7 @@ public class GameFrame extends Frame {
     ImageIcon imageBook;
     ImageIcon imageMenu;
     JButton bttnMenu;
+    JButton bttnHelp;
     JPopupMenu menu;
     JMenuItem save, forfeit, options;
     WinMessagePanel winMessagePanel;
@@ -98,13 +98,9 @@ public class GameFrame extends Frame {
         GridBagConstraints c = new GridBagConstraints();
         bgPanel.setLayout(gLayout);
 
-
-
         // MENU
-
         bttnMenu = new JButton(imageMenu);
         bttnMenu.setContentAreaFilled(false);
-        bttnMenu.setOpaque(true);
         bttnMenu.setBorderPainted(false);
         bttnMenu.setMargin(new Insets(0,0,0,0));
         c.gridx = 0;
@@ -396,6 +392,18 @@ public class GameFrame extends Frame {
         c.insets = new Insets(8, 0, 20, 0);
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
+
+        bttnHelp = new JButton(imageBook);
+        bttnHelp.setContentAreaFilled(false);
+        bttnHelp.setBorderPainted(false);
+        bttnHelp.setMargin(new Insets(0,0,0,0));
+        c.gridx = 2;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        c.insets = new Insets(10, 0, 0, 15);
+        c.weighty = 0.15;
+        gLayout.setConstraints(bttnHelp, c);
+        bgPanel.add(bttnHelp);
 
         //Panel foreground
 

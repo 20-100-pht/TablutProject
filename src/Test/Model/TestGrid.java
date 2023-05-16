@@ -1,4 +1,4 @@
-package Model;
+package Test;
 
 import Model.*;
 import Structure.*;
