@@ -93,7 +93,7 @@ public class GameGraphicController extends GameController {
         int xEnd = piece2Coords.getCol()*gridPanel.getCaseSize();
         int yEnd = piece2Coords.getRow()*gridPanel.getCaseSize();
 
-        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 3000, xStart, yStart, xEnd, yEnd, moveAnimationType);
+        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 500, xStart, yStart, xEnd, yEnd, moveAnimationType);
         animation.start();
 
         gameFrame.addAnimation(animation);
