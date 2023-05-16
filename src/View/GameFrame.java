@@ -30,7 +30,6 @@ public class GameFrame extends Frame {
     JMenuItem save, forfeit, options;
     WinMessagePanel winMessagePanel;
     OptionsFrame optionsFrame;
-    GameRulesFrame gameRules;
     ForfeitDialog forfeitDialog;
     Timer timerWinMessage;
     Button bttnBackMenu;
