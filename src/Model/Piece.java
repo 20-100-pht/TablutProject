@@ -1,6 +1,8 @@
 package Model;
 
+import AI.RelativePosition;
 import Structure.Coordinate;
+import Structure.Direction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -177,5 +179,31 @@ public class Piece implements Serializable {
      */
     public Piece clonePiece(){
         return new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
+    }
+
+    public RelativePosition getRelativePosition(){
+        int r = this.c.getRow();
+        int c = this.c.getCol();
+
+        //Center
+        if(r == 4 && c == 4) return RelativePosition.CENTER;
+        //Left
+        if(r == 4 && c < 4) return RelativePosition.LEFT;
+        //Right
+        if (r == 4 && c > 4) return RelativePosition.RIGHT;
+        //Top
+        if (r < 4 && c == 4) return RelativePosition.TOP;
+        //Bottom
+        if (r > 4 && c == 4) return RelativePosition.BOTTOM;
+        //Top Left
+        if (r < 4 && c < 4) return RelativePosition.TOP_LEFT;
+        //Top Right
+        if (r < 4 && c > 4) return RelativePosition.TOP_RIGHT;
+        //Bottom Left
+        if (r > 4 && c < 4) return RelativePosition.BOTTOM_LEFT;
+        //Bottom Right
+        if (r > 4 && c > 4) return RelativePosition.BOTTOM_RIGHT;
+
+        return null;
     }
 }
