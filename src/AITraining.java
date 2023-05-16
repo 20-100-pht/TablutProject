@@ -27,7 +27,7 @@ public class AITraining {
         long start, end;
         String lastGamesStates = "";
         for (int i = 0; i < AIGAMES; i++) {
-            Game game = new Game("", "", AIDifficulty.MID, AIDifficulty.RANDOM,100);
+            Game game = new Game("", "", AIDifficulty.MID, AIDifficulty.MID,100);
             GameConsoleController gcc = new GameConsoleController(game);
             game.setGameControllerInstance(gcc);
             gcc.setPrintTerminal(PRINT);

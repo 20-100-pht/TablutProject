@@ -18,19 +18,19 @@ public class AIMedium extends AI {
     @Override
     public double heuristic(Node current, int depth, PieceType maximizingPlayer){
 
-        /*double val = 0;
-        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
-            val += 1000000*(depth+1);
-        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
-            val -= 1000000*(depth+1);
-        }*/
-
-
         double value = 0;
+        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
+            value += 1000000*(depth+1);
+        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
+            value -= 1000000*(depth+1);
+        }
+
+
         //Maximize the players' pieces
-        value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1))*0.5;
+        value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1))*2;//*0.5;
         value += canKingGoToCorner(current)*-10;
         value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid())*6;
+        value += attackerCircleStrategy(current)*6;
 
         return value;
 
@@ -82,6 +82,29 @@ public class AIMedium extends AI {
 
 
         //Attackers want a high value, Defenders want a low value
+        return value;
+    }
+
+
+
+    private double attackerCircleStrategy(Node node){
+
+        Piece king = node.getLogicGrid().king;
+
+        WeightedPositions wp = new WeightedPositions();
+        int[][] weights = wp.getWeights().get(king.getRelativePosition().ordinal());
+
+        double value = 0;
+        Grid grid = node.getLogicGrid().getGrid();
+        for(int i = 0; i<9; i++){
+            for(int j = 0; j<9; j++){
+                Piece piece = grid.getPieceAtPosition(new Coordinate(i,j));
+                if( piece != null && piece.isAttacker()){
+                    value +=weights[i][j];
+                }
+            }
+        }
+
         return value;
     }
 
