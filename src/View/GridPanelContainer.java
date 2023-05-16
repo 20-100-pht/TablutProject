@@ -11,7 +11,6 @@ public class GridPanelContainer extends RoundPanel {
     public GridPanelContainer(GridPanel gridPanel, int roundValue){
         super(roundValue);
         this.gridPanel = gridPanel;
-        gridPanel.setBackground(Color.red);
         this.setBackground(Color.BLACK);
     }
 

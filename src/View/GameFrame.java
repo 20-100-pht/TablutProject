@@ -38,8 +38,6 @@ public class GameFrame extends Frame {
     Button bttnRedo;
     CapturedPiecesPanel capturedPiecesPanel1;
     CapturedPiecesPanel capturedPiecesPanel2;
-    JLabel labelPlayer1Status;
-    JLabel labelPlayer2Status;
     boolean frozen;
     JLabel labelIndexTurn;
     TextMessagePanel textMessagePanel;
@@ -55,6 +53,8 @@ public class GameFrame extends Frame {
     Image imageBackground;
     JPanel gridBorderPanel;
     Button bttnStatusIa;
+    JLabel labelPreviousTurn;
+    JLabel labelNextTurn;
 
 
     public GameFrame(Interface ui, Game game){
@@ -232,11 +232,12 @@ public class GameFrame extends Frame {
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
+        centerPanel.setOpaque(false);
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
         c.weighty = 0.6;
-        c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.CENTER;
         gLayout.setConstraints(centerPanel, c);
         bgPanel.add(centerPanel);
 
@@ -248,7 +249,6 @@ public class GameFrame extends Frame {
         centerPanel.add(gridPanelContainer);
 
         gridBorderPanel = new JPanel();
-        gridBorderPanel.setBackground(Color.red);
         gridBorderPanel.setLayout(new GridBagLayout());
         c.gridx = 0;
         c.gridy = 0;
@@ -258,6 +258,7 @@ public class GameFrame extends Frame {
         gridPanelContainer.add(gridBorderPanel, c);
 
         c.insets = new Insets(5, 5, 5, 5);
+        //c.insets = new Insets(0,0,0,0);
         gridBorderPanel.add(gridPanel, c);
 
         c.insets = new Insets(12, 0, 0, 0);
@@ -350,9 +351,7 @@ public class GameFrame extends Frame {
         gLayout.setConstraints(turnPanel, c);
         bgPanel.add(turnPanel);
 
-        BoxLayout layoutTurnPanel = new BoxLayout(turnPanel, BoxLayout.X_AXIS);
-
-        JLabel labelPreviousTurn = new JLabel(imageArrowLeft);
+        labelPreviousTurn = new JLabel(imageArrowLeft);
         turnPanel.add(labelPreviousTurn);
 
         Border borderIndexTurn = BorderFactory.createEmptyBorder(0, 30, 0 ,30);
@@ -362,7 +361,7 @@ public class GameFrame extends Frame {
         labelIndexTurn.setBorder(borderIndexTurn);
         turnPanel.add(labelIndexTurn);
 
-        JLabel labelNextTurn = new JLabel(imageArrowRight);
+        labelNextTurn = new JLabel(imageArrowRight);
         turnPanel.add(labelNextTurn);
 
         //Undo - Redo
@@ -496,6 +495,25 @@ public class GameFrame extends Frame {
         }
 
         setMenuHandlers();
+        setReviewModeHandlers();
+    }
+
+    void setReviewModeHandlers(){
+        labelPreviousTurn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                gameGraphicController.bttnPreviousTurnClickHandler();
+            }
+        });
+
+        labelNextTurn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                gameGraphicController.bttnNextTurnClickHandler();
+            }
+        });
     }
 
     void setMenuHandlers(){
@@ -654,8 +672,8 @@ public class GameFrame extends Frame {
         }
     }
 
-    public void setTurnLabelValue(int turnIndex){
-        labelIndexTurn.setText("Tour "+Integer.toString(turnIndex+1));
+    public void setTurnLabelValue(String text){
+        labelIndexTurn.setText(text);
     }
 
     public void updatePlayerStatus() {
