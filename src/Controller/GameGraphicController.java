@@ -57,6 +57,7 @@ public class GameGraphicController extends GameController {
         updateViewAfterReplay();
         game.reset();
         game.startGame();
+        updateTurnLabel();
     }
 
     public void bttnSaveClickHandler(){
@@ -92,14 +93,12 @@ public class GameGraphicController extends GameController {
         int xEnd = piece2Coords.getCol()*gridPanel.getCaseSize();
         int yEnd = piece2Coords.getRow()*gridPanel.getCaseSize();
 
-        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 500, xStart, yStart, xEnd, yEnd, moveAnimationType);
+        AnimationMove animation = new AnimationMove(this, coup, piece1.getType(), 3000, xStart, yStart, xEnd, yEnd, moveAnimationType);
         animation.start();
 
         gameFrame.addAnimation(animation);
         gridPanel.setAnimationMove(animation);
     }
-
-
 
     public void executeMoveAnimation(Coup coup, MoveAnimationType moveAnimationType){
 
@@ -204,24 +203,40 @@ public class GameGraphicController extends GameController {
     }
 
     public void bttnPauseIaClickHandler(){
+        if(game.isReviewMode()) return;
+
         if(game.isIaPaused()){
             game.setIaPause(false);
-            gameFrame.setBttnIaPauseText("Stopper IAs");
         }
         else{
             game.setIaPause(true);
-            gameFrame.setBttnIaPauseText("Relancer IAs");
         }
+        updateBttnPauseIa();
+
         if((game.isAttackerTurn() && game.isAttackerAI()) || (!game.isAttackerTurn() && game.isDefenderAI())){
             AnimationMove anim = gameFrame.getGridPanelInstance().getAnimationMove();
-            if(anim == null || anim.isTerminated())
+            if(gameFrame.isAnimationMoveTerminated() && !game.anIaThinking())
                 game.doAiTurnInSeparateThread();
+        }
+    }
+
+    public void updateBttnPauseIa(){
+        if(!game.isIaPaused()){
+            gameFrame.setBttnIaPauseText("Stopper IAs");
+        }
+        else{
+            gameFrame.setBttnIaPauseText("Relancer IAs");
         }
     }
 
     public void bttnPreviousTurnClickHandler(){
         if(!game.canUndo()) return;
         if(!gameFrame.isAnimationMoveTerminated()) return;
+        if(game.isAiTurn() && !game.isIaPaused()){
+            game.setIaPause(true);
+            updateBttnPauseIa();
+            return;
+        }
 
         game.setPreviewMode(true);
         game.undo(false);
@@ -229,9 +244,18 @@ public class GameGraphicController extends GameController {
         updateTurnLabel();
     }
 
+    public void bttnReviewModeClicked(){
+
+    }
+
     public void bttnNextTurnClickHandler(){
         if(!game.canRedo()) return;
         if(game.getReviewTurnIndex() >= game.getTurnIndex()) return;
+        if(game.isAiTurn() && !game.isIaPaused()){
+            game.setIaPause(true);
+            updateBttnPauseIa();
+            return;
+        }
         if(!gameFrame.isAnimationMoveTerminated()) return;
 
         game.setPreviewMode(true);

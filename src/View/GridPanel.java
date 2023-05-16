@@ -368,4 +368,5 @@ public class GridPanel extends JPanel {
     public AnimationMove getAnimationMove(){
         return animationMove;
     }
+
 }

@@ -26,6 +26,7 @@ public class Game implements Serializable {
 
     boolean reviewMode;
     int reviewTurnIndex;
+    boolean anIaThinking;
 
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
@@ -129,6 +130,7 @@ public class Game implements Serializable {
         previousCoup = null;
         reviewMode = false;
         reviewTurnIndex = turnIndex;
+        anIaThinking = false;
     }
 
     public boolean isAiTurn(){
@@ -151,6 +153,7 @@ public class Game implements Serializable {
         }
         //On empêche le joueur de faire des actions pendant que l'IA joue
         gameController.setFrozenView(true);
+        anIaThinking = true;
 
         AI ai;
         PieceType t;
@@ -176,6 +179,8 @@ public class Game implements Serializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        anIaThinking = false;
+
         if(Configuration.isAnimationActived()) {
             gameController.startMoveAnimation(coupAI, MoveAnimationType.CLASSIC);
         }
@@ -510,5 +515,9 @@ public class Game implements Serializable {
 
     public void decReviewTurnIndex(){
         reviewTurnIndex--;
+    }
+
+    public boolean anIaThinking(){
+        return anIaThinking;
     }
 }
