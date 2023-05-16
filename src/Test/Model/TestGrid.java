@@ -1,14 +1,21 @@
-package Test;
+package Model;
 
 import Model.*;
 import Structure.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 public class TestGrid {
 
-    Grid grid = new Grid();
+    Grid grid;
+
+    @BeforeEach
+    void tearDown() {
+        grid = new Grid();
+    }
 
     @Test
     public void test_ReturnListOfPiece(){

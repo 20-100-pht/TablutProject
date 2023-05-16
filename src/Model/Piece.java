@@ -25,6 +25,18 @@ public class Piece implements Serializable {
 
     public int getCol(){ return c.getCol();}
 
+    public void setRow(int newRow){ c.setRowCoord(newRow);}
+
+    public void setCol(int newCol){ c.setColCoord(newCol);}
+
+    public Coordinate getCoords(){
+        return new Coordinate(getRow(), getCol());
+    }
+
+    public void setCoords(Coordinate coords){
+        c = coords;
+    }
+
     public PieceType getType(){ return this.type;}
 
     /**
@@ -40,11 +52,6 @@ public class Piece implements Serializable {
      */
     public boolean isSamePosition(Coordinate d){
         return d.getRow() == c.getRow() && d.getCol() == c.getCol();
-    }
-
-    /*Structure.Position vulnérable = n'importe ou sur le plateau sauf sur le trone ou à directement à côté*/
-    public boolean kingIsOnVulnerablePosition() {
-        return !((c.getRow() == 4 && c.getCol() == 4) || (c.getRow() == 4 && c.getCol() == 3) || (c.getRow() == 4 && c.getCol() == 5) || (c.getRow() == 3 && c.getCol() == 4) || (c.getRow() == 5 && c.getCol() == 4));
     }
 
     /**
@@ -65,15 +72,10 @@ public class Piece implements Serializable {
      */
     public boolean isDefenderOrKing(){ return this.type == PieceType.DEFENDER || this.type == PieceType.KING;}
 
-    public void setRow(int newRow){ c.setRowCoord(newRow);}
-
-    public void setCol(int newCol){ c.setColCoord(newCol);}
-
-    public void setKing(boolean king){ type = PieceType.KING;}
-
-    public void setAttacker(boolean attacker){ type = PieceType.ATTACKER;}
-
-    public void setDefender(boolean defender){ type = PieceType.DEFENDER;}
+    public boolean inSameTeam(Piece otherPiece){
+        return type == otherPiece.getType() || (type == PieceType.KING && otherPiece.getType() == PieceType.DEFENDER)
+                || (type == PieceType.DEFENDER && otherPiece.getType() == PieceType.KING);
+    }
 
     /**
      * Get symbol of piece type
@@ -109,14 +111,6 @@ public class Piece implements Serializable {
         }
 
         return true;
-    }
-
-    /**
-     * Clone piece
-     * @return cloned piece
-     */
-    public Piece clonePiece(){
-        return new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
     }
 
     /**
@@ -176,15 +170,12 @@ public class Piece implements Serializable {
         if(c > 0 && grid.board[r][c-1] != null) tab[3] = grid.board[r][c-1].getType();
         return tab;
     }
-    public Coordinate getCoords(){
-        return new Coordinate(getRow(), getCol());
-    }
-    public void setCoords(Coordinate coords){
-        c = coords;
-    }
 
-    public boolean inSameTeam(Piece otherPiece){
-        return type == otherPiece.getType() || (type == PieceType.KING && otherPiece.getType() == PieceType.DEFENDER)
-                || (type == PieceType.DEFENDER && otherPiece.getType() == PieceType.KING);
+    /**
+     * Clone piece
+     * @return cloned piece
+     */
+    public Piece clonePiece(){
+        return new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
     }
 }

@@ -1,16 +1,17 @@
 package Global;
 
-import Model.Game;
-import View.Interface;
-import View.InterfacePage;
-
 import java.io.*;
 
 public class Configuration implements Serializable {
     static Configuration instance = null;
+    static boolean coupHumanByList = false;
     static int themeIndex = 1;
     static boolean animationActived = true;
     final static String FILE_NAME = "config.cfg";
+
+    final static String TEST_FILE_PATH = "src/Test/LoadGameTestObject/";
+    final static String FILE_LIST_NAME = TEST_FILE_PATH + "KillAttacker.txt";
+    final static String FILE_LOAD_NAME = TEST_FILE_PATH + "KillAttacker";
 
     public static Configuration instance() {
         if (instance == null)
@@ -67,6 +68,14 @@ public class Configuration implements Serializable {
     public static boolean isAnimationActived(){
         return instance.animationActived;
     }
+
+    public static void setCoupHumanByList(boolean b){coupHumanByList = b;}
+
+    public static String getFileListName(){return FILE_LIST_NAME;}
+
+    public static String getFileLoadName(){return FILE_LOAD_NAME;}
+
+    public static boolean isListCoupHumanGame(){return coupHumanByList;}
 
     public static void setAnimationActived(boolean isAnimationActived){
         instance.animationActived = isAnimationActived;

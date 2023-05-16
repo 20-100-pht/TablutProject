@@ -1,6 +1,7 @@
 package Controller;
 
 import AI.AIDifficulty;
+import Global.Configuration;
 import Model.*;
 import Structure.Coordinate;
 import Structure.Coup;
@@ -12,8 +13,10 @@ public class GameConsoleController extends GameController {
     Game game;
     UserController user;
 
-    int MAX_DEPTH = 4; //Exploration de l'IA avec heuristique
-    int RANDOM_AI_MAX_DEPTH = 3;
+    CoupHumanList coupHumanByList;
+
+    int MAX_DEPTH = 3; //Exploration de l'IA avec heuristique
+    int RANDOM_AI_MAX_DEPTH = 1;
 
     int nbTurn;
 
@@ -28,6 +31,8 @@ public class GameConsoleController extends GameController {
         printGridTerminal = false;
         logicGrid = game.getLogicGridInstance();
         grid = logicGrid.getGrid();
+        if(Configuration.isListCoupHumanGame()) coupHumanByList = new CoupHumanList();
+        else coupHumanByList = null;
     }
 
     public ResultGame playGame(){
@@ -101,7 +106,8 @@ public class GameConsoleController extends GameController {
 
         while (current == null) {
 
-            coupPlayer = user.getCoupUser();
+            if(coupHumanByList == null) coupPlayer = user.getCoupUser();
+            else coupPlayer = coupHumanByList.getCoup();
 
             int error;
             if((error = logicGrid.isLegalMove(coupPlayer)) != 0){

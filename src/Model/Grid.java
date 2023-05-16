@@ -37,21 +37,37 @@ public class Grid implements Serializable {
         board[3][4] = new Piece(new Coordinate(3, 4), PieceType.KING);
 
         board[1][4] = new Piece(new Coordinate(1, 4), PieceType.ATTACKER);
-        board[3][2] = new Piece(new Coordinate(3, 2), PieceType.ATTACKER);
+        board[3][3] = new Piece(new Coordinate(3, 3), PieceType.ATTACKER);
         board[3][5] = new Piece(new Coordinate(3, 5), PieceType.ATTACKER);
-        board[4][2] = new Piece(new Coordinate(4, 2), PieceType.DEFENDER);
     }
 
     public void testKingVulnerability3(){
         board[1][1] = new Piece(new Coordinate(1, 1), PieceType.KING);
 
         board[1][0] = new Piece(new Coordinate(1, 0), PieceType.ATTACKER);
-        board[1][3] = new Piece(new Coordinate(1, 3), PieceType.ATTACKER);
+        board[0][1] = new Piece(new Coordinate(0, 1), PieceType.ATTACKER);
+        board[1][2] = new Piece(new Coordinate(1, 2), PieceType.ATTACKER);
+        board[3][1] = new Piece(new Coordinate(3, 1), PieceType.ATTACKER);
     }
 
     public void testKingVulnerability4(){
+        board[0][2] = new Piece(new Coordinate(0, 2), PieceType.KING);
+        board[0][1] = new Piece(new Coordinate(0, 1), PieceType.ATTACKER);
+        board[0][3] = new Piece(new Coordinate(0, 3), PieceType.ATTACKER);
+        board[2][2] = new Piece(new Coordinate(2, 2), PieceType.ATTACKER);
+    }
+
+    public void testKingVulnerability5(){
         board[0][1] = new Piece(new Coordinate(0, 1), PieceType.KING);
+        board[0][2] = new Piece(new Coordinate(0, 2), PieceType.ATTACKER);
         board[2][1] = new Piece(new Coordinate(2, 1), PieceType.ATTACKER);
+    }
+
+    public void captureKing(){
+        board[0][2] = new Piece(new Coordinate(0, 2), PieceType.KING);
+        board[0][1] = new Piece(new Coordinate(0, 1), PieceType.ATTACKER);
+        board[0][3] = new Piece(new Coordinate(0, 3), PieceType.ATTACKER);
+        board[1][2] = new Piece(new Coordinate(1, 2), PieceType.ATTACKER);
     }
 
     public void testTripleKill(){
