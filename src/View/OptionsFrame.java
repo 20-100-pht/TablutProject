@@ -15,8 +15,6 @@ public class OptionsFrame extends JFrame {
     JButton exitButton;
     GameFrame gameFrame;
     public OptionsFrame(GameFrame gameFrame) {
-        //this.setLocationRelativeTo(null);
-
         this.gameFrame = gameFrame;
 
         setTitle("Options");
