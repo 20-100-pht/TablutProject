@@ -162,7 +162,7 @@ public abstract class AI implements Serializable {
 
                         if(child.getLogicGrid().getEndGameType() == winType ||
                                 (child.getLogicGrid().getNbPieceAttackerOnGrid()/(child.getLogicGrid().getNbPieceDefenderOnGrid()+1) >= 2 && colour == 1) ||
-                            (child.getLogicGrid().getNbPieceAttackerOnGrid()/(child.getLogicGrid().getNbPieceDefenderOnGrid()+1) < 1.5 && colour == -1)){
+                                (child.getLogicGrid().getNbPieceAttackerOnGrid()/(child.getLogicGrid().getNbPieceDefenderOnGrid()+1) < 1.5 && colour == -1)){
                             children.add(0,child);
                         }else{
                             children.add(child);
