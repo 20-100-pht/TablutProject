@@ -9,14 +9,15 @@ import Model.ResultGame;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 1;
-    private static final int NB_EXPERIENCES = 3;
+    private static final int AIGAMES = 5;
+    private static final int NB_EXPERIENCES = 40;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = true;
@@ -34,12 +35,16 @@ public class AITraining {
         double nbVictoryAttacker = 0, nbVictoryDefender = 0, nbMaxTurnEncountered = 0;
         long tpsAverage = 0, tpsTotal = 0;
         long turnTotal = 0;
+        int attackers = 0, defenders = 0;
         long start, end;
 
-        if (WRITE_TO_FILE) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd_HH_mm_ss");
+        String fileName = "Res" + AiTested + "_" + formatter.format(date) + ".txt";
+
+        /*if (WRITE_TO_FILE) {
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd_HH_mm_ss");
-                writer = new BufferedWriter(new FileWriter( "Res" + AiTested + "_" + formatter.format(date) + ".txt"));
+
+                writer = new BufferedWriter(new FileWriter(fileName));
 
                 writer.write("Résultats des expériences sur l'IA ATTACKER de difficulté " + AiAttack + " vs l'IA DEFENDER de difficulté" + AiDef + "\n");//
                 writer.write("Paramètres : Nombre d'expériences = " + NB_EXPERIENCES + ", nombre de parties par expérience = " + AIGAMES + "\n");
@@ -47,7 +52,7 @@ public class AITraining {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         if(LoadBar){
             System.out.print("\rProgression Totale: [                    ] " + 0 + "%");
@@ -77,8 +82,10 @@ public class AITraining {
                         break;
                 }
                 tpsAverage += end - start;
-
                 turnTotal += game.getTurnIndex();
+
+                attackers+= game.getLogicGrid().getNbPieceAttackerOnGrid();
+                defenders+= game.getLogicGrid().getNbPieceDefenderOnGrid();
 
                 if (LoadBar) {
                     double progress = (double) (i + (j*AIGAMES)) / (AIGAMES * NB_EXPERIENCES);
@@ -96,13 +103,18 @@ public class AITraining {
 
             if (WRITE_TO_FILE) {
                 try {
+                    writer = new BufferedWriter(new FileWriter(fileName,true));
                     writer.write("\n\n");
                     writer.write("Résultats de l'expérience n°" + j + " :\n");
-                    writer.write("                " + ((nbVictoryAttacker / (AIGAMES * NB_EXPERIENCES)) * 100) + "% AttackerWin\n");
-                    writer.write("                " + ((nbVictoryDefender / (AIGAMES * NB_EXPERIENCES)) * 100) + "% DefenderWin\n");
-                    writer.write("                " + ((nbMaxTurnEncountered / (AIGAMES * NB_EXPERIENCES)) * 100) + "% > MAX_TURN\n");
-                    writer.write("                 Temps d'éxécution: " + tpsAverage / Math.pow(10, 9) + "s\n");
+                    writer.write(((nbVictoryAttacker / (AIGAMES * NB_EXPERIENCES)) * 100) + "% AttackerWin\n");
+                    writer.write(((nbVictoryDefender / (AIGAMES * NB_EXPERIENCES)) * 100) + "% DefenderWin\n");
+                    writer.write(((nbMaxTurnEncountered / (AIGAMES * NB_EXPERIENCES)) * 100) + "% > MAX_TURN\n");
+                    writer.write("Temps d'éxécution: " + tpsAverage / Math.pow(10, 9) + "s\n");
+                    writer.write("Average turns : " + turnTotal / (AIGAMES* NB_EXPERIENCES) + "turns\n");
+                    writer.write("Attackers : " + attackers / (AIGAMES* NB_EXPERIENCES) + "\n");
+                    writer.write("Defenders : " + defenders / (AIGAMES* NB_EXPERIENCES) + "\n");
                     writer.write(weights);
+                    writer.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -114,6 +126,7 @@ public class AITraining {
 
         if (WRITE_TO_FILE) {
             try {
+                writer = new BufferedWriter(new FileWriter(fileName));
                 writer.write("\n");
                 writer.write("Total time execution : " + tpsTotal / Math.pow(10, 9) + "s");
                 writer.close();
