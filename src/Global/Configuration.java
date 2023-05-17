@@ -37,7 +37,7 @@ public class Configuration implements Serializable {
 
     public static void setMaxTurn(int maxTurn) {MAX_TURN = maxTurn;}
 
-    static  int MAX_TURN = 120;
+    static  int MAX_TURN = 80;
 
     public static Configuration instance() {
         if (instance == null)

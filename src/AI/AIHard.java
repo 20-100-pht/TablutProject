@@ -9,7 +9,7 @@ import Structure.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AIMedium extends AI {
+public class AIHard extends AI {
 
     @Override
     public double heuristic(Node current, int depth, PieceType maximizingPlayer){
@@ -63,4 +63,6 @@ public class AIMedium extends AI {
 
         return value;
     }
+
+
 }
