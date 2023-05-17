@@ -31,6 +31,7 @@ public class NewGameFrame extends Frame {
     JRadioButton rdoMediumDefPart;
     JRadioButton rdoDifficultDefPart;
     Image imageChrono;
+    Image imageNewGame;
     JPanel bttnDefIAPanel;
     JPanel bttnAttIAPanel;
     JTextField tfTime;
@@ -78,7 +79,7 @@ public class NewGameFrame extends Frame {
 
         GridBagLayout gLayout = new GridBagLayout();
         mainPanel.setLayout(gLayout);
-
+        mainPanel.setOpaque(false);
         JLabel labelNewGame = new JLabel("Nouvelle partie");
         labelNewGame.setFont(fontArial25);
         c.gridx = 1;
@@ -92,6 +93,7 @@ public class NewGameFrame extends Frame {
         centralPanel = new JPanel();
         GridBagLayout gLayoutCP = new GridBagLayout();
         centralPanel.setLayout(gLayoutCP);
+        centralPanel.setOpaque(false);
 
         c.gridx = 1;
         c.gridy = 1;
@@ -209,6 +211,7 @@ public class NewGameFrame extends Frame {
     public void buildBlitzParamsPart(){
         GridBagConstraints c = new GridBagConstraints();
         JPanel blitzPanel = new JPanel();
+        blitzPanel.setOpaque((false));
         c.gridx = 0;
         c.gridy = 8;
         c.gridwidth = 2;
@@ -242,17 +245,25 @@ public class NewGameFrame extends Frame {
 
         ButtonGroup bttnGrpDefIA = new ButtonGroup();
         rdoHumanDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Humain", 0, 0);
+        rdoHumanDefPart.setOpaque(false);
         rdoEasyDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Facile", 0, 1);
+        rdoEasyDefPart.setOpaque(false);
         rdoMediumDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Moyen", 0, 2);
+        rdoMediumDefPart.setOpaque(false);
         rdoDifficultDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Difficile", 0, 3);
+        rdoDifficultDefPart.setOpaque(false);
 
         bttnAttIAPanel = createRadioBttnPanel(centralPanel, 1, 6);
 
         ButtonGroup bttnGrpAttIA = new ButtonGroup();
         rdoHumanAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Humain", 0, 0);
+        rdoHumanAttPart.setOpaque(false);
         rdoEasyAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Facile", 0, 1);
+        rdoEasyAttPart.setOpaque(false);
         rdoMediumAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Moyen", 0, 2);
+        rdoMediumAttPart.setOpaque(false);
         rdoDifficultAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Difficile", 0, 3);
+        rdoDifficultAttPart.setOpaque(false);
 
         rdoHumanDefPart.setSelected(true);
         rdoHumanAttPart.setSelected(true);
@@ -261,6 +272,7 @@ public class NewGameFrame extends Frame {
     public JPanel createRadioBttnPanel(JPanel parent, int posX, int posY){
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setOpaque(false);
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = posX;
         c.gridy = posY;
@@ -271,6 +283,7 @@ public class NewGameFrame extends Frame {
 
     public JPanel createSpacePanel(JPanel parent, int posX, int posY){
         JPanel spacePanel = new JPanel();
+        spacePanel.setOpaque(false);
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = posX;
         c.gridy = posY;
@@ -372,15 +385,19 @@ public class NewGameFrame extends Frame {
         try{
             imageChrono = ImageIO.read(new File("assets/images/chrono.png"));
             imageChrono = imageChrono.getScaledInstance(32, 32, Image.SCALE_DEFAULT);
+            imageNewGame = ImageIO.read(new File("assets/images/backgroundMenu.jpg"));
             returnImage = new ImageIcon(ImageIO.read(new File("assets/images/arrow2.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }
     }
 
+
+
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        g.drawImage(imageNewGame, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
 }
