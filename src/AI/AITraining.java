@@ -17,8 +17,8 @@ import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 100;
-    private static final int NB_EXPERIENCES = 50;
+    private static final int AIGAMES = 4;
+    private static final int NB_EXPERIENCES = 5;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = true;
@@ -40,10 +40,7 @@ public class AITraining {
         long start, end;
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd_HH_mm_ss");
-        String fileName = "src/Tests/outputAI/" + AiTested + "_" + formatter.format(date) + ".txt";
-        if (WRITE_TO_FILE) {
-            new BufferedWriter(new FileWriter(fileName));
-        }
+        String fileName = "src/Test/OutputAI/" + AiTested + "_" + formatter.format(date) + ".txt";
 
         if(LoadBar){
             System.out.print("\rProgression Totale: [                    ] " + 0 + "%");
