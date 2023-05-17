@@ -21,6 +21,7 @@ public class AITraining {
     private static final int NB_EXPERIENCES = 1;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
+    private static final boolean RANDOMIZE_WEIGHT = true;
     private static final boolean WRITE_TO_FILE = false;
     private static final PieceType AiTested = PieceType.ATTACKER;
     private static final AIDifficulty AiAttack = AIDifficulty.MID;
