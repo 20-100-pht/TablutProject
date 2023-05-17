@@ -1,9 +1,5 @@
-package AITests;
+package AI;
 
-import AI.AIDifficulty;
-import AI.AIMedium;
-import AI.AIRandom;
-import Controller.GameConsoleController;
 import Model.Game;
 import Structure.Node;
 
@@ -16,7 +12,7 @@ public class KingToCornerTest {
 
     public static void main(String[] args) {
         //File file = new File("1MoveWin");
-        File file = new File("king_2_corners");
+        File file = new File("src/Test/AI/king_2_corners");
         int possible=0;
 
         try {

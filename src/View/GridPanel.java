@@ -223,7 +223,7 @@ public class GridPanel extends JPanel {
             imageStepsHEnd = ImageIO.read(new File(STEPS_HORIZONTAL_END_ASSET_PATH));
             imageStepsV = ImageIO.read(new File(STEPS_VERTICAL_ASSET_PATH));
             imageStepsVEnd = ImageIO.read(new File(STEPS_VERTICAL_END_ASSET_PATH));
-            imageSelection = ImageIO.read(new File("assets/imageSelection.png"));
+            imageSelection = ImageIO.read(new File(SELECTION_ASSET_PATH));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -331,6 +331,7 @@ public class GridPanel extends JPanel {
         STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/steps2HE.png";
         STEPS_VERTICAL_ASSET_PATH= "assets/images/steps2V.png";
         STEPS_VERTICAL_END_ASSET_PATH= "assets/images/steps2VE.png";
+        SELECTION_ASSET_PATH = "tile_11_selection.png";
     }
 
     public void loadThemeSimpleFileNames(){
@@ -345,6 +346,7 @@ public class GridPanel extends JPanel {
         STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
         STEPS_VERTICAL_ASSET_PATH= "assets/images/theme_1_step.png";
         STEPS_VERTICAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
+        SELECTION_ASSET_PATH = "tile_11_selection.png";
     }
 
     public void updateTheme(){
