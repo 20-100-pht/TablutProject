@@ -45,11 +45,11 @@ public class NewGameFrame extends Frame {
     @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
-        window.setMinimumSize(new Dimension(400, 600));
+        window.setMinimumSize(new Dimension(600, 700));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int) (sizeScreen.height * 0.6);
-        int width = (int) (sizeScreen.width * 0.4);
+        int height = (int) (sizeScreen.height * 0.75);
+        int width = (int) (sizeScreen.width * 0.6);
         int x = (int) (sizeScreen.width/2 - width/2);
         int y = (int) (sizeScreen.height/2 - height/2);
 
@@ -331,13 +331,19 @@ public class NewGameFrame extends Frame {
                 else if(rdoMediumDefPart.isSelected()){
                     defDiff = AIDifficulty.MID;
                 }
+                else if(rdoDifficultDefPart.isSelected()){
+                    defDiff = AIDifficulty.HARD;
+                }
                 AIDifficulty attDiff = AIDifficulty.HUMAN;
                 if(rdoEasyAttPart.isSelected()){
                     attDiff = AIDifficulty.RANDOM;
                 }
                 else if(rdoMediumAttPart.isSelected()){
                     attDiff = AIDifficulty.MID;
+                }else if(rdoDifficultAttPart.isSelected()){
+                    attDiff = AIDifficulty.HARD;
                 }
+
                 int blitzTime;
                 if(!Utils.isNumeric(tfTime.getText())) blitzTime = 0;
                 else blitzTime = Integer.parseInt(tfTime.getText());

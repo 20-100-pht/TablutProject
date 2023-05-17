@@ -263,5 +263,9 @@ public class GameGraphicController extends GameController {
 
         updateTurnLabel();
     }
+
+    public void updateViewAfterLoad(){
+        updateTurnLabel();
+    }
 }
 

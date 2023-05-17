@@ -24,7 +24,7 @@ public class AITraining {
     private static final boolean WRITE_TO_FILE = false;
     private static final PieceType AiTested = PieceType.ATTACKER;
     private static final AIDifficulty AiAttack = AIDifficulty.MID;
-    private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
+    private static final AIDifficulty AiDef = AIDifficulty.MID;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");
@@ -99,7 +99,7 @@ public class AITraining {
             }
 
             String weights = getWeights();
-            //randomizeWeights();
+            if(RANDOMIZE_WEIGHT) randomizeWeights();
 
             if (WRITE_TO_FILE) {
                 try {

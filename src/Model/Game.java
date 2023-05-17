@@ -4,9 +4,7 @@ import AI.*;
 import Controller.GameController;
 import Controller.MoveAnimationType;
 import Global.Configuration;
-import Structure.Coordinate;
 import Structure.Coup;
-import View.GridPanel;
 
 import java.io.*;
 import java.util.Vector;
@@ -32,7 +30,7 @@ public class Game implements Serializable {
     AIDifficulty defenderTypeAI;
 
     AI aiMinMax;
-    AIRandom aleatron;
+
     public AI defenderAI;
     public AI attackerAI;
     LogicGrid logicGrid;
@@ -62,11 +60,10 @@ public class Game implements Serializable {
             else if(defAiDifficulty == AIDifficulty.MID ) {
                 this.defenderName = "Défenseur [MOYEN]";
             }
-            /*
             else if(defAiDifficulty == AIDifficulty.HARD ) {
-                this.defenderName = "Défenseur IA [DIFFICILE]";
+                this.defenderName = "Défenseur [DIFFICILE]";
             }
-            */
+
         } else {
             this.defenderName = defenderName;
 
@@ -78,11 +75,10 @@ public class Game implements Serializable {
             else if(attAiDifficulty == AIDifficulty.MID){
                 this.attackerName = "Attaquant [MOYEN]";
             }
-            /*
             else if(attAiDifficulty == AIDifficulty.HARD){
-                this.attackerName = "Attaquant IA [DIFFICILE]";
+                this.attackerName = "Attaquant [DIFFICILE]";
             }
-            */
+
         } else {
             this.attackerName = attackerName;
         }
@@ -106,6 +102,8 @@ public class Game implements Serializable {
                 defenderAI = new AIRandom();
             }else if(defenderTypeAI == AIDifficulty.MID){
                 defenderAI = new AIMedium();
+            }else if(defenderTypeAI == AIDifficulty.HARD){
+                defenderAI = new AIHard();
             }
         }
         if(attackerIsAI){
@@ -114,6 +112,9 @@ public class Game implements Serializable {
             }else if(attackerTypeAI == AIDifficulty.MID){
                 attackerAI = new AIMedium();
             }
+            else if(attackerTypeAI == AIDifficulty.HARD){
+                attackerAI = new AIHard();
+            }
         }
     }
 
@@ -121,7 +122,6 @@ public class Game implements Serializable {
         attackerTurn = true;
         turnIndex = 0;
         logicGrid.reset();
-        aleatron = new AIRandom();
         aiMinMax = new AIMedium();
         history.reset();
         attTimeRemainedMs = blitzTime*1000;
@@ -351,8 +351,6 @@ public class Game implements Serializable {
     public AI getAiMinMax() {
         return aiMinMax;
     }
-
-    public AIRandom getAleatron(){ return aleatron;}
 
     public boolean isAttackerAI() {
         return attackerIsAI;

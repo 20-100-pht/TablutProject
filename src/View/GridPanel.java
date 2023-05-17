@@ -193,7 +193,7 @@ public class GridPanel extends JPanel {
         int x = (int) (caseX*caseSize + caseSize*0.35);
         int y = (int) (caseY*caseSize + caseSize*0.35);
         int markSize = (int) (caseSize*0.3);
-        g.setColor(new Color(125,125,125));
+        g.setColor(new Color(50,50,50,50));
         g.fillOval(x, y, markSize, markSize);
     }
 
