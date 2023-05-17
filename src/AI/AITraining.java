@@ -14,11 +14,11 @@ import java.util.Date;
 
 
 public class AITraining {
-    private static final int AIGAMES = 10;
-    private static final int NB_EXPERIENCES = 2;
-    private static final boolean PRINT = false;
-    private static final boolean LoadBar = true;
-    private static final boolean WRITE_TO_FILE = true;
+    private static final int AIGAMES = 2;
+    private static final int NB_EXPERIENCES = 1;
+    private static final boolean PRINT = true;
+    private static final boolean LoadBar = false;
+    private static final boolean WRITE_TO_FILE = false;
     private static final PieceType AiTested = PieceType.ATTACKER;
     private static final AIDifficulty AiAttack = AIDifficulty.MID;
     private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
