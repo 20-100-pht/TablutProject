@@ -1,4 +1,4 @@
-package AITests;
+package AI;
 
 import Model.LogicGrid;
 import Structure.Node;

@@ -10,8 +10,8 @@ public class Configuration implements Serializable {
     final static String FILE_NAME = "config.cfg";
 
     final static String TEST_FILE_PATH = "src/Test/LoadGameTestObject/";
-    final static String FILE_LIST_NAME = TEST_FILE_PATH + "KillAttacker.txt";
-    final static String FILE_LOAD_NAME = TEST_FILE_PATH + "KillAttacker";
+    final static String FILE_LIST_NAME = TEST_FILE_PATH + "CaptureKingCommonCase.txt";
+    final static String FILE_LOAD_NAME = TEST_FILE_PATH + "Classic";
 
     public static Configuration instance() {
         if (instance == null)

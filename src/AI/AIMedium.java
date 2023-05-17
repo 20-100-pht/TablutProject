@@ -19,29 +19,23 @@ public class AIMedium extends AI {
     public double heuristic(Node current, int depth, PieceType maximizingPlayer){
 
         double value = 0;
-        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
+        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN) {
             value += 1000000*(depth+1);
+            if(depth == 0) return value;
+        }
         else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
             value -= 1000000*(depth+1);
+            if(depth == 0) return value;
         }
 
-
-        //Maximize the players' pieces
-        value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1))*2;//*0.5;
-        value += canKingGoToCorner(current)*-10;
-        value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid())*6;
-        value += attackerCircleStrategy(current)*5;
+        switch (maximizingPlayer){
+            case ATTACKER:
+                value += attackerHeuristic(current, depth, maximizingPlayer);
+            case KING: case DEFENDER:
+                value -=  defenderHeuristic(current, depth, maximizingPlayer);
+        }
 
         return value;
-
-        /*switch (maximizingPlayer){
-            case ATTACKER:
-                return attackerHeuristic(current, depth, maximizingPlayer);
-            case KING: case DEFENDER:
-                return  defenderHeuristic(current, depth, maximizingPlayer);
-            default:
-                return 0;
-        }*/
     }
 
     private double attackerHeuristic(Node current, int depth, PieceType maximizingPlayer){
@@ -49,17 +43,11 @@ public class AIMedium extends AI {
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
 
-        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
-            return 1000000*(depth+1);
-        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
-            return -1000000*(depth+1);
-        }
-
-        double value = (double)
-                (gRules.getNbPieceAttackerOnGrid())*5+
-                isNextToKing(k,current.getLogicGrid().getGrid())*10 -
-                canKingGoToCorner(current)*100;
-
+        double value = 0;
+        value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1))*2;
+        value += canKingGoToCorner(current)*-10;
+        value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid())*6;
+        value += attackerCircleStrategy(current)*3;
 
         //Attackers want a high value, Defenders want a low value
         return value;
@@ -69,19 +57,11 @@ public class AIMedium extends AI {
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
 
-        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
-            return 1000000*(depth+1);
-        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
-            return -1000000*(depth+1);
-        }
+        double value =0;
+        value += gRules.getNbPieceDefenderOnGrid()*5;
+        value -= isNextToKing(k,current.getLogicGrid().getGrid())*10;
+        value += canKingGoToCorner(current)*100;
 
-        double value = (double)
-                -(gRules.getNbPieceDefenderOnGrid()*5) +
-                isNextToKing(k,current.getLogicGrid().getGrid())*10 -
-                canKingGoToCorner(current)*100;
-
-
-        //Attackers want a high value, Defenders want a low value
         return value;
     }
 

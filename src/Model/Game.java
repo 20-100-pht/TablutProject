@@ -42,7 +42,7 @@ public class Game implements Serializable {
     History history;
     transient GameController gameController;
 
-    int MAX_AI_DEPTH = 4;
+    int MAX_AI_DEPTH = 3;
 
     public Game(String defenderName, String attackerName, AIDifficulty defAiDifficulty, AIDifficulty attAiDifficulty, int blitzTime){
 
@@ -55,12 +55,12 @@ public class Game implements Serializable {
         attackerTypeAI = attAiDifficulty;
 
         if(defenderName.length() == 0) {
-            if(!defenderIsAI) this.defenderName = "Defenseur humain";
+            if(!defenderIsAI) this.defenderName = "Defenseur";
             else if(defAiDifficulty == AIDifficulty.RANDOM ){
-                this.defenderName = "Défenseur IA [RANDOM]";
+                this.defenderName = "Défenseur [FACILE]";
             }
             else if(defAiDifficulty == AIDifficulty.MID ) {
-                this.defenderName = "Défenseur IA [MOYEN]";
+                this.defenderName = "Défenseur [MOYEN]";
             }
             /*
             else if(defAiDifficulty == AIDifficulty.HARD ) {
@@ -71,12 +71,12 @@ public class Game implements Serializable {
             this.defenderName = defenderName;
 
         } if(attackerName.length() == 0) {
-            if(!attackerIsAI) this.attackerName = "Attaquant humain";
+            if(!attackerIsAI) this.attackerName = "Attaquant";
             else if(attAiDifficulty == AIDifficulty.RANDOM){
-                this.attackerName = "Attaquant IA [RANDOM]";
+                this.attackerName = "Attaquant [FACILE]";
             }
             else if(attAiDifficulty == AIDifficulty.MID){
-                this.attackerName = "Attaquant IA [MOYEN]";
+                this.attackerName = "Attaquant [MOYEN]";
             }
             /*
             else if(attAiDifficulty == AIDifficulty.HARD){

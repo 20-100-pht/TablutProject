@@ -23,9 +23,11 @@ public class GameFrame extends Frame {
     ImageIcon imageHuman;
     ImageIcon imageArrowLeft;
     ImageIcon imageArrowRight;
+    ImageIcon imageHint;
     ImageIcon imageBook;
     ImageIcon imageMenu;
     JButton bttnMenu;
+    JButton bttnHint;
     JButton bttnHelp;
     JPopupMenu menu;
     JMenuItem save, forfeit, options;
@@ -398,6 +400,10 @@ public class GameFrame extends Frame {
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
 
+        // btn indice -> bttnHint
+
+        // btn regle-tuto
+
         bttnHelp = new JButton(imageBook);
         bttnHelp.setContentAreaFilled(false);
         bttnHelp.setBorderPainted(false);
@@ -449,6 +455,7 @@ public class GameFrame extends Frame {
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_left.png")));
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
             imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
+            imageHint = new ImageIcon(ImageIO.read(new File("assets/images/hint.png")));
             imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu.png")));
             imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
         } catch(IOException exp){
