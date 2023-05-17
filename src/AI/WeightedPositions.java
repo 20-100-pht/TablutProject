@@ -6,7 +6,7 @@ public class WeightedPositions {
 
     int A = 0;
     int B = 1;
-    int C = B*2;
+    int C = B*4;
     int D = -1;
     int E = C*2;
 
@@ -25,7 +25,7 @@ public class WeightedPositions {
         return weights;
     }
 
-    int[][] center = {
+    /*int[][] center = {
             { A, A, A, A, A, A, A, A, A},
             { A, A, D, A, B, A, D, A, A},
             { A, D, A, B, A, B, A, D, A},
@@ -143,6 +143,115 @@ public class WeightedPositions {
             { A, A, A, B, A, C, A, A, A},
             { A, A, A, A, C, A, A, A, A},
             { A, A, A, A, A, A, A, A, A}
+    };*/
+
+
+    int[][] center = {
+            { A, A, A, A, B, A, A, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, A, B, A, A, A, B, A, A},
+            { A, B, A, A, A, A, A, B, A},
+            { B, A, A, A, A, A, A, A, B},
+            { A, B, A, A, A, A, A, B, A},
+            { A, A, B, A, A, A, B, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, A, A, A, B, A, A, A, A}
+    };
+
+    int[][] left = {
+            { A, A, A, A, C, A, A, A, A},
+            { A, A, A, C, A, B, A, A, A},
+            { A, A, C, A, A, A, B, A, A},
+            { A, C, A, A, A, A, A, B, A},
+            { C, A, A, A, A, A, A, A, B},
+            { A, C, A, A, A, A, A, B, A},
+            { A, A, C, A, A, A, B, A, A},
+            { A, A, A, C, A, B, A, A, A},
+            { A, A, A, A, C, A, A, A, A}
+    };
+
+    int[][] right = {
+            { A, A, A, A, C, A, A, A, A},
+            { A, A, A, B, A, C, A, A, A},
+            { A, A, B, A, A, A, C, A, A},
+            { A, B, A, A, A, A, A, C, A},
+            { B, A, A, A, A, A, A, A, C},
+            { A, B, A, A, A, A, A, C, A},
+            { A, A, B, A, A, A, C, A, A},
+            { A, A, A, B, A, C, A, A, A},
+            { A, A, A, A, C, A, A, A, A}
+    };
+
+    int[][] top = {
+            { A, A, A, A, C, A, A, A, A},
+            { A, A, A, C, A, C, A, A, A},
+            { A, A, C, A, A, A, C, A, A},
+            { A, C, A, A, A, A, A, C, A},
+            { C, A, A, A, A, A, A, A, C},
+            { A, B, A, A, A, A, A, B, A},
+            { A, A, B, A, A, A, B, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, A, A, A, B, A, A, A, A}
+    };
+
+    int[][] bottom = {
+            { A, A, A, A, B, A, A, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, A, B, A, A, A, B, A, A},
+            { A, B, A, A, A, A, A, B, A},
+            { C, A, A, A, A, A, A, A, C},
+            { A, C, A, A, A, A, A, C, A},
+            { A, A, C, A, A, A, C, A, A},
+            { A, A, A, C, A, C, A, A, A},
+            { A, A, A, A, C, A, A, A, A}
+    };
+
+    int[][] top_left = {
+            { A, A, A, A, C, A, A, A, A},
+            { A, A, A, C, A, B, A, A, A},
+            { A, A, C, A, A, A, B, A, A},
+            { A, C, A, A, A, A, A, B, A},
+            { C, A, A, A, A, A, A, A, B},
+            { A, B, A, A, A, A, A, B, A},
+            { A, A, B, A, A, A, B, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, A, A, A, B, A, A, A, A}
+    };
+
+    int[][] top_right = {
+            { A, A, A, A, C, A, A, A, A},
+            { A, A, A, B, A, C, A, A, A},
+            { A, A, B, A, A, A, C, A, A},
+            { A, B, A, A, A, A, A, C, A},
+            { B, A, A, A, A, A, A, A, C},
+            { A, B, A, A, A, A, A, B, A},
+            { A, A, B, A, A, A, B, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, A, A, A, B, A, A, A, A}
+    };
+
+    int[][] bottom_left = {
+            { A, A, A, A, B, A, A, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, A, B, A, A, A, B, A, A},
+            { A, B, A, A, A, A, A, B, A},
+            { C, A, A, A, A, A, A, A, B},
+            { A, C, A, A, A, A, A, B, A},
+            { A, A, C, A, A, A, B, A, A},
+            { A, A, A, C, A, B, A, A, A},
+            { A, A, A, A, C, A, A, A, A}
+    };
+
+    int[][] bottom_right = {
+            { A, A, A, A, B, A, A, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, A, B, A, A, A, B, A, A},
+            { A, B, A, A, A, A, A, B, A},
+            { B, A, A, A, A, A, A, A, C},
+            { A, B, A, A, A, A, A, C, A},
+            { A, A, B, A, A, A, C, A, A},
+            { A, A, A, B, A, C, A, A, A},
+            { A, A, A, A, C, A, A, A, A}
     };
 
 

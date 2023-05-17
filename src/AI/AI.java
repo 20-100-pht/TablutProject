@@ -107,10 +107,25 @@ public abstract class AI implements Serializable {
                 if(cp == null) cp = bm.getCoup();
                 bmToReturn = new BestMove(cp,bm.getHeuristic());
 
+                value = bm.getHeuristic();
+
+                if (colour == 1) {
+                    //Max
+                    alpha = Math.max(alpha, value);
+                    if (alpha >= beta) {
+                        break;  // Beta cutoff
+                    }
+                } else {
+                    //Min
+                    beta = Math.min(beta, value);
+                    if (alpha >= beta) {
+                        break;  // Alpha cutoff
+                    }
+                }
+
                 bestMovesArray.clear();
                 bestMovesArray.add(bmToReturn);
 
-                value = bm.getHeuristic();
             }
             else if (value == bm.getHeuristic()) {
                 Coup cp = node.getCoup();
@@ -119,19 +134,6 @@ public abstract class AI implements Serializable {
 
                 bestMovesArray.add(bmToReturn);
             }
-
-
-            /*if(colour==-1){
-                if(alpha >= value){
-                    break;
-                }
-                beta = Math.min(beta,value);
-            }else{
-                if(beta <= value){
-                    break;
-                }
-                alpha = Math.max(alpha,value);
-            }*/
         }
 
         return bestMovesArray;
@@ -158,7 +160,9 @@ public abstract class AI implements Serializable {
                     for(int i = 0; i < moves.size(); i++){
                         Node child = createChild(node, current, moves.get(i));
 
-                        if(child.getLogicGrid().getEndGameType() == winType){
+                        if(child.getLogicGrid().getEndGameType() == winType ||
+                                (child.getLogicGrid().getNbPieceAttackerOnGrid()/(child.getLogicGrid().getNbPieceDefenderOnGrid()+1) >= 2 && colour == 1) ||
+                            (child.getLogicGrid().getNbPieceAttackerOnGrid()/(child.getLogicGrid().getNbPieceDefenderOnGrid()+1) < 1.5 && colour == -1)){
                             children.add(0,child);
                         }else{
                             children.add(child);

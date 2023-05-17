@@ -30,7 +30,7 @@ public class AIMedium extends AI {
         value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1))*2;//*0.5;
         value += canKingGoToCorner(current)*-10;
         value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid())*6;
-        value += attackerCircleStrategy(current)*6;
+        value += attackerCircleStrategy(current)*5;
 
         return value;
 
@@ -104,6 +104,8 @@ public class AIMedium extends AI {
                 }
             }
         }
+
+        //if(value > 8) return 1;
 
         return value;
     }

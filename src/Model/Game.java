@@ -42,7 +42,7 @@ public class Game implements Serializable {
     History history;
     transient GameController gameController;
 
-    int MAX_AI_DEPTH = 3;
+    int MAX_AI_DEPTH = 4;
 
     public Game(String defenderName, String attackerName, AIDifficulty defAiDifficulty, AIDifficulty attAiDifficulty, int blitzTime){
 
