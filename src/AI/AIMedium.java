@@ -42,9 +42,13 @@ public class AIMedium extends AI {
         LogicGrid gRules = current.getLogicGrid();
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
+        PieceType adverse;
+        if(maximizingPlayer == PieceType.ATTACKER) adverse = PieceType.DEFENDER;
+        else adverse = PieceType.ATTACKER;
 
         double value = 0;
         value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1))*2;
+        value += GoToSuicide(grid.getPieceAtPosition(current.getCoup().getDest()), grid, adverse);
         value += canKingGoToCorner(current)*-10;
         value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid())*6;
         value += attackerCircleStrategy(current)*3;
