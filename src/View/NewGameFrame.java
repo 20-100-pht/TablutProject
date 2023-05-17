@@ -331,13 +331,19 @@ public class NewGameFrame extends Frame {
                 else if(rdoMediumDefPart.isSelected()){
                     defDiff = AIDifficulty.MID;
                 }
+                else if(rdoDifficultDefPart.isSelected()){
+                    defDiff = AIDifficulty.HARD;
+                }
                 AIDifficulty attDiff = AIDifficulty.HUMAN;
                 if(rdoEasyAttPart.isSelected()){
                     attDiff = AIDifficulty.RANDOM;
                 }
                 else if(rdoMediumAttPart.isSelected()){
                     attDiff = AIDifficulty.MID;
+                }else if(rdoDifficultAttPart.isSelected()){
+                    attDiff = AIDifficulty.HARD;
                 }
+
                 int blitzTime;
                 if(!Utils.isNumeric(tfTime.getText())) blitzTime = 0;
                 else blitzTime = Integer.parseInt(tfTime.getText());
