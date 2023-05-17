@@ -11,7 +11,7 @@ import java.util.Random;
 
 public abstract class AI implements Serializable {
 
-    int dep = 0;
+    int startingDepth = 0;
     int aiType = -1;
     public AI(){
 
@@ -26,7 +26,7 @@ public abstract class AI implements Serializable {
      */
     public Coup playMove(LogicGrid g, int depth, PieceType type) {
 
-        dep = depth;
+        startingDepth = depth;
 
         //Set alpha and beta
         double alpha = Double.NEGATIVE_INFINITY;
@@ -80,7 +80,8 @@ public abstract class AI implements Serializable {
         Random random = new Random();
 
         if(bestMovesArray.size() > 1){
-            bmToReturn = bestMovesArray.get(random.nextInt(bestMovesArray.size()));
+            int randInt = random.nextInt(bestMovesArray.size());
+            bmToReturn = bestMovesArray.get(randInt);
         }
 
         return bmToReturn;
@@ -96,6 +97,10 @@ public abstract class AI implements Serializable {
         BestMove bmToReturn;
         ArrayList<BestMove> bestMovesArray = new ArrayList<>();
 
+        if(startingDepth == depth){
+            //System.out.println("stop");
+        }
+
         for(int i = 0; i < children.size(); i++){
 
             BestMove bm = minimax(children.get(i), depth-1, -colour, alpha, beta);
@@ -109,20 +114,6 @@ public abstract class AI implements Serializable {
 
                 value = bm.getHeuristic();
 
-                if (colour == 1) {
-                    //Max
-                    alpha = Math.max(alpha, value);
-                    if (alpha >= beta) {
-                        break;  // Beta cutoff
-                    }
-                } else {
-                    //Min
-                    beta = Math.min(beta, value);
-                    if (alpha >= beta) {
-                        break;  // Alpha cutoff
-                    }
-                }
-
                 bestMovesArray.clear();
                 bestMovesArray.add(bmToReturn);
 
@@ -134,8 +125,26 @@ public abstract class AI implements Serializable {
 
                 bestMovesArray.add(bmToReturn);
             }
+
+            if (colour == 1 && depth != startingDepth) {
+                //Max
+                alpha = Math.max(alpha, value);
+                if (alpha >= beta) {
+                    break;  // Beta cutoff
+                }
+            } else if (colour == -1 && depth != startingDepth) {
+                //Min
+                beta = Math.min(beta, value);
+                if (alpha >= beta) {
+                    break;  // Alpha cutoff
+                }
+            }
         }
 
+
+        if(startingDepth == depth){
+            //System.out.println("out");
+        }
         return bestMovesArray;
     }
 

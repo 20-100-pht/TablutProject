@@ -17,11 +17,11 @@ import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 4;
-    private static final int NB_EXPERIENCES = 5;
+    private static final int AIGAMES = 10;
+    private static final int NB_EXPERIENCES = 1;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
-    private static final boolean WRITE_TO_FILE = true;
+    private static final boolean WRITE_TO_FILE = false;
     private static final PieceType AiTested = PieceType.ATTACKER;
     private static final AIDifficulty AiAttack = AIDifficulty.MID;
     private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
@@ -56,6 +56,8 @@ public class AITraining {
             float nbDef = 0;
 
             for (int i = 0; i < AIGAMES; i++) {
+
+                //setWeights();
 
                 Game game = new Game("", "", AiDef, AiAttack, 100);
 
@@ -112,7 +114,6 @@ public class AITraining {
                     writer.write("Attackers : " + nbAtt / (AIGAMES) + "\n");
                     writer.write("Defenders : " + nbDef / (AIGAMES) + "\n");
                     writer.write(weights);
-                    //writer.flush();
                     writer.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -188,6 +189,13 @@ public class AITraining {
         weights += "\n";
 
         return weights;
+    }
+
+    private static void setWeights(){
+        AIConfig.setCircleStrat_A(7);
+        AIConfig.setPieceRatio_A(70);
+        AIConfig.setNextToKing_A(51);
+        AIConfig.setKingToCorner_A(82);
     }
 
 
