@@ -3,120 +3,125 @@ package AI;
 import AI.AIDifficulty;
 import Controller.GameConsoleController;
 import Model.Game;
+import Model.PieceType;
 import Model.ResultGame;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class AITraining {
-    private static final  int AIGAMES = 100;
+    private static final int AIGAMES = 10;
+    private static final int NB_EXPERIENCES = 2;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
-    private static final boolean WRITE_TO_FILE = false;
+    private static final boolean WRITE_TO_FILE = true;
+    private static final PieceType AiTested = PieceType.ATTACKER;
+    private static final AIDifficulty AiAttack = AIDifficulty.MID;
+    private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");
 
+        BufferedWriter writer = null;
         Date date = new Date();
 
         ResultGame Res;
         double nbVictoryAttacker = 0, nbVictoryDefender = 0, nbMaxTurnEncountered = 0;
-        long tpsAverage = 0;
+        long tpsAverage = 0, tpsTotal = 0;
         long start, end;
-        String lastGamesStates = "";
-        for (int i = 0; i < AIGAMES; i++) {
-            Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.MID,100);
-            GameConsoleController gcc = new GameConsoleController(game);
-            game.setGameControllerInstance(gcc);
-            gcc.setPrintTerminal(PRINT);
-            start = System.nanoTime();
-            Res = gcc.playGame();
 
-            lastGamesStates += "\nAttackers :" + gcc.getGame().getLogicGrid().getNbPieceAttackerOnGrid() + "\n";
-            lastGamesStates += "Defenders :" + gcc.getGame().getLogicGrid().getNbPieceDefenderOnGrid();
-            lastGamesStates += gcc.getGame().getLogicGrid().toString();
+        if (WRITE_TO_FILE) {
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd_HH_mm_ss");
+                writer = new BufferedWriter(new FileWriter( "Res" + AiTested + "_" + formatter.format(date) + ".txt"));
 
-            end = System.nanoTime();
-            switch (Res) {
-                case ATTACKER_WIN:
-                    nbVictoryAttacker++;
-                    break;
-                case DEFENDER_WIN:
-                    nbVictoryDefender++;
-                    break;
-                default:
-                    nbMaxTurnEncountered++;
-                    break;
+                writer.write("Résultats des expériences sur l'IA ATTACKER de difficulté " + AiAttack + " vs l'IA DEFENDER de difficulté" + AiDef + "\n");//
+                writer.write("Paramètres : Nombre d'expériences = " + NB_EXPERIENCES + ", nombre de parties par expérience = " + AIGAMES + "\n");
+                writer.write("On teste l'IA " + AiTested + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            tpsAverage += end-start;
+        }
+        for (int j = 0; j < NB_EXPERIENCES; j++) {
+            for (int i = 0; i < AIGAMES; i++) {
+                if (LoadBar) {
+                    double progress = (double) (i * j + 1) / (AIGAMES * NB_EXPERIENCES);
+                    int barLength = 20;
+                    int filledLength = (int) (progress * barLength);
+                    int emptyLength = barLength - filledLength;
 
-            if(LoadBar){
-                double progress = (double) i / AIGAMES;
-                int barLength = 20;
-                int filledLength = (int) (progress * barLength);
-                int emptyLength = barLength - filledLength;
+                    StringBuilder bar = new StringBuilder();
+                    for (int b = 0; b < filledLength; b++) {
+                        bar.append("#");
+                    }
+                    for (int b = 0; b < emptyLength; b++) {
+                        bar.append(" ");
+                    }
 
-                StringBuilder bar = new StringBuilder();
-                for (int j = 0; j < filledLength; j++) {
-                    bar.append("#");
-                }
-                for (int j = 0; j < emptyLength; j++) {
-                    bar.append(" ");
+                    System.out.print("\rProgression: [" + bar.toString() + "] " + (int) (progress * 100) + "%");
                 }
 
-                System.out.print("\rProgression: [" + bar.toString() + "] " + (int)(progress * 100) + "%");
-            }
+                Game game = new Game("", "", AiDef, AiAttack, 100);
 
-            if(WRITE_TO_FILE && i%100 == 99 && i != 0){
-                writeToFile(nbVictoryAttacker, nbVictoryDefender, nbMaxTurnEncountered, tpsAverage, date, i);
+                GameConsoleController gcc = new GameConsoleController(game);
+                game.setGameControllerInstance(gcc);
+                gcc.setPrintTerminal(PRINT);
+                start = System.nanoTime();
+                Res = gcc.playGame();
+                end = System.nanoTime();
+                switch (Res) {
+                    case ATTACKER_WIN:
+                        nbVictoryAttacker++;
+                        break;
+                    case DEFENDER_WIN:
+                        nbVictoryDefender++;
+                        break;
+                    default:
+                        nbMaxTurnEncountered++;
+                        break;
+                }
+                tpsAverage += end - start;
             }
+            if (WRITE_TO_FILE) {
+                try {
+                    writer.write("");
+                    writer.write("Résultats de l'expérience n°" + j + " :\n");
+                    if (AiTested == PieceType.ATTACKER) {
+                        writer.write("                " + ((nbVictoryAttacker / AIGAMES) * 100) + "% AttackerWin\n");
+                    } else {
+                        writer.write("                " + ((nbVictoryDefender / AIGAMES) * 100) + "% DefenderWin\n");
+                    }
+                    writer.write("                " + ((nbMaxTurnEncountered / AIGAMES) * 100) + "% > MAX_TURN\n");
+                    writer.write("                 Temps d'éxécution: " + tpsAverage / Math.pow(10, 9) + "s\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            tpsTotal += tpsAverage;
+            tpsAverage = 0;
 
         }
 
-        System.out.println(lastGamesStates);
+        if (WRITE_TO_FILE) {
+            try {
+                writer.write("\n");
+                writer.write("Total time execution : " + tpsTotal / Math.pow(10, 9) + "s");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("\nResultat Game : " + ((nbVictoryAttacker / AIGAMES) * 100) + "% AttackerWin");
+            System.out.println("                " + ((nbVictoryDefender / AIGAMES) * 100) + "% DefenderWin");
+            System.out.println("                " + ((nbMaxTurnEncountered / AIGAMES) * 100) + "% > MAX_TURN");
+            System.out.println("Total time execution : " + tpsTotal / Math.pow(10, 9) + "s");
+            System.out.println("Average time execution by game : " + (tpsTotal / AIGAMES) / Math.pow(10, 9) + "s");
 
-        System.out.println("\nResultat Game : " + ((nbVictoryAttacker/AIGAMES)*100) + "% AttackerWin");
-        System.out.println("                " + ((nbVictoryDefender/AIGAMES)*100) + "% DefenderWin");
-        System.out.println("                " + ((nbMaxTurnEncountered/AIGAMES)*100) + "% > MAX_TURN");
-        System.out.println("Total time execution : " + tpsAverage/Math.pow(10,9) + "s");
-        System.out.println("Average time execution by game : " + (tpsAverage/AIGAMES)/Math.pow(10,9) + "s");
-
-        if(WRITE_TO_FILE){
-            writeToFile(nbVictoryAttacker, nbVictoryDefender, nbMaxTurnEncountered, tpsAverage, date, AIGAMES);
         }
-
-        //affichage de stats et paramètres utilisés
-
     }
 
-    /**
-     * Writes result of tests in files
-     *
-     * @param nbVictoryAttacker nb of times attackers won
-     * @param nbVictoryDefender nb of times defenders won
-     * @param nbMaxTurnEncountered nb of games skipped
-     * @param tpsAverage average time
-     * @param date current date
-     * @param nbGames nb of games played
-     */
-    public static void writeToFile(double nbVictoryAttacker, double nbVictoryDefender, double nbMaxTurnEncountered, double tpsAverage, Date date, int nbGames){
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy__HH_mm_ss");
-            BufferedWriter writer = new BufferedWriter(new FileWriter("ResultatFinalIA"+ formatter.format(date) +".txt"));
-            writer.write("Resultat Game : " + ((nbVictoryAttacker/nbGames)*100) + "% AttackerWin\n");
-            writer.write("                " + ((nbVictoryDefender/nbGames)*100) + "% DefenderWin\n");
-            writer.write("                " + ((nbMaxTurnEncountered/nbGames)*100) + "% > MAX_TURN\n");
-            writer.write("Total time execution : " + tpsAverage/Math.pow(10,9) + "s\n");
-            writer.write("Average time execution by game : " + (tpsAverage/nbGames)/Math.pow(10,9) + "s\n");
-            writer.write("Number of games : " + nbGames + "\n");
-            writer.close();
-        }catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 }

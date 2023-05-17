@@ -20,6 +20,7 @@ public class GameFrame extends Frame {
     GameGraphicController gameGraphicController;
     GridPanel gridPanel;
     ImageIcon imageRobot;
+    ImageIcon imageHuman;
     ImageIcon imageArrowLeft;
     ImageIcon imageArrowRight;
     ImageIcon imageBook;
@@ -201,7 +202,9 @@ public class GameFrame extends Frame {
         c2.weightx = 0;
         c2.fill = GridBagConstraints.NONE;
 
-        JLabel labelImagePlayer1 = new JLabel(imageRobot);
+        JLabel labelImagePlayer1;
+        if(game.isDefenderAI()) labelImagePlayer1 = new JLabel(imageRobot);
+        else labelImagePlayer1 = new JLabel(imageHuman);
         c2.gridx = 0;
         c2.gridy = 0;
         layoutImagePlayer1.setConstraints(labelImagePlayer1, c2);
@@ -303,7 +306,9 @@ public class GameFrame extends Frame {
         c2.weightx = 0;
         c2.fill = GridBagConstraints.NONE;
 
-        JLabel labelImagePlayer2 = new JLabel(imageRobot);
+        JLabel labelImagePlayer2;
+        if(game.isAttackerAI()) labelImagePlayer2 = new JLabel(imageRobot);
+        else labelImagePlayer2 = new JLabel(imageHuman);
         c2.gridx = 0;
         c2.gridy = 0;
         layoutImagePlayer2.setConstraints(labelImagePlayer2, c2);
@@ -439,7 +444,8 @@ public class GameFrame extends Frame {
 
     void loadAssets(){
         try{
-            imageRobot = new ImageIcon(ImageIO.read(new File("assets/images/human-robot.png")));
+            imageRobot = new ImageIcon(ImageIO.read(new File("assets/images/robot.png")));
+            imageHuman = new ImageIcon(ImageIO.read(new File("assets/images/human.png")));
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_left.png")));
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
             imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
