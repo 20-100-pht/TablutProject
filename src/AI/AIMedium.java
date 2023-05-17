@@ -1,5 +1,6 @@
 package AI;
 
+import Global.Configuration;
 import Model.*;
 import Structure.Coordinate;
 import Structure.Direction;
@@ -14,6 +15,8 @@ public class AIMedium extends AI {
     Coordinate CornerTopRight = new Coordinate(0, 8);
     Coordinate CornerBottomLeft = new Coordinate(8, 0);
     Coordinate CornerBottomRight = new Coordinate(8, 8);
+
+    int aiType = 1;
 
     @Override
     public double heuristic(Node current, int depth, PieceType maximizingPlayer){
@@ -44,10 +47,10 @@ public class AIMedium extends AI {
         Grid grid = gRules.getGrid();
 
         double value = 0;
-        value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1))*2;
-        value += canKingGoToCorner(current)*-10;
-        value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid())*6;
-        value += attackerCircleStrategy(current)*3;
+        value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1)) * AIConfig.getPieceRatio_A();
+        value += canKingGoToCorner(current) * -AIConfig.getKingToCorner_A();
+        value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid()) * AIConfig.getNextToKing_A();
+        value += attackerCircleStrategy(current) * AIConfig.getCircleStrat_A();
 
         //Attackers want a high value, Defenders want a low value
         return value;
@@ -370,4 +373,6 @@ public class AIMedium extends AI {
 
         return legalMoves;
     }
+
+
 }
