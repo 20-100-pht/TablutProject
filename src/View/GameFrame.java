@@ -4,6 +4,7 @@ import Animation.AnimationChrono;
 import Controller.GameGraphicController;
 import Global.Configuration;
 import Model.Game;
+import Model.Grid;
 
 import javax.swing.border.Border;
 
@@ -58,6 +59,7 @@ public class GameFrame extends Frame {
     Button bttnStatusIa;
     JLabel labelPreviousTurn;
     JLabel labelNextTurn;
+    JPanel rulesPanel;
 
 
     public GameFrame(Interface ui, Game game){
@@ -102,6 +104,7 @@ public class GameFrame extends Frame {
         bgPanel.setLayout(gLayout);
 
         // MENU
+
         bttnMenu = new JButton(imageMenu);
         bttnMenu.setContentAreaFilled(false);
         bttnMenu.setBorderPainted(false);
@@ -156,6 +159,24 @@ public class GameFrame extends Frame {
         c.insets = new Insets(12, 0, 0, 0);
         bttnsAfterGamePanel.add(bttnReplay, c);
         bttnReplay.setVisible(false);
+
+
+        // btn regle-tuto
+
+        bttnHelp = new JButton(imageBook);
+        bttnHelp.setContentAreaFilled(false);
+        bttnHelp.setBorderPainted(false);
+        bttnHelp.setMargin(new Insets(0,0,0,0));
+        c.gridx = 2;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        c.insets = new Insets(10, 0, 0, 15);
+        c.weighty = 0.15;
+        gLayout.setConstraints(bttnHelp, c);
+        bgPanel.add(bttnHelp);
+
+        c.insets = new Insets(0, 0, 0, 0);
+        c.anchor = GridBagConstraints.CENTER;
 
 
         //Infos player 1
@@ -402,20 +423,6 @@ public class GameFrame extends Frame {
 
         // btn indice -> bttnHint
 
-        // btn regle-tuto
-
-        bttnHelp = new JButton(imageBook);
-        bttnHelp.setContentAreaFilled(false);
-        bttnHelp.setBorderPainted(false);
-        bttnHelp.setMargin(new Insets(0,0,0,0));
-        c.gridx = 2;
-        c.gridy = 0;
-        c.anchor = GridBagConstraints.FIRST_LINE_END;
-        c.insets = new Insets(10, 0, 0, 15);
-        c.weighty = 0.15;
-        gLayout.setConstraints(bttnHelp, c);
-        bgPanel.add(bttnHelp);
-
         //Panel foreground
 
         JPanel fgPanel = new JPanel(){
@@ -429,6 +436,27 @@ public class GameFrame extends Frame {
 
         createMessages(fgPanel);
 
+        //Panel rules
+
+        rulesPanel = new JPanel();
+        rulesPanel.setOpaque(false);
+        rulesPanel.setLayout(new GridBagLayout());
+        rulesPanel.setVisible(false);
+
+        RulesPanel rulesVPanel = new RulesPanel(35);
+        rulesVPanel.build();
+        rulesVPanel.setBackground(Color.red);
+        rulesVPanel.setPreferredSize(new Dimension(ui.getWindow().getWidth()/2, (int) (ui.getWindow().getHeight()/1.5)));
+
+        c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.anchor = GridBagConstraints.CENTER;
+        /*c.gridx = 1;
+        c.gridy = 1;*/
+        rulesPanel.add(rulesVPanel, c);
+
+
+        mainPanel.add(rulesPanel);
         mainPanel.add(fgPanel);
         mainPanel.add(bgPanel);
 
@@ -514,6 +542,14 @@ public class GameFrame extends Frame {
                 }
             });
         }
+
+        bttnHelp.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                rulesPanel.setVisible(true);
+            }
+        });
 
         setMenuHandlers();
         setReviewModeHandlers();

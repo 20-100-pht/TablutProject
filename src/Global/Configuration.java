@@ -33,6 +33,12 @@ public class Configuration implements Serializable {
         MAX_AI_RANDOM_DEPTH = maxAiRandomDepth;
     }
 
+    public static int getMaxTurn() {return MAX_TURN;}
+
+    public static void setMaxTurn(int maxTurn) {MAX_TURN = maxTurn;}
+
+    static  int MAX_TURN = 120;
+
     public static Configuration instance() {
         if (instance == null)
             instance = new Configuration();

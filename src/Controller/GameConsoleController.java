@@ -18,7 +18,7 @@ public class GameConsoleController extends GameController {
     int nbTurn;
 
     boolean printGridTerminal;
-    private static final int MAX_TURN_ALLOWED = 200;
+    private static final int MAX_TURN_ALLOWED = Configuration.getMaxTurn();
 
     public GameConsoleController(Game game){
         user = new UserController();

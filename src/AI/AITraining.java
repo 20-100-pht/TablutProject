@@ -23,7 +23,7 @@ public class AITraining {
     private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = true;
     private static final PieceType AiTested = PieceType.ATTACKER;
-    private static final AIDifficulty AiAttack = AIDifficulty.RANDOM;
+    private static final AIDifficulty AiAttack = AIDifficulty.MID;
     private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
 
     public static void main(String[] args) throws IOException {
@@ -40,7 +40,7 @@ public class AITraining {
         long start, end;
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd_HH_mm_ss");
-        String fileName = "Res" + AiTested + "_" + formatter.format(date) + ".txt";
+        String fileName = "src/Tests/outputAI/" + AiTested + "_" + formatter.format(date) + ".txt";
         if (WRITE_TO_FILE) {
             new BufferedWriter(new FileWriter(fileName));
         }
