@@ -15,7 +15,7 @@ public class GameConsoleController extends GameController {
 
     CoupHumanList coupHumanByList;
 
-    int MAX_DEPTH = 3; //Exploration de l'IA avec heuristique
+    int MAX_DEPTH = 4; //Exploration de l'IA avec heuristique
     int RANDOM_AI_MAX_DEPTH = 3;
 
     int nbTurn;

@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 
 
 public class AITraining {
-    private static final  int AIGAMES = 50;
+    private static final  int AIGAMES = 100;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = false;
@@ -29,7 +29,7 @@ public class AITraining {
         long start, end;
         String lastGamesStates = "";
         for (int i = 0; i < AIGAMES; i++) {
-            Game game = new Game("", "", AIDifficulty.MID, AIDifficulty.MID,100);
+            Game game = new Game("", "", AIDifficulty.RANDOM, AIDifficulty.MID,100);
             GameConsoleController gcc = new GameConsoleController(game);
             game.setGameControllerInstance(gcc);
             gcc.setPrintTerminal(PRINT);
