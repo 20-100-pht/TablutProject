@@ -15,14 +15,14 @@ import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 1;
+    private static final int AIGAMES = 4;
     private static final int NB_EXPERIENCES = 3;
     private static final boolean PRINT = false;
     private static final boolean LoadBar = true;
     private static final boolean WRITE_TO_FILE = true;
     private static final PieceType AiTested = PieceType.ATTACKER;
     private static final AIDifficulty AiAttack = AIDifficulty.MID;
-    private static final AIDifficulty AiDef = AIDifficulty.MID;
+    private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");
@@ -98,9 +98,9 @@ public class AITraining {
                 try {
                     writer.write("\n\n");
                     writer.write("Résultats de l'expérience n°" + j + " :\n");
-                    writer.write("                " + ((nbVictoryAttacker / (AIGAMES * NB_EXPERIENCES)) * 100) + "% AttackerWin\n");
-                    writer.write("                " + ((nbVictoryDefender / (AIGAMES * NB_EXPERIENCES)) * 100) + "% DefenderWin\n");
-                    writer.write("                " + ((nbMaxTurnEncountered / (AIGAMES * NB_EXPERIENCES)) * 100) + "% > MAX_TURN\n");
+                    writer.write("                " + ((nbVictoryAttacker / (AIGAMES)) * 100) + "% AttackerWin\n");
+                    writer.write("                " + ((nbVictoryDefender / (AIGAMES)) * 100) + "% DefenderWin\n");
+                    writer.write("                " + ((nbMaxTurnEncountered / (AIGAMES)) * 100) + "% > MAX_TURN\n");
                     writer.write("                 Temps d'éxécution: " + tpsAverage / Math.pow(10, 9) + "s\n");
                     writer.write(weights);
                 } catch (IOException e) {
