@@ -443,10 +443,9 @@ public class GameFrame extends Frame {
         rulesPanel.setLayout(new GridBagLayout());
         rulesPanel.setVisible(false);
 
-        RulesPanel rulesVPanel = new RulesPanel(35);
+        RulesPanel rulesVPanel = new RulesPanel(this, 35);
         rulesVPanel.build();
         rulesVPanel.setBackground(Color.red);
-        rulesVPanel.setPreferredSize(new Dimension(ui.getWindow().getWidth()/2, (int) (ui.getWindow().getHeight()/1.5)));
 
         c.weightx = 0.5;
         c.weighty = 0.5;
