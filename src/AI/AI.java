@@ -12,7 +12,7 @@ import java.util.Random;
 public abstract class AI implements Serializable {
 
     int dep = 0;
-
+    int aiType = -1;
     public AI(){
 
     }
@@ -210,4 +210,7 @@ public abstract class AI implements Serializable {
      */
     public abstract double heuristic(Node current, int depth,PieceType maximizingPlayer);
 
+    public int getAiType(){
+        return aiType;
+    }
 }

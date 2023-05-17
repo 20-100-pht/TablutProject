@@ -13,6 +13,25 @@ public class Configuration implements Serializable {
     final static String FILE_LIST_NAME = TEST_FILE_PATH + "CaptureKingCommonCase.txt";
     final static String FILE_LOAD_NAME = TEST_FILE_PATH + "Classic";
 
+    public static int getMaxAiDepth() {
+        return MAX_AI_DEPTH;
+    }
+
+    public static void setMaxAiDepth(int maxAiDepth) {
+        MAX_AI_DEPTH = maxAiDepth;
+    }
+
+    public static int getMaxAiRandomDepth() {
+        return MAX_AI_RANDOM_DEPTH;
+    }
+
+    public static void setMaxAiRandomDepth(int maxAiRandomDepth) {
+        MAX_AI_RANDOM_DEPTH = maxAiRandomDepth;
+    }
+
+    static int MAX_AI_DEPTH = 4;
+    static int MAX_AI_RANDOM_DEPTH = 3;
+
     public static Configuration instance() {
         if (instance == null)
             instance = new Configuration();

@@ -15,9 +15,6 @@ public class GameConsoleController extends GameController {
 
     CoupHumanList coupHumanByList;
 
-    int MAX_DEPTH = 3; //Exploration de l'IA avec heuristique
-    int RANDOM_AI_MAX_DEPTH = 3;
-
     int nbTurn;
 
     boolean printGridTerminal;
@@ -72,12 +69,12 @@ public class GameConsoleController extends GameController {
             //TODO à modifier quand il y aura plusieurs difficultées
 
            if(game.isDefenderAI() && !game.isAttackerTurn()){
-               if(game.getAIDefenderDifficulty() == AIDifficulty.RANDOM) coupAI = game.getDefenderAI().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, AiPieces);
-               else coupAI = game.getDefenderAI().playMove(logicGrid, MAX_DEPTH, AiPieces);
+               if(game.getAIDefenderDifficulty() == AIDifficulty.RANDOM) coupAI = game.getDefenderAI().playMove(logicGrid, Configuration.getMaxAiRandomDepth(), AiPieces);
+               else coupAI = game.getDefenderAI().playMove(logicGrid, Configuration.getMaxAiDepth(), AiPieces);
            }
            else if(game.isAttackerAI() && game.isAttackerTurn()){
-               if(game.getAIAttackerDifficulty() == AIDifficulty.RANDOM) coupAI = game.getAttackerAI().playMove(logicGrid, RANDOM_AI_MAX_DEPTH, AiPieces);
-               else coupAI = game.getAttackerAI().playMove(logicGrid, MAX_DEPTH, AiPieces);
+               if(game.getAIAttackerDifficulty() == AIDifficulty.RANDOM) coupAI = game.getAttackerAI().playMove(logicGrid, Configuration.getMaxAiRandomDepth(), AiPieces);
+               else coupAI = game.getAttackerAI().playMove(logicGrid, Configuration.getMaxAiDepth(), AiPieces);
            }
 
             logicGrid.move(coupAI);

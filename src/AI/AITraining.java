@@ -11,17 +11,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 2;
-    private static final int NB_EXPERIENCES = 1;
-    private static final boolean PRINT = true;
-    private static final boolean LoadBar = false;
-    private static final boolean WRITE_TO_FILE = false;
+    private static final int AIGAMES = 1;
+    private static final int NB_EXPERIENCES = 3;
+    private static final boolean PRINT = false;
+    private static final boolean LoadBar = true;
+    private static final boolean WRITE_TO_FILE = true;
     private static final PieceType AiTested = PieceType.ATTACKER;
     private static final AIDifficulty AiAttack = AIDifficulty.MID;
-    private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
+    private static final AIDifficulty AiDef = AIDifficulty.MID;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");
@@ -32,6 +33,7 @@ public class AITraining {
         ResultGame Res;
         double nbVictoryAttacker = 0, nbVictoryDefender = 0, nbMaxTurnEncountered = 0;
         long tpsAverage = 0, tpsTotal = 0;
+        long turnTotal = 0;
         long start, end;
 
         if (WRITE_TO_FILE) {
@@ -46,24 +48,14 @@ public class AITraining {
                 e.printStackTrace();
             }
         }
+
+        if(LoadBar){
+            System.out.print("\rProgression Totale: [                    ] " + 0 + "%");
+            System.out.print(" - Progression: [                    ] " + 0 + "%");
+        }
+
         for (int j = 0; j < NB_EXPERIENCES; j++) {
             for (int i = 0; i < AIGAMES; i++) {
-                if (LoadBar) {
-                    double progress = (double) (i * j + 1) / (AIGAMES * NB_EXPERIENCES);
-                    int barLength = 20;
-                    int filledLength = (int) (progress * barLength);
-                    int emptyLength = barLength - filledLength;
-
-                    StringBuilder bar = new StringBuilder();
-                    for (int b = 0; b < filledLength; b++) {
-                        bar.append("#");
-                    }
-                    for (int b = 0; b < emptyLength; b++) {
-                        bar.append(" ");
-                    }
-
-                    System.out.print("\rProgression: [" + bar.toString() + "] " + (int) (progress * 100) + "%");
-                }
 
                 Game game = new Game("", "", AiDef, AiAttack, 100);
 
@@ -85,18 +77,32 @@ public class AITraining {
                         break;
                 }
                 tpsAverage += end - start;
+
+                turnTotal += game.getTurnIndex();
+
+                if (LoadBar) {
+                    double progress = (double) (i + (j*AIGAMES)) / (AIGAMES * NB_EXPERIENCES);
+                    double progressExp = (double) i / (AIGAMES+1);
+
+                    StringBuilder loadBarTotal = createLoadBar(progress);
+                    StringBuilder loadBarExp = createLoadBar(progressExp);
+                    System.out.print("\rProgression Totale: [" + loadBarTotal.toString() + "] " + (int) (progress * 100) + "%");
+                    System.out.print(" - Progression: [" + loadBarExp.toString() + "] " + (int) (progressExp * 100) + "%");
+                }
             }
+
+            String weights = getWeights();
+            randomizeWeights();
+
             if (WRITE_TO_FILE) {
                 try {
-                    writer.write("");
+                    writer.write("\n\n");
                     writer.write("Résultats de l'expérience n°" + j + " :\n");
-                    if (AiTested == PieceType.ATTACKER) {
-                        writer.write("                " + ((nbVictoryAttacker / AIGAMES) * 100) + "% AttackerWin\n");
-                    } else {
-                        writer.write("                " + ((nbVictoryDefender / AIGAMES) * 100) + "% DefenderWin\n");
-                    }
-                    writer.write("                " + ((nbMaxTurnEncountered / AIGAMES) * 100) + "% > MAX_TURN\n");
+                    writer.write("                " + ((nbVictoryAttacker / (AIGAMES * NB_EXPERIENCES)) * 100) + "% AttackerWin\n");
+                    writer.write("                " + ((nbVictoryDefender / (AIGAMES * NB_EXPERIENCES)) * 100) + "% DefenderWin\n");
+                    writer.write("                " + ((nbMaxTurnEncountered / (AIGAMES * NB_EXPERIENCES)) * 100) + "% > MAX_TURN\n");
                     writer.write("                 Temps d'éxécution: " + tpsAverage / Math.pow(10, 9) + "s\n");
+                    writer.write(weights);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -115,13 +121,60 @@ public class AITraining {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("\nResultat Game : " + ((nbVictoryAttacker / AIGAMES) * 100) + "% AttackerWin");
-            System.out.println("                " + ((nbVictoryDefender / AIGAMES) * 100) + "% DefenderWin");
-            System.out.println("                " + ((nbMaxTurnEncountered / AIGAMES) * 100) + "% > MAX_TURN");
+            System.out.println("\nResultat Game : " + ((nbVictoryAttacker / (AIGAMES * NB_EXPERIENCES)) * 100) + "% AttackerWin");
+            System.out.println("                " + ((nbVictoryDefender / (AIGAMES* NB_EXPERIENCES)) * 100) + "% DefenderWin");
+            System.out.println("                " + ((nbMaxTurnEncountered / (AIGAMES* NB_EXPERIENCES)) * 100) + "% > MAX_TURN");
+            System.out.println("Average turns : " + turnTotal / (AIGAMES* NB_EXPERIENCES) + "turns");
             System.out.println("Total time execution : " + tpsTotal / Math.pow(10, 9) + "s");
-            System.out.println("Average time execution by game : " + (tpsTotal / AIGAMES) / Math.pow(10, 9) + "s");
+            System.out.println("Average time execution by game : " + (tpsTotal / (AIGAMES* NB_EXPERIENCES)) / Math.pow(10, 9) + "s");
 
         }
+
     }
+
+    private static StringBuilder createLoadBar(double progress){
+        int barLength = 20;
+        int filledLength = (int) (progress * barLength);
+        int emptyLength = barLength - filledLength;
+
+        StringBuilder bar = new StringBuilder();
+        for (int b = 0; b < filledLength; b++) {
+            bar.append("#");
+        }
+        for (int b = 0; b < emptyLength; b++) {
+            bar.append(" ");
+        }
+
+        return bar;
+    }
+
+    private static void randomizeWeights(){
+
+        Random r = new Random();
+
+        AIConfig.setCircleStrat_A(r.nextInt(101));
+        AIConfig.setPieceRatio_A(r.nextInt(101));
+        AIConfig.setNextToKing_A(r.nextInt(101));
+        AIConfig.setKingToCorner_A(r.nextInt(101));
+    }
+
+    private static String getWeights(){
+
+        String weights = "";
+
+        weights += "Circle Strategy : ";
+        weights += AIConfig.getCircleStrat_A();
+        weights += "\nPiece Ratio : ";
+        weights += AIConfig.getPieceRatio_A();
+        weights += "\nNext to King : ";
+        weights += AIConfig.getNextToKing_A();
+        weights += "\nKing to corner : ";
+        weights += AIConfig.getKingToCorner_A();
+        weights += "\n";
+
+        return weights;
+    }
+
+
 
 }
