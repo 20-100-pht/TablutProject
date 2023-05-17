@@ -97,10 +97,10 @@ public class GridPanel extends JPanel {
 
                 // Case selected mark
                 if(selectionMarkCoords != null && !gameLogic.isEndGame()) {
-                    int markX = (int) (selectionMarkCoords.getCol() * getCaseSize() + getCaseSize() * 0.1);
-                    int markY = (int) (selectionMarkCoords.getRow() * getCaseSize() + getCaseSize() * 0.1);
+                    int markX = (int) (selectionMarkCoords.getCol() * getCaseSize() + getCaseSize() * 0.01);
+                    int markY = (int) (selectionMarkCoords.getRow() * getCaseSize() + getCaseSize() * 0.01);
 
-                    g.drawImage(imageSelection, markX - 7, markY - 7, getCaseSize(), getCaseSize(), null);
+                    g.drawImage(imageSelection, markX, markY, getCaseSize(), getCaseSize(), null);
                 }
             }
         }
