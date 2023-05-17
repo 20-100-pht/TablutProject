@@ -19,10 +19,13 @@ public class AIMedium extends AI {
     public double heuristic(Node current, int depth, PieceType maximizingPlayer){
 
         double value = 0;
-        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
+        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN) {
             value += 1000000*(depth+1);
+            if(depth == 0) return value;
+        }
         else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
             value -= 1000000*(depth+1);
+            if(depth == 0) return value;
         }
 
         switch (maximizingPlayer){
