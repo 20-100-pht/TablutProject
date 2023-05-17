@@ -186,6 +186,23 @@ public class AIMedium extends AI {
         }
         return 0;
     }
+
+        //Tab[0] == en haut
+        //Tab[1] == en bas
+        //Tab[2] == à droite
+        //Tab[3] == à gauche
+    public int GoToSuicide (Piece p, Grid grid, PieceType adverse){
+        int result = 0;
+        PieceType[] tab;
+        if(p != null){
+            tab = p.piecesNextToIt(grid);
+            if( (p.getType() != adverse) && (tab[0] == adverse && tab[1] == adverse)) result += 2;
+            else if ( (p.getType() != adverse) && (tab[2] == adverse && tab[3] == adverse)) result +=2;
+        }
+        return result;
+    }
+
+
     public int canKingGoToCorner(Node n){
         Grid grid = n.getLogicGrid().getGrid();
         int x = n.getLogicGrid().getKing().getCol();

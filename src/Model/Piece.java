@@ -166,10 +166,10 @@ public class Piece implements Serializable {
     public PieceType[] piecesNextToIt(Grid grid){
         PieceType[] tab = new PieceType[4];
         int r = getRow(); int c = getCol();
-        if(r < 8 && grid.board[r+1][c] != null) tab[0] = grid.board[r+1][c].getType();
-        if(r > 0 && grid.board[r-1][c] != null) tab[1] = grid.board[r-1][c].getType();
-        if(c < 8 && grid.board[r][c+1] != null) tab[2] = grid.board[r][c+1].getType();
-        if(c > 0 && grid.board[r][c-1] != null) tab[3] = grid.board[r][c-1].getType();
+        if(r < 8 && grid.board[r+1][c] != null) tab[0] = grid.board[r+1][c].getType(); //Tab[0] == en haut
+        if(r > 0 && grid.board[r-1][c] != null) tab[1] = grid.board[r-1][c].getType(); //Tab[1] == en bas
+        if(c < 8 && grid.board[r][c+1] != null) tab[2] = grid.board[r][c+1].getType(); //Tab[2] == à droite
+        if(c > 0 && grid.board[r][c-1] != null) tab[3] = grid.board[r][c-1].getType(); //Tab[3] == à gauche
         return tab;
     }
 
