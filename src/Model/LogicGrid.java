@@ -47,6 +47,9 @@ public class LogicGrid implements Serializable {
     public void print(){
         grid.print();
     }
+    public String toString(){
+        return grid.toString();
+    }
 
     /**
      * Check if defender has won
@@ -89,7 +92,7 @@ public class LogicGrid implements Serializable {
             return 3;
         }
 
-        if(grid.isCastle(coup.getDest()) && !selectedPiece.isKing()){
+        if(grid.isCastle(coup.getDest())){
             return 4;
         }
 
@@ -453,6 +456,9 @@ public class LogicGrid implements Serializable {
 
         //Add nb attckers
         newLogicGrid.setNbPieceAttackerOnGrid(getNbPieceAttackerOnGrid());
+        newLogicGrid.setNbPieceDefenderOnGrid(getNbPieceDefenderOnGrid());
+
+        newLogicGrid.setNbPieceDefenderOnGrid(getNbPieceDefenderOnGrid());
 
         return newLogicGrid;
     }

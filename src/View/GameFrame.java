@@ -1,7 +1,6 @@
 package View;
 
 import Animation.AnimationChrono;
-import Animation.AnimationMove;
 import Controller.GameGraphicController;
 import Global.Configuration;
 import Model.Game;
@@ -21,11 +20,15 @@ public class GameFrame extends Frame {
     GameGraphicController gameGraphicController;
     GridPanel gridPanel;
     ImageIcon imageRobot;
+    ImageIcon imageHuman;
     ImageIcon imageArrowLeft;
     ImageIcon imageArrowRight;
+    ImageIcon imageHint;
     ImageIcon imageBook;
     ImageIcon imageMenu;
     JButton bttnMenu;
+    JButton bttnHint;
+    JButton bttnHelp;
     JPopupMenu menu;
     JMenuItem save, forfeit, options;
     WinMessagePanel winMessagePanel;
@@ -38,8 +41,6 @@ public class GameFrame extends Frame {
     Button bttnRedo;
     CapturedPiecesPanel capturedPiecesPanel1;
     CapturedPiecesPanel capturedPiecesPanel2;
-    JLabel labelPlayer1Status;
-    JLabel labelPlayer2Status;
     boolean frozen;
     JLabel labelIndexTurn;
     TextMessagePanel textMessagePanel;
@@ -55,6 +56,8 @@ public class GameFrame extends Frame {
     Image imageBackground;
     JPanel gridBorderPanel;
     Button bttnStatusIa;
+    JLabel labelPreviousTurn;
+    JLabel labelNextTurn;
 
 
     public GameFrame(Interface ui, Game game){
@@ -98,13 +101,9 @@ public class GameFrame extends Frame {
         GridBagConstraints c = new GridBagConstraints();
         bgPanel.setLayout(gLayout);
 
-
-
         // MENU
-
         bttnMenu = new JButton(imageMenu);
         bttnMenu.setContentAreaFilled(false);
-        bttnMenu.setOpaque(true);
         bttnMenu.setBorderPainted(false);
         bttnMenu.setMargin(new Insets(0,0,0,0));
         c.gridx = 0;
@@ -205,7 +204,9 @@ public class GameFrame extends Frame {
         c2.weightx = 0;
         c2.fill = GridBagConstraints.NONE;
 
-        JLabel labelImagePlayer1 = new JLabel(imageRobot);
+        JLabel labelImagePlayer1;
+        if(game.isDefenderAI()) labelImagePlayer1 = new JLabel(imageRobot);
+        else labelImagePlayer1 = new JLabel(imageHuman);
         c2.gridx = 0;
         c2.gridy = 0;
         layoutImagePlayer1.setConstraints(labelImagePlayer1, c2);
@@ -232,11 +233,12 @@ public class GameFrame extends Frame {
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
+        centerPanel.setOpaque(false);
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 0.5;
         c.weighty = 0.6;
-        c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.CENTER;
         gLayout.setConstraints(centerPanel, c);
         bgPanel.add(centerPanel);
 
@@ -248,7 +250,6 @@ public class GameFrame extends Frame {
         centerPanel.add(gridPanelContainer);
 
         gridBorderPanel = new JPanel();
-        gridBorderPanel.setBackground(Color.red);
         gridBorderPanel.setLayout(new GridBagLayout());
         c.gridx = 0;
         c.gridy = 0;
@@ -258,6 +259,7 @@ public class GameFrame extends Frame {
         gridPanelContainer.add(gridBorderPanel, c);
 
         c.insets = new Insets(5, 5, 5, 5);
+        //c.insets = new Insets(0,0,0,0);
         gridBorderPanel.add(gridPanel, c);
 
         c.insets = new Insets(12, 0, 0, 0);
@@ -306,7 +308,9 @@ public class GameFrame extends Frame {
         c2.weightx = 0;
         c2.fill = GridBagConstraints.NONE;
 
-        JLabel labelImagePlayer2 = new JLabel(imageRobot);
+        JLabel labelImagePlayer2;
+        if(game.isAttackerAI()) labelImagePlayer2 = new JLabel(imageRobot);
+        else labelImagePlayer2 = new JLabel(imageHuman);
         c2.gridx = 0;
         c2.gridy = 0;
         layoutImagePlayer2.setConstraints(labelImagePlayer2, c2);
@@ -350,9 +354,7 @@ public class GameFrame extends Frame {
         gLayout.setConstraints(turnPanel, c);
         bgPanel.add(turnPanel);
 
-        BoxLayout layoutTurnPanel = new BoxLayout(turnPanel, BoxLayout.X_AXIS);
-
-        JLabel labelPreviousTurn = new JLabel(imageArrowLeft);
+        labelPreviousTurn = new JLabel(imageArrowLeft);
         turnPanel.add(labelPreviousTurn);
 
         Border borderIndexTurn = BorderFactory.createEmptyBorder(0, 30, 0 ,30);
@@ -362,7 +364,7 @@ public class GameFrame extends Frame {
         labelIndexTurn.setBorder(borderIndexTurn);
         turnPanel.add(labelIndexTurn);
 
-        JLabel labelNextTurn = new JLabel(imageArrowRight);
+        labelNextTurn = new JLabel(imageArrowRight);
         turnPanel.add(labelNextTurn);
 
         //Undo - Redo
@@ -398,6 +400,22 @@ public class GameFrame extends Frame {
         layoutPanelHistory.setConstraints(bttnRedo, c);
         panelHistory.add(bttnRedo);
 
+        // btn indice -> bttnHint
+
+        // btn regle-tuto
+
+        bttnHelp = new JButton(imageBook);
+        bttnHelp.setContentAreaFilled(false);
+        bttnHelp.setBorderPainted(false);
+        bttnHelp.setMargin(new Insets(0,0,0,0));
+        c.gridx = 2;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        c.insets = new Insets(10, 0, 0, 15);
+        c.weighty = 0.15;
+        gLayout.setConstraints(bttnHelp, c);
+        bgPanel.add(bttnHelp);
+
         //Panel foreground
 
         JPanel fgPanel = new JPanel(){
@@ -432,10 +450,12 @@ public class GameFrame extends Frame {
 
     void loadAssets(){
         try{
-            imageRobot = new ImageIcon(ImageIO.read(new File("assets/images/human-robot.png")));
+            imageRobot = new ImageIcon(ImageIO.read(new File("assets/images/robot.png")));
+            imageHuman = new ImageIcon(ImageIO.read(new File("assets/images/human.png")));
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_left.png")));
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
             imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
+            imageHint = new ImageIcon(ImageIO.read(new File("assets/images/hint.png")));
             imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu.png")));
             imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
         } catch(IOException exp){
@@ -496,6 +516,25 @@ public class GameFrame extends Frame {
         }
 
         setMenuHandlers();
+        setReviewModeHandlers();
+    }
+
+    void setReviewModeHandlers(){
+        labelPreviousTurn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                gameGraphicController.bttnPreviousTurnClickHandler();
+            }
+        });
+
+        labelNextTurn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                gameGraphicController.bttnNextTurnClickHandler();
+            }
+        });
     }
 
     void setMenuHandlers(){
@@ -654,8 +693,8 @@ public class GameFrame extends Frame {
         }
     }
 
-    public void setTurnLabelValue(int turnIndex){
-        labelIndexTurn.setText("Tour "+Integer.toString(turnIndex+1));
+    public void setTurnLabelValue(String text){
+        labelIndexTurn.setText(text);
     }
 
     public void updatePlayerStatus() {

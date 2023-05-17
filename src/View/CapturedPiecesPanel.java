@@ -50,7 +50,7 @@ public class CapturedPiecesPanel extends JPanel {
         int xL2 = getWidth()/2 - getSecondLineWidth()/2;
         drawLine(g, xL1, 0, Math.min(8, getNPiece()));
         if(getNPiece() >= 9) {
-            drawLine(g, xL2, PIECE_SIZE / 2, getNPiece() % 8);
+            drawLine(g, xL2, PIECE_SIZE / 2, getNPiece() - 8);
         }
     }
 

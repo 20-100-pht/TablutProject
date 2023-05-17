@@ -37,6 +37,7 @@ public class GridPanel extends JPanel {
     Image imageStepsV;
     Image imageStepsHEnd;
     Image imageStepsVEnd;
+    Image imageSelection;
 
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
@@ -52,10 +53,12 @@ public class GridPanel extends JPanel {
     String FORTRESS_ASSET_PATH;
     String TILE_ASSET_PATH;
     String TILE_2_ASSET_PATH;
+    String TILE_ASSET_SELECTION;
     String STEPS_HORIZONTAL_ASSET_PATH;
     String STEPS_HORIZONTAL_END_ASSET_PATH;
     String STEPS_VERTICAL_ASSET_PATH;
     String STEPS_VERTICAL_END_ASSET_PATH;
+    String SELECTION_ASSET_PATH;
 
     int theme;
 
@@ -91,9 +94,16 @@ public class GridPanel extends JPanel {
                 if((c+l)%2 == 0) tileImage = imageCase2;
 
                 g.drawImage(tileImage, c * getCaseSize(), l * getCaseSize(), getCaseSize(), getCaseSize(), null);
+
+                // Case selected mark
+                if(selectionMarkCoords != null && !gameLogic.isEndGame()) {
+                    int markX = (int) (selectionMarkCoords.getCol() * getCaseSize() + getCaseSize() * 0.01);
+                    int markY = (int) (selectionMarkCoords.getRow() * getCaseSize() + getCaseSize() * 0.01);
+
+                    g.drawImage(imageSelection, markX, markY, getCaseSize(), getCaseSize(), null);
+                }
             }
         }
-
         if(moveMarksCoords != null && !moveMarksCoords.isEmpty()){
 
             Coordinate dir = new Coordinate(Integer.compare(moveMarksCoords.get(1).getRow(),moveMarksCoords.get(0).getRow()),Integer.compare(moveMarksCoords.get(1).getCol(),moveMarksCoords.get(0).getCol()));
@@ -149,7 +159,6 @@ public class GridPanel extends JPanel {
                     g.drawImage(imageFortress, pieceX, pieceY, pieceSize, pieceSize, null);
                 }
 
-
                 Piece piece = grid.getPieceAtPosition(new Coordinate(l, c));
 
                 if(l == 4 && c == 4){
@@ -171,29 +180,11 @@ public class GridPanel extends JPanel {
                 }
             }
         }
-
-        /*for (int l = 0; l <= GRID_SIZE; l++) {
-            g.drawLine(0, l * getCaseSize(), GRID_SIZE * getCaseSize(), l * getCaseSize());
-        }
-
-        for (int c = 0; c <= GRID_SIZE; c++) {
-            g.drawLine(c * getCaseSize(), 0, c * getCaseSize(), GRID_SIZE * getCaseSize());
-        }*/
-
         if (!gameLogic.isEndGame()){
             for (int i = 0; i < possibleMoveMarks.size(); i++) {
                 Coordinate piecePos = possibleMoveMarks.get(i);
                 drawAccessibleMark(g, piecePos.getCol(), piecePos.getRow());
             }
-        }
-
-        // Case selected mark
-        if(selectionMarkCoords != null && !gameLogic.isEndGame()) {
-            int markX = (int) (selectionMarkCoords.getCol() * getCaseSize() + getCaseSize() * 0.1);
-            int markY = (int) (selectionMarkCoords.getRow() * getCaseSize() + getCaseSize() * 0.1);
-
-            g.setColor(Color.red);
-            g.drawRect(markX, markY, (int) (getCaseSize() * 0.8), (int) (getCaseSize() * 0.8));
         }
     }
 
@@ -202,7 +193,7 @@ public class GridPanel extends JPanel {
         int x = (int) (caseX*caseSize + caseSize*0.35);
         int y = (int) (caseY*caseSize + caseSize*0.35);
         int markSize = (int) (caseSize*0.3);
-        g.setColor(new Color(50,50,50,50));
+        g.setColor(new Color(125,125,125));
         g.fillOval(x, y, markSize, markSize);
     }
 
@@ -219,13 +210,14 @@ public class GridPanel extends JPanel {
             imageStepsHEnd = ImageIO.read(new File(STEPS_HORIZONTAL_END_ASSET_PATH));
             imageStepsV = ImageIO.read(new File(STEPS_VERTICAL_ASSET_PATH));
             imageStepsVEnd = ImageIO.read(new File(STEPS_VERTICAL_END_ASSET_PATH));
+            imageSelection = ImageIO.read(new File(TILE_ASSET_SELECTION));
         } catch(IOException exp){
             exp.printStackTrace();
         }
     }
 
     public int getCaseSize(){
-        return this.getWidth()/GRID_SIZE;
+        return (this.getWidth()+4)/GRID_SIZE;
     }
 
     @Override
@@ -322,12 +314,13 @@ public class GridPanel extends JPanel {
         FORTRESS_ASSET_PATH = "assets/images/fortress2.png";
         TILE_ASSET_PATH= "assets/images/tile_11.png";
         TILE_2_ASSET_PATH= "assets/images/tile_12.png";
+        TILE_ASSET_SELECTION= "assets/images/tile_11_selection.png";
         STEPS_HORIZONTAL_ASSET_PATH= "assets/images/steps2H.png";
         STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/steps2HE.png";
         STEPS_VERTICAL_ASSET_PATH= "assets/images/steps2V.png";
         STEPS_VERTICAL_END_ASSET_PATH= "assets/images/steps2VE.png";
-    }
 
+    }
     public void loadThemeSimpleFileNames(){
         KING_ASSET_PATH = "assets/images/theme_1_king.png";
         DEFENDER_ASSET_PATH = "assets/images/theme_1_defender.png";
@@ -336,6 +329,7 @@ public class GridPanel extends JPanel {
         FORTRESS_ASSET_PATH = "assets/images/theme_1_fortress.png";
         TILE_ASSET_PATH= "assets/images/theme_1_tile_1.png";
         TILE_2_ASSET_PATH= "assets/images/theme_1_tile_0.png";
+        TILE_ASSET_SELECTION="assets/images/theme_1_step.png";
         STEPS_HORIZONTAL_ASSET_PATH= "assets/images/theme_1_step.png";
         STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
         STEPS_VERTICAL_ASSET_PATH= "assets/images/theme_1_step.png";
@@ -367,4 +361,5 @@ public class GridPanel extends JPanel {
     public AnimationMove getAnimationMove(){
         return animationMove;
     }
+
 }

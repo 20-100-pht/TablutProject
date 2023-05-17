@@ -1,6 +1,8 @@
 package Model;
 
+import AI.RelativePosition;
 import Structure.Coordinate;
+import Structure.Direction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +27,18 @@ public class Piece implements Serializable {
 
     public int getCol(){ return c.getCol();}
 
+    public void setRow(int newRow){ c.setRowCoord(newRow);}
+
+    public void setCol(int newCol){ c.setColCoord(newCol);}
+
+    public Coordinate getCoords(){
+        return new Coordinate(getRow(), getCol());
+    }
+
+    public void setCoords(Coordinate coords){
+        c = coords;
+    }
+
     public PieceType getType(){ return this.type;}
 
     /**
@@ -40,11 +54,6 @@ public class Piece implements Serializable {
      */
     public boolean isSamePosition(Coordinate d){
         return d.getRow() == c.getRow() && d.getCol() == c.getCol();
-    }
-
-    /*Structure.Position vulnérable = n'importe ou sur le plateau sauf sur le trone ou à directement à côté*/
-    public boolean kingIsOnVulnerablePosition() {
-        return !((c.getRow() == 4 && c.getCol() == 4) || (c.getRow() == 4 && c.getCol() == 3) || (c.getRow() == 4 && c.getCol() == 5) || (c.getRow() == 3 && c.getCol() == 4) || (c.getRow() == 5 && c.getCol() == 4));
     }
 
     /**
@@ -65,15 +74,10 @@ public class Piece implements Serializable {
      */
     public boolean isDefenderOrKing(){ return this.type == PieceType.DEFENDER || this.type == PieceType.KING;}
 
-    public void setRow(int newRow){ c.setRowCoord(newRow);}
-
-    public void setCol(int newCol){ c.setColCoord(newCol);}
-
-    public void setKing(boolean king){ type = PieceType.KING;}
-
-    public void setAttacker(boolean attacker){ type = PieceType.ATTACKER;}
-
-    public void setDefender(boolean defender){ type = PieceType.DEFENDER;}
+    public boolean inSameTeam(Piece otherPiece){
+        return type == otherPiece.getType() || (type == PieceType.KING && otherPiece.getType() == PieceType.DEFENDER)
+                || (type == PieceType.DEFENDER && otherPiece.getType() == PieceType.KING);
+    }
 
     /**
      * Get symbol of piece type
@@ -109,14 +113,6 @@ public class Piece implements Serializable {
         }
 
         return true;
-    }
-
-    /**
-     * Clone piece
-     * @return cloned piece
-     */
-    public Piece clonePiece(){
-        return new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
     }
 
     /**
@@ -170,21 +166,44 @@ public class Piece implements Serializable {
     public PieceType[] piecesNextToIt(Grid grid){
         PieceType[] tab = new PieceType[4];
         int r = getRow(); int c = getCol();
-        if(r < 8 && grid.board[r+1][c] != null) tab[0] = grid.board[r+1][c].getType();
-        if(r > 0 && grid.board[r-1][c] != null) tab[1] = grid.board[r-1][c].getType();
-        if(c < 8 && grid.board[r][c+1] != null) tab[2] = grid.board[r][c+1].getType();
-        if(c > 0 && grid.board[r][c-1] != null) tab[3] = grid.board[r][c-1].getType();
+        if(r < 8 && grid.board[r+1][c] != null) tab[0] = grid.board[r+1][c].getType(); //Tab[0] == en haut
+        if(r > 0 && grid.board[r-1][c] != null) tab[1] = grid.board[r-1][c].getType(); //Tab[1] == en bas
+        if(c < 8 && grid.board[r][c+1] != null) tab[2] = grid.board[r][c+1].getType(); //Tab[2] == à droite
+        if(c > 0 && grid.board[r][c-1] != null) tab[3] = grid.board[r][c-1].getType(); //Tab[3] == à gauche
         return tab;
     }
-    public Coordinate getCoords(){
-        return new Coordinate(getRow(), getCol());
-    }
-    public void setCoords(Coordinate coords){
-        c = coords;
+
+    /**
+     * Clone piece
+     * @return cloned piece
+     */
+    public Piece clonePiece(){
+        return new Piece(new Coordinate(c.getRow(), c.getCol()), getType());
     }
 
-    public boolean inSameTeam(Piece otherPiece){
-        return type == otherPiece.getType() || (type == PieceType.KING && otherPiece.getType() == PieceType.DEFENDER)
-                || (type == PieceType.DEFENDER && otherPiece.getType() == PieceType.KING);
+    public RelativePosition getRelativePosition(){
+        int r = this.c.getRow();
+        int c = this.c.getCol();
+
+        //Center
+        if(r == 4 && c == 4) return RelativePosition.CENTER;
+        //Left
+        if(r == 4 && c < 4) return RelativePosition.LEFT;
+        //Right
+        if (r == 4 && c > 4) return RelativePosition.RIGHT;
+        //Top
+        if (r < 4 && c == 4) return RelativePosition.TOP;
+        //Bottom
+        if (r > 4 && c == 4) return RelativePosition.BOTTOM;
+        //Top Left
+        if (r < 4 && c < 4) return RelativePosition.TOP_LEFT;
+        //Top Right
+        if (r < 4 && c > 4) return RelativePosition.TOP_RIGHT;
+        //Bottom Left
+        if (r > 4 && c < 4) return RelativePosition.BOTTOM_LEFT;
+        //Bottom Right
+        if (r > 4 && c > 4) return RelativePosition.BOTTOM_RIGHT;
+
+        return null;
     }
 }

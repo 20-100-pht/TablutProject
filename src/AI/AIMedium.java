@@ -1,5 +1,6 @@
 package AI;
 
+import Global.Configuration;
 import Model.*;
 import Structure.Coordinate;
 import Structure.Direction;
@@ -15,36 +16,44 @@ public class AIMedium extends AI {
     Coordinate CornerBottomLeft = new Coordinate(8, 0);
     Coordinate CornerBottomRight = new Coordinate(8, 8);
 
+    int aiType = 1;
+
     @Override
     public double heuristic(Node current, int depth, PieceType maximizingPlayer){
+
+        double value = 0;
+        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN) {
+            value += 1000000*(depth+1);
+            if(depth == 0) return value;
+        }
+        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
+            value -= 1000000*(depth+1);
+            if(depth == 0) return value;
+        }
+
         switch (maximizingPlayer){
             case ATTACKER:
-                return attackerHeuristic(current, depth, maximizingPlayer);
-            case DEFENDER:
-                return  defenderHeuristic(current, depth, maximizingPlayer);
-            case KING:
-                return  defenderHeuristic(current, depth, maximizingPlayer);
-            default:
-                return 0;
+                value += attackerHeuristic(current, depth, maximizingPlayer);
+            case KING: case DEFENDER:
+                value -=  defenderHeuristic(current, depth, maximizingPlayer);
         }
+
+        return value;
     }
 
     private double attackerHeuristic(Node current, int depth, PieceType maximizingPlayer){
         LogicGrid gRules = current.getLogicGrid();
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
+        PieceType adverse;
+        if(maximizingPlayer == PieceType.ATTACKER) adverse = PieceType.DEFENDER;
+        else adverse = PieceType.ATTACKER;
 
-        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
-            return 1000000*(depth+1);
-        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
-            return -1000000*(depth+1);
-        }
-
-        double value = (double)
-                (gRules.getNbPieceAttackerOnGrid())*5+
-                isNextToKing(k,current.getLogicGrid().getGrid())*10 -
-                canKingGoToCorner(current)*100;
-
+        double value = 0;
+        value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1)) * AIConfig.getPieceRatio_A();
+        value += canKingGoToCorner(current) * -AIConfig.getKingToCorner_A();
+        value += isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid()) * AIConfig.getNextToKing_A();
+        value += attackerCircleStrategy(current) * AIConfig.getCircleStrat_A();
 
         //Attackers want a high value, Defenders want a low value
         return value;
@@ -54,19 +63,36 @@ public class AIMedium extends AI {
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
 
-        if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN)
-            return 1000000*(depth+1);
-        else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
-            return -1000000*(depth+1);
+        double value =0;
+        value += gRules.getNbPieceDefenderOnGrid()*5;
+        value -= isNextToKing(k,current.getLogicGrid().getGrid())*10;
+        value += canKingGoToCorner(current)*100;
+
+        return value;
+    }
+
+
+
+    private double attackerCircleStrategy(Node node){
+
+        Piece king = node.getLogicGrid().king;
+
+        WeightedPositions wp = new WeightedPositions();
+        int[][] weights = wp.getWeights().get(king.getRelativePosition().ordinal());
+
+        double value = 0;
+        Grid grid = node.getLogicGrid().getGrid();
+        for(int i = 0; i<9; i++){
+            for(int j = 0; j<9; j++){
+                Piece piece = grid.getPieceAtPosition(new Coordinate(i,j));
+                if( piece != null && piece.isAttacker()){
+                    value +=weights[i][j];
+                }
+            }
         }
 
-        double value = (double)
-                -(gRules.getNbPieceDefenderOnGrid()*5) +
-                isNextToKing(k,current.getLogicGrid().getGrid())*10 -
-                canKingGoToCorner(current)*100;
+        //if(value > 8) return 1;
 
-
-        //Attackers want a high value, Defenders want a low value
         return value;
     }
 
@@ -162,7 +188,24 @@ public class AIMedium extends AI {
         }
         return 0;
     }
-    private int canKingGoToCorner(Node n){
+
+        //Tab[0] == en haut
+        //Tab[1] == en bas
+        //Tab[2] == à droite
+        //Tab[3] == à gauche
+    public int GoToSuicide (Piece p, Grid grid, PieceType adverse){
+        int result = 0;
+        PieceType[] tab;
+        if(p != null){
+            tab = p.piecesNextToIt(grid);
+            if( (p.getType() != adverse) && (tab[0] == adverse && tab[1] == adverse)) result += 2;
+            else if ( (p.getType() != adverse) && (tab[2] == adverse && tab[3] == adverse)) result +=2;
+        }
+        return result;
+    }
+
+
+    public int canKingGoToCorner(Node n){
         Grid grid = n.getLogicGrid().getGrid();
         int x = n.getLogicGrid().getKing().getCol();
         int y = n.getLogicGrid().getKing().getRow();
@@ -192,13 +235,7 @@ public class AIMedium extends AI {
         return 0;
     }
 
-    /**
-     * Check if corners are accessible from source position
-     *
-     * @param grid
-     * @param source
-     * @return
-     */
+
     /**
      * Check if corners are accessible from source position
      *
@@ -227,7 +264,7 @@ public class AIMedium extends AI {
         int result = 0;
         if(canMoveToSC(corner1, source, grid) ) result++;
         if(canMoveToSC(corner2, source, grid) ){
-            if(result == 1) result = 10;
+            if(result == 1) result = 1000;
             else result ++;
         }
         return result;
