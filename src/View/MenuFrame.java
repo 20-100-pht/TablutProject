@@ -90,7 +90,7 @@ public class MenuFrame extends Frame {
     }
 
     public void setButtonHandlers(){
-        bttnNewGame.addMouseListener(new MouseAdapter() {
+            bttnNewGame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 ui.changePage(InterfacePage.NEWGAME);
