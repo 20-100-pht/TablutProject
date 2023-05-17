@@ -12,27 +12,29 @@ public class RecupResultat {
     private static int MAX_RESULT = 10000;
     static int nbResult;
     public static void main(String[] args) {
-        String inputFilePath = "ResATTACKER_17_13_38_14.txt";
+        String inputFilePath = ".txt";
 
         try {
             File inputFile = new File(inputFilePath);
             Scanner scanner = new Scanner(inputFile);
 
             nbResult = 0;
-            Double[] list = new Double[MAX_RESULT];
+            StructResultat[] list = new StructResultat[MAX_RESULT];
 
             recovery(scanner, list);
 
             Double max = (double) 0;
-            Double current;
+            int indexMax = 0;
+            StructResultat current;
             for(int i = 0; i < nbResult; i++) {
                 current = list[i];
-                if(current.compareTo(max) == 1){
-                    max = current;
+                if(current.AttackerWin.compareTo(max) == 1){
+                    max = current.AttackerWin;
+                    indexMax = i;
                 }
             }
 
-            System.out.println("Pourcentage max : " + max + "\n");
+            System.out.println("Pourcentage max : " + list[indexMax] + "\n");
 
             scanner.close();
             System.out.println("Le traitement des résultats est terminé.");
@@ -41,28 +43,37 @@ public class RecupResultat {
         }
     }
 
-    private static void recovery(Scanner scanner, Double[] list){
+    private static void recovery(Scanner scanner, StructResultat[] list){
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
 
             if (line.startsWith("Résultats de l'expérience") && scanner.hasNextLine()) {
-                patternMatcher(scanner, list);
+                list[nbResult] = new StructResultat();
+                patternMatcher(scanner, list[nbResult].AttackerWin);
+                patternMatcher(scanner, list[nbResult].DefenderWin);
+                patternMatcher(scanner, list[nbResult].MaxTrun);
+                patternMatcher(scanner, list[nbResult].TempsExec);
+                patternMatcher(scanner, list[nbResult].CircleStrategy);
+                patternMatcher(scanner, list[nbResult].PieceRatio);
+                patternMatcher(scanner, list[nbResult].NextToKing);
+                patternMatcher(scanner, list[nbResult].KingToCorner);
+
+                nbResult += 1;
             }
         }
     }
 
-    private static void patternMatcher(Scanner scanner, Double[] list) {
+    private static void patternMatcher(Scanner scanner, Double var) {
 
         String line = scanner.nextLine();
 
-        // Pattern pour correspondre à un nombre décimal
         Pattern pattern = Pattern.compile("\\d+\\.\\d+");
         Matcher matcher = pattern.matcher(line);
 
         if (matcher.find()) {
             String percentageString = matcher.group();
-            list[nbResult] = Double.parseDouble(percentageString);
-            nbResult += 1;
+            var = Double.parseDouble(percentageString);
         }
     }
+
 }

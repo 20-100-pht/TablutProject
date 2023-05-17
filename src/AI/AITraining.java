@@ -39,7 +39,7 @@ public class AITraining {
         long start, end;
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd_HH_mm_ss");
-        String fileName = "Res" + AiTested + "_" + formatter.format(date) + ".txt";
+        String fileName = "src/Tests/outputAI/" + AiTested + "_" + formatter.format(date) + ".txt";
 
         /*if (WRITE_TO_FILE) {
             try {
@@ -126,7 +126,7 @@ public class AITraining {
 
         if (WRITE_TO_FILE) {
             try {
-                writer = new BufferedWriter(new FileWriter(fileName));
+                writer = new BufferedWriter(new FileWriter(fileName,true));
                 writer.write("\n");
                 writer.write("Total time execution : " + tpsTotal / Math.pow(10, 9) + "s");
                 writer.close();
