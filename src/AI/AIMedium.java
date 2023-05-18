@@ -38,11 +38,14 @@ public class AIMedium extends AI {
         LogicGrid gRules = current.getLogicGrid();
         Piece k = gRules.getKing();
         Grid grid = gRules.getGrid();
+        Coordinate couDestCurrent = current.getCoup().getDest();
         PieceType adverse;
         if(maximizingPlayer == PieceType.ATTACKER) adverse = PieceType.DEFENDER;
         else adverse = PieceType.ATTACKER;
 
         double value = 0;
+        WeightGrid heuristic = new WeightGrid();
+        value += heuristic.calculateWeights(k.getRow(), k.getCol())[couDestCurrent.getCol()][couDestCurrent.getRow()];
         value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1)) * AIConfig.getPieceRatio_A();
         value += HeuristicUtils.canKingGoToCorner(current) * -AIConfig.getKingToCorner_A();
         value += HeuristicUtils.isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid()) * AIConfig.getNextToKing_A();
