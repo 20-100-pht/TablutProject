@@ -19,11 +19,12 @@ public class RulesPanel extends RoundPanel {
     JPanel page2;
     JPanel page3;
     ImageIcon imageMovePossibles;
-    ImageIcon imageCapturePawn1;
-    ImageIcon imageCapturePawn2;
-    ImageIcon imageCapturePawn3;
-    ImageIcon imageCapturePawn4;
-    ImageIcon imageCapturePawn5;
+    ImageIcon imageCaptureClassic;
+    ImageIcon imageCaptureSeveral;
+    ImageIcon imageCaptureWall;
+    ImageIcon imageCaptureCastle;
+    ImageIcon imageCaptureSuicide;
+    ImageIcon imageCaptureThrone;
     ImageIcon imageCross;
     JLabel labelImageCross;
     ImageIcon imageArrowLeft;
@@ -100,7 +101,7 @@ public class RulesPanel extends RoundPanel {
         labelPreviousPage = new JLabel(imageArrowLeft);
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(0, 400, 15, 0);
+        c.insets = new Insets(0, 0, 15, 0);
         c.anchor = GridBagConstraints.LAST_LINE_START;
         bottomPanel.add(labelPreviousPage, c);
 
@@ -110,7 +111,7 @@ public class RulesPanel extends RoundPanel {
         labelNextPage = new JLabel(imageArrowRight);
         c.gridx = 2;
         c.gridy = 0;
-        c.insets = new Insets(0, 0, 15, 400);
+        c.insets = new Insets(0, 0, 15, 0);
         c.anchor = GridBagConstraints.LAST_LINE_END;
         bottomPanel.add(labelNextPage, c);
 
@@ -182,93 +183,108 @@ public class RulesPanel extends RoundPanel {
 
         c.insets = new Insets(0, 0, 0, 0);
 
+        //Page 2
+
         page2 = createPage(this, 1, 1);
 
         JLabel labelTitleCapturePawn = new JLabel("Captures de pions");
         labelTitleCapturePawn.setFont(fontDialog30);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.insets = new Insets(0,0,0,70);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 5;
+        c.insets = new Insets(0,0,65,0);
         page2.add(labelTitleCapturePawn, c);
 
-        //createSpaceY(page1, 1, 1, 0.2);
+        c.gridwidth = 1;
+        c.insets = new Insets(0,0,0,0);
 
-        JLabel labelImgCapturePawn1 = new JLabel(imageCapturePawn1);
-        labelImgCapturePawn1.setPreferredSize(new Dimension(256, 70));
+        JPanel centerP2Panel = new JPanel();
+        c.gridx = 1;
+        c.gridheight = 5;
+        c.weightx = 0.2;
+        page2.add(centerP2Panel, c);
+
+        JPanel leftP2Panel = new JPanel();
         c.gridx = 0;
-        c.gridy = 2;
-        c.insets = new Insets(50, 0, 20, 0);
+        c.gridheight = 5;
+        c.weightx = 0.1;
+        page2.add(leftP2Panel, c);
+
+        JPanel rightP2Panel = new JPanel();
+        c.gridx = 4;
+        c.gridheight = 5;
+        c.weightx = 0.1;
+        page2.add(rightP2Panel, c);
+
+        c.gridheight = 1;
+        c.weightx = 0;
+
+
+        JLabel labelImgCapturePawn1 = new JLabel(imageCaptureClassic);
+        c.gridx = 1;
+        c.gridy = 1;
+        //c.insets = new Insets(50, 0, 20, 0);
         page2.add(labelImgCapturePawn1, c);
 
-        c.insets = new Insets(0, 0, 50, 0);
+        //c.insets = new Insets(0, 0, 50, 0);
 
-        JLabel labelCapturePos1 = new JLabel("Pion capturé lors d'une prise en tenaille.");
+        JLabel labelCapturePos1 = new JLabel("Tenaille classique");
         labelCapturePos1.setFont(fontDialog15);
-        c.gridx = 0;
-        c.gridy = 3;
+        c.gridx = 1;
+        c.gridy = 2;
+        c.insets = new Insets(7, 0, 55, 0);
         page2.add(labelCapturePos1, c);
 
-        JLabel labelImgCapturePawn2 = new JLabel(imageCapturePawn2);
-        labelImgCapturePawn2.setPreferredSize(new Dimension(256, 256));
-        c.gridx = 0;
-        c.gridy = 4;
-        c.insets = new Insets(80, 0, 0, 0);
-        page2.add(labelImgCapturePawn2, c);
-
         c.insets = new Insets(0, 0, 0, 0);
 
-        JLabel labelCapturePos2 = new JLabel("Plusieurs pions capturés à la fois.");
-        labelCapturePos2.setFont(fontDialog15);
-        c.gridx = 0;
-        c.gridy = 5;
-        page2.add(labelCapturePos2, c);
-
-        JLabel labelImgCapturePawn3 = new JLabel(imageCapturePawn3);
-        labelImgCapturePawn3.setPreferredSize(new Dimension(256, 80));
-        c.gridx = 2;
-        c.gridy = 2;
-        c.insets = new Insets(50, 0, 20, 0);
+        JLabel labelImgCapturePawn3 = new JLabel(imageCaptureWall);
+        c.gridx = 3;
+        c.gridy = 1;
+        c.insets = new Insets(0, 0, 0, 0);
         page2.add(labelImgCapturePawn3, c);
 
-        c.insets = new Insets(0, 0, 50, 0);
+        //c.insets = new Insets(0, 0, 50, 0);
 
-        JLabel labelCapturePos3 = new JLabel("Capturer un pion contre le mur.");
+        JLabel labelCapturePos3 = new JLabel("Tenaille contre un mur");
         labelCapturePos3.setFont(fontDialog15);
-        c.gridx = 2;
-        c.gridy = 3;
+        c.gridx = 3;
+        c.gridy = 2;
+        c.insets = new Insets(7, 0, 55, 0);
         page2.add(labelCapturePos3, c);
 
-        JLabel labelImgCapturePawn4 = new JLabel(imageCapturePawn4);
-        labelImgCapturePawn4.setPreferredSize(new Dimension(256, 256));
-        c.gridx = 2;
+        JLabel labelImgCaptureThrone = new JLabel(imageCaptureThrone);
+        labelImgCaptureThrone.setBackground(Color.red);
+        labelImgCaptureThrone.setOpaque(true);
+        c.gridx = 1;
+        c.gridy = 3;
+        c.insets = new Insets(0, 0, 0, 0);
+        //c.insets = new Insets(80, 0, 0, 0);
+        page2.add(labelImgCaptureThrone, c);
+
+        c.insets = new Insets(0, 0, 0, 0);
+
+        JLabel labelCaptureThrone = new JLabel("Tenaille contre le throne");
+        labelCaptureThrone.setFont(fontDialog15);
+        c.gridx = 1;
         c.gridy = 4;
-        c.insets = new Insets(80, 0, 0, 0);
+        c.insets = new Insets(7, 0, 0, 0);
+        page2.add(labelCaptureThrone, c);
+
+
+
+        JLabel labelImgCapturePawn4 = new JLabel(imageCaptureCastle);
+        labelImgCapturePawn4.setBackground(Color.red);
+        labelImgCapturePawn4.setOpaque(true);
+        c.gridx = 3;
+        c.gridy = 3;
         page2.add(labelImgCapturePawn4, c);
 
-        c.insets = new Insets(0, 0, 0, 0);
-
-        JLabel labelCapturePos4 = new JLabel("Les forteresses capturent.");
+        JLabel labelCapturePos4 = new JLabel("Tenaille contre une forteresse");
         labelCapturePos4.setFont(fontDialog15);
-        c.gridx = 2;
-        c.gridy = 5;
+        c.gridx = 3;
+        c.gridy = 4;
+        c.insets = new Insets(7, 0, 0, 0);
         page2.add(labelCapturePos4, c);
-
-        JLabel labelImgCapturePawn5 = new JLabel(imageCapturePawn5);
-        labelImgCapturePawn5.setPreferredSize(new Dimension(256, 200));
-        c.gridx = 1;
-        c.gridy = 4;
-        c.insets = new Insets(0, 0, 150, 80);
-        page2.add(labelImgCapturePawn5, c);
-
-        c.insets = new Insets(50, 0, 0, 80);
-
-        JLabel labelCapturePos5 = new JLabel("Un pion survit s'il se pose entre 2 ennemis.");
-        labelCapturePos5.setFont(fontDialog15);
-        c.gridx = 1;
-        c.gridy = 4;
-        page2.add(labelCapturePos5, c);
-
-        c.insets = new Insets(0, 0, 0, 0);
 
         page3 = createPage(this, 1, 1);
 
@@ -348,16 +364,19 @@ public class RulesPanel extends RoundPanel {
         try{
             Image imageMovePossiblesT = ImageIO.read(new File("assets/images/movePossibles.png"));
             imageMovePossibles = new ImageIcon(imageMovePossiblesT.getScaledInstance(256, 256, Image.SCALE_DEFAULT));
-            Image imageCapturePawn1T = ImageIO.read(new File("assets/images/kill_1.png"));
-            imageCapturePawn1 = new ImageIcon(imageCapturePawn1T.getScaledInstance(256, 70, Image.SCALE_DEFAULT));
-            Image imageCapturePawn2T = ImageIO.read(new File("assets/images/kill_2.png"));
-            imageCapturePawn2 = new ImageIcon(imageCapturePawn2T.getScaledInstance(256, 173, Image.SCALE_DEFAULT));
-            Image imageCapturePawn3T = ImageIO.read(new File("assets/images/kill_3.png"));
-            imageCapturePawn3 = new ImageIcon(imageCapturePawn3T.getScaledInstance(220, 80, Image.SCALE_DEFAULT));
-            Image imageCapturePawn4T = ImageIO.read(new File("assets/images/kill_4.png"));
-            imageCapturePawn4 = new ImageIcon(imageCapturePawn4T.getScaledInstance(256, 173, Image.SCALE_DEFAULT));
-            Image imageCapturePawn5T = ImageIO.read(new File("assets/images/suicide.png"));
-            imageCapturePawn5 = new ImageIcon(imageCapturePawn5T.getScaledInstance(216, 140, Image.SCALE_DEFAULT));
+            Image imageCaptureClassicT = ImageIO.read(new File("assets/images/kill_1.png"));
+            imageCaptureClassic = new ImageIcon(imageCaptureClassicT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
+            Image imageCaptureSeveralT = ImageIO.read(new File("assets/images/kill_2.png"));
+            imageCaptureSeveral = new ImageIcon(imageCaptureSeveralT.getScaledInstance(256, 173, Image.SCALE_DEFAULT));
+            Image imageCaptureWallT = ImageIO.read(new File("assets/images/kill_3.png"));
+            imageCaptureWall = new ImageIcon(imageCaptureWallT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
+            Image imageCaptureCastleT = ImageIO.read(new File("assets/images/kill_4.png"));
+            imageCaptureCastle = new ImageIcon(imageCaptureCastleT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
+            Image imageCaptureSuicideT = ImageIO.read(new File("assets/images/suicide.png"));
+            imageCaptureSuicide = new ImageIcon(imageCaptureSuicideT.getScaledInstance(216, 140, Image.SCALE_DEFAULT));
+            Image imageCaptureThroneT = ImageIO.read(new File("assets/images/kill_5.png"));
+            imageCaptureThrone = new ImageIcon(imageCaptureThroneT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
+
             Image imageCrossT = ImageIO.read(new File("assets/images/cross.png"));
             imageCross = new ImageIcon(imageCrossT.getScaledInstance(32, 32, Image.SCALE_DEFAULT));
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow4_left.png")));
@@ -426,7 +445,7 @@ public class RulesPanel extends RoundPanel {
             width = (int) (windowWidth/1.6);
         }
         else{
-            width = (int) (windowWidth/1.4);
+            width = (int) (windowWidth/1.3);
         }
 
         if(windowHeight > 850){
