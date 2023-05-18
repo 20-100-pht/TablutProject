@@ -1,3 +1,4 @@
+import AI.AIConfig;
 import AI.AIDifficulty;
 import Controller.GameConsoleController;
 import Global.Configuration;
