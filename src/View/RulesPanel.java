@@ -226,29 +226,31 @@ public class RulesPanel extends RoundPanel {
 
     public void setEventHandlers(){
 
-            labelImageCross.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    super.mouseReleased(e);
-                    setVisible(false);
-                }
-            });
+        RulesPanel rulesPanel = this;
 
-            labelPreviousPage.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    super.mouseReleased(e);
-                    previous();
-                }
-            });
+        labelImageCross.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                gameFrame.hideRulesPanel();
+            }
+        });
 
-            labelNextPage.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    super.mouseReleased(e);
-                    next();
-                }
-            });
+        labelPreviousPage.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                previous();
+            }
+        });
+
+        labelNextPage.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                next();
+            }
+        });
     }
 
     public void loadAssets(){

@@ -547,6 +547,7 @@ public class GameFrame extends Frame {
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 rulesPanel.setVisible(true);
+                setFrozen(true);
             }
         });
 
@@ -559,6 +560,7 @@ public class GameFrame extends Frame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
+                if(frozen) return;
                 gameGraphicController.bttnPreviousTurnClickHandler();
             }
         });
@@ -567,6 +569,7 @@ public class GameFrame extends Frame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
+                if(frozen) return;
                 gameGraphicController.bttnNextTurnClickHandler();
             }
         });
@@ -786,5 +789,10 @@ public class GameFrame extends Frame {
 
     public boolean isAnimationMoveTerminated(){
         return gridPanel.getAnimationMove() == null || gridPanel.getAnimationMove().isTerminated();
+    }
+
+    public void hideRulesPanel(){
+        rulesPanel.setVisible(false);
+        setFrozen(false);
     }
 }
