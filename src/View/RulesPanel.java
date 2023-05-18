@@ -9,15 +9,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 
 public class RulesPanel extends RoundPanel {
 
-    final int NPage = 3;
+    final int NPage = 6;
 
     int page = 0;
     JPanel page1;
     JPanel page2;
     JPanel page3;
+    JPanel page4;
+    JPanel page5;
+    JPanel page6;
+    Vector<JPanel> pages;
+    Vector<JLabel> lLabelPageIndex;
     ImageIcon imageMovePossibles;
     ImageIcon imageCaptureClassic;
     ImageIcon imageCaptureSeveral;
@@ -33,9 +39,6 @@ public class RulesPanel extends RoundPanel {
     JLabel labelNextPage;
     ImageIcon imagePageIndexF;
     ImageIcon imagePageIndexNF;
-    JLabel labelPage1Index;
-    JLabel labelPage2Index;
-    JLabel labelPage3Index;
     GameFrame gameFrame;
 
     public RulesPanel(GameFrame gameFrame, int roundValue) {
@@ -48,6 +51,9 @@ public class RulesPanel extends RoundPanel {
     }
 
     public void build(){
+
+        pages = new Vector<JPanel>();
+        lLabelPageIndex = new Vector<JLabel>();
 
         Font fontDialog30 = new Font(Font.DIALOG, Font.BOLD, 30);
         Font fontDialog15 = new Font(Font.DIALOG, Font.BOLD, 18);
@@ -127,10 +133,12 @@ public class RulesPanel extends RoundPanel {
         c.gridy = 0;
         bottomPanel.add(panelPageIndex, c);
 
-        labelPage1Index = createLabelPageIndex(panelPageIndex, 0, 0);
-        labelPage2Index = createLabelPageIndex(panelPageIndex, 1, 0);
-        labelPage3Index = createLabelPageIndex(panelPageIndex, 2, 0);
-        labelPage1Index.setIcon(imagePageIndexF);
+        for(int i = 0; i < NPage; i++){
+            JLabel label = createLabelPageIndex(panelPageIndex, 0+i, 0);
+            lLabelPageIndex.add(label);
+        }
+
+        lLabelPageIndex.elementAt(0).setIcon(imagePageIndexF);
 
         //Croix pour fermer
 
@@ -150,7 +158,7 @@ public class RulesPanel extends RoundPanel {
 
         //Page 1
 
-        page1 = createPage(this, 1,1);
+        page1 = page3 = createPage(this, 1, 1);
 
         JLabel labelTitleMoves = new JLabel("Déplacements");
         labelTitleMoves.setFont(fontDialog30);
@@ -286,7 +294,50 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(7, 0, 0, 0);
         page2.add(labelCapturePos4, c);
 
+        //Page 3
+
         page3 = createPage(this, 1, 1);
+
+        JLabel labelTitleCaptureKing = new JLabel("Capture du roi");
+        labelTitleCaptureKing.setFont(fontDialog30);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 5;
+        c.insets = new Insets(0,0,65,0);
+        page3.add(labelTitleCaptureKing, c);
+
+        //Page 4
+
+        page4 = createPage(this, 1, 1);
+
+        JLabel labelTitleGoodToKnow = new JLabel("Bon à savoir");
+        labelTitleGoodToKnow.setFont(fontDialog30);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 5;
+        c.insets = new Insets(0,0,65,0);
+        page4.add(labelTitleGoodToKnow, c);
+
+        //Page 5
+
+        page5 = createPage(this, 1, 1);
+
+        JLabel labelTitleGoal = new JLabel("Objectif");
+        labelTitleGoal.setFont(fontDialog30);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 5;
+        c.insets = new Insets(0,0,65,0);
+        page5.add(labelTitleGoal, c);
+
+        page6 = createPage(this, 1, 1);
+
+        pages.add(page1);
+        pages.add(page2);
+        pages.add(page3);
+        pages.add(page4);
+        pages.add(page5);
+        pages.add(page6);
 
 
         page1.setVisible(true);
@@ -391,7 +442,7 @@ public class RulesPanel extends RoundPanel {
     public void previous(){
         int nI = page;
         if(page == 0){
-            nI = NPage-1;
+            nI = pages.size()-1;
         }
         else{
             nI--;
@@ -401,7 +452,7 @@ public class RulesPanel extends RoundPanel {
 
     public void next(){
         int nI = page;
-        if(page == NPage-1){
+        if(page == pages.size()-1){
             nI = 0;
         }
         else{
@@ -413,25 +464,15 @@ public class RulesPanel extends RoundPanel {
     public void changePage(int newPage){
         System.out.print(newPage);
 
-        labelPage1Index.setIcon(imagePageIndexNF);
-        labelPage2Index.setIcon(imagePageIndexNF);
-        labelPage3Index.setIcon(imagePageIndexNF);
-        page1.setVisible(false);
-        page2.setVisible(false);
-        page3.setVisible(false);
+        int nPage = pages.size();
+        for(int i = 0; i < nPage; i++){
+            pages.elementAt(i).setVisible(false);
+            lLabelPageIndex.elementAt(i).setIcon(imagePageIndexNF);
+        }
 
-        if(newPage == 0){
-            labelPage1Index.setIcon(imagePageIndexF);
-            page1.setVisible(true);
-        }
-        else if(newPage == 1){
-            labelPage2Index.setIcon(imagePageIndexF);
-            page2.setVisible(true);
-        }
-        else if(newPage == 2){
-            labelPage3Index.setIcon(imagePageIndexF);
-            page3.setVisible(true);
-        }
+        lLabelPageIndex.elementAt(newPage).setIcon(imagePageIndexF);
+        pages.elementAt(newPage).setVisible(true);
+
         page = newPage;
     }
 
