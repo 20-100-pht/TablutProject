@@ -22,9 +22,8 @@ public class KingToCornerTest {
             Game game = (Game) ois.readObject();
             ois.close();
 
-            AIMedium medium = new AIMedium();
             Node node = new Node(game.getLogicGrid().cloneLogicGrid(),null);
-            int result = medium.canKingGoToCorner(node);
+            int result = HeuristicUtils.canKingGoToCorner(node);
             System.out.println("Result : " + result);
 
             /*game.defenderAI = new AIRandom();
