@@ -575,7 +575,7 @@ public class GameFrame extends Frame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if(frozen) return;
+                if(frozen && !game.isEnded()) return;
                 gameGraphicController.bttnPreviousTurnClickHandler();
             }
         });
@@ -584,7 +584,7 @@ public class GameFrame extends Frame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if(frozen) return;
+                if(frozen && !game.isEnded()) return;
                 gameGraphicController.bttnNextTurnClickHandler();
             }
         });

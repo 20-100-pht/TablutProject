@@ -100,6 +100,7 @@ public class GridPanelController {
     public void treatSelection(Coordinate caseCoords){
         if(game.isReviewMode()) return;
         if(game.isEnded()) return;
+        if(!game.isStartTimerEnded()) return;
 
         Piece pieceClicked = grid.getPieceAtPosition(caseCoords);
 

@@ -444,7 +444,7 @@ public class Game implements Serializable {
 
     public void updatePlayerTurnChrono(int timeElapsed){
 
-        if(!startTimerEnded){
+        if(!startTimerEnded || reviewMode){
             return;
         }
 
@@ -457,8 +457,9 @@ public class Game implements Serializable {
             else defTimeRemainedMs -= timeElapsed;
         }
 
-        if(attTimeRemainedMs == 0 || defTimeRemainedMs == 0) {
+        if((attTimeRemainedMs == 0 || defTimeRemainedMs == 0) && !ended){
             gameController.updateViewEndGame();
+            ended = true;
         }
     }
 
@@ -547,5 +548,9 @@ public class Game implements Serializable {
         anIaThinking = false;
 
         return coup;
+    }
+
+    public boolean isStartTimerEnded() {
+        return startTimerEnded;
     }
 }
