@@ -31,10 +31,13 @@ public class RulesPanel extends RoundPanel {
     ImageIcon imageCaptureCastle;
     ImageIcon imageCaptureSuicide;
     ImageIcon imageCaptureThrone;
+    ImageIcon imageCaptureKWall;
+    ImageIcon imageCaptureKClassic;
     ImageIcon imageAttacker;
     ImageIcon imageDefender;
     ImageIcon imageKing;
     ImageIcon imageCross;
+    ImageIcon imageGridFortress;
     JLabel labelImageCross;
     ImageIcon imageArrowLeft;
     ImageIcon imageArrowRight;
@@ -265,7 +268,6 @@ public class RulesPanel extends RoundPanel {
         page2.add(labelCapturePos3, c);
 
         JLabel labelImgCaptureThrone = new JLabel(imageCaptureThrone);
-        labelImgCaptureThrone.setBackground(Color.red);
         labelImgCaptureThrone.setOpaque(true);
         c.gridx = 1;
         c.gridy = 3;
@@ -285,7 +287,6 @@ public class RulesPanel extends RoundPanel {
 
 
         JLabel labelImgCapturePawn4 = new JLabel(imageCaptureCastle);
-        labelImgCapturePawn4.setBackground(Color.red);
         labelImgCapturePawn4.setOpaque(true);
         c.gridx = 3;
         c.gridy = 3;
@@ -301,14 +302,59 @@ public class RulesPanel extends RoundPanel {
         //Page 3
 
         page3 = createPage(this, 1, 1);
+        page3.setOpaque(true);
 
         JLabel labelTitleCaptureKing = new JLabel("Capture du roi");
         labelTitleCaptureKing.setFont(fontDialog30);
         c.gridx = 0;
         c.gridy = 0;
-        c.gridwidth = 5;
-        c.insets = new Insets(0,0,65,0);
+        c.gridwidth = 4;
+        c.insets = new Insets(0,0,50,0);
         page3.add(labelTitleCaptureKing, c);
+
+        c.gridwidth = 1;
+
+        JLabel labelImgCaptureKClassic = new JLabel(imageCaptureKClassic);
+        c.gridx = 1;
+        c.gridy = 1;
+        c.insets = new Insets(0, 0, 7, 40);
+        page3.add(labelImgCaptureKClassic, c);
+
+        //c.insets = new Insets(0, 0, 50, 0);
+
+        JLabel labelCaptureKClassic = new JLabel("Tenaille classique");
+        labelCaptureKClassic.setFont(fontDialog15);
+        c.gridx = 1;
+        c.gridy = 2;
+        c.insets = new Insets(0, 0, 0, 40);
+        page3.add(labelCaptureKClassic, c);
+
+        c.insets = new Insets(0, 0, 0, 0);
+
+        JLabel labelImgCaptureKWall = new JLabel(imageCaptureKWall);
+        c.gridx = 3;
+        c.gridy = 1;
+        c.insets = new Insets(0, 40, 7, 0);
+        page3.add(labelImgCaptureKWall, c);
+
+        //c.insets = new Insets(0, 0, 50, 0);
+
+        JLabel labelCaptureKWall = new JLabel("Tenaille contre un mur");
+        labelCaptureKWall.setFont(fontDialog15);
+        c.gridx = 3;
+        c.gridy = 2;
+        c.insets = new Insets(0, 40, 0, 0);
+        page3.add(labelCaptureKWall, c);
+
+        JLabel labelCaptureKExp = new JLabel("Comme pour les pions, il existe les tenailles avec les forteresses et le thrône.");
+        labelCaptureKExp.setFont(fontDialog15);
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 4;
+        c.insets = new Insets(20, 0, 0, 0);
+        page3.add(labelCaptureKExp, c);
+
+        c.gridwidth = 1;
 
         //Page 4
 
@@ -359,47 +405,41 @@ public class RulesPanel extends RoundPanel {
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
-        c.insets = new Insets(0,0,65,0);
+        c.insets = new Insets(0,0,35,0);
         page5.add(labelTitleGoal, c);
 
         c.gridwidth = 1;
 
-        JLabel labelImgAttacker = new JLabel(imageAttacker);
-        c.gridx = 0;
-        c.gridy = 1;
-        c.insets = new Insets(0,0,0,0);
-        page5.add(labelImgAttacker, c);
-
-        JLabel labelAttacker = new JLabel("Les attaquants doivent empêcher le roi d'aller se cacher dans une de ses forteresses.");
+        JLabel labelAttacker = new JLabel("Le roi doit parvenir à se cacher dans une de ses forteresses dans les coins.");
         labelAttacker.setFont(fontDialog15);
         c.gridx = 1;
         c.gridy = 1;
         c.insets = new Insets(7, 0, 0, 0);
         page5.add(labelAttacker, c);
 
-        JLabel labelImgDefender = new JLabel(imageDefender);
-        c.gridx = 0;
-        c.gridy = 2;
-        c.insets = new Insets(0,0,0,0);
-        page5.add(labelImgDefender, c);
-
-        JLabel labelDefender = new JLabel("Les défenseurs doivent protéger le roi.");
-        labelDefender.setFont(fontDialog15);
+        JLabel labelImgGridFortress = new JLabel(imageGridFortress);
         c.gridx = 1;
         c.gridy = 2;
+        c.insets = new Insets(10,0,10,0);
+        page5.add(labelImgGridFortress, c);
+
+        JLabel labelDefender = new JLabel("S'il réussit à s'échapper, les défenseurs gagnent.");
+        labelDefender.setFont(fontDialog15);
+        c.gridx = 1;
+        c.gridy = 3;
         c.insets = new Insets(7, 0, 0, 0);
         page5.add(labelDefender, c);
 
-        JLabel labelImgKing = new JLabel(imageKing);
+        /*JLabel labelImgKing = new JLabel(imageKing);
         c.gridx = 0;
         c.gridy = 3;
         c.insets = new Insets(0,0,0,0);
-        page5.add(labelImgKing, c);
+        page5.add(labelImgKing, c);*/
 
-        JLabel labelKing = new JLabel("Le roi doit se rendre dans une de ses forteresses.");
+        JLabel labelKing = new JLabel("S'il échoue et se fait capturer par les attaquants, ils gagnent.");
         labelKing.setFont(fontDialog15);
         c.gridx = 1;
-        c.gridy = 3;
+        c.gridy = 4;
         c.insets = new Insets(7, 0, 0, 0);
         page5.add(labelKing, c);
 
@@ -500,6 +540,13 @@ public class RulesPanel extends RoundPanel {
             imageCaptureSuicide = new ImageIcon(imageCaptureSuicideT.getScaledInstance(216, 140, Image.SCALE_DEFAULT));
             Image imageCaptureThroneT = ImageIO.read(new File("assets/images/kill_5.png"));
             imageCaptureThrone = new ImageIcon(imageCaptureThroneT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
+            Image imageGridFortressT = ImageIO.read(new File("assets/images/fortressRules.png"));
+            imageGridFortress = new ImageIcon(imageGridFortressT.getScaledInstance(350, 350, Image.SCALE_DEFAULT));
+
+            Image imageCaptureKClassicT = ImageIO.read(new File("assets/images/kill_king1.png"));
+            imageCaptureKClassic = new ImageIcon(imageCaptureKClassicT.getScaledInstance(200, 200, Image.SCALE_DEFAULT));
+            Image imageCaptureKWallT = ImageIO.read(new File("assets/images/kill_king3.png"));
+            imageCaptureKWall = new ImageIcon(imageCaptureKWallT.getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 
             Image imageDefenderT = ImageIO.read(new File("assets/images/defender2.png"));
             imageDefender = new ImageIcon(imageDefenderT.getScaledInstance(128, 128, Image.SCALE_DEFAULT));
