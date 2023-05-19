@@ -45,7 +45,7 @@ public class NewGameFrame extends Frame {
     @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
-        window.setMinimumSize(new Dimension(600, 700));
+        window.setMinimumSize(new Dimension(600, 750));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) (sizeScreen.height * 0.75);
@@ -71,8 +71,9 @@ public class NewGameFrame extends Frame {
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        JPanel mainPanel = new JPanel();
+        RoundPanel mainPanel = new RoundPanel(35);
         c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets(0, 0, 0, 0);
         this.add(mainPanel, c);
 
         c.fill = GridBagConstraints.CENTER;
@@ -84,7 +85,7 @@ public class NewGameFrame extends Frame {
         labelNewGame.setFont(fontArial25);
         c.gridx = 1;
         c.gridy = 0;
-        c.insets = new Insets(0, 0, 30, 0);
+        c.insets = new Insets(20, 0, 30, 0);
         gLayout.setConstraints(labelNewGame, c);
         mainPanel.add(labelNewGame);
 
@@ -313,7 +314,7 @@ public class NewGameFrame extends Frame {
         c.gridx = 1;
         c.gridy = 2;
         //c.anchor = GridBagConstraints.LAST_LINE_END;
-        c.insets = new Insets(50, 0, 0, 0);
+        c.insets = new Insets(50, 0, 20, 0);
 
         parent.add(bttn, c);
         return bttn;
