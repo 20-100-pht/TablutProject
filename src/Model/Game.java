@@ -21,6 +21,7 @@ public class Game implements Serializable {
     boolean startTimerEnded;
     boolean iaPause;
     Coup previousCoup;
+    boolean ended;
 
     boolean reviewMode;
     int reviewTurnIndex;
@@ -132,6 +133,7 @@ public class Game implements Serializable {
         reviewMode = false;
         reviewTurnIndex = turnIndex;
         anIaThinking = false;
+        ended = false;
     }
 
     public boolean isAiTurn(){
@@ -198,10 +200,6 @@ public class Game implements Serializable {
 
     public void play(Coup coup, MoveAnimationType moveAnimationType){
 
-        if(logicGrid.isEndGame()){
-            return;
-        }
-
         Grid grid = logicGrid.getGrid();
         Piece pieceSelected = grid.getPieceAtPosition(coup.getInit());
 
@@ -231,11 +229,13 @@ public class Game implements Serializable {
         }
 
         if(logicGrid.isAttackerWinConfiguration() || logicGrid.isDefenderWinConfiguration()) {
-            gameController.updateViewEndGame();
-            return;
+            if(!ended) {
+                gameController.updateViewEndGame();
+            }
+            ended = true;
         }
 
-        if(isAiTurn() && moveAnimationType != MoveAnimationType.DOUBLE_REDO) doAiTurnInSeparateThread();
+        if(isAiTurn() && moveAnimationType != MoveAnimationType.DOUBLE_REDO && !ended) doAiTurnInSeparateThread();
     }
 
     public void respawnKilledPieces(Vector<Piece> pieces){
@@ -523,5 +523,9 @@ public class Game implements Serializable {
 
     public boolean anIaThinking(){
         return anIaThinking;
+    }
+
+    public boolean isEnded(){
+        return ended;
     }
 }

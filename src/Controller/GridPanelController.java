@@ -100,6 +100,7 @@ public class GridPanelController {
     public void mouseLeftBttnReleasedHandler(MouseEvent e){
 
         if(game.isReviewMode()) return;
+        if(game.isEnded()) return;
 
         Coordinate caseCoords = getCaseFromPixelPosition(e.getX(), e.getY());
         Piece pieceClicked = grid.getPieceAtPosition(caseCoords);

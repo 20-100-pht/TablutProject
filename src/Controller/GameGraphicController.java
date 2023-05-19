@@ -113,6 +113,7 @@ public class GameGraphicController extends GameController {
         if(!gameFrame.isAnimationMoveTerminated()) return;
         if(game.isReviewMode()) return;
         if(game.isAttackerAI() && game.isDefenderAI()) return;
+        if(game.isEnded()) return;
         if(!game.canUndo()) return;
 
         if(!game.isAiTurn()){
@@ -126,6 +127,7 @@ public class GameGraphicController extends GameController {
         if(game.isReviewMode()) return;
         if(game.isAttackerAI() && game.isDefenderAI()) return;
         if(!game.canRedo()) return;
+        if(game.isEnded()) return;
 
         if(!game.isAiTurn()) {
             if (game.getNbIa() == 1) game.redo(true);
