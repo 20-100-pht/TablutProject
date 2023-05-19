@@ -28,10 +28,6 @@ public abstract class AI implements Serializable {
 
         startingDepth = depth;
 
-        //Set alpha and beta
-        double alpha = Double.NEGATIVE_INFINITY;
-        double beta = Double.POSITIVE_INFINITY;
-
         //Create first node
         Node n = new Node(g.cloneLogicGrid(), null);
 
@@ -41,17 +37,12 @@ public abstract class AI implements Serializable {
         }
 
         //Call minimax and return best move to play
-        BestMove bm = minimax(n, depth, intType, alpha, beta);
-
-        /*System.out.println("Heuristic :" + bm.getHeuristic());
-        System.out.println("Move :" + bm.getCoup().toString());
-        System.out.println("Attackers :" + n.getLogicGrid().getNbPieceAttackerOnGrid());
-        System.out.println("Defenders :" + n.getLogicGrid().getNbPieceDefenderOnGrid());*/
+        BestMove bm = minimax(n, depth, intType);
 
         return bm.getCoup();
     }
 
-    public BestMove minimax(Node node, int depth, int colour, double alpha, double beta){
+    public BestMove minimax(Node node, int depth, int colour){
 
         PieceType maximizingPlayer = PieceType.ATTACKER;
         if(colour == -1) maximizingPlayer = PieceType.DEFENDER;
@@ -66,7 +57,7 @@ public abstract class AI implements Serializable {
         //Get all children of node
         ArrayList<Node> children = createChildren(node,colour,depth);
         node.setChildren(children);
-        ArrayList<BestMove> bestMovesArray = maximize(children,depth,node, colour, alpha,beta);
+        ArrayList<BestMove> bestMovesArray = maximize(children,depth,node, colour);
 
         //If children have no moves return this move
         if(bestMovesArray.size() == 0){
@@ -87,7 +78,7 @@ public abstract class AI implements Serializable {
         return bmToReturn;
     }
 
-    private ArrayList<BestMove> maximize(ArrayList<Node> children, int depth, Node node, int colour, double alpha, double beta){
+    private ArrayList<BestMove> maximize(ArrayList<Node> children, int depth, Node node, int colour){
 
         double value = Double.NEGATIVE_INFINITY;
         if(colour == -1){
@@ -97,13 +88,10 @@ public abstract class AI implements Serializable {
         BestMove bmToReturn;
         ArrayList<BestMove> bestMovesArray = new ArrayList<>();
 
-        if(startingDepth == depth){
-            //System.out.println("stop");
-        }
 
         for(int i = 0; i < children.size(); i++){
 
-            BestMove bm = minimax(children.get(i), depth-1, -colour, alpha, beta);
+            BestMove bm = minimax(children.get(i), depth-1, -colour);
 
             if((colour == 1 && value < bm.getHeuristic())
                     || (colour == -1 && value > bm.getHeuristic())){
@@ -125,26 +113,8 @@ public abstract class AI implements Serializable {
 
                 bestMovesArray.add(bmToReturn);
             }
-
-            if (colour == 1 && depth != startingDepth) {
-                //Max
-                alpha = Math.max(alpha, value);
-                if (alpha >= beta) {
-                    break;  // Beta cutoff
-                }
-            } else if (colour == -1 && depth != startingDepth) {
-                //Min
-                beta = Math.min(beta, value);
-                if (alpha >= beta) {
-                    break;  // Alpha cutoff
-                }
-            }
         }
 
-
-        if(startingDepth == depth){
-            //System.out.println("out");
-        }
         return bestMovesArray;
     }
 
