@@ -120,6 +120,30 @@ public class HeuristicUtils {
         //Tab[3] == à gauche
     }
 
+    public static int canKingGoToValuablePosition(Node n){
+
+        Grid grid = n.getLogicGrid().getGrid();
+        int x = n.getLogicGrid().getKing().getCol();
+        int y = n.getLogicGrid().getKing().getRow();
+
+        int value = 1;
+
+        if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 1), grid)) {
+            value *=10;
+        }
+        if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 7), grid)) {
+            value *=10;
+        }
+        if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(1, x), grid)) {
+            value *=10;
+        }
+        if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(7, x), grid)) {
+            value *=10;
+        }
+
+        return value;
+    }
+
     public static int canKingGoToCorner(Node n){
         Grid grid = n.getLogicGrid().getGrid();
         int x = n.getLogicGrid().getKing().getCol();
@@ -127,6 +151,7 @@ public class HeuristicUtils {
 
         int value = 0;
 
+        //Check if king can go to a border
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 0), grid)) {
             value += canGoTo(n.getLogicGrid().grid, new Coordinate(y, 0), Direction.LEFT);
         }
@@ -272,5 +297,6 @@ public class HeuristicUtils {
         }
         return 0;
     }
+
 
 }

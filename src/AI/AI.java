@@ -13,6 +13,13 @@ public abstract class AI implements Serializable {
 
     int startingDepth = 0;
     int aiType = -1;
+
+    int prunning_alpha_cutoffs = 0;
+    int prunning_beta_cutoffs = 0;
+    double bestHeuristic = 0;
+    int numberOfBestNodes = 0;
+
+
     public AI(){
 
     }
@@ -26,6 +33,9 @@ public abstract class AI implements Serializable {
      */
     public Coup playMove(LogicGrid g, int depth, PieceType type) {
 
+        prunning_alpha_cutoffs = 0;
+        prunning_beta_cutoffs = 0;
+
         startingDepth = depth;
 
         //Set alpha and beta
@@ -35,118 +45,118 @@ public abstract class AI implements Serializable {
         //Create first node
         Node n = new Node(g.cloneLogicGrid(), null);
 
-        int intType = 1;
+        int colour = 1;
         if(type == PieceType.DEFENDER){
-            intType = -1;
+            colour = -1;
         }
 
-        //Call minimax and return best move to play
-        BestMove bm = minimax(n, depth, intType, alpha, beta);
+        //Create all children of node
+        ArrayList<Node> children =  createChildren(n, colour, depth);
 
-        /*System.out.println("Heuristic :" + bm.getHeuristic());
-        System.out.println("Move :" + bm.getCoup().toString());
+        double bestValue = 0;
+        ArrayList<Coup> bestCoups = new ArrayList<>();
+        //Get best move
+        for (int i = 0; i < children.size(); i++) {
+
+            Node child = children.get(i);
+            
+            //Call minimax and return heuristic
+            double value = minimax(child, depth-1, colour, alpha, beta);
+            if(i==0){
+                bestValue = value;
+            }
+            
+            if(colour == 1){
+                if(bestValue < value){
+                    bestValue = value;
+                    bestCoups.clear();
+                }
+            }else{
+                if(bestValue > value){
+                    bestValue = value;
+                    bestCoups.clear();
+                }
+            }
+
+            if(bestValue == value){
+                bestCoups.add(child.getCoup());
+            }
+        }
+
+
+        Random r = new Random();
+        Coup nextMove = bestCoups.get(r.nextInt(bestCoups.size()));
+
+        /*System.out.println("Heuristic :" + bestValue);
+        System.out.println("Move :" + nextMove.toString());
         System.out.println("Attackers :" + n.getLogicGrid().getNbPieceAttackerOnGrid());
         System.out.println("Defenders :" + n.getLogicGrid().getNbPieceDefenderOnGrid());*/
 
-        return bm.getCoup();
+        System.out.println("Alpha cutoffs : " + prunning_alpha_cutoffs);
+        System.out.println("Beta cutoffs : " + prunning_beta_cutoffs);
+        System.out.println("Best h " + type + " : " + bestHeuristic);
+        System.out.println("Heuristic chosen :" + bestValue);
+        System.out.println("Nb moves :" + bestCoups.size());
+        System.out.println("King rel pos :" + g.getKing().getRelativePosition() + "\n");
+
+        AITest.visualiseMoves(bestCoups, n.getLogicGrid(), type);
+        return nextMove;
     }
 
-    public BestMove minimax(Node node, int depth, int colour, double alpha, double beta){
+    public double minimax(Node node, int depth, int colour, double alpha, double beta){
 
         PieceType maximizingPlayer = PieceType.ATTACKER;
-        if(colour == -1) maximizingPlayer = PieceType.DEFENDER;
+        double value = Double.NEGATIVE_INFINITY;
+        if(colour == -1){
+            maximizingPlayer = PieceType.DEFENDER;
+            value = Double.POSITIVE_INFINITY;
+        }
 
         if(depth == 0 || node.getLogicGrid().isEndGame()){
             double h = heuristic(node,depth,maximizingPlayer);
-            BestMove bm =  new BestMove(node.getCoup(),h);
-
-            return bm;
+            if(colour ==1){
+                bestHeuristic = Math.max(bestHeuristic,h);
+            }else{
+                bestHeuristic = Math.min(bestHeuristic,h);
+            }
+            return h;
         }
+
 
         //Get all children of node
         ArrayList<Node> children = createChildren(node,colour,depth);
         node.setChildren(children);
-        ArrayList<BestMove> bestMovesArray = maximize(children,depth,node, colour, alpha,beta);
-
-        //If children have no moves return this move
-        if(bestMovesArray.size() == 0){
-            double h = heuristic(node,depth,maximizingPlayer);
-            BestMove bm =  new BestMove(node.getCoup(),h);
-            return bm;
-        }
-
-        BestMove bmToReturn = bestMovesArray.get(0);
-
-        Random random = new Random();
-
-        if(bestMovesArray.size() > 1){
-            int randInt = random.nextInt(bestMovesArray.size());
-            bmToReturn = bestMovesArray.get(randInt);
-        }
-
-        return bmToReturn;
-    }
-
-    private ArrayList<BestMove> maximize(ArrayList<Node> children, int depth, Node node, int colour, double alpha, double beta){
-
-        double value = Double.NEGATIVE_INFINITY;
-        if(colour == -1){
-            value = Double.POSITIVE_INFINITY;
-        }
-
-        BestMove bmToReturn;
-        ArrayList<BestMove> bestMovesArray = new ArrayList<>();
-
-        if(startingDepth == depth){
-            //System.out.println("stop");
-        }
 
         for(int i = 0; i < children.size(); i++){
 
-            BestMove bm = minimax(children.get(i), depth-1, -colour, alpha, beta);
+            double heuristic = minimax(children.get(i), depth-1, -colour, alpha, beta);
 
-            if((colour == 1 && value < bm.getHeuristic())
-                    || (colour == -1 && value > bm.getHeuristic())){
+            if(colour == 1){
+                value = Math.max(value,heuristic);
 
-                Coup cp = node.getCoup();
-                if(cp == null) cp = bm.getCoup();
-                bmToReturn = new BestMove(cp,bm.getHeuristic());
-
-                value = bm.getHeuristic();
-
-                bestMovesArray.clear();
-                bestMovesArray.add(bmToReturn);
-
-            }
-            else if (value == bm.getHeuristic()) {
-                Coup cp = node.getCoup();
-                if(cp == null) cp = bm.getCoup();
-                bmToReturn = new BestMove(cp,bm.getHeuristic());
-
-                bestMovesArray.add(bmToReturn);
-            }
-
-            if (colour == 1 && depth != startingDepth) {
                 //Max
-                alpha = Math.max(alpha, value);
-                if (alpha >= beta) {
+                if (value > beta) {
+                    prunning_beta_cutoffs++;
                     break;  // Beta cutoff
                 }
-            } else if (colour == -1 && depth != startingDepth) {
+                alpha = Math.max(alpha, value);
+
+            }else{
+                value = Math.min(value,heuristic);
+
                 //Min
-                beta = Math.min(beta, value);
-                if (alpha >= beta) {
+                if (value < alpha) {
+                    prunning_alpha_cutoffs++;
                     break;  // Alpha cutoff
                 }
+                beta = Math.min(beta, value);
             }
         }
 
-
-        if(startingDepth == depth){
-            //System.out.println("out");
-        }
-        return bestMovesArray;
+        return value;
     }
+
+
 
     private ArrayList<Node> createChildren(Node node, int colour, int depth){
         int boardSize = node.getLogicGrid().getGrid().getSizeGrid();
@@ -222,4 +232,8 @@ public abstract class AI implements Serializable {
     public int getAiType(){
         return aiType;
     }
+
+
+
+
 }

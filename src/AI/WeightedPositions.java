@@ -25,15 +25,15 @@ public class WeightedPositions {
         return weights;
     }
 
-    /*int[][] center = {
+    int[][] center = {
             { A, A, A, A, A, A, A, A, A},
-            { A, A, D, A, B, A, D, A, A},
-            { A, D, A, B, A, B, A, D, A},
+            { A, D, A, A, B, A, A, D, A},
+            { A, A, A, B, A, B, A, A, A},
             { A, A, B, A, A, A, B, A, A},
             { A, B, A, A, A, A, A, B, A},
             { A, A, B, A, A, A, B, A, A},
-            { A, D, A, B, A, B, A, D, A},
-            { A, A, D, A, B, A, D, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, D, A, A, B, A, A, D, A},
             { A, A, A, A, A, A, A, A, A}
     };
 
@@ -143,10 +143,10 @@ public class WeightedPositions {
             { A, A, A, B, A, C, A, A, A},
             { A, A, A, A, C, A, A, A, A},
             { A, A, A, A, A, A, A, A, A}
-    };*/
+    };
 
 
-    int[][] center = {
+    /*int[][] center = {
             { A, A, A, A, B, A, A, A, A},
             { A, A, A, B, A, B, A, A, A},
             { A, A, B, A, A, A, B, A, A},
@@ -252,7 +252,7 @@ public class WeightedPositions {
             { A, A, B, A, A, A, C, A, A},
             { A, A, A, B, A, C, A, A, A},
             { A, A, A, A, C, A, A, A, A}
-    };
+    };*/
 
 
 }
