@@ -763,6 +763,7 @@ public class GameFrame extends Frame {
         return gridPanel;
     }
 
+    @Override
     public void updateTheme(){
         theme = Configuration.getThemeIndex();
         loadTheme();

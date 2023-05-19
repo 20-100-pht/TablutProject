@@ -101,4 +101,8 @@ public abstract class Frame extends JComponent {
     public void addAnimation(Animation animation){
         animations.add(animation);
     }
+
+    public void updateTheme(){
+
+    }
 }

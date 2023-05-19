@@ -13,9 +13,9 @@ public class OptionsFrame extends JFrame {
     JComboBox<String> themeComboBox;
     JButton okButton;
     JButton exitButton;
-    GameFrame gameFrame;
-    public OptionsFrame(GameFrame gameFrame) {
-        this.gameFrame = gameFrame;
+    Frame frame;
+    public OptionsFrame(Frame frame) {
+        this.frame = frame;
 
         setTitle("Options");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -121,7 +121,7 @@ public class OptionsFrame extends JFrame {
                 }
                 Configuration.save();
 
-                gameFrame.updateTheme();
+                frame.updateTheme();
 
                 if(yesButton.isSelected()){
                     Configuration.setAnimationActived(true);

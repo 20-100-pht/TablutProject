@@ -23,6 +23,7 @@ public class MenuFrame extends Frame {
     Image imageBackground;
     JLabel labelTitle;
     Font fontTitle;
+    OptionsFrame optionsFrame;
 
     public MenuFrame(Interface ui){
         super(ui);
@@ -90,7 +91,7 @@ public class MenuFrame extends Frame {
     }
 
     public void setButtonHandlers(){
-            bttnNewGame.addMouseListener(new MouseAdapter() {
+        bttnNewGame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 ui.changePage(InterfacePage.NEWGAME);
@@ -101,6 +102,13 @@ public class MenuFrame extends Frame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 menuController.loadGame();
+            }
+        });
+
+        bttnOption.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                openOptionsWindow();
             }
         });
     }
@@ -155,5 +163,9 @@ public class MenuFrame extends Frame {
             file = fileChooser.getSelectedFile();
         }
         return file;
+    }
+
+    public void openOptionsWindow(){
+        optionsFrame = new OptionsFrame(this);
     }
 }
