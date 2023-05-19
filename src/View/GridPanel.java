@@ -38,10 +38,12 @@ public class GridPanel extends JPanel {
     Image imageStepsHEnd;
     Image imageStepsVEnd;
     Image imageSelection;
+    Image imageBulb;
 
     Vector<Coordinate> possibleMoveMarks;
     Coordinate selectionMarkCoords;
     Vector<Coordinate> moveMarksCoords;
+    Coordinate hintMarkCoords;
     boolean frozen;
     Coordinate pieceHidedCoords = null;
     AnimationMove animationMove;
@@ -183,8 +185,18 @@ public class GridPanel extends JPanel {
         if (!gameLogic.isEndGame()){
             for (int i = 0; i < possibleMoveMarks.size(); i++) {
                 Coordinate piecePos = possibleMoveMarks.get(i);
+                if(piecePos.isSameCoordinate(hintMarkCoords)){
+                    continue;
+                }
                 drawAccessibleMark(g, piecePos.getCol(), piecePos.getRow());
             }
+        }
+
+        if(hintMarkCoords != null){
+            int markX = (int) (hintMarkCoords.getCol() * getCaseSize() + getCaseSize() * 0.2);
+            int markY = (int) (hintMarkCoords.getRow() * getCaseSize() + getCaseSize() * 0.2);
+            int markSize = (int) (getCaseSize()*0.6);
+            g.drawImage(imageBulb, markX, markY, markSize, markSize, null);
         }
     }
 
@@ -211,6 +223,7 @@ public class GridPanel extends JPanel {
             imageStepsV = ImageIO.read(new File(STEPS_VERTICAL_ASSET_PATH));
             imageStepsVEnd = ImageIO.read(new File(STEPS_VERTICAL_END_ASSET_PATH));
             imageSelection = ImageIO.read(new File(TILE_ASSET_SELECTION));
+            imageBulb = ImageIO.read(new File("assets/images/bulb.png"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -360,6 +373,10 @@ public class GridPanel extends JPanel {
 
     public AnimationMove getAnimationMove(){
         return animationMove;
+    }
+
+    public void setHintMarkCoords(Coordinate coords){
+        hintMarkCoords = coords;
     }
 
 }

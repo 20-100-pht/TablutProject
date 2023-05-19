@@ -269,5 +269,26 @@ public class GameGraphicController extends GameController {
     public void updateViewAfterLoad(){
         updateTurnLabel();
     }
+
+    public void bttnHintClickHandler(){
+        if(game.isAiTurn()) return;
+        if(game.anIaThinking()) return;
+        if(game.isReviewMode()) return;
+        if(game.isEnded()) return;
+        processHintInSeparateThread();
+    }
+
+    public void processHintInSeparateThread(){
+        Thread threadAI = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Coup coup = game.getHint();
+                GridPanel gridPanel = gameFrame.getGridPanelInstance();
+                gridPanel.setHintMarkCoords(coup.getDest());
+                gridPanel.getGridPanelController().treatSelection(coup.getInit());
+            }
+        });
+        threadAI.start();
+    }
 }
 

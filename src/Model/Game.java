@@ -27,6 +27,8 @@ public class Game implements Serializable {
     int reviewTurnIndex;
     boolean anIaThinking;
 
+    AI iaHint;
+
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
 
@@ -117,6 +119,8 @@ public class Game implements Serializable {
                 attackerAI = new AIHard();
             }
         }
+
+        iaHint = new AIHard();
     }
 
     public void reset(){
@@ -527,5 +531,21 @@ public class Game implements Serializable {
 
     public boolean isEnded(){
         return ended;
+    }
+
+    public Coup getHint(){
+        PieceType t = null;
+        if(isAttackerTurn()){
+            t = PieceType.ATTACKER;
+        }
+        else{
+            t = PieceType.DEFENDER;
+        }
+
+        anIaThinking = true;
+        Coup coup = iaHint.playMove(logicGrid, 3, t);
+        anIaThinking = false;
+
+        return coup;
     }
 }

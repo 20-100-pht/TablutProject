@@ -97,12 +97,10 @@ public class GridPanelController {
         }
     }
 
-    public void mouseLeftBttnReleasedHandler(MouseEvent e){
-
+    public void treatSelection(Coordinate caseCoords){
         if(game.isReviewMode()) return;
         if(game.isEnded()) return;
 
-        Coordinate caseCoords = getCaseFromPixelPosition(e.getX(), e.getY());
         Piece pieceClicked = grid.getPieceAtPosition(caseCoords);
 
         if(gridPanel.anAnimationNotTerminated()) return;
@@ -117,7 +115,7 @@ public class GridPanelController {
                 return;
             }
             //On enlève les indications sur les mouvements possibles avant de bouger
-            gridPanel.clearMovePossibleMarks();
+            resetSelection();
 
             if(Configuration.isAnimationActived()) {
                 gameGraphicController.startMoveAnimation(coup, MoveAnimationType.CLASSIC);
@@ -125,8 +123,6 @@ public class GridPanelController {
             else{
                 game.play(coup, MoveAnimationType.CLASSIC);
             }
-            pieceSelectedCoords = null;
-            gridPanel.setSelectionMarkCoords(null);
         }
         //On sélectionne la pièce s'il elle est au joueur qui joue
         else {
@@ -143,6 +139,11 @@ public class GridPanelController {
         }
     }
 
+    public void mouseLeftBttnReleasedHandler(MouseEvent e){
+        Coordinate caseCoords = getCaseFromPixelPosition(e.getX(), e.getY());
+        treatSelection(caseCoords);
+    }
+
     public void mouseRightBttnReleasedHandler(MouseEvent e){
         resetSelection();
     }
@@ -151,6 +152,7 @@ public class GridPanelController {
         pieceSelectedCoords = null;
         gridPanel.setSelectionMarkCoords(null);
         gridPanel.clearMovePossibleMarks();
+        gridPanel.setHintMarkCoords(null);
     }
 
     public void updateViewAfterReplay(){
