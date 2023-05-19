@@ -131,13 +131,19 @@ public class Game implements Serializable {
         history.reset();
         attTimeRemainedMs = blitzTime*1000;
         defTimeRemainedMs = blitzTime*1000;
-        startTimerEnded = false;
         iaPause = false;
         previousCoup = null;
         reviewMode = false;
         reviewTurnIndex = turnIndex;
         anIaThinking = false;
         ended = false;
+
+        if(attackerIsAI || blitzMode){
+            startTimerEnded = false;
+        }
+        else{
+            startTimerEnded = true;
+        }
     }
 
     public boolean isAiTurn(){
