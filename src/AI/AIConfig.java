@@ -2,15 +2,37 @@ package AI;
 
 public class AIConfig {
 
+    static double pieceRatio_D = 5;
+    static double kingToCorner_D = 10;
+    static double nextToKing_D = 100;
+    static double pieceRatio_A = 2;
+    static double kingToCorner_A = 10;
+    static double nextToKing_A = 6;
+    static double circleStrat_A = 3;
 
-    static double pieceRatio_A = 1;
-    static double kingToCorner_A = 40;
-    static double kingToValuablePos_A = 30;
-    static double nextToKing_A = 10;
-    static double circleStrat_A = 6;
+    public static double getPieceRatio_D() {
+        return pieceRatio_D;
+    }
 
+    public static void setPieceRatio_D(double pieceRatio_D) {
+        AIConfig.pieceRatio_D = pieceRatio_D;
+    }
 
+    public static double getKingToCorner_D() {
+        return kingToCorner_D;
+    }
 
+    public static void setKingToCorner_D(double kingToCorner_D) {
+        AIConfig.kingToCorner_D = kingToCorner_D;
+    }
+
+    public static double getNextToKing_D() {
+        return nextToKing_D;
+    }
+
+    public static void setNextToKing_D(double nextToKing_D) {
+        AIConfig.nextToKing_D = nextToKing_D;
+    }
     public static double getPieceRatio_A() {
         return pieceRatio_A;
     }

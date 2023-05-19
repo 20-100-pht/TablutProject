@@ -38,10 +38,6 @@ public abstract class AI implements Serializable {
 
         startingDepth = depth;
 
-        //Set alpha and beta
-        double alpha = Double.NEGATIVE_INFINITY;
-        double beta = Double.POSITIVE_INFINITY;
-
         //Create first node
         Node n = new Node(g.cloneLogicGrid(), null);
 

@@ -26,21 +26,16 @@ public class AIHard extends AI {
 
         switch (maximizingPlayer){
             case ATTACKER:
-                value += attackerHeuristic(current, depth, maximizingPlayer);
+                value += attackerHeuristic(current);
             case KING: case DEFENDER:
-                value -=  defenderHeuristic(current, depth, maximizingPlayer);
+                value -=  defenderHeuristic(current);
         }
 
         return value;
     }
 
-    private double attackerHeuristic(Node current, int depth, PieceType maximizingPlayer){
+    private double attackerHeuristic(Node current){
         LogicGrid gRules = current.getLogicGrid();
-        Piece k = gRules.getKing();
-        Grid grid = gRules.getGrid();
-        PieceType adverse;
-        if(maximizingPlayer == PieceType.ATTACKER) adverse = PieceType.DEFENDER;
-        else adverse = PieceType.ATTACKER;
 
         double value = 0;
         value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1)) * AIConfig.getPieceRatio_A();
@@ -55,15 +50,14 @@ public class AIHard extends AI {
         //Attackers want a high value, Defenders want a low value
         return value;
     }
-    private double defenderHeuristic(Node current, int depth, PieceType maximizingPlayer){
+    private double defenderHeuristic(Node current){
         LogicGrid gRules = current.getLogicGrid();
         Piece k = gRules.getKing();
-        Grid grid = gRules.getGrid();
 
         double value =0;
-        value += gRules.getNbPieceDefenderOnGrid()*5;
-        value -= HeuristicUtils.isNextToKing(k,current.getLogicGrid().getGrid())*10;
-        value += HeuristicUtils.canKingGoToCorner(current)*100;
+        value += gRules.getNbPieceDefenderOnGrid()*AIConfig.getPieceRatio_D();
+        value -= HeuristicUtils.isNextToKing(k,current.getLogicGrid().getGrid())*AIConfig.getNextToKing_D();
+        value += HeuristicUtils.canKingGoToCorner(current)*AIConfig.getKingToCorner_D();
 
         return value;
     }
