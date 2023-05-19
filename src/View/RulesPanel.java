@@ -31,6 +31,9 @@ public class RulesPanel extends RoundPanel {
     ImageIcon imageCaptureCastle;
     ImageIcon imageCaptureSuicide;
     ImageIcon imageCaptureThrone;
+    ImageIcon imageAttacker;
+    ImageIcon imageDefender;
+    ImageIcon imageKing;
     ImageIcon imageCross;
     JLabel labelImageCross;
     ImageIcon imageArrowLeft;
@@ -94,6 +97,7 @@ public class RulesPanel extends RoundPanel {
         c.gridx = 1;
         c.gridy = 2;
         c.weightx = 0.7;
+        c.insets = new Insets(0, 0, 15, 0);
         c.fill = GridBagConstraints.HORIZONTAL;
         add(bottomPanel, c);
 
@@ -107,8 +111,8 @@ public class RulesPanel extends RoundPanel {
         labelPreviousPage = new JLabel(imageArrowLeft);
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(0, 0, 15, 0);
-        c.anchor = GridBagConstraints.LAST_LINE_START;
+        c.insets = new Insets(0, 0, 0, 40);
+        c.anchor = GridBagConstraints.LAST_LINE_END;
         bottomPanel.add(labelPreviousPage, c);
 
 
@@ -117,8 +121,8 @@ public class RulesPanel extends RoundPanel {
         labelNextPage = new JLabel(imageArrowRight);
         c.gridx = 2;
         c.gridy = 0;
-        c.insets = new Insets(0, 0, 15, 0);
-        c.anchor = GridBagConstraints.LAST_LINE_END;
+        c.insets = new Insets(0, 40, 0, 0);
+        c.anchor = GridBagConstraints.LAST_LINE_START;
         bottomPanel.add(labelNextPage, c);
 
         c.anchor = GridBagConstraints.CENTER;
@@ -313,10 +317,38 @@ public class RulesPanel extends RoundPanel {
         JLabel labelTitleGoodToKnow = new JLabel("Bon à savoir");
         labelTitleGoodToKnow.setFont(fontDialog30);
         c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 5;
-        c.insets = new Insets(0,0,65,0);
+        c.gridy = 1;
+        //c.gridwidth = 5;
+        c.insets = new Insets(0,0,50,0);
         page4.add(labelTitleGoodToKnow, c);
+
+        JLabel labelImgSuicide = new JLabel(imageCaptureSuicide);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.insets = new Insets(0,0,0,0);
+        page4.add(labelImgSuicide, c);
+
+        JLabel labelCaptureSuicide = new JLabel("Une pièce qui se \"suicide\" n'est pas capturée.");
+        labelCaptureSuicide.setFont(fontDialog15);
+        c.gridx = 0;
+        c.gridy = 3;
+        c.insets = new Insets(7, 0, 40, 0);
+        page4.add(labelCaptureSuicide, c);
+
+        JLabel labelImgCaptureSeveral = new JLabel(imageCaptureSeveral);
+        c.gridx = 0;
+        c.gridy = 4;
+        c.insets = new Insets(0,0,0,0);
+        page4.add(labelImgCaptureSeveral, c);
+
+        JLabel labelCaptureSeveral = new JLabel("Plusieurs pièces peuvent être capturées en un seul coup.");
+        labelCaptureSeveral.setFont(fontDialog15);
+        c.gridx = 0;
+        c.gridy = 5;
+        c.insets = new Insets(7, 0, 0, 0);
+        page4.add(labelCaptureSeveral, c);
+
+
 
         //Page 5
 
@@ -326,9 +358,50 @@ public class RulesPanel extends RoundPanel {
         labelTitleGoal.setFont(fontDialog30);
         c.gridx = 0;
         c.gridy = 0;
-        c.gridwidth = 5;
+        c.gridwidth = 2;
         c.insets = new Insets(0,0,65,0);
         page5.add(labelTitleGoal, c);
+
+        c.gridwidth = 1;
+
+        JLabel labelImgAttacker = new JLabel(imageAttacker);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.insets = new Insets(0,0,0,0);
+        page5.add(labelImgAttacker, c);
+
+        JLabel labelAttacker = new JLabel("Les attaquants doivent empêcher le roi d'aller se cacher dans une de ses forteresses.");
+        labelAttacker.setFont(fontDialog15);
+        c.gridx = 1;
+        c.gridy = 1;
+        c.insets = new Insets(7, 0, 0, 0);
+        page5.add(labelAttacker, c);
+
+        JLabel labelImgDefender = new JLabel(imageDefender);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.insets = new Insets(0,0,0,0);
+        page5.add(labelImgDefender, c);
+
+        JLabel labelDefender = new JLabel("Les défenseurs doivent protéger le roi.");
+        labelDefender.setFont(fontDialog15);
+        c.gridx = 1;
+        c.gridy = 2;
+        c.insets = new Insets(7, 0, 0, 0);
+        page5.add(labelDefender, c);
+
+        JLabel labelImgKing = new JLabel(imageKing);
+        c.gridx = 0;
+        c.gridy = 3;
+        c.insets = new Insets(0,0,0,0);
+        page5.add(labelImgKing, c);
+
+        JLabel labelKing = new JLabel("Le roi doit se rendre dans une de ses forteresses.");
+        labelKing.setFont(fontDialog15);
+        c.gridx = 1;
+        c.gridy = 3;
+        c.insets = new Insets(7, 0, 0, 0);
+        page5.add(labelKing, c);
 
         page6 = createPage(this, 1, 1);
 
@@ -428,6 +501,13 @@ public class RulesPanel extends RoundPanel {
             Image imageCaptureThroneT = ImageIO.read(new File("assets/images/kill_5.png"));
             imageCaptureThrone = new ImageIcon(imageCaptureThroneT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
 
+            Image imageDefenderT = ImageIO.read(new File("assets/images/defender2.png"));
+            imageDefender = new ImageIcon(imageDefenderT.getScaledInstance(128, 128, Image.SCALE_DEFAULT));
+            Image imageAttackerT = ImageIO.read(new File("assets/images/attacker2.png"));
+            imageAttacker = new ImageIcon(imageAttackerT.getScaledInstance(128, 128, Image.SCALE_DEFAULT));
+            Image imageKingT = ImageIO.read(new File("assets/images/attacker2.png"));
+            imageKing = new ImageIcon(imageKingT.getScaledInstance(128, 128, Image.SCALE_DEFAULT));
+
             Image imageCrossT = ImageIO.read(new File("assets/images/cross.png"));
             imageCross = new ImageIcon(imageCrossT.getScaledInstance(32, 32, Image.SCALE_DEFAULT));
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow4_left.png")));
@@ -489,7 +569,7 @@ public class RulesPanel extends RoundPanel {
             width = (int) (windowWidth/1.3);
         }
 
-        if(windowHeight > 850){
+        if(windowHeight > 900){
             height = (int) (windowHeight/1.5);
         }
         else{
