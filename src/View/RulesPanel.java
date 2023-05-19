@@ -13,7 +13,7 @@ import java.util.Vector;
 
 public class RulesPanel extends RoundPanel {
 
-    final int NPage = 6;
+    final int NPage = 5;
 
     int page = 0;
     JPanel page1;
@@ -21,7 +21,6 @@ public class RulesPanel extends RoundPanel {
     JPanel page3;
     JPanel page4;
     JPanel page5;
-    JPanel page6;
     Vector<JPanel> pages;
     Vector<JLabel> lLabelPageIndex;
     ImageIcon imageMovePossibles;
@@ -69,7 +68,7 @@ public class RulesPanel extends RoundPanel {
 
         setBackground(Color.blue);
 
-        JPanel leftPanel = new JPanel();
+        /*JPanel leftPanel = new JPanel();
         leftPanel.setOpaque(false);
         c.gridx = 0;
         c.gridy = 0;
@@ -86,10 +85,19 @@ public class RulesPanel extends RoundPanel {
         c.weightx = 0.15;
         c.gridheight = 3;
         c.fill = GridBagConstraints.BOTH;
-        add(rightPanel, c);
+        add(rightPanel, c);*/
 
-        c.weightx = 0;
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new GridBagLayout());
+        topPanel.setOpaque(false);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 1;
+        c.fill = GridBagConstraints.BOTH;
+        add(topPanel, c);
+
         c.gridheight = 1;
+        c.weightx = 0;
         c.fill = GridBagConstraints.NONE;
 
         //Changement de page
@@ -97,10 +105,10 @@ public class RulesPanel extends RoundPanel {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setOpaque(false);
         bottomPanel.setLayout(new GridBagLayout());
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 2;
         c.weightx = 0.7;
-        c.insets = new Insets(0, 0, 15, 0);
+        c.insets = new Insets(7, 0, 7, 0);
         c.fill = GridBagConstraints.HORIZONTAL;
         add(bottomPanel, c);
 
@@ -150,22 +158,22 @@ public class RulesPanel extends RoundPanel {
         //Croix pour fermer
 
         labelImageCross = new JLabel(imageCross);
-        labelImageCross.setPreferredSize(new Dimension(32, 32));
-        c.anchor = GridBagConstraints.FIRST_LINE_END;
-        c.gridx = 0;
+        c.gridx = 1;
         c.gridy = 0;
-        c.weighty = 1;
-        c.insets = new Insets(10, 0, 0, 0);
-        rightPanel.add(labelImageCross, c);
+        c.weightx = 1;
+        c.anchor = GridBagConstraints.BASELINE_TRAILING;
+        c.insets = new Insets(13, 0, 13, 13);
+        topPanel.add(labelImageCross, c);
 
         c.weighty = 0;
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0, 0, 0, 0);
+        c.fill = GridBagConstraints.NONE;
 
 
         //Page 1
 
-        page1 = page3 = createPage(this, 1, 1);
+        page1 = createPage(this, 0, 1);
 
         JLabel labelTitleMoves = new JLabel("Déplacements");
         labelTitleMoves.setFont(fontDialog30);
@@ -200,9 +208,9 @@ public class RulesPanel extends RoundPanel {
 
         //Page 2
 
-        page2 = createPage(this, 1, 1);
+        page2 = createPage(this, 0, 1);
 
-        JLabel labelTitleCapturePawn = new JLabel("Captures de pions");
+        JLabel labelTitleCapturePawn = new JLabel("Capture de pions");
         labelTitleCapturePawn.setFont(fontDialog30);
         c.gridx = 0;
         c.gridy = 0;
@@ -214,21 +222,24 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(0,0,0,0);
 
         JPanel centerP2Panel = new JPanel();
+        centerP2Panel.setOpaque(false);
         c.gridx = 1;
         c.gridheight = 5;
         c.weightx = 0.2;
         page2.add(centerP2Panel, c);
 
         JPanel leftP2Panel = new JPanel();
+        leftP2Panel.setOpaque(false);
         c.gridx = 0;
         c.gridheight = 5;
         c.weightx = 0.1;
         page2.add(leftP2Panel, c);
 
         JPanel rightP2Panel = new JPanel();
+        rightP2Panel.setOpaque(false);
         c.gridx = 4;
         c.gridheight = 5;
-        c.weightx = 0.1;
+        c.weightx = 0.2;
         page2.add(rightP2Panel, c);
 
         c.gridheight = 1;
@@ -301,23 +312,47 @@ public class RulesPanel extends RoundPanel {
 
         //Page 3
 
-        page3 = createPage(this, 1, 1);
-        page3.setOpaque(true);
+        page3 = createPage(this, 0, 1);
 
         JLabel labelTitleCaptureKing = new JLabel("Capture du roi");
         labelTitleCaptureKing.setFont(fontDialog30);
         c.gridx = 0;
         c.gridy = 0;
-        c.gridwidth = 4;
-        c.insets = new Insets(0,0,50,0);
+        c.gridwidth = 5;
+        c.insets = new Insets(0,0,40,0);
         page3.add(labelTitleCaptureKing, c);
 
         c.gridwidth = 1;
 
+        JPanel centerP3Panel = new JPanel();
+        centerP3Panel.setOpaque(false);
+        c.gridx = 1;
+        c.gridheight = 2;
+        c.weightx = 0.1;
+        page3.add(centerP3Panel, c);
+
+        JPanel leftP3Panel = new JPanel();
+        leftP3Panel.setOpaque(false);
+        c.gridx = 0;
+        c.gridheight = 2;
+        c.weightx = 0.4;
+        page3.add(leftP3Panel, c);
+
+        JPanel rightP3Panel = new JPanel();
+        rightP3Panel.setOpaque(false);
+        c.gridx = 4;
+        c.gridheight = 2;
+        c.weightx = 0.4;
+        page3.add(rightP3Panel, c);
+
+        c.gridheight = 1;
+        c.weightx = 0;
+
         JLabel labelImgCaptureKClassic = new JLabel(imageCaptureKClassic);
         c.gridx = 1;
         c.gridy = 1;
-        c.insets = new Insets(0, 0, 7, 40);
+        c.weightx = 0.5;
+        c.insets = new Insets(0, 0, 7, 0);
         page3.add(labelImgCaptureKClassic, c);
 
         //c.insets = new Insets(0, 0, 50, 0);
@@ -326,7 +361,7 @@ public class RulesPanel extends RoundPanel {
         labelCaptureKClassic.setFont(fontDialog15);
         c.gridx = 1;
         c.gridy = 2;
-        c.insets = new Insets(0, 0, 0, 40);
+        c.insets = new Insets(0, 0, 0, 0);
         page3.add(labelCaptureKClassic, c);
 
         c.insets = new Insets(0, 0, 0, 0);
@@ -334,7 +369,8 @@ public class RulesPanel extends RoundPanel {
         JLabel labelImgCaptureKWall = new JLabel(imageCaptureKWall);
         c.gridx = 3;
         c.gridy = 1;
-        c.insets = new Insets(0, 40, 7, 0);
+        c.weightx = 0.5;
+        c.insets = new Insets(0, 0, 7, 0);
         page3.add(labelImgCaptureKWall, c);
 
         //c.insets = new Insets(0, 0, 50, 0);
@@ -343,22 +379,22 @@ public class RulesPanel extends RoundPanel {
         labelCaptureKWall.setFont(fontDialog15);
         c.gridx = 3;
         c.gridy = 2;
-        c.insets = new Insets(0, 40, 0, 0);
+        c.insets = new Insets(0, 0, 0, 0);
         page3.add(labelCaptureKWall, c);
 
         JLabel labelCaptureKExp = new JLabel("Comme pour les pions, il existe les tenailles avec les forteresses et le thrône.");
         labelCaptureKExp.setFont(fontDialog15);
         c.gridx = 0;
         c.gridy = 3;
-        c.gridwidth = 4;
-        c.insets = new Insets(20, 0, 0, 0);
+        c.gridwidth = 5;
+        c.insets = new Insets(35, 0, 0, 0);
         page3.add(labelCaptureKExp, c);
 
         c.gridwidth = 1;
 
         //Page 4
 
-        page4 = createPage(this, 1, 1);
+        page4 = createPage(this, 0, 1);
 
         JLabel labelTitleGoodToKnow = new JLabel("Bon à savoir");
         labelTitleGoodToKnow.setFont(fontDialog30);
@@ -398,19 +434,19 @@ public class RulesPanel extends RoundPanel {
 
         //Page 5
 
-        page5 = createPage(this, 1, 1);
+        page5 = createPage(this, 0, 1);
 
-        JLabel labelTitleGoal = new JLabel("Objectif");
+        JLabel labelTitleGoal = new JLabel("But du jeu");
         labelTitleGoal.setFont(fontDialog30);
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
-        c.insets = new Insets(0,0,35,0);
+        c.insets = new Insets(0,0,25,0);
         page5.add(labelTitleGoal, c);
 
         c.gridwidth = 1;
 
-        JLabel labelAttacker = new JLabel("Le roi doit parvenir à se cacher dans une de ses forteresses dans les coins.");
+        JLabel labelAttacker = new JLabel("Le roi doit parvenir à se cacher dans une de ses forteresses.");
         labelAttacker.setFont(fontDialog15);
         c.gridx = 1;
         c.gridy = 1;
@@ -443,17 +479,14 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(7, 0, 0, 0);
         page5.add(labelKing, c);
 
-        page6 = createPage(this, 1, 1);
-
+        pages.add(page5);
         pages.add(page1);
         pages.add(page2);
         pages.add(page3);
         pages.add(page4);
-        pages.add(page5);
-        pages.add(page6);
 
 
-        page1.setVisible(true);
+        page5.setVisible(true);
 
         setEventHandlers();
     }
@@ -471,12 +504,13 @@ public class RulesPanel extends RoundPanel {
         GridBagConstraints c = new GridBagConstraints();
 
         JPanel page = new JPanel();
-        page.setOpaque(false);
+        page.setOpaque(true);
         page.setLayout(new GridBagLayout());
         c.gridx = x;
         c.gridy = y;
-        c.weightx = 0.8;
+        c.weightx = 0.7;
         c.weighty = 1;
+        c.gridwidth = 3;
         c.fill = GridBagConstraints.BOTH;
         parent.add(page, c);
         page.setVisible(false);
@@ -610,17 +644,17 @@ public class RulesPanel extends RoundPanel {
         int width;
         int height;
         if(windowWidth > 1200){
-            width = (int) (windowWidth/1.6);
+            width = (int) (windowWidth/1.4);
         }
         else{
-            width = (int) (windowWidth/1.3);
+            width = (int) (windowWidth/1.2);
         }
 
-        if(windowHeight > 900){
+        if(windowHeight > 1050){
             height = (int) (windowHeight/1.5);
         }
         else{
-            height = (int) (windowHeight/1.2);
+            height = (int) (windowHeight/1.1);
         }
 
         return new Dimension(width, height);
