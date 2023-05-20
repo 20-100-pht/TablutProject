@@ -77,6 +77,11 @@ public class GridPanelController {
     }
 
     public void mouseMovedHandler(MouseEvent e){
+        if(game.isAiTurn()) {
+            gridPanel.clearMovePossibleMarks();
+            return;
+        }
+
         if(pieceSelectedCoords == null) {
             Piece hoveredPiece = getPieceHovered(e.getX(), e.getY());
             if (hoveredPiece != null) {
