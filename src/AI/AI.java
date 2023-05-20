@@ -21,8 +21,8 @@ public abstract class AI implements Serializable {
 
 
     public AI(){
-
     }
+
     /**
      * Returns the next (best or not) playable move
      *
@@ -82,7 +82,6 @@ public abstract class AI implements Serializable {
                 bestCoups.add(child.getCoup());
             }
         }
-
 
         Random r = new Random();
         Coup nextMove = bestCoups.get(r.nextInt(bestCoups.size()));

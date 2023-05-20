@@ -17,7 +17,7 @@ import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 100;
+    private static final int AIGAMES = 1;
     private static final int NB_EXPERIENCES = 1;
     private static final boolean PRINT = false;
     private static final boolean PRINT_LAST_BOARD = false;
@@ -25,8 +25,8 @@ public class AITraining {
     private static final boolean RANDOMIZE_WEIGHT = false;
     private static final boolean WRITE_TO_FILE = false;
     private static final PieceType AiTested = PieceType.ATTACKER;
-    private static final AIDifficulty AiAttack = AIDifficulty.HARD;
-    private static final AIDifficulty AiDef = AIDifficulty.HARD;
+    private static final AIDifficulty AiAttack = AIDifficulty.RANDOM;
+    private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");

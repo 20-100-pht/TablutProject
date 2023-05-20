@@ -28,7 +28,7 @@ public class AIHard extends AI {
             case ATTACKER:
                 value += attackerHeuristic(current);
             case KING: case DEFENDER:
-                value -=  attackerHeuristic(current);
+                value -= defenderHeuristic(current);
         }
 
         return value;
@@ -43,7 +43,8 @@ public class AIHard extends AI {
         value += HeuristicUtils.canKingGoToValuablePosition(current) * -AIConfig.getKingToValuablePos_A();
         value += HeuristicUtils.isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid()) * AIConfig.getNextToKing_A();
 
-        if(current.getLogicGrid().getNbPieceAttackerOnGrid() > 10 && current.getLogicGrid().getNbPieceDefenderOnGrid() > 5){
+        Piece king = current.getLogicGrid().getKing();
+        if(king.getRow() == 4 && king.getCol() == 4){
             value += HeuristicUtils.attackerCircleStrategy(current) * AIConfig.getCircleStrat_A();
         }
 
