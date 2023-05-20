@@ -397,9 +397,14 @@ public class NewGameFrame extends Frame {
         if(rdoEasyAttPart.isSelected() || rdoMediumAttPart.isSelected() || rdoDifficultAttPart.isSelected()
                 || rdoEasyDefPart.isSelected() || rdoMediumDefPart.isSelected() || rdoDifficultDefPart.isSelected()){
             tfTime.setEnabled(false);
+            tfTime.setBackground(Color.LIGHT_GRAY);
         }
         else{
             tfTime.setEnabled(true);
+            tfTime.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK),
+                    BorderFactory.createEmptyBorder(0, 3, 0, 0)));
+            tfTime.setBackground(Color.WHITE);
+
         }
     }
     public void loadAssets(){
