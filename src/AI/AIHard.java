@@ -60,6 +60,10 @@ public class AIHard extends AI {
         value -= HeuristicUtils.isNextToKing(k,current.getLogicGrid().getGrid())*AIConfig.getNextToKing_D();
         value += HeuristicUtils.canKingGoToCorner(current)*AIConfig.getKingToCorner_D();
 
+        Piece king = current.getLogicGrid().getKing();
+        if(king.getRow() == 4 && king.getCol() == 4){
+            value += HeuristicUtils.attackerCircleStrategy(current) * 5;
+        }
         return value;
     }
 
