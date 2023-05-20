@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.Vector;
 
 public class Game implements Serializable {
+    final String DEFAULT_ATT_NAME = "Attacker";
+    final String DEFAULT_DEF_NAME = "Defender";
     boolean attackerTurn;
     int turnIndex;
     boolean defenderIsAI;
@@ -38,14 +40,17 @@ public class Game implements Serializable {
     public AI attackerAI;
     LogicGrid logicGrid;
     Grid grid;
-    String defenderName = "Alexandre";
-    String attackerName = "Philippe";
+    String defenderName;
+    String attackerName;
     History history;
     transient GameController gameController;
+    transient PlayersStats playersStats;
 
 
 
     public Game(String defenderName, String attackerName, AIDifficulty defAiDifficulty, AIDifficulty attAiDifficulty, int blitzTime){
+
+        playersStats = new PlayersStats();
 
         if(defAiDifficulty != AIDifficulty.HUMAN) defenderIsAI = true;
         else defenderIsAI = false;
@@ -56,30 +61,30 @@ public class Game implements Serializable {
         attackerTypeAI = attAiDifficulty;
 
         if(defenderName.length() == 0) {
-            if(!defenderIsAI) this.defenderName = "Defenseur";
+            if(!defenderIsAI) this.defenderName = DEFAULT_DEF_NAME;
             else if(defAiDifficulty == AIDifficulty.RANDOM ){
-                this.defenderName = "Défenseur [FACILE]";
+                this.defenderName = DEFAULT_DEF_NAME + " [FACILE]";
             }
             else if(defAiDifficulty == AIDifficulty.MID ) {
-                this.defenderName = "Défenseur [MOYEN]";
+                this.defenderName =  DEFAULT_DEF_NAME + " [MOYEN]";
             }
             else if(defAiDifficulty == AIDifficulty.HARD ) {
-                this.defenderName = "Défenseur [DIFFICILE]";
+                this.defenderName = DEFAULT_DEF_NAME + " [DIFFICILE]";
             }
 
         } else {
             this.defenderName = defenderName;
 
         } if(attackerName.length() == 0) {
-            if(!attackerIsAI) this.attackerName = "Attaquant";
+            if(!attackerIsAI) this.attackerName = DEFAULT_ATT_NAME;
             else if(attAiDifficulty == AIDifficulty.RANDOM){
-                this.attackerName = "Attaquant [FACILE]";
+                this.attackerName = DEFAULT_ATT_NAME + " [FACILE]";
             }
             else if(attAiDifficulty == AIDifficulty.MID){
-                this.attackerName = "Attaquant [MOYEN]";
+                this.attackerName = DEFAULT_ATT_NAME + " [MOYEN]";
             }
             else if(attAiDifficulty == AIDifficulty.HARD){
-                this.attackerName = "Attaquant [DIFFICILE]";
+                this.attackerName = DEFAULT_ATT_NAME + " [DIFFICILE]";
             }
 
         } else {
@@ -240,7 +245,7 @@ public class Game implements Serializable {
 
         if(logicGrid.isAttackerWinConfiguration() || logicGrid.isDefenderWinConfiguration()) {
             if(!ended) {
-                gameController.updateViewEndGame();
+                treatEndGame();
             }
             ended = true;
         }
@@ -464,7 +469,7 @@ public class Game implements Serializable {
         }
 
         if((attTimeRemainedMs == 0 || defTimeRemainedMs == 0) && !ended){
-            gameController.updateViewEndGame();
+            treatEndGame();
             ended = true;
         }
     }
@@ -558,5 +563,65 @@ public class Game implements Serializable {
 
     public boolean isStartTimerEnded() {
         return startTimerEnded;
+    }
+
+    public void treatEndGame(){
+        gameController.updateViewEndGame();
+
+        if(!isAttackerAI() && !attackerName.equals(DEFAULT_ATT_NAME)){
+            PlayerStats attStats = playersStats.getPlayerStatsFromName(attackerName);
+            if(attStats == null){
+                playersStats.addPlayer(new PlayerStats(attackerName));
+            }
+            updatePlayerStats(attackerName, true);
+        }
+
+        if(!isDefenderAI() && !defenderName.equals(DEFAULT_DEF_NAME)){
+            PlayerStats defStats = playersStats.getPlayerStatsFromName(defenderName);
+            if(defStats == null){
+                playersStats.addPlayer(new PlayerStats(defenderName));
+            }
+            updatePlayerStats(defenderName, false);
+        }
+    }
+
+    public void updatePlayerStats(String playerName, boolean isAttacker){
+        PlayerStats playerStats = playersStats.getPlayerStatsFromName(playerName);
+
+        if(isAttacker){
+            if(logicGrid.isAttackerWinConfiguration() || (blitzMode && defTimeRemainedMs <= 0)) {
+                playerStats.addWin();
+                if(isDefenderAI()) {
+                    if(defenderTypeAI == AIDifficulty.RANDOM) playerStats.setWinAgainstEasy(true);
+                    if(defenderTypeAI == AIDifficulty.MID) playerStats.setWinAgainstMedium(true);
+                    if(defenderTypeAI == AIDifficulty.HARD) playerStats.setWinAgainstHard(true);
+                }
+            }
+            else {
+                playerStats.addLoose();
+            }
+        }
+        if(!isAttacker){
+            if(logicGrid.isDefenderWinConfiguration() || (blitzMode && attTimeRemainedMs <= 0)) {
+                playerStats.addWin();
+                if(isAttackerAI()) {
+                    if(attackerTypeAI == AIDifficulty.RANDOM) playerStats.setWinAgainstEasy(true);
+                    if(attackerTypeAI == AIDifficulty.MID) playerStats.setWinAgainstMedium(true);
+                    if(attackerTypeAI == AIDifficulty.HARD) playerStats.setWinAgainstHard(true);
+                }
+            }
+            else {
+                playerStats.addLoose();
+            }
+        }
+
+        int nGame = (playerStats.getNWin()+playerStats.getNLoose());
+        playerStats.setTurnMean((playerStats.getNTurnMean()*nGame+turnIndex+1)/(nGame+1));
+
+        playersStats.save();
+    }
+
+    public void updatePlayerStatsIaDefaited(PlayerStats pS){
+
     }
 }

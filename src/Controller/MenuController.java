@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Game;
+import Model.PlayersStats;
 import View.Interface;
 import View.InterfacePage;
 import View.MenuFrame;
@@ -37,6 +38,16 @@ public class MenuController {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void bttnStatsClickHandler(){
+        PlayersStats playersStats = new PlayersStats();
+        System.out.println("qsd");
+        if(playersStats.getNPlayer() == 0) {
+            menuFrame.showNoStatsDialog();
+        } else {
+            menuFrame.getInterface().changePage(InterfacePage.STATS);
         }
     }
 }

@@ -107,7 +107,7 @@ public class MenuFrame extends Frame {
         bttnStatistics.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                ui.changePage(InterfacePage.STATS);
+                menuController.bttnStatsClickHandler();
             }
         });
 
@@ -173,5 +173,9 @@ public class MenuFrame extends Frame {
 
     public void openOptionsWindow(){
         optionsFrame = new OptionsFrame(this);
+    }
+
+    public void showNoStatsDialog(){
+        JOptionPane.showMessageDialog(this, "Aucune donnée. Veuillez terminer une partie avec un pseudo.");
     }
 }

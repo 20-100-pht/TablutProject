@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class PlayerStats implements Serializable {
 
     String name;
-    int nTurnMean;
+    double nTurnMean;
     int nWin;
     int nDefeat;
     boolean winAgainstEasy;
@@ -28,4 +28,51 @@ public class PlayerStats implements Serializable {
         return name;
     }
 
+    public void addWin(){
+        nWin++;
+    }
+
+    public void addLoose(){
+        nDefeat++;
+    }
+
+    public int getNWin(){
+        return nWin;
+    }
+
+    public double getNTurnMean(){
+        return nTurnMean;
+    }
+
+    public void setTurnMean(double nTurnMean){
+        this.nTurnMean = nTurnMean;
+    }
+
+    public int getNLoose(){
+        return nDefeat;
+    }
+
+    public boolean hasWinAgainstEasy(){
+        return winAgainstEasy;
+    }
+
+    public boolean hasWinAgainstMedium(){
+        return winAgainstMedium;
+    }
+
+    public boolean hasWinAgainstHard(){
+        return winAgainstHard;
+    }
+
+    public void setWinAgainstEasy(boolean win){
+        this.winAgainstEasy = win;
+    }
+
+    public void setWinAgainstMedium(boolean win){
+        this.winAgainstMedium = win;
+    }
+
+    public void setWinAgainstHard(boolean win){
+        this.winAgainstHard = win;
+    }
 }
