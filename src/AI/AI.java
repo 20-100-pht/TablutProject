@@ -33,6 +33,10 @@ public abstract class AI implements Serializable {
      */
     public Coup playMove(LogicGrid g, int depth, PieceType type) {
 
+        //Set alpha and beta
+        double alpha = Double.NEGATIVE_INFINITY;
+        double beta = Double.POSITIVE_INFINITY;
+
         prunning_alpha_cutoffs = 0;
         prunning_beta_cutoffs = 0;
 
@@ -88,14 +92,14 @@ public abstract class AI implements Serializable {
         System.out.println("Attackers :" + n.getLogicGrid().getNbPieceAttackerOnGrid());
         System.out.println("Defenders :" + n.getLogicGrid().getNbPieceDefenderOnGrid());*/
 
-        System.out.println("Alpha cutoffs : " + prunning_alpha_cutoffs);
+        /*System.out.println("Alpha cutoffs : " + prunning_alpha_cutoffs);
         System.out.println("Beta cutoffs : " + prunning_beta_cutoffs);
         System.out.println("Best h " + type + " : " + bestHeuristic);
         System.out.println("Heuristic chosen :" + bestValue);
         System.out.println("Nb moves :" + bestCoups.size());
         System.out.println("King rel pos :" + g.getKing().getRelativePosition() + "\n");
 
-        AITest.visualiseMoves(bestCoups, n.getLogicGrid(), type);
+        AITest.visualiseMoves(bestCoups, n.getLogicGrid(), type);*/
         return nextMove;
     }
 

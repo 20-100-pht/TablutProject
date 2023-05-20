@@ -28,7 +28,7 @@ public class AIHard extends AI {
             case ATTACKER:
                 value += attackerHeuristic(current);
             case KING: case DEFENDER:
-                value -=  defenderHeuristic(current);
+                value -=  attackerHeuristic(current);
         }
 
         return value;
