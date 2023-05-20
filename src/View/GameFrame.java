@@ -526,6 +526,7 @@ public class GameFrame extends Frame {
         bttnUndo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
                 if(frozen) return;
                 gameGraphicController.bttnUndoClickHandler();
             }
@@ -534,6 +535,7 @@ public class GameFrame extends Frame {
         bttnRedo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
                 if(frozen) return;
                 gameGraphicController.bttnRedoClickHandler();
             }
@@ -620,7 +622,7 @@ public class GameFrame extends Frame {
     @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
-        window.setMinimumSize(new Dimension(1000, 750));
+        window.setMinimumSize(new Dimension(1000, 775));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) (sizeScreen.height);

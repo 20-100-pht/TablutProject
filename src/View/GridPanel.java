@@ -236,7 +236,7 @@ public class GridPanel extends JPanel {
     @Override
     public Dimension getPreferredSize(){
         int i = 0;
-        if(gameFrame.getHeight() > 880)
+        if(gameFrame.getHeight() > 1000)
             i = Math.min((int) ((gameFrame.getWidth()*0.5) / 2), (int) ((gameFrame.getHeight()*0.7) / 2));
         else
             i = Math.min((int) ((gameFrame.getWidth()*0.5) / 2), (int) ((gameFrame.getHeight()*0.6) / 2));

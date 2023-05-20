@@ -33,6 +33,8 @@ public class Button extends JPanel {
         backgroundColorHov = new Color(150,158,255);
         textColorHov = Color.WHITE;
 
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         font = new Font(Font.DIALOG, Font.BOLD, 23);
 
         this.setOpaque(false);
