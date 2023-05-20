@@ -4,5 +4,6 @@ public enum InterfacePage {
     INTRO,
     MENU,
     NEWGAME,
-    GAME
+    GAME,
+    STATS
 }

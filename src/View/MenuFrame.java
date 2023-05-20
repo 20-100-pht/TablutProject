@@ -104,6 +104,13 @@ public class MenuFrame extends Frame {
             }
         });
 
+        bttnStatistics.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                ui.changePage(InterfacePage.STATS);
+            }
+        });
+
         bttnOption.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
