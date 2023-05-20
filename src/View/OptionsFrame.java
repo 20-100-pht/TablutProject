@@ -37,15 +37,23 @@ public class OptionsFrame extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
+        Font fontOptions = new Font("Arial", Font.BOLD, 13);
+
         JLabel animationLabel = new JLabel("Animation active:");
+        animationLabel.setFont(fontOptions);
+        animationLabel.setForeground(Color.BLACK);
         gbc.gridx = 0;
         gbc.gridy = 0;
         mainPanel.add(animationLabel, gbc);
 
         yesButton = new JRadioButton("Oui");
+        yesButton.setFont(fontOptions);
+        yesButton.setForeground(Color.BLACK);
         yesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         noButton = new JRadioButton("Non");
+        noButton.setFont(fontOptions);
+        noButton.setForeground(Color.BLACK);
         noButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         ButtonGroup animationGroup = new ButtonGroup();
@@ -68,6 +76,8 @@ public class OptionsFrame extends JFrame {
         mainPanel.add(animationPanel, gbc);
 
         JLabel themeLabel = new JLabel("Changer de thème:");
+        themeLabel.setFont(fontOptions);
+        themeLabel.setForeground(Color.BLACK);
         gbc.gridx = 0;
         gbc.gridy = 1;
         mainPanel.add(themeLabel, gbc);
@@ -76,17 +86,18 @@ public class OptionsFrame extends JFrame {
         themeComboBox = new JComboBox<>(themes);
         themeComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         themeComboBox.setSelectedIndex(Configuration.getThemeIndex());
+        themeComboBox.setForeground(Color.BLACK);
         gbc.gridx = 1;
         gbc.gridy = 1;
         mainPanel.add(themeComboBox, gbc);
 
-        okButton = new JButton("Save");
-        okButton.setBackground(new Color(0,220,0));
+        okButton = new JButton("Sauver");
+        okButton.setBackground(new Color(0,180,0));
         okButton.setForeground(Color.white);
         okButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        exitButton = new JButton("Undo");
-        exitButton.setBackground(new Color(220,0,0));
+        exitButton = new JButton("Annuler");
+        exitButton.setBackground(new Color(180,0,0));
         exitButton.setForeground(Color.white);
         exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 

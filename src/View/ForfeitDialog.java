@@ -7,7 +7,7 @@ public class ForfeitDialog extends JDialog {
     public ForfeitDialog(Interface ui){
         JDialog dialog = new JDialog();
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        dialog.setTitle("Confirmation");
+        dialog.setTitle("Déclarer forfait");
         dialog.setModal(true);
 
         // JPanel that contains the text and buttons
@@ -16,28 +16,27 @@ public class ForfeitDialog extends JDialog {
 
         // Text
         JLabel question = new JLabel("Êtes-vous sûr de vouloir abandonner ?");
+        question.setForeground(Color.BLACK);
         question.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         panel.add(question, BorderLayout.NORTH);
 
         // Buttons
         JButton yesButton = new JButton("Oui");
-        yesButton.setBackground(new Color(0,220,0));
+        yesButton.setBackground(new Color(0,180,0));
         yesButton.setForeground(Color.WHITE);
         yesButton.setPreferredSize(new Dimension(80, 30));
         yesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         yesButton.addActionListener(e -> {
-            System.out.println("Tu as abandonné.");
             ui.changePage(InterfacePage.MENU);
             dialog.dispose(); // dialog closes after clicking on the button
         });
 
         JButton noButton = new JButton("Non");
-        noButton.setBackground(new Color(220,0,0));
+        noButton.setBackground(new Color(180,0,0));
         noButton.setForeground(Color.WHITE);
         noButton.setPreferredSize(new Dimension(80, 30));
         noButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         noButton.addActionListener(e -> {
-            System.out.println("Tu continues.");
             dialog.dispose(); // dialog closes after clicking on the button
         });
 

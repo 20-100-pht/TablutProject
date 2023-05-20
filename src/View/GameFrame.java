@@ -490,7 +490,7 @@ public class GameFrame extends Frame {
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
             imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
             imageBulb = new ImageIcon(ImageIO.read(new File("assets/images/bulb.png")));
-            imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu.png")));
+            imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu_icon.png")));
             imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
         } catch(IOException exp){
             exp.printStackTrace();

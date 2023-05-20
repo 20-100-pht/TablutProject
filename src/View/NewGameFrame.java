@@ -18,7 +18,7 @@ public class NewGameFrame extends Frame {
 
     JTextField tfNameAtt;
     JTextField tfNameDef;
-    JButton bttnStart;
+    Button bttnStart;
     JPanel centralPanel;
     ImageIcon returnImage;
     JLabel returnImageButton;
@@ -83,6 +83,7 @@ public class NewGameFrame extends Frame {
         mainPanel.setOpaque(false);
         JLabel labelNewGame = new JLabel("Nouvelle partie");
         labelNewGame.setFont(fontArial25);
+        labelNewGame.setForeground(Color.BLACK);
         c.gridx = 1;
         c.gridy = 0;
         c.insets = new Insets(20, 0, 30, 0);
@@ -113,6 +114,7 @@ public class NewGameFrame extends Frame {
 
         JLabel labelDefPart = new JLabel("Défenseur");
         labelDefPart.setFont(fontArial20);
+        labelDefPart.setForeground(Color.BLACK);
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 0.5;
@@ -121,6 +123,7 @@ public class NewGameFrame extends Frame {
 
         JLabel labelAttPart = new JLabel("Attaquant");
         labelAttPart.setFont(fontArial20);
+        labelAttPart.setForeground(Color.BLACK);
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 0.5;
@@ -131,6 +134,7 @@ public class NewGameFrame extends Frame {
 
         JLabel labelNames = new JLabel("Nom des joueurs");
         labelNames.setFont(fontDialog15);
+        labelNames.setForeground(Color.BLACK);
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 2;
@@ -143,6 +147,8 @@ public class NewGameFrame extends Frame {
         c.insets = new Insets(0, 30, 0, 30);
 
         tfNameDef = new JTextField(20);
+        tfNameDef.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK),
+                BorderFactory.createEmptyBorder(0, 3, 0, 0)));
         tfNameDef.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 if (tfNameDef.getText().length() >= 20)
@@ -156,6 +162,8 @@ public class NewGameFrame extends Frame {
         centralPanel.add(tfNameDef);
 
         tfNameAtt = new JTextField(20);
+        tfNameAtt.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK),
+                BorderFactory.createEmptyBorder(0, 3, 0, 0)));
         tfNameAtt.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 if (tfNameAtt.getText().length() >= 20)
@@ -172,6 +180,7 @@ public class NewGameFrame extends Frame {
 
         JLabel labelDifficultyIA = new JLabel("Paramètres IAs");
         labelDifficultyIA.setFont(fontDialog15);
+        labelDifficultyIA.setForeground(Color.BLACK);
         c.gridx = 0;
         c.gridy = 5;
         c.gridwidth = 2;
@@ -186,6 +195,7 @@ public class NewGameFrame extends Frame {
 
         JLabel labelBlitzTitle = new JLabel("Paramètres blitz");
         labelBlitzTitle.setFont(fontDialog15);
+        labelBlitzTitle.setForeground(Color.BLACK);
         c.gridx = 0;
         c.gridy = 7;
         c.gridwidth = 2;
@@ -201,8 +211,7 @@ public class NewGameFrame extends Frame {
         returnImageButton.setPreferredSize(new Dimension(32, 32));
         c.gridx = 1;
         c.gridy = 2;
-        c.anchor = GridBagConstraints.LAST_LINE_START;
-        returnImageButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        c.anchor = GridBagConstraints.LINE_START;
         gLayout.setConstraints(returnImageButton, c);
         mainPanel.add(returnImageButton);
 
@@ -228,6 +237,8 @@ public class NewGameFrame extends Frame {
         blitzPanel.add(labelChronoImage, c);
 
         tfTime = new JTextField();
+        tfTime.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK),
+                BorderFactory.createEmptyBorder(0, 3, 0, 0)));
         tfTime.setPreferredSize(new Dimension(65, 20));
         c.gridx = 1;
         c.insets = new Insets(0, 15, 0, 10);
@@ -236,6 +247,7 @@ public class NewGameFrame extends Frame {
         c.insets = new Insets(0, 0, 0, 0);
 
         JLabel labelInSeconds = new JLabel("(En secondes)");
+        labelInSeconds.setForeground(Color.BLACK);
         c.gridx = 2;
         blitzPanel.add(labelInSeconds, c);
 
@@ -296,6 +308,7 @@ public class NewGameFrame extends Frame {
 
     public JRadioButton createRadioButton(JPanel parent, ButtonGroup group, String text, int posX, int posY){
         JRadioButton bttn = new JRadioButton(text);
+        bttn.setForeground(Color.BLACK);
         group.add(bttn);
 
         GridBagConstraints c = new GridBagConstraints();
@@ -307,10 +320,12 @@ public class NewGameFrame extends Frame {
         return bttn;
     }
 
-    public JButton createBttnStart(JPanel parent){
-        JButton bttn = new JButton("Lancer la partie");
-        bttn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    public Button createBttnStart(JPanel parent){
+        Button bttn = new Button("Lancer la partie", true, this);
         GridBagConstraints c = new GridBagConstraints();
+        bttn.setPreferredSize(new Dimension(200, 55));
+        bttn.setFont(new Font(Font.DIALOG, Font.BOLD, 23));
+        bttn.setRoundValue(40);
         c.gridx = 1;
         c.gridy = 2;
         //c.anchor = GridBagConstraints.LAST_LINE_END;
@@ -322,9 +337,9 @@ public class NewGameFrame extends Frame {
 
     public void setEventHandlers() {
 
-        bttnStart.addActionListener(new ActionListener() {
+        bttnStart.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 AIDifficulty defDiff = AIDifficulty.HUMAN;
                 if(rdoEasyDefPart.isSelected()){
                     defDiff = AIDifficulty.RANDOM;
@@ -387,7 +402,6 @@ public class NewGameFrame extends Frame {
             tfTime.setEnabled(true);
         }
     }
-
     public void loadAssets(){
         try{
             imageChrono = ImageIO.read(new File("assets/images/chrono.png"));
@@ -398,9 +412,6 @@ public class NewGameFrame extends Frame {
             exp.printStackTrace();
         }
     }
-
-
-
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
