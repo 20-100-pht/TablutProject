@@ -93,6 +93,10 @@ public class Interface {
         else if(newPage == InterfacePage.NEWGAME){
             frame = new NewGameFrame(this);
         }
+        else if(newPage == InterfacePage.STATS){
+            frame = new StatsFrame(this);
+        }
+
         page = newPage;
         frame.adaptWindow();
         frame.build();
