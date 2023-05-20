@@ -232,6 +232,7 @@ public class GameGraphicController extends GameController {
     }
 
     public void bttnPreviousTurnClickHandler(){
+        if(game.isEnded()) return;
         if(!game.canUndo()) return;
         if(!gameFrame.isAnimationMoveTerminated()) return;
         if(game.isAiTurn() && !game.isIaPaused()){
@@ -251,6 +252,7 @@ public class GameGraphicController extends GameController {
     }
 
     public void bttnNextTurnClickHandler(){
+        if(game.isEnded()) return;
         if(!game.canRedo()) return;
         if(game.getReviewTurnIndex() >= game.getTurnIndex()) return;
         if(game.isAiTurn() && !game.isIaPaused()){
