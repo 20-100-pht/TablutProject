@@ -32,7 +32,7 @@ public class Coordinate implements Serializable {
     }
 
     public boolean isSameCoordinate(Coordinate obj){
-        return row == obj.getRow() && col == obj.getCol();
+        return obj != null && row == obj.getRow() && col == obj.getCol();
     }
 
 }

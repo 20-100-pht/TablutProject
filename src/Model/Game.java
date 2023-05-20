@@ -27,6 +27,8 @@ public class Game implements Serializable {
     int reviewTurnIndex;
     boolean anIaThinking;
 
+    AI iaHint;
+
     AIDifficulty attackerTypeAI;
     AIDifficulty defenderTypeAI;
 
@@ -117,6 +119,8 @@ public class Game implements Serializable {
                 attackerAI = new AIHard();
             }
         }
+
+        iaHint = new AIHard();
     }
 
     public void reset(){
@@ -127,13 +131,19 @@ public class Game implements Serializable {
         history.reset();
         attTimeRemainedMs = blitzTime*1000;
         defTimeRemainedMs = blitzTime*1000;
-        startTimerEnded = false;
         iaPause = false;
         previousCoup = null;
         reviewMode = false;
         reviewTurnIndex = turnIndex;
         anIaThinking = false;
         ended = false;
+
+        if(attackerIsAI || blitzMode){
+            startTimerEnded = false;
+        }
+        else{
+            startTimerEnded = true;
+        }
     }
 
     public boolean isAiTurn(){
@@ -440,7 +450,7 @@ public class Game implements Serializable {
 
     public void updatePlayerTurnChrono(int timeElapsed){
 
-        if(!startTimerEnded){
+        if(!startTimerEnded || reviewMode){
             return;
         }
 
@@ -453,8 +463,9 @@ public class Game implements Serializable {
             else defTimeRemainedMs -= timeElapsed;
         }
 
-        if(attTimeRemainedMs == 0 || defTimeRemainedMs == 0) {
+        if((attTimeRemainedMs == 0 || defTimeRemainedMs == 0) && !ended){
             gameController.updateViewEndGame();
+            ended = true;
         }
     }
 
@@ -527,5 +538,25 @@ public class Game implements Serializable {
 
     public boolean isEnded(){
         return ended;
+    }
+
+    public Coup getHint(){
+        PieceType t = null;
+        if(isAttackerTurn()){
+            t = PieceType.ATTACKER;
+        }
+        else{
+            t = PieceType.DEFENDER;
+        }
+
+        anIaThinking = true;
+        Coup coup = iaHint.playMove(logicGrid, 3, t);
+        anIaThinking = false;
+
+        return coup;
+    }
+
+    public boolean isStartTimerEnded() {
+        return startTimerEnded;
     }
 }

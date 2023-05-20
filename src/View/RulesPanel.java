@@ -155,12 +155,21 @@ public class RulesPanel extends RoundPanel {
 
         lLabelPageIndex.elementAt(0).setIcon(imagePageIndexF);
 
+        JLabel labelRulesTitle = new JLabel("Règles");
+        labelRulesTitle.setFont(new Font(Font.DIALOG, Font.BOLD, 22));
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 0.5;
+        c.anchor = GridBagConstraints.BASELINE_LEADING;
+        c.insets = new Insets(16, 18, 0, 0);
+        topPanel.add(labelRulesTitle, c);
+
         //Croix pour fermer
 
         labelImageCross = new JLabel(imageCross);
         c.gridx = 1;
         c.gridy = 0;
-        c.weightx = 1;
+        c.weightx = 0.5;
         c.anchor = GridBagConstraints.BASELINE_TRAILING;
         c.insets = new Insets(13, 0, 13, 13);
         topPanel.add(labelImageCross, c);

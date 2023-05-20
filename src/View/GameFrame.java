@@ -28,8 +28,8 @@ public class GameFrame extends Frame {
     ImageIcon imageBook;
     ImageIcon imageMenu;
     JButton bttnMenu;
-    JButton bttnHint;
-    JButton bttnHelp;
+    JLabel bttnHelp;
+    JLabel bttnHint;
     JPopupMenu menu;
     JMenuItem save, forfeit, options;
     WinMessagePanel winMessagePanel;
@@ -60,6 +60,7 @@ public class GameFrame extends Frame {
     JLabel labelPreviousTurn;
     JLabel labelNextTurn;
     JPanel rulesPanel;
+    ImageIcon imageBulb;
 
 
     public GameFrame(Interface ui, Game game){
@@ -163,17 +164,23 @@ public class GameFrame extends Frame {
 
         // btn regle-tuto
 
-        bttnHelp = new JButton(imageBook);
-        bttnHelp.setContentAreaFilled(false);
-        bttnHelp.setBorderPainted(false);
-        bttnHelp.setMargin(new Insets(0,0,0,0));
+        JPanel panelTopRightIcons = new JPanel();
+        panelTopRightIcons.setOpaque(false);
         c.gridx = 2;
         c.gridy = 0;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         c.insets = new Insets(10, 0, 0, 15);
         c.weighty = 0.15;
-        gLayout.setConstraints(bttnHelp, c);
-        bgPanel.add(bttnHelp);
+        c.weightx = 0.01;
+        bgPanel.add(panelTopRightIcons, c);
+
+        bttnHelp = new JLabel(imageBook);
+        //gLayout.setConstraints(bttnHelp, c);
+        panelTopRightIcons.add(bttnHelp);
+
+        bttnHint = new JLabel(imageBulb);
+        panelTopRightIcons.add(bttnHint);
+
 
         c.insets = new Insets(0, 0, 0, 0);
         c.anchor = GridBagConstraints.CENTER;
@@ -482,7 +489,7 @@ public class GameFrame extends Frame {
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_left.png")));
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
             imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
-            imageHint = new ImageIcon(ImageIO.read(new File("assets/images/hint.png")));
+            imageBulb = new ImageIcon(ImageIO.read(new File("assets/images/bulb.png")));
             imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu.png")));
             imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
         } catch(IOException exp){
@@ -551,6 +558,14 @@ public class GameFrame extends Frame {
             }
         });
 
+        bttnHint.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                gameGraphicController.bttnHintClickHandler();
+            }
+        });
+
         setMenuHandlers();
         setReviewModeHandlers();
     }
@@ -560,7 +575,7 @@ public class GameFrame extends Frame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if(frozen) return;
+                if(frozen && !game.isEnded()) return;
                 gameGraphicController.bttnPreviousTurnClickHandler();
             }
         });
@@ -569,7 +584,7 @@ public class GameFrame extends Frame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if(frozen) return;
+                if(frozen && !game.isEnded()) return;
                 gameGraphicController.bttnNextTurnClickHandler();
             }
         });
@@ -748,6 +763,7 @@ public class GameFrame extends Frame {
         return gridPanel;
     }
 
+    @Override
     public void updateTheme(){
         theme = Configuration.getThemeIndex();
         loadTheme();
