@@ -7,8 +7,6 @@ import Structure.Node;
 
 public class AIRandom extends AI{
 
-    int aiType = 0;
-
     @Override
     public double heuristic(Node current, int depth, PieceType maximizingPlayer) {
 

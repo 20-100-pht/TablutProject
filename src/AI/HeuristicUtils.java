@@ -154,20 +154,19 @@ public class HeuristicUtils {
 
         switch (bord){
             case TOP:
-                return fautLuiTrouverUnNom(CornerTopLeft, CornerTopRight, source, grid);
+                return calculateCorner(CornerTopLeft, CornerTopRight, source, grid);
             case LEFT:
-                return fautLuiTrouverUnNom(CornerTopLeft, CornerBottomLeft, source, grid);
+                return calculateCorner(CornerTopLeft, CornerBottomLeft, source, grid);
             case RIGHT:
-                return fautLuiTrouverUnNom(CornerTopRight, CornerBottomRight, source, grid);
+                return calculateCorner(CornerTopRight, CornerBottomRight, source, grid);
             case BOTTOM:
-                return fautLuiTrouverUnNom(CornerBottomLeft, CornerBottomRight, source, grid);
+                return calculateCorner(CornerBottomLeft, CornerBottomRight, source, grid);
             default:
                 return 0;
-
         }
     }
 
-    private static int fautLuiTrouverUnNom(Coordinate corner1, Coordinate corner2, Coordinate source, Grid grid){
+    private static int calculateCorner(Coordinate corner1, Coordinate corner2, Coordinate source, Grid grid){
         int result = 0;
         if(canMoveToSC(corner1, source, grid) ) result++;
         if(canMoveToSC(corner2, source, grid) ){
