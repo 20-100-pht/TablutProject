@@ -10,8 +10,8 @@ import java.io.*;
 import java.util.Vector;
 
 public class Game implements Serializable {
-    final String DEFAULT_ATT_NAME = "Attacker";
-    final String DEFAULT_DEF_NAME = "Defender";
+    final String DEFAULT_ATT_NAME = "Attaquant";
+    final String DEFAULT_DEF_NAME = "Défenseur";
     boolean attackerTurn;
     int turnIndex;
     boolean defenderIsAI;
@@ -61,32 +61,12 @@ public class Game implements Serializable {
         attackerTypeAI = attAiDifficulty;
 
         if(defenderName.length() == 0) {
-            if(!defenderIsAI) this.defenderName = DEFAULT_DEF_NAME;
-            else if(defAiDifficulty == AIDifficulty.RANDOM ){
-                this.defenderName = DEFAULT_DEF_NAME + " [FACILE]";
-            }
-            else if(defAiDifficulty == AIDifficulty.MID ) {
-                this.defenderName =  DEFAULT_DEF_NAME + " [MOYEN]";
-            }
-            else if(defAiDifficulty == AIDifficulty.HARD ) {
-                this.defenderName = DEFAULT_DEF_NAME + " [DIFFICILE]";
-            }
-
+            this.defenderName = DEFAULT_DEF_NAME;
         } else {
             this.defenderName = defenderName;
 
         } if(attackerName.length() == 0) {
-            if(!attackerIsAI) this.attackerName = DEFAULT_ATT_NAME;
-            else if(attAiDifficulty == AIDifficulty.RANDOM){
-                this.attackerName = DEFAULT_ATT_NAME + " [FACILE]";
-            }
-            else if(attAiDifficulty == AIDifficulty.MID){
-                this.attackerName = DEFAULT_ATT_NAME + " [MOYEN]";
-            }
-            else if(attAiDifficulty == AIDifficulty.HARD){
-                this.attackerName = DEFAULT_ATT_NAME + " [DIFFICILE]";
-            }
-
+            this.attackerName = DEFAULT_ATT_NAME;
         } else {
             this.attackerName = attackerName;
         }

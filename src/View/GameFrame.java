@@ -1,5 +1,6 @@
 package View;
 
+import AI.AIDifficulty;
 import Animation.AnimationChrono;
 import Controller.GameGraphicController;
 import Global.Configuration;
@@ -61,6 +62,8 @@ public class GameFrame extends Frame {
     JLabel labelNextTurn;
     JPanel rulesPanel;
     ImageIcon imageBulb;
+    ImageIcon imageStartF;
+    ImageIcon imageStartE;
 
 
     public GameFrame(Interface ui, Game game){
@@ -214,13 +217,19 @@ public class GameFrame extends Frame {
 
         c.insets = new Insets(12, 0, 0,0);
 
+        int dec = 0;
+        if(game.isDefenderAI()){
+            addPanelStar(player1InfoPart, false);
+            dec = 1;
+        }
+
         //Image player 1
 
         panelImagePlayer1 = new JPanel();
         panelImagePlayer1.setPreferredSize(new Dimension(104, 104));
         //panelImagePlayer1.setBorder(imagePlayer1Border);
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 1 + dec;
         layoutPlayer1Info.setConstraints(panelImagePlayer1, c);
         player1InfoPart.add(panelImagePlayer1);
 
@@ -244,7 +253,7 @@ public class GameFrame extends Frame {
         chronoLabelDef = new TimerLabel(game.getDefTimeRemained());
         chronoLabelDef.setFont(new Font("Arial", Font.BOLD, 20));
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 3 + dec;
         player1InfoPart.add(chronoLabelDef, c);
 
         //Pieces capturées par le joueur 1
@@ -253,7 +262,7 @@ public class GameFrame extends Frame {
         capturedPiecesPanel1.setPreferredSize(new Dimension(160, 80));
         capturedPiecesPanel1.setOpaque(false);
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 4 + dec;
         layoutPlayer1Info.setConstraints(capturedPiecesPanel1, c);
         player1InfoPart.add(capturedPiecesPanel1);
 
@@ -319,13 +328,19 @@ public class GameFrame extends Frame {
 
         c.insets = new Insets(12, 0, 0,0);
 
+        dec = 0;
+        if(game.isAttackerAI()){
+            addPanelStar(player2InfoPart, true);
+            dec = 1;
+        }
+
         //Image player 2
 
         panelImagePlayer2 = new JPanel();
         panelImagePlayer2.setPreferredSize(new Dimension(104, 104));
         //panelImagePlayer2.setBorder(imagePlayer2Border);
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 1 + dec;
         layoutPlayer2Info.setConstraints(panelImagePlayer2, c);
         player2InfoPart.add(panelImagePlayer2);
 
@@ -349,14 +364,14 @@ public class GameFrame extends Frame {
         chronoLabelAtt = new TimerLabel(game.getAttTimeRemained());
         chronoLabelAtt.setFont(new Font("Arial", Font.BOLD, 20));
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 3 + dec;
         player2InfoPart.add(chronoLabelAtt, c);
 
         capturedPiecesPanel2 = new CapturedPiecesPanel(this, false);
         capturedPiecesPanel2.setPreferredSize(new Dimension(160, 80));
         capturedPiecesPanel2.setOpaque(false);
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 4 + dec;
         layoutPlayer2Info.setConstraints(capturedPiecesPanel2, c);
         player2InfoPart.add(capturedPiecesPanel2);
 
@@ -470,6 +485,36 @@ public class GameFrame extends Frame {
         setEventHandlers();
     }
 
+    public void addPanelStar(JPanel parent, boolean attacker){
+        GridBagConstraints c = new GridBagConstraints();
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        panel.setOpaque(false);
+
+        c.insets = new Insets(0, 3, 0, 3);
+
+        JLabel labelStar1 = new JLabel(imageStartF);
+        panel.add(labelStar1, c);
+
+        JLabel labelStar2 = new JLabel(imageStartE);
+        if(!attacker && game.getAIDefenderDifficulty() == AIDifficulty.MID || attacker && game.getAIAttackerDifficulty() == AIDifficulty.MID){
+            labelStar2.setIcon(imageStartF);
+        }
+        panel.add(labelStar2, c);
+
+        JLabel labelStar3 = new JLabel(imageStartE);
+        if(!attacker && game.getAIDefenderDifficulty() == AIDifficulty.HARD || attacker && game.getAIAttackerDifficulty() == AIDifficulty.HARD){
+            labelStar2.setIcon(imageStartF);
+            labelStar3.setIcon(imageStartF);
+        }
+        panel.add(labelStar3, c);
+
+        c.gridx = 0;
+        c.gridy = 1;
+        c.insets = new Insets(5, 0, 0, 0);
+        parent.add(panel, c);
+    }
+
     public void createMessages(JPanel parent){
         winMessagePanel = new WinMessagePanel();
         winMessagePanel.setSize(new Dimension(750, 100));
@@ -492,6 +537,8 @@ public class GameFrame extends Frame {
             imageBulb = new ImageIcon(ImageIO.read(new File("assets/images/bulb.png")));
             imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu_icon.png")));
             imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
+            imageStartE = new ImageIcon(ImageIO.read(new File( "assets/images/startE.png")));
+            imageStartF = new ImageIcon(ImageIO.read(new File( "assets/images/startF.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }
