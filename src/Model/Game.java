@@ -600,8 +600,4 @@ public class Game implements Serializable {
 
         playersStats.save();
     }
-
-    public void updatePlayerStatsIaDefaited(PlayerStats pS){
-
-    }
 }
