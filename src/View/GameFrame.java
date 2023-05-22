@@ -49,21 +49,33 @@ public class GameFrame extends Frame {
     Timer timerTextMessage;
     Color COLOR_ATTACKER;
     Color COLOR_DEFENDER;
+    Color COLOR_BOARD;
+    Color COLOR_PLAYER_PANEL;
+    Color COLOR_TIMER;
+    Color COLOR_BUTTON;
+    Image BG_SWITCH;
     int theme;
+    GridPanelContainer gridPanelContainer;
     JPanel panelImagePlayer1;
     JPanel panelImagePlayer2;
     TimerLabel chronoLabelDef;
     TimerLabel chronoLabelAtt;
     AnimationChrono animationChrono;
     Image imageBackground;
+    Image imageBackground2;
     JPanel gridBorderPanel;
     Button bttnStatusIa;
     JLabel labelPreviousTurn;
     JLabel labelNextTurn;
+    JLabel labelPlayer1Name;
+    JLabel labelPlayer2Name;
     JPanel rulesPanel;
     ImageIcon imageBulb;
     ImageIcon imageStartF;
     ImageIcon imageStartE;
+    RoundPanel player1InfoPart;
+    RoundPanel player2InfoPart;
+    RoundPanel turnPanel;
 
 
     public GameFrame(Interface ui, Game game){
@@ -85,7 +97,7 @@ public class GameFrame extends Frame {
 
     public void build(){
 
-        Font fontDialog20 = new Font(Font.DIALOG, Font.PLAIN, 20);
+        Font fontDialog20 = new Font(Font.DIALOG, Font.BOLD, 20);
 
         this.setLayout(new GridLayout());
 
@@ -191,7 +203,7 @@ public class GameFrame extends Frame {
 
         //Infos player 1
 
-        RoundPanel player1InfoPart = new RoundPanel(35);
+        player1InfoPart = new RoundPanel(35);
         player1InfoPart.setOpaque(false);
         //player1InfoPart.setBackground(Color.orange);
         c.gridx = 0;
@@ -207,7 +219,7 @@ public class GameFrame extends Frame {
 
         c.weightx = 0;
 
-        JLabel labelPlayer1Name = new JLabel(game.getDefenderName());
+        labelPlayer1Name = new JLabel(game.getDefenderName());
         labelPlayer1Name.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
         c.gridx = 0;
         c.gridy = 0;
@@ -281,7 +293,7 @@ public class GameFrame extends Frame {
 
         gridPanel = new GridPanel(this);
 
-        GridPanelContainer gridPanelContainer = new GridPanelContainer(gridPanel, 35);
+        gridPanelContainer = new GridPanelContainer(gridPanel, 35);
         gridPanelContainer.setLayout(new GridBagLayout());
         gridPanelContainer.setColor(new Color(236, 240, 241));
         centerPanel.add(gridPanelContainer);
@@ -303,7 +315,7 @@ public class GameFrame extends Frame {
 
         //Infos player 2
 
-        RoundPanel player2InfoPart = new RoundPanel(35);
+        player2InfoPart = new RoundPanel(35);
         player2InfoPart.setOpaque(false);
         c.gridx = 2;
         c.gridy = 1;
@@ -318,7 +330,7 @@ public class GameFrame extends Frame {
 
         c.weightx = 0;
 
-        JLabel labelPlayer2Name = new JLabel(game.getAttackerName());
+        labelPlayer2Name = new JLabel(game.getAttackerName());
         labelPlayer2Name.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
         c.gridx = 0;
         c.gridy = 0;
@@ -390,7 +402,7 @@ public class GameFrame extends Frame {
 
         //Turns
 
-        RoundPanel turnPanel = new RoundPanel(35);
+        turnPanel = new RoundPanel(35);
         c.gridx = 1;
         c.gridy = 2;
         c.insets = new Insets(10, 15,20, 15);
@@ -537,6 +549,7 @@ public class GameFrame extends Frame {
             imageBulb = new ImageIcon(ImageIO.read(new File("assets/images/bulb.png")));
             imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu_icon.png")));
             imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
+            imageBackground2 = ImageIO.read(new File( "assets/images/bg_theme_simple.jpg"));
             imageStartE = new ImageIcon(ImageIO.read(new File( "assets/images/startE.png")));
             imageStartF = new ImageIcon(ImageIO.read(new File( "assets/images/startF.png")));
         } catch(IOException exp){
@@ -684,7 +697,7 @@ public class GameFrame extends Frame {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        g.drawImage(imageBackground, 0, 0, this.getWidth(), this.getHeight(), null);
+        g.drawImage(BG_SWITCH, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
     public void setGameInstance(Game game){
@@ -817,12 +830,29 @@ public class GameFrame extends Frame {
 
         if(gridPanel == null) return;
 
+        gridPanelContainer.setColor(COLOR_BOARD);
         gridPanel.updateTheme();
         capturedPiecesPanel1.updateTheme();
         capturedPiecesPanel2.updateTheme();
 
+        player1InfoPart.setColor(COLOR_PLAYER_PANEL);
+        player2InfoPart.setColor(COLOR_PLAYER_PANEL);
+
         panelImagePlayer1.setBorder(BorderFactory.createLineBorder(COLOR_DEFENDER, 5));
         panelImagePlayer2.setBorder(BorderFactory.createLineBorder(COLOR_ATTACKER, 5));
+        labelPlayer1Name.setForeground(COLOR_TIMER);
+        labelPlayer2Name.setForeground(COLOR_TIMER);
+
+        chronoLabelAtt.setForeground(COLOR_TIMER);
+        chronoLabelDef.setForeground(COLOR_TIMER);
+
+        bttnUndo.setBackgroundColor(COLOR_BUTTON);
+        bttnUndo.setTextColor(COLOR_TIMER);
+        bttnRedo.setBackgroundColor(COLOR_BUTTON);
+        bttnRedo.setTextColor(COLOR_TIMER);
+
+        turnPanel.setColor(COLOR_BUTTON);
+        labelIndexTurn.setForeground(COLOR_TIMER);
 
         updatePlayerStatus();
     }
@@ -832,10 +862,20 @@ public class GameFrame extends Frame {
             case 1:
                 COLOR_ATTACKER = new Color(98, 124, 160);
                 COLOR_DEFENDER = new Color(214, 206, 71);
+                COLOR_BOARD = new Color(236, 240, 241);
+                COLOR_PLAYER_PANEL = Color.WHITE;
+                COLOR_TIMER = Color.BLACK;
+                COLOR_BUTTON = Color.WHITE;
+                BG_SWITCH = imageBackground;
                 break;
             default:
                 COLOR_ATTACKER = Color.WHITE;
                 COLOR_DEFENDER = Color.BLACK;
+                COLOR_BOARD = new Color(100,130,77);
+                COLOR_PLAYER_PANEL = new Color(100,130,77);
+                COLOR_TIMER = Color.WHITE;
+                COLOR_BUTTON = new Color(100,130,77);
+                BG_SWITCH = imageBackground2;
         }
     }
 

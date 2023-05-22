@@ -178,7 +178,7 @@ public class NewGameFrame extends Frame {
 
         c.fill = GridBagConstraints.CENTER;
 
-        JLabel labelDifficultyIA = new JLabel("Paramètres IAs");
+        JLabel labelDifficultyIA = new JLabel("Paramètres de joueurs");
         labelDifficultyIA.setFont(fontDialog15);
         labelDifficultyIA.setForeground(Color.BLACK);
         c.gridx = 0;
@@ -193,7 +193,7 @@ public class NewGameFrame extends Frame {
 
         buildIaParamsPart();
 
-        JLabel labelBlitzTitle = new JLabel("Paramètres blitz");
+        JLabel labelBlitzTitle = new JLabel("Mode blitz");
         labelBlitzTitle.setFont(fontDialog15);
         labelBlitzTitle.setForeground(Color.BLACK);
         c.gridx = 0;
@@ -259,11 +259,11 @@ public class NewGameFrame extends Frame {
         ButtonGroup bttnGrpDefIA = new ButtonGroup();
         rdoHumanDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Humain", 0, 0);
         rdoHumanDefPart.setOpaque(false);
-        rdoEasyDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Facile", 0, 1);
+        rdoEasyDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "IA Facile", 0, 1);
         rdoEasyDefPart.setOpaque(false);
-        rdoMediumDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Moyen", 0, 2);
+        rdoMediumDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "IA Moyen", 0, 2);
         rdoMediumDefPart.setOpaque(false);
-        rdoDifficultDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "Difficile", 0, 3);
+        rdoDifficultDefPart = createRadioButton(bttnDefIAPanel, bttnGrpDefIA, "IA Difficile", 0, 3);
         rdoDifficultDefPart.setOpaque(false);
 
         bttnAttIAPanel = createRadioBttnPanel(centralPanel, 1, 6);
@@ -271,11 +271,11 @@ public class NewGameFrame extends Frame {
         ButtonGroup bttnGrpAttIA = new ButtonGroup();
         rdoHumanAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Humain", 0, 0);
         rdoHumanAttPart.setOpaque(false);
-        rdoEasyAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Facile", 0, 1);
+        rdoEasyAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "IA Facile", 0, 1);
         rdoEasyAttPart.setOpaque(false);
-        rdoMediumAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Moyen", 0, 2);
+        rdoMediumAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "IA Moyen", 0, 2);
         rdoMediumAttPart.setOpaque(false);
-        rdoDifficultAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "Difficile", 0, 3);
+        rdoDifficultAttPart = createRadioButton(bttnAttIAPanel, bttnGrpAttIA, "IA Difficile", 0, 3);
         rdoDifficultAttPart.setOpaque(false);
 
         rdoHumanDefPart.setSelected(true);
@@ -394,17 +394,30 @@ public class NewGameFrame extends Frame {
     }
 
     public void updateBlitzTextfield(){
-        if(rdoEasyAttPart.isSelected() || rdoMediumAttPart.isSelected() || rdoDifficultAttPart.isSelected()
-                || rdoEasyDefPart.isSelected() || rdoMediumDefPart.isSelected() || rdoDifficultDefPart.isSelected()){
+        if(rdoEasyAttPart.isSelected() || rdoMediumAttPart.isSelected() || rdoDifficultAttPart.isSelected()) {
+            tfNameAtt.setEnabled(false);
+            tfNameAtt.setBackground(Color.LIGHT_GRAY);
             tfTime.setEnabled(false);
             tfTime.setBackground(Color.LIGHT_GRAY);
-        }
-        else{
+        } else {
+            tfNameAtt.setEnabled(true);
+            tfNameAtt.setBackground(Color.WHITE);
             tfTime.setEnabled(true);
-            tfTime.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK),
-                    BorderFactory.createEmptyBorder(0, 3, 0, 0)));
             tfTime.setBackground(Color.WHITE);
-
+        }
+        if(rdoEasyDefPart.isSelected() || rdoMediumDefPart.isSelected() || rdoDifficultDefPart.isSelected()) {
+            tfNameDef.setEnabled(false);
+            tfNameDef.setBackground(Color.LIGHT_GRAY);
+            tfTime.setEnabled(false);
+            tfTime.setBackground(Color.LIGHT_GRAY);
+        } else {
+            if(rdoHumanDefPart.isSelected()) {
+                tfNameDef.setBackground(Color.WHITE);
+                tfNameDef.setEnabled(true);
+            } else {
+                tfNameDef.setBackground(Color.LIGHT_GRAY);
+                tfTime.setEnabled(true);
+            }
         }
     }
     public void loadAssets(){

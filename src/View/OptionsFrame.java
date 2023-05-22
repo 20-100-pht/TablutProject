@@ -91,7 +91,7 @@ public class OptionsFrame extends JFrame {
         gbc.gridy = 1;
         mainPanel.add(themeComboBox, gbc);
 
-        okButton = new JButton("Sauver");
+        okButton = new JButton("Sauvegarder");
         okButton.setBackground(new Color(0,180,0));
         okButton.setForeground(Color.white);
         okButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
