@@ -18,6 +18,7 @@ public abstract class AI implements Serializable {
     int prunning_beta_cutoffs = 0;
     double bestHeuristic = 0;
     int numberOfBestNodes = 0;
+    PieceType player;
 
 
     public AI(){
@@ -32,6 +33,8 @@ public abstract class AI implements Serializable {
      * @return a coup
      */
     public Coup playMove(LogicGrid g, int depth, PieceType type) {
+
+        player = type;
 
         //Set alpha and beta
         double alpha = Double.NEGATIVE_INFINITY;
@@ -92,13 +95,13 @@ public abstract class AI implements Serializable {
         System.out.println("Attackers :" + n.getLogicGrid().getNbPieceAttackerOnGrid());
         System.out.println("Defenders :" + n.getLogicGrid().getNbPieceDefenderOnGrid());*/
 
-        System.out.println("Alpha cutoffs : " + prunning_alpha_cutoffs);
+        /*System.out.println("Alpha cutoffs : " + prunning_alpha_cutoffs);
         System.out.println("Beta cutoffs : " + prunning_beta_cutoffs);
         System.out.println("Best h " + type + " : " + bestHeuristic);
         System.out.println("Heuristic chosen :" + bestValue);
         System.out.println("Nb moves :" + bestCoups.size());
         System.out.println("King rel pos :" + g.getKing().getRelativePosition() + "\n");
-        AITest.visualiseMoves(bestCoups, n.getLogicGrid(), type);
+        AITest.visualiseMoves(bestCoups, n.getLogicGrid(), type);*/
 
         return nextMove;
     }
@@ -114,7 +117,7 @@ public abstract class AI implements Serializable {
         }
 
         if(depth == 0 || node.getLogicGrid().isEndGame()){
-            double h = heuristic(node,depth,maximizingPlayer);
+            double h = heuristic(node,depth,maximizingPlayer, player);
 
             if(colour ==1){
                 bestHeuristic = Math.max(bestHeuristic,h);
@@ -233,7 +236,7 @@ public abstract class AI implements Serializable {
      * @param depth depth of the board
      * @return a value indicating the winnability of the board
      */
-    public abstract double heuristic(Node current, int depth,PieceType maximizingPlayer);
+    public abstract double heuristic(Node current, int depth,PieceType maximizingPlayer, PieceType player);
 
     public int getAiType(){
         return aiType;

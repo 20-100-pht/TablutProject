@@ -12,7 +12,7 @@ import java.util.List;
 public class AIMedium extends AI {
 
     @Override
-    public double heuristic(Node current, int depth, PieceType maximizingPlayer){
+    public double heuristic(Node current, int depth, PieceType maximizingPlayer, PieceType player){
 
         double value = 0;
         if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN) {
@@ -22,7 +22,7 @@ public class AIMedium extends AI {
             value -= 1000000*(depth+1);
         }
 
-        switch (maximizingPlayer){
+        switch (player){
             case ATTACKER:
                 value += attackerHeuristic(current);
             case KING: case DEFENDER:

@@ -17,16 +17,16 @@ import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 1;
-    private static final int NB_EXPERIENCES = 1;
+    private static final int AIGAMES = 15;
+    private static final int NB_EXPERIENCES = 5;
     private static final boolean PRINT = false;
     private static final boolean PRINT_LAST_BOARD = false;
     private static final boolean LoadBar = true;
     private static final boolean RANDOMIZE_WEIGHT = false;
-    private static final boolean WRITE_TO_FILE = false;
+    private static final boolean WRITE_TO_FILE = true;
     private static final PieceType AiTested = PieceType.ATTACKER;
-    private static final AIDifficulty AiAttack = AIDifficulty.RANDOM;
-    private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
+    private static final AIDifficulty AiAttack = AIDifficulty.HARD;
+    private static final AIDifficulty AiDef = AIDifficulty.HARD;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");

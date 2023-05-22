@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class WeightedPositions {
 
     int A = 0;
-    int B = 1;
+    int B = 5;
     int C = B*10;
     int D = -1;
     int E = C*2;
