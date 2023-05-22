@@ -61,11 +61,12 @@ public abstract class AI implements Serializable {
             Node child = children.get(i);
             
             //Call minimax and return heuristic
-            double value = minimax(child, depth-1, colour, alpha, beta);
+            double value = minimax(child, depth-1, -colour, alpha, beta);
+
             if(i==0){
                 bestValue = value;
             }
-            
+
             if(colour == 1){
                 if(bestValue < value){
                     bestValue = value;
@@ -91,16 +92,17 @@ public abstract class AI implements Serializable {
         System.out.println("Attackers :" + n.getLogicGrid().getNbPieceAttackerOnGrid());
         System.out.println("Defenders :" + n.getLogicGrid().getNbPieceDefenderOnGrid());*/
 
-        /*System.out.println("Alpha cutoffs : " + prunning_alpha_cutoffs);
+        System.out.println("Alpha cutoffs : " + prunning_alpha_cutoffs);
         System.out.println("Beta cutoffs : " + prunning_beta_cutoffs);
         System.out.println("Best h " + type + " : " + bestHeuristic);
         System.out.println("Heuristic chosen :" + bestValue);
         System.out.println("Nb moves :" + bestCoups.size());
         System.out.println("King rel pos :" + g.getKing().getRelativePosition() + "\n");
+        AITest.visualiseMoves(bestCoups, n.getLogicGrid(), type);
 
-        AITest.visualiseMoves(bestCoups, n.getLogicGrid(), type);*/
         return nextMove;
     }
+
 
     public double minimax(Node node, int depth, int colour, double alpha, double beta){
 
@@ -113,14 +115,15 @@ public abstract class AI implements Serializable {
 
         if(depth == 0 || node.getLogicGrid().isEndGame()){
             double h = heuristic(node,depth,maximizingPlayer);
+
             if(colour ==1){
                 bestHeuristic = Math.max(bestHeuristic,h);
             }else{
                 bestHeuristic = Math.min(bestHeuristic,h);
             }
+
             return h;
         }
-
 
         //Get all children of node
         ArrayList<Node> children = createChildren(node,colour,depth);
@@ -128,7 +131,11 @@ public abstract class AI implements Serializable {
 
         for(int i = 0; i < children.size(); i++){
 
-            double heuristic = minimax(children.get(i), depth-1, -colour, alpha, beta);
+            double heuristic = minimax(children.get(i), depth-1, (-colour), alpha, beta);
+
+            if(depth==2){
+                int a = 0;
+            }
 
             if(colour == 1){
                 value = Math.max(value,heuristic);

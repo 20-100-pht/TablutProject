@@ -17,11 +17,9 @@ public class AIMedium extends AI {
         double value = 0;
         if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN) {
             value += 1000000*(depth+1);
-            if(depth == 0) return value;
         }
         else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
             value -= 1000000*(depth+1);
-            if(depth == 0) return value;
         }
 
         switch (maximizingPlayer){

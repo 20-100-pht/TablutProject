@@ -8,7 +8,7 @@ public class AIConfig {
     static double pieceRatio_A = 1;
     static double kingToCorner_A = 80;
     static double kingToValuablePos_A = 60;
-    static double nextToKing_A = 0;
+    static double nextToKing_A = 20;
     static double circleStrat_A = 50;
 
 

@@ -17,11 +17,9 @@ public class AIHard extends AI {
         double value = 0;
         if(current.getLogicGrid().getEndGameType() == ResultGame.ATTACKER_WIN) {
             value += 1000000*(depth+1);
-            if(depth == 0) return value;
         }
         else if (current.getLogicGrid().getEndGameType() == ResultGame.DEFENDER_WIN) {
             value -= 1000000*(depth+1);
-            if(depth == 0) return value;
         }
 
         switch (maximizingPlayer){
@@ -40,13 +38,10 @@ public class AIHard extends AI {
         double value = 0;
         value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1)) * AIConfig.getPieceRatio_A();
         value += HeuristicUtils.canKingGoToCorner(current) * -AIConfig.getKingToCorner_A();
-        value += HeuristicUtils.canKingGoToValuablePosition(current) * -AIConfig.getKingToValuablePos_A();
+        //value += HeuristicUtils.canKingGoToValuablePosition(current) * -AIConfig.getKingToValuablePos_A();
         value += HeuristicUtils.isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid()) * AIConfig.getNextToKing_A();
+        value += HeuristicUtils.attackerCircleStrategy(current) * AIConfig.getCircleStrat_A();
 
-        Piece king = current.getLogicGrid().getKing();
-        if(king.getRow() == 4 && king.getCol() == 4){
-            value += HeuristicUtils.attackerCircleStrategy(current) * AIConfig.getCircleStrat_A();
-        }
 
         //Attackers want a high value, Defenders want a low value
         return value;
@@ -60,10 +55,6 @@ public class AIHard extends AI {
         value -= HeuristicUtils.isNextToKing(k,current.getLogicGrid().getGrid())*AIConfig.getNextToKing_D();
         value += HeuristicUtils.canKingGoToCorner(current)*AIConfig.getKingToCorner_D();
 
-        Piece king = current.getLogicGrid().getKing();
-        if(king.getRow() == 4 && king.getCol() == 4){
-            value += HeuristicUtils.attackerCircleStrategy(current) * 5;
-        }
         return value;
     }
 

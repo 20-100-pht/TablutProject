@@ -17,7 +17,7 @@ import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 10;
+    private static final int AIGAMES = 1;
     private static final int NB_EXPERIENCES = 1;
     private static final boolean PRINT = false;
     private static final boolean PRINT_LAST_BOARD = false;
