@@ -773,7 +773,7 @@ public class GameFrame extends Frame {
     public File showSaveDialog(){
         File file = null;
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setCurrentDirectory(new File("./saves"));
         if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
         }
