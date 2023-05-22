@@ -6,7 +6,7 @@ public class WeightedPositions {
 
     int A = 0;
     int B = 1;
-    int C = B*4;
+    int C = B*10;
     int D = -1;
     int E = C*2;
 
@@ -27,13 +27,13 @@ public class WeightedPositions {
 
     /*int[][] center = {
             { A, A, A, A, A, A, A, A, A},
-            { A, A, D, A, B, A, D, A, A},
-            { A, D, A, B, A, B, A, D, A},
+            { A, D, A, A, B, A, A, D, A},
+            { A, A, A, B, A, B, A, A, A},
             { A, A, B, A, A, A, B, A, A},
             { A, B, A, A, A, A, A, B, A},
             { A, A, B, A, A, A, B, A, A},
-            { A, D, A, B, A, B, A, D, A},
-            { A, A, D, A, B, A, D, A, A},
+            { A, A, A, B, A, B, A, A, A},
+            { A, D, A, A, B, A, A, D, A},
             { A, A, A, A, A, A, A, A, A}
     };
 

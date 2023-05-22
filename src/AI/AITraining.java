@@ -17,15 +17,16 @@ import java.util.Random;
 
 
 public class AITraining {
-    private static final int AIGAMES = 10;
+    private static final int AIGAMES = 1;
     private static final int NB_EXPERIENCES = 1;
     private static final boolean PRINT = false;
+    private static final boolean PRINT_LAST_BOARD = false;
     private static final boolean LoadBar = true;
-    private static final boolean RANDOMIZE_WEIGHT = true;
+    private static final boolean RANDOMIZE_WEIGHT = false;
     private static final boolean WRITE_TO_FILE = false;
     private static final PieceType AiTested = PieceType.ATTACKER;
-    private static final AIDifficulty AiAttack = AIDifficulty.MID;
-    private static final AIDifficulty AiDef = AIDifficulty.MID;
+    private static final AIDifficulty AiAttack = AIDifficulty.RANDOM;
+    private static final AIDifficulty AiDef = AIDifficulty.RANDOM;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Tablut");
@@ -96,6 +97,10 @@ public class AITraining {
                     StringBuilder loadBarExp = createLoadBar(progressExp);
                     System.out.print("\rProgression Totale: [" + loadBarTotal.toString() + "] " + (int) (progress * 100) + "%");
                     System.out.print(" - Progression: [" + loadBarExp.toString() + "] " + (int) (progressExp * 100) + "%");
+                }
+
+                if(PRINT_LAST_BOARD){
+                    game.getLogicGrid().print();
                 }
             }
 

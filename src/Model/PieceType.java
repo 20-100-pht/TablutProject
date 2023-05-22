@@ -1,9 +1,12 @@
 package Model;
 
 public enum PieceType {
+
     KING(0x0),
     DEFENDER(0x1),
-    ATTACKER(0x2);
+    ATTACKER(0x2),
+    MARKER_A(0x3),
+    MARKER_D(0x4);
 
     private final int value;
 
@@ -23,6 +26,10 @@ public enum PieceType {
                 return DEFENDER;
             case 0x2:
                 return ATTACKER;
+            case 0x3:
+                return MARKER_A;
+            case 0x4:
+                return MARKER_D;
             default:
                 throw new IllegalArgumentException("Invalid value for TwoBitEnum: " + value);
         }
