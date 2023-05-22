@@ -164,7 +164,7 @@ public class MenuFrame extends Frame {
     public File showLoadDialog(){
         File file = null;
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setCurrentDirectory(new File("./saves"));
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
         }

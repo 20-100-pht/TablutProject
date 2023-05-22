@@ -4,6 +4,7 @@ import Structure.Coordinate;
 import Structure.Coup;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class LogicGrid implements Serializable {
@@ -14,6 +15,8 @@ public class LogicGrid implements Serializable {
 
     int nbPieceAttackerOnGrid;
     int nbPieceDefenderOnGrid;
+
+    //ArrayList<>
 
 
     public LogicGrid(){

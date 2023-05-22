@@ -86,7 +86,9 @@ public class Piece implements Serializable {
     public String getSymbol(){
         if(type == PieceType.KING) return "K";
         else if(type == PieceType.DEFENDER) return "D";
-        else return "A";
+        else if(type == PieceType.ATTACKER) return "A";
+        else if(type == PieceType.MARKER_A) return "◯";
+        else return "□";
     }
 
     /**

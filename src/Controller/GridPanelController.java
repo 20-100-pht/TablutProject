@@ -134,6 +134,7 @@ public class GridPanelController {
         else {
             if(pieceClicked != null){
                 if((pieceClicked.isAttacker() && game.isAttackerTurn()) || ((pieceClicked.isDefender() || pieceClicked.isKing()) && !game.isAttackerTurn())){
+                    gridPanel.setHintMarkCoords(null);
                     pieceSelectedCoords = caseCoords;
                     gridPanel.setSelectionMarkCoords(caseCoords);
                     processPossibleMoveMarks(grid.getPieceAtPosition(pieceSelectedCoords));

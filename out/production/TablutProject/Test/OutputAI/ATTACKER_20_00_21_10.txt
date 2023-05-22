@@ -1,0 +1,56 @@
+
+
+Résultats de l'expérience n°0 :
+86.0% AttackerWin
+14.0% DefenderWin
+0.0% > MAX_TURN
+Temps d'éxécution: 499.749624094s
+Average turns : 0turns
+Attackers : 14.12
+Defenders : 4.38
+Circle Strategy : 3.0
+Piece Ratio : 2.0
+Next to King : 6.0
+King to corner : 10.0
+
+
+Résultats de l'expérience n°1 :
+86.0% AttackerWin
+14.0% DefenderWin
+0.0% > MAX_TURN
+Temps d'éxécution: 857.566674836s
+Average turns : 0turns
+Attackers : 13.68
+Defenders : 4.7
+Circle Strategy : 67.0
+Piece Ratio : 13.0
+Next to King : 64.0
+King to corner : 90.0
+
+
+Résultats de l'expérience n°2 :
+88.0% AttackerWin
+12.0% DefenderWin
+0.0% > MAX_TURN
+Temps d'éxécution: 1416.998980899s
+Average turns : 0turns
+Attackers : 14.26
+Defenders : 4.82
+Circle Strategy : 96.0
+Piece Ratio : 51.0
+Next to King : 90.0
+King to corner : 97.0
+
+
+Résultats de l'expérience n°3 :
+88.0% AttackerWin
+12.0% DefenderWin
+0.0% > MAX_TURN
+Temps d'éxécution: 635.787131221s
+Average turns : 0turns
+Attackers : 13.7
+Defenders : 5.08
+Circle Strategy : 72.0
+Piece Ratio : 82.0
+Next to King : 5.0
+King to corner : 61.0

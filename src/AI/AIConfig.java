@@ -5,10 +5,12 @@ public class AIConfig {
     static double pieceRatio_D = 5;
     static double kingToCorner_D = 10;
     static double nextToKing_D = 100;
-    static double pieceRatio_A = 2;
-    static double kingToCorner_A = 10;
-    static double nextToKing_A = 6;
-    static double circleStrat_A = 3;
+    static double pieceRatio_A = 1;
+    static double kingToCorner_A = 80;
+    static double kingToValuablePos_A = 60;
+    static double nextToKing_A = 20;
+    static double circleStrat_A = 5;
+
 
     public static double getPieceRatio_D() {
         return pieceRatio_D;
@@ -63,5 +65,13 @@ public class AIConfig {
 
     public static void setCircleStrat_A(double circleStrat_A) {
         AIConfig.circleStrat_A = circleStrat_A;
+    }
+
+    public static double getKingToValuablePos_A() {
+        return kingToValuablePos_A;
+    }
+
+    public static void setKingToValuablePos_A(double kingToValuablePos_A) {
+        AIConfig.kingToValuablePos_A = kingToValuablePos_A;
     }
 }

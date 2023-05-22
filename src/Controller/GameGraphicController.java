@@ -26,6 +26,7 @@ public class GameGraphicController extends GameController {
     Game game;
     Timer timerCount;
     int count;
+    Thread threadAiHint;
 
 
     public GameGraphicController(GameFrame gameFrame, Game game){
@@ -80,6 +81,8 @@ public class GameGraphicController extends GameController {
 
     @Override
     public void startMoveAnimation(Coup coup, MoveAnimationType moveAnimationType){
+
+        stopHintProcess();
 
         Coordinate piece1Coords = coup.getInit();
         Coordinate piece2Coords = coup.getDest();
@@ -137,6 +140,9 @@ public class GameGraphicController extends GameController {
 
     @Override
     public void updateViewAfterMove(Coup coup, MoveAnimationType moveAnimationType) {
+
+        System.out.println("dqd");
+        stopHintProcess();
 
         updateTurnLabel();
 
@@ -281,16 +287,22 @@ public class GameGraphicController extends GameController {
     }
 
     public void processHintInSeparateThread(){
-        Thread threadAI = new Thread(new Runnable() {
+        threadAiHint = new Thread(new Runnable() {
             @Override
             public void run() {
                 Coup coup = game.getHint();
                 GridPanel gridPanel = gameFrame.getGridPanelInstance();
-                gridPanel.setHintMarkCoords(coup.getDest());
                 gridPanel.getGridPanelController().treatSelection(coup.getInit());
+                gridPanel.setHintMarkCoords(coup.getDest());
             }
         });
-        threadAI.start();
+        threadAiHint.start();
+    }
+
+    public void stopHintProcess(){
+        if(threadAiHint != null) {
+            threadAiHint.stop();
+        }
     }
 }
 

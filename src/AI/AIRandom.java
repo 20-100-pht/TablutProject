@@ -8,7 +8,7 @@ import Structure.Node;
 public class AIRandom extends AI{
 
     @Override
-    public double heuristic(Node current, int depth, PieceType maximizingPlayer) {
+    public double heuristic(Node current, int depth, PieceType maximizingPlayer, PieceType player) {
 
         LogicGrid gm = current.getLogicGrid();
 
