@@ -433,11 +433,11 @@ public class NewGameFrame extends Frame {
     }
     public void loadAssets(){
         try{
-            imageChrono = ImageIO.read(new File("images/chrono.png"));
+            imageChrono = ImageIO.read(new File("assets/images/chrono.png"));
             imageChrono = imageChrono.getScaledInstance(32, 32, Image.SCALE_DEFAULT);
-            imageNewGame = ImageIO.read(new File("images/backgroundMenu.jpg"));
-            returnImage = new ImageIcon(ImageIO.read(new File("images/arrow2.png")));
-            imageInfo = new ImageIcon(ImageIO.read(new File("images/info.png")));
+            imageNewGame = ImageIO.read(new File("assets/images/backgroundMenu.jpg"));
+            returnImage = new ImageIcon(ImageIO.read(new File("assets/images/arrow2.png")));
+            imageInfo = new ImageIcon(ImageIO.read(new File("assets/images/info.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }

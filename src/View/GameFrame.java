@@ -543,20 +543,20 @@ public class GameFrame extends Frame {
 
     void loadAssets(){
         try{
-            imageRobot = new ImageIcon(ImageIO.read(new File("images/robot.png")));
-            imageHuman = new ImageIcon(ImageIO.read(new File("images/human.png")));
-            imageArrowLeft = new ImageIcon(ImageIO.read(new File("images/arrow3_left.png")));
-            imageArrowRight = new ImageIcon(ImageIO.read(new File("images/arrow3_right.png")));
-            imageArrowLeft2 = new ImageIcon(ImageIO.read(new File("images/arrow5_left.png")));
-            imageArrowRight2 = new ImageIcon(ImageIO.read(new File("images/arrow5_right.png")));
-            imageBook = new ImageIcon(ImageIO.read(new File("images/book.png")));
-            imageBulb = new ImageIcon(ImageIO.read(new File("images/bulb.png")));
-            imageMenu = new ImageIcon(ImageIO.read(new File( "images/menu_icon.png")));
-            imageMenu2 = new ImageIcon(ImageIO.read(new File( "images/menu_icon2.png")));
-            imageBackground = ImageIO.read(new File( "images/backgroundMenu.jpg"));
-            imageBackground2 = ImageIO.read(new File( "images/bg_theme_simple.jpg"));
-            imageStartE = new ImageIcon(ImageIO.read(new File( "images/startE.png")));
-            imageStartF = new ImageIcon(ImageIO.read(new File( "images/startF.png")));
+            imageRobot = new ImageIcon(ImageIO.read(new File("assets/images/robot.png")));
+            imageHuman = new ImageIcon(ImageIO.read(new File("assets/images/human.png")));
+            imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_left.png")));
+            imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
+            imageArrowLeft2 = new ImageIcon(ImageIO.read(new File("assets/images/arrow5_left.png")));
+            imageArrowRight2 = new ImageIcon(ImageIO.read(new File("assets/images/arrow5_right.png")));
+            imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
+            imageBulb = new ImageIcon(ImageIO.read(new File("assets/images/bulb.png")));
+            imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu_icon.png")));
+            imageMenu2 = new ImageIcon(ImageIO.read(new File( "assets/images/menu_icon2.png")));
+            imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
+            imageBackground2 = ImageIO.read(new File( "assets/images/bg_theme_simple.jpg"));
+            imageStartE = new ImageIcon(ImageIO.read(new File( "assets/images/startE.png")));
+            imageStartF = new ImageIcon(ImageIO.read(new File( "assets/images/startF.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }

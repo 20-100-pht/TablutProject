@@ -223,7 +223,7 @@ public class GridPanel extends JPanel {
             imageStepsV = ImageIO.read(new File(STEPS_VERTICAL_ASSET_PATH));
             imageStepsVEnd = ImageIO.read(new File(STEPS_VERTICAL_END_ASSET_PATH));
             imageSelection = ImageIO.read(new File(TILE_ASSET_SELECTION));
-            imageBulb = ImageIO.read(new File("images/bulb.png"));
+            imageBulb = ImageIO.read(new File("assets/images/bulb.png"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -319,33 +319,33 @@ public class GridPanel extends JPanel {
     }
 
     public void loadThemePixelartFileNames(){
-        KING_ASSET_PATH = "images/king.png";
-        DEFENDER_ASSET_PATH = "images/defender2.png";
-        ATTACKER_ASSET_PATH ="images/attacker2.png";
-        THRONE_ASSET_PATH = "images/throne3.png";
-        FORTRESS_ASSET_PATH = "images/fortress2.png";
-        TILE_ASSET_PATH= "images/tile_11.png";
-        TILE_2_ASSET_PATH= "images/tile_12.png";
-        TILE_ASSET_SELECTION= "images/tile_11_selection.png";
-        STEPS_HORIZONTAL_ASSET_PATH= "images/steps2H.png";
-        STEPS_HORIZONTAL_END_ASSET_PATH= "images/steps2HE.png";
-        STEPS_VERTICAL_ASSET_PATH= "images/steps2V.png";
-        STEPS_VERTICAL_END_ASSET_PATH= "images/steps2VE.png";
+        KING_ASSET_PATH = "assets/images/king.png";
+        DEFENDER_ASSET_PATH = "assets/images/defender2.png";
+        ATTACKER_ASSET_PATH ="assets/images/attacker2.png";
+        THRONE_ASSET_PATH = "assets/images/throne3.png";
+        FORTRESS_ASSET_PATH = "assets/images/fortress2.png";
+        TILE_ASSET_PATH= "assets/images/tile_11.png";
+        TILE_2_ASSET_PATH= "assets/images/tile_12.png";
+        TILE_ASSET_SELECTION= "assets/images/tile_11_selection.png";
+        STEPS_HORIZONTAL_ASSET_PATH= "assets/images/steps2H.png";
+        STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/steps2HE.png";
+        STEPS_VERTICAL_ASSET_PATH= "assets/images/steps2V.png";
+        STEPS_VERTICAL_END_ASSET_PATH= "assets/images/steps2VE.png";
 
     }
     public void loadThemeSimpleFileNames(){
-        KING_ASSET_PATH = "images/theme_1_king.png";
-        DEFENDER_ASSET_PATH = "images/theme_1_defender.png";
-        ATTACKER_ASSET_PATH ="images/theme_1_attacker.png";
-        THRONE_ASSET_PATH = "images/theme_1_throne.png";
-        FORTRESS_ASSET_PATH = "images/theme_1_fortress.png";
-        TILE_ASSET_PATH= "images/theme_1_tile_1.png";
-        TILE_2_ASSET_PATH= "images/theme_1_tile_0.png";
-        TILE_ASSET_SELECTION="images/theme_1_step.png";
-        STEPS_HORIZONTAL_ASSET_PATH= "images/theme_1_step.png";
-        STEPS_HORIZONTAL_END_ASSET_PATH= "images/theme_1_step.png";
-        STEPS_VERTICAL_ASSET_PATH= "images/theme_1_step.png";
-        STEPS_VERTICAL_END_ASSET_PATH= "images/theme_1_step.png";
+        KING_ASSET_PATH = "assets/images/theme_1_king.png";
+        DEFENDER_ASSET_PATH = "assets/images/theme_1_defender.png";
+        ATTACKER_ASSET_PATH ="assets/images/theme_1_attacker.png";
+        THRONE_ASSET_PATH = "assets/images/theme_1_throne.png";
+        FORTRESS_ASSET_PATH = "assets/images/theme_1_fortress.png";
+        TILE_ASSET_PATH= "assets/images/theme_1_tile_1.png";
+        TILE_2_ASSET_PATH= "assets/images/theme_1_tile_0.png";
+        TILE_ASSET_SELECTION="assets/images/theme_1_step.png";
+        STEPS_HORIZONTAL_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_HORIZONTAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_VERTICAL_ASSET_PATH= "assets/images/theme_1_step.png";
+        STEPS_VERTICAL_END_ASSET_PATH= "assets/images/theme_1_step.png";
     }
 
     public void updateTheme(){

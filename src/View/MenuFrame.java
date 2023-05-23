@@ -145,7 +145,7 @@ public class MenuFrame extends Frame {
 
     public void loadAssets(){
         try{
-            imageBackground = ImageIO.read(new File("images/backgroundMenu.jpg"));
+            imageBackground = ImageIO.read(new File("assets/images/backgroundMenu.jpg"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -153,9 +153,9 @@ public class MenuFrame extends Frame {
 
     public void loadFonts(){
         try{
-            fontTitle = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/fantasy.otf")).deriveFont(130f);
+            fontTitle = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/fantasy.otf")).deriveFont(130f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fonts/fantasy.otf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/fantasy.otf")));
         } catch(IOException | FontFormatException e){
             e.printStackTrace();
         }
