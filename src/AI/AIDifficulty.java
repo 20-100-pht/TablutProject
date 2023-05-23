@@ -8,8 +8,5 @@ public enum AIDifficulty {
 
     private int value;
     AIDifficulty(int value) {this.value = value;}
-    public int getValue() {
-        return value;
-    }
 
 }

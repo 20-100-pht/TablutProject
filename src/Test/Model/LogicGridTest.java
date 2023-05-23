@@ -84,8 +84,8 @@ class LogicGridTest {
 
     @Test
     void attack() {
-        logicGrid.setNbPieceDefenderOnGrid(3);
-        logicGrid.setNbPieceAttackerOnGrid(2);
+        logicGrid.setNbPieceDefenderOnGrid((byte)3);
+        logicGrid.setNbPieceAttackerOnGrid((byte)2);
 
         logicGrid.grid.board = new Piece[9][9];
         logicGrid.grid.testTripleKill();
@@ -101,8 +101,8 @@ class LogicGridTest {
     void capture() {
         logicGrid.grid.board = new Piece[9][9];
         logicGrid.grid.captureKing();
-        logicGrid.setNbPieceDefenderOnGrid(0);
-        logicGrid.setNbPieceAttackerOnGrid(3);
+        logicGrid.setNbPieceDefenderOnGrid((byte)0);
+        logicGrid.setNbPieceAttackerOnGrid((byte)3);
         logicGrid.king = logicGrid.grid.getPieceAtPosition(new Coordinate(0,2));
 
         logicGrid.capture();
@@ -114,8 +114,8 @@ class LogicGridTest {
         logicGrid.grid.board = new Piece[9][9];
         logicGrid.grid.testKingVulnerability5();
 
-        logicGrid.setNbPieceDefenderOnGrid(0);
-        logicGrid.setNbPieceAttackerOnGrid(2);
+        logicGrid.setNbPieceDefenderOnGrid((byte)0);
+        logicGrid.setNbPieceAttackerOnGrid((byte)2);
         logicGrid.king = logicGrid.grid.getPieceAtPosition(new Coordinate(0,1));
 
         Piece currentAttacker = logicGrid.grid.getPieceAtPosition(new Coordinate(2,1));
@@ -131,8 +131,8 @@ class LogicGridTest {
         logicGrid.grid.board = new Piece[9][9];
         logicGrid.grid.testKingVulnerability4();
 
-        logicGrid.setNbPieceDefenderOnGrid(0);
-        logicGrid.setNbPieceAttackerOnGrid(3);
+        logicGrid.setNbPieceDefenderOnGrid((byte)0);
+        logicGrid.setNbPieceAttackerOnGrid((byte)3);
         logicGrid.king = logicGrid.grid.getPieceAtPosition(new Coordinate(0,2));
 
         Piece currentAttacker = logicGrid.grid.getPieceAtPosition(new Coordinate(2,2));
@@ -148,8 +148,8 @@ class LogicGridTest {
         logicGrid.grid.board = new Piece[9][9];
         logicGrid.grid.testKingVulnerability2();
 
-        logicGrid.setNbPieceDefenderOnGrid(0);
-        logicGrid.setNbPieceAttackerOnGrid(3);
+        logicGrid.setNbPieceDefenderOnGrid((byte)0);
+        logicGrid.setNbPieceAttackerOnGrid((byte)3);
         logicGrid.king = logicGrid.grid.getPieceAtPosition(new Coordinate(3,4));
 
         Piece currentAttacker = logicGrid.grid.getPieceAtPosition(new Coordinate(3,4));
@@ -165,8 +165,8 @@ class LogicGridTest {
         logicGrid.grid.board = new Piece[9][9];
         logicGrid.grid.testKingVulnerability();
 
-        logicGrid.setNbPieceDefenderOnGrid(0);
-        logicGrid.setNbPieceAttackerOnGrid(4);
+        logicGrid.setNbPieceDefenderOnGrid((byte)0);
+        logicGrid.setNbPieceAttackerOnGrid((byte)4);
 
         Piece currentAttacker = logicGrid.grid.getPieceAtPosition(new Coordinate(2,4));
         Coup coup = new Coup(new Coordinate(2,4), new Coordinate(3,4));
@@ -180,8 +180,8 @@ class LogicGridTest {
         logicGrid.grid.board = new Piece[9][9];
         logicGrid.grid.testKingVulnerability3();
 
-        logicGrid.setNbPieceDefenderOnGrid(0);
-        logicGrid.setNbPieceAttackerOnGrid(4);
+        logicGrid.setNbPieceDefenderOnGrid((byte)0);
+        logicGrid.setNbPieceAttackerOnGrid((byte)4);
         logicGrid.king = logicGrid.grid.getPieceAtPosition(new Coordinate(1,1));
 
         currentAttacker = logicGrid.grid.getPieceAtPosition(new Coordinate(3,1));

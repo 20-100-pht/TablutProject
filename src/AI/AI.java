@@ -11,6 +11,9 @@ import java.util.Random;
 
 public abstract class AI implements Serializable {
 
+    ArrayList<Grid> grids = new ArrayList<>();
+    ArrayList<Integer> gridTimes = new ArrayList<>();
+
     int startingDepth = 0;
     int aiType = -1;
 
@@ -92,6 +95,15 @@ public abstract class AI implements Serializable {
     }
 
 
+    /**
+     * Minimax algorithm with alpha beta pruning
+     * @param node Board configuration
+     * @param depth Current search depth
+     * @param colour Maximizing player
+     * @param alpha Alpha value for pruning
+     * @param beta Beta value for pruning
+     * @return heuristic value
+     */
     public double minimax(Node node, int depth, int colour, double alpha, double beta){
 
         PieceType maximizingPlayer = PieceType.ATTACKER;
@@ -102,8 +114,7 @@ public abstract class AI implements Serializable {
         }
 
         if(depth == 0 || node.getLogicGrid().isEndGame()){
-            double h = heuristic(node,depth,maximizingPlayer, player);
-            return h;
+            return heuristic(node,depth,maximizingPlayer, player);
         }
 
         //Get all children of node
@@ -140,7 +151,13 @@ public abstract class AI implements Serializable {
     }
 
 
-
+    /**
+     * Create all versions of a board;
+     * @param node Board configuration
+     * @param colour Maximizing player
+     * @param depth Current search depth
+     * @return heuristic value
+     */
     private ArrayList<Node> createChildren(Node node, int colour, int depth){
         int boardSize = node.getLogicGrid().getGrid().getSizeGrid();
         Piece[][] board = node.getLogicGrid().getGrid().getBoard();

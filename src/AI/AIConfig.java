@@ -13,28 +13,14 @@ public class AIConfig {
     static double circleStrat_A = 3;
 
 
-    public static double getCircleStrat_D() {
-        return circleStrat_D;
-    }
-
-    public static void setCircleStrat_D(double circleStrat_D) {AIConfig.circleStrat_D = circleStrat_D;}
     public static double getPieceRatio_D() {return pieceRatio_D;}
 
-    public static void setPieceRatio_D(double pieceRatio_D) {AIConfig.pieceRatio_D = pieceRatio_D;}
-
     public static double getKingToCorner_D() {return kingToCorner_D;}
-
-    public static void setKingToCorner_D(double kingToCorner_D) {
-        AIConfig.kingToCorner_D = kingToCorner_D;
-    }
 
     public static double getNextToKing_D() {
         return nextToKing_D;
     }
 
-    public static void setNextToKing_D(double nextToKing_D) {
-        AIConfig.nextToKing_D = nextToKing_D;
-    }
     public static double getPieceRatio_A() {
         return pieceRatio_A;
     }
@@ -67,11 +53,4 @@ public class AIConfig {
         AIConfig.circleStrat_A = circleStrat_A;
     }
 
-    public static double getKingToValuablePos_A() {
-        return kingToValuablePos_A;
-    }
-
-    public static void setKingToValuablePos_A(double kingToValuablePos_A) {
-        AIConfig.kingToValuablePos_A = kingToValuablePos_A;
-    }
 }

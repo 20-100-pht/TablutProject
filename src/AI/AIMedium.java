@@ -40,6 +40,7 @@ public class AIMedium extends AI {
         //Attackers want a high value, Defenders want a low value
         return value;
     }
+
     private double defenderHeuristic(Node current){
         LogicGrid gRules = current.getLogicGrid();
 

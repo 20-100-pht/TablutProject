@@ -4,7 +4,6 @@ import Structure.Coordinate;
 import Structure.Coup;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class LogicGrid implements Serializable {
@@ -13,8 +12,8 @@ public class LogicGrid implements Serializable {
     public Piece king;
     public Grid grid;
 
-    int nbPieceAttackerOnGrid;
-    int nbPieceDefenderOnGrid;
+    byte nbPieceAttackerOnGrid;
+    byte nbPieceDefenderOnGrid;
 
     //ArrayList<>
 
@@ -132,7 +131,7 @@ public class LogicGrid implements Serializable {
      * @return list of "killed" pieces
      */
     public Vector<Piece> attack(Piece current){
-        Vector<Piece> lPiece = new Vector<Piece>();
+        Vector<Piece> lPiece = new Vector<>();
 
         // attaque en haut
         Piece p1 = attackWithArg(current, -1, 0 );
@@ -363,7 +362,7 @@ public class LogicGrid implements Serializable {
     public Vector<Coordinate> getCoupCasesCrossed(Coup coup){
 
         if(coup == null){
-            return new Vector<Coordinate>();
+            return new Vector<>();
         }
 
         int cStart = coup.getInit().getCol();
@@ -374,7 +373,7 @@ public class LogicGrid implements Serializable {
         int distanceC = cEnd - cStart;
         int distanceL = lEnd - lStart;
 
-        Vector<Coordinate> coords = new Vector<Coordinate>();
+        Vector<Coordinate> coords = new Vector<>();
         int max = Math.max(Math.abs(distanceC), Math.abs(distanceL));
         for(int i = 0; i <= max; i++){
             int c = cStart + i*(distanceC/max);
@@ -406,7 +405,7 @@ public class LogicGrid implements Serializable {
         return nbPieceDefenderOnGrid;
     }
 
-    public void setNbPieceDefenderOnGrid(int nbPieceDefenderOnGrid){
+    public void setNbPieceDefenderOnGrid(byte nbPieceDefenderOnGrid){
         this.nbPieceDefenderOnGrid = nbPieceDefenderOnGrid;
     }
     public void incNbPieceAttackerOnGrid(){
@@ -416,7 +415,7 @@ public class LogicGrid implements Serializable {
         nbPieceDefenderOnGrid++;
     }
 
-    public void setNbPieceAttackerOnGrid(int nbPieceAttackerOnGrid) {
+    public void setNbPieceAttackerOnGrid(byte nbPieceAttackerOnGrid) {
         this.nbPieceAttackerOnGrid = nbPieceAttackerOnGrid;
     }
 
@@ -458,10 +457,10 @@ public class LogicGrid implements Serializable {
         newLogicGrid.setEndGameVar(a);
 
         //Add nb attckers
-        newLogicGrid.setNbPieceAttackerOnGrid(getNbPieceAttackerOnGrid());
-        newLogicGrid.setNbPieceDefenderOnGrid(getNbPieceDefenderOnGrid());
+        newLogicGrid.setNbPieceAttackerOnGrid((byte)getNbPieceAttackerOnGrid());
+        newLogicGrid.setNbPieceDefenderOnGrid((byte)getNbPieceDefenderOnGrid());
 
-        newLogicGrid.setNbPieceDefenderOnGrid(getNbPieceDefenderOnGrid());
+        newLogicGrid.setNbPieceDefenderOnGrid((byte)getNbPieceDefenderOnGrid());
 
         return newLogicGrid;
     }

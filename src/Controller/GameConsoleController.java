@@ -65,8 +65,6 @@ public class GameConsoleController extends GameController {
             PieceType AiPieces;
             if(game.isAttackerTurn()) AiPieces = PieceType.ATTACKER;
             else AiPieces = PieceType.DEFENDER;
-//TODO ?? de base y'avait pas AiPieces == PieceType.DEFENDER en vrai je suis pas sur si c'est nécéssaire car le problème venait d'une autre fonction mais bon
-            //TODO à modifier quand il y aura plusieurs difficultées
 
            if(game.isDefenderAI() && !game.isAttackerTurn()){
                if(game.getAIDefenderDifficulty() == AIDifficulty.EASY) coupAI = game.getDefenderAI().playMove(logicGrid, Configuration.getMaxAiRandomDepth(), AiPieces);
