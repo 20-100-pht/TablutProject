@@ -308,7 +308,7 @@ public class GameFrame extends Frame {
         c.insets = new Insets(25, 25, 25, 25);
         gridPanelContainer.add(gridBorderPanel, c);
 
-        c.insets = new Insets(5, 5, 5, 5);
+        c.insets = new Insets(7, 7, 7, 7);
         //c.insets = new Insets(0,0,0,0);
         gridBorderPanel.add(gridPanel, c);
 
@@ -843,8 +843,8 @@ public class GameFrame extends Frame {
         player1InfoPart.setColor(COLOR_PLAYER_PANEL);
         player2InfoPart.setColor(COLOR_PLAYER_PANEL);
 
-        panelImagePlayer1.setBorder(BorderFactory.createLineBorder(COLOR_DEFENDER, 5));
-        panelImagePlayer2.setBorder(BorderFactory.createLineBorder(COLOR_ATTACKER, 5));
+        panelImagePlayer1.setBorder(BorderFactory.createLineBorder(COLOR_DEFENDER, 7));
+        panelImagePlayer2.setBorder(BorderFactory.createLineBorder(COLOR_ATTACKER, 7));
         labelPlayer1Name.setForeground(COLOR_TIMER);
         labelPlayer2Name.setForeground(COLOR_TIMER);
 

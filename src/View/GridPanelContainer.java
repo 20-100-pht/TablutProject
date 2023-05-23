@@ -21,7 +21,7 @@ public class GridPanelContainer extends RoundPanel {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 15));
 
-        int xN = 10;
+        int xN = 9;
         int yI = gridPanel.getCaseSize()/2 + 35;
         for(int i = 0; i < GridPanel.GRID_SIZE; i++){
             int y = yI + i*gridPanel.getCaseSize();

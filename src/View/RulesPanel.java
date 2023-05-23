@@ -319,6 +319,7 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(7, 0, 0, 0);
         page2.add(labelCapturePos4, c);
 
+
         //Page 3
 
         page3 = createPage(this, 0, 1);
@@ -391,7 +392,7 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(0, 0, 0, 0);
         page3.add(labelCaptureKWall, c);
 
-        JLabel labelCaptureKExp = new JLabel("Comme pour les pions, il existe les tenailles avec les forteresses et le thrône.");
+        JLabel labelCaptureKExp = new JLabel("Comme pour les pions, il peut être capturé contre les forteresses et le thrône.");
         labelCaptureKExp.setFont(fontDialog15);
         c.gridx = 0;
         c.gridy = 3;
@@ -410,7 +411,7 @@ public class RulesPanel extends RoundPanel {
         c.gridx = 0;
         c.gridy = 1;
         //c.gridwidth = 5;
-        c.insets = new Insets(0,0,50,0);
+        c.insets = new Insets(0,0,32,0);
         page4.add(labelTitleGoodToKnow, c);
 
         JLabel labelImgSuicide = new JLabel(imageCaptureSuicide);
@@ -419,7 +420,7 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(0,0,0,0);
         page4.add(labelImgSuicide, c);
 
-        JLabel labelCaptureSuicide = new JLabel("Une pièce qui se \"suicide\" n'est pas capturée.");
+        JLabel labelCaptureSuicide = new JLabel("1) Une pièce qui se \"suicide\" n'est pas capturée.");
         labelCaptureSuicide.setFont(fontDialog15);
         c.gridx = 0;
         c.gridy = 3;
@@ -432,12 +433,19 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(0,0,0,0);
         page4.add(labelImgCaptureSeveral, c);
 
-        JLabel labelCaptureSeveral = new JLabel("Plusieurs pièces peuvent être capturées en un seul coup.");
+        JLabel labelCaptureSeveral = new JLabel("2) Plusieurs pièces peuvent être capturées en un seul coup.");
         labelCaptureSeveral.setFont(fontDialog15);
         c.gridx = 0;
         c.gridy = 5;
         c.insets = new Insets(7, 0, 0, 0);
         page4.add(labelCaptureSeveral, c);
+
+        JLabel labelCaptureKingExc = new JLabel("3) Le roi ne peut pas capturer");
+        labelCaptureKingExc.setFont(fontDialog15);
+        c.gridx = 0;
+        c.gridy = 6;
+        c.insets = new Insets(13, 0, 0, 0);
+        page4.add(labelCaptureKingExc, c);
 
 
 
@@ -481,7 +489,7 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(0,0,0,0);
         page5.add(labelImgKing, c);*/
 
-        JLabel labelKing = new JLabel("S'il échoue et se fait capturer par les attaquants, ils gagnent.");
+        JLabel labelKing = new JLabel("S'il échoue et se fait capturer, les attaquants gagnent.");
         labelKing.setFont(fontDialog15);
         c.gridx = 1;
         c.gridy = 4;
