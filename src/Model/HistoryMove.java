@@ -26,19 +26,11 @@ public class HistoryMove implements Serializable {
         return coup;
     }
 
-    public Vector<Piece> getKilledPieces(){
-        return killedPieces;
-    }
-
     public boolean isAttackerMove() {
         return isAttackerMove;
     }
 
     public int getTurnIndex(){
         return turnIndex;
-    }
-
-    public Coup getPreviousCoup(){
-        return previousCoup;
     }
 }
