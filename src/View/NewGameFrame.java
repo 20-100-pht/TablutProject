@@ -35,6 +35,7 @@ public class NewGameFrame extends Frame {
     JPanel bttnDefIAPanel;
     JPanel bttnAttIAPanel;
     JTextField tfTime;
+    ImageIcon imageInfo;
 
     public NewGameFrame(Interface ui){
         super(ui);
@@ -178,7 +179,7 @@ public class NewGameFrame extends Frame {
 
         c.fill = GridBagConstraints.CENTER;
 
-        JLabel labelDifficultyIA = new JLabel("Paramètres de joueurs");
+        JLabel labelDifficultyIA = new JLabel("Paramètres joueurs");
         labelDifficultyIA.setFont(fontDialog15);
         labelDifficultyIA.setForeground(Color.BLACK);
         c.gridx = 0;
@@ -193,15 +194,25 @@ public class NewGameFrame extends Frame {
 
         buildIaParamsPart();
 
-        JLabel labelBlitzTitle = new JLabel("Mode blitz");
-        labelBlitzTitle.setFont(fontDialog15);
-        labelBlitzTitle.setForeground(Color.BLACK);
+        JPanel panelBlitzTitle = new JPanel();
+        panelBlitzTitle.setOpaque(false);
+        panelBlitzTitle.setToolTipText("Les joueurs doivent jouer rapidement car lorsque l'un deux n'a plus de temps il a perdu !");
         c.gridx = 0;
         c.gridy = 7;
         c.gridwidth = 2;
         c.insets = new Insets(40, 0, 20, 0);
-        gLayoutCP.setConstraints(labelBlitzTitle, c);
-        centralPanel.add(labelBlitzTitle);
+        gLayoutCP.setConstraints(panelBlitzTitle, c);
+        centralPanel.add(panelBlitzTitle);
+
+        JLabel labelBlitzTitle = new JLabel("Mode blitz");
+        labelBlitzTitle.setFont(fontDialog15);
+        labelBlitzTitle.setForeground(Color.BLACK);
+        panelBlitzTitle.add(labelBlitzTitle);
+
+        JLabel labelBlitzInfo = new JLabel(imageInfo);
+        panelBlitzTitle.add(labelBlitzInfo);
+
+        //c.gridwidth = 2;
 
         buildBlitzParamsPart();
 
@@ -426,6 +437,7 @@ public class NewGameFrame extends Frame {
             imageChrono = imageChrono.getScaledInstance(32, 32, Image.SCALE_DEFAULT);
             imageNewGame = ImageIO.read(new File("assets/images/backgroundMenu.jpg"));
             returnImage = new ImageIcon(ImageIO.read(new File("assets/images/arrow2.png")));
+            imageInfo = new ImageIcon(ImageIO.read(new File("assets/images/info.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }
