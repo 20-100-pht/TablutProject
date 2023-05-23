@@ -13,13 +13,6 @@ public class Grid implements Serializable {
 
     public Grid() {
         reset();
-        //testAttackSideCastle();
-        //testKingVulnerability2();
-        //testKingVulnerability3();
-        //testKingVulnerability4();
-        //testTripleKill();
-        //noAttacker();
-
     }
 
     public void testKingVulnerability(){
