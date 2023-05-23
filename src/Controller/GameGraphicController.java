@@ -141,7 +141,6 @@ public class GameGraphicController extends GameController {
     @Override
     public void updateViewAfterMove(Coup coup, MoveAnimationType moveAnimationType) {
 
-        System.out.println("dqd");
         stopHintProcess();
 
         updateTurnLabel();

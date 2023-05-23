@@ -40,14 +40,12 @@ public class History implements Serializable {
 
     public HistoryMove undo(){
         pos--;
-        System.out.println(pos);
         return stack.elementAt(pos);
     }
 
     public HistoryMove redo(){
         HistoryMove move = stack.elementAt(pos);
         pos++;
-        System.out.println(pos);
         return move;
     }
 

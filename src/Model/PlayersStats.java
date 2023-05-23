@@ -26,9 +26,7 @@ public class PlayersStats {
 
                 ois.close();
             } catch (IOException e) {
-                System.out.println(1);
                 e.printStackTrace();
-                System.out.println(2);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

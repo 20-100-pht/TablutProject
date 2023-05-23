@@ -43,7 +43,6 @@ public class MenuController {
 
     public void bttnStatsClickHandler(){
         PlayersStats playersStats = new PlayersStats();
-        System.out.println("qsd");
         if(playersStats.getNPlayer() == 0) {
             menuFrame.showNoStatsDialog();
         } else {

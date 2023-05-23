@@ -29,7 +29,7 @@ public class AITraining {
     private static final AIDifficulty AiDef = AIDifficulty.HARD;
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Tablut");
+        System.out.println("Bienvenue dans Tablut !");
 
         BufferedWriter writer = null;
         Date date = new Date();

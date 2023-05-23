@@ -240,7 +240,6 @@ public class GridPanel extends JPanel {
             i = Math.min((int) ((gameFrame.getWidth()*0.5) / 2), (int) ((gameFrame.getHeight()*0.7) / 2));
         else
             i = Math.min((int) ((gameFrame.getWidth()*0.5) / 2), (int) ((gameFrame.getHeight()*0.6) / 2));
-        System.out.println(gameFrame.getHeight());
         return new Dimension(i*2, i*2);
     }
 
