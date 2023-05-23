@@ -16,8 +16,6 @@ public abstract class AI implements Serializable {
 
     int prunning_alpha_cutoffs = 0;
     int prunning_beta_cutoffs = 0;
-    double bestHeuristic = 0;
-    int numberOfBestNodes = 0;
     PieceType player;
 
 
@@ -90,19 +88,6 @@ public abstract class AI implements Serializable {
         Random r = new Random();
         Coup nextMove = bestCoups.get(r.nextInt(bestCoups.size()));
 
-        /*System.out.println("Heuristic :" + bestValue);
-        System.out.println("Move :" + nextMove.toString());
-        System.out.println("Attackers :" + n.getLogicGrid().getNbPieceAttackerOnGrid());
-        System.out.println("Defenders :" + n.getLogicGrid().getNbPieceDefenderOnGrid());*/
-
-        /*System.out.println("Alpha cutoffs : " + prunning_alpha_cutoffs);
-        System.out.println("Beta cutoffs : " + prunning_beta_cutoffs);
-        System.out.println("Best h " + type + " : " + bestHeuristic);
-        System.out.println("Heuristic chosen :" + bestValue);
-        System.out.println("Nb moves :" + bestCoups.size());
-        System.out.println("King rel pos :" + g.getKing().getRelativePosition() + "\n");
-        AITest.visualiseMoves(bestCoups, n.getLogicGrid(), type);*/
-
         return nextMove;
     }
 
@@ -118,13 +103,6 @@ public abstract class AI implements Serializable {
 
         if(depth == 0 || node.getLogicGrid().isEndGame()){
             double h = heuristic(node,depth,maximizingPlayer, player);
-
-            if(colour ==1){
-                bestHeuristic = Math.max(bestHeuristic,h);
-            }else{
-                bestHeuristic = Math.min(bestHeuristic,h);
-            }
-
             return h;
         }
 
@@ -135,10 +113,6 @@ public abstract class AI implements Serializable {
         for(int i = 0; i < children.size(); i++){
 
             double heuristic = minimax(children.get(i), depth-1, (-colour), alpha, beta);
-
-            if(depth==2){
-                int a = 0;
-            }
 
             if(colour == 1){
                 value = Math.max(value,heuristic);

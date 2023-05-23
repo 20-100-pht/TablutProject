@@ -86,8 +86,8 @@ public class Game implements Serializable {
 
     void createIaInstances(){
         if(defenderIsAI){
-            if(defenderTypeAI == AIDifficulty.RANDOM){
-                defenderAI = new AIRandom();
+            if(defenderTypeAI == AIDifficulty.EASY){
+                defenderAI = new AIEasy();
             }else if(defenderTypeAI == AIDifficulty.MID){
                 defenderAI = new AIMedium();
             }else if(defenderTypeAI == AIDifficulty.HARD){
@@ -95,8 +95,8 @@ public class Game implements Serializable {
             }
         }
         if(attackerIsAI){
-            if(attackerTypeAI == AIDifficulty.RANDOM){
-                attackerAI = new AIRandom();
+            if(attackerTypeAI == AIDifficulty.EASY){
+                attackerAI = new AIEasy();
             }else if(attackerTypeAI == AIDifficulty.MID){
                 attackerAI = new AIMedium();
             }
@@ -572,7 +572,7 @@ public class Game implements Serializable {
             if(logicGrid.isAttackerWinConfiguration() || (blitzMode && defTimeRemainedMs <= 0)) {
                 playerStats.addWin();
                 if(isDefenderAI()) {
-                    if(defenderTypeAI == AIDifficulty.RANDOM) playerStats.setWinAgainstEasy(true);
+                    if(defenderTypeAI == AIDifficulty.EASY) playerStats.setWinAgainstEasy(true);
                     if(defenderTypeAI == AIDifficulty.MID) playerStats.setWinAgainstMedium(true);
                     if(defenderTypeAI == AIDifficulty.HARD) playerStats.setWinAgainstHard(true);
                 }
@@ -585,7 +585,7 @@ public class Game implements Serializable {
             if(logicGrid.isDefenderWinConfiguration() || (blitzMode && attTimeRemainedMs <= 0)) {
                 playerStats.addWin();
                 if(isAttackerAI()) {
-                    if(attackerTypeAI == AIDifficulty.RANDOM) playerStats.setWinAgainstEasy(true);
+                    if(attackerTypeAI == AIDifficulty.EASY) playerStats.setWinAgainstEasy(true);
                     if(attackerTypeAI == AIDifficulty.MID) playerStats.setWinAgainstMedium(true);
                     if(attackerTypeAI == AIDifficulty.HARD) playerStats.setWinAgainstHard(true);
                 }

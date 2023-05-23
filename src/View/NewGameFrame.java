@@ -334,7 +334,7 @@ public class NewGameFrame extends Frame {
     public Button createBttnStart(JPanel parent){
         Button bttn = new Button("Lancer la partie", true, this);
         GridBagConstraints c = new GridBagConstraints();
-        bttn.setPreferredSize(new Dimension(200, 55));
+        bttn.setPreferredSize(new Dimension(250, 55));
         bttn.setFont(new Font(Font.DIALOG, Font.BOLD, 23));
         bttn.setRoundValue(40);
         c.gridx = 1;
@@ -353,7 +353,7 @@ public class NewGameFrame extends Frame {
             public void mouseReleased(MouseEvent e) {
                 AIDifficulty defDiff = AIDifficulty.HUMAN;
                 if(rdoEasyDefPart.isSelected()){
-                    defDiff = AIDifficulty.RANDOM;
+                    defDiff = AIDifficulty.EASY;
                 }
                 else if(rdoMediumDefPart.isSelected()){
                     defDiff = AIDifficulty.MID;
@@ -363,7 +363,7 @@ public class NewGameFrame extends Frame {
                 }
                 AIDifficulty attDiff = AIDifficulty.HUMAN;
                 if(rdoEasyAttPart.isSelected()){
-                    attDiff = AIDifficulty.RANDOM;
+                    attDiff = AIDifficulty.EASY;
                 }
                 else if(rdoMediumAttPart.isSelected()){
                     attDiff = AIDifficulty.MID;
