@@ -26,8 +26,17 @@ public class GameFrame extends Frame {
     ImageIcon imageArrowLeft;
     ImageIcon imageArrowRight;
     ImageIcon imageHint;
+    ImageIcon ARROW_LEFT;
+    ImageIcon ARROW_RIGHT;
+    ImageIcon MENU_SWITCH;
     ImageIcon imageBook;
     ImageIcon imageMenu;
+    ImageIcon imageMenu2;
+    ImageIcon imageBulb;
+    ImageIcon imageStartF;
+    ImageIcon imageStartE;
+    ImageIcon imageArrowLeft2;
+    ImageIcon imageArrowRight2;
     JButton bttnMenu;
     JLabel bttnHelp;
     JLabel bttnHint;
@@ -70,9 +79,6 @@ public class GameFrame extends Frame {
     JLabel labelPlayer1Name;
     JLabel labelPlayer2Name;
     JPanel rulesPanel;
-    ImageIcon imageBulb;
-    ImageIcon imageStartF;
-    ImageIcon imageStartE;
     RoundPanel player1InfoPart;
     RoundPanel player2InfoPart;
     RoundPanel turnPanel;
@@ -113,7 +119,6 @@ public class GameFrame extends Frame {
 
         JPanel bgPanel = new JPanel();
         bgPanel.setOpaque(false);
-        //bgPanel.setBackground(new Color(60,60,60));
 
         GridBagLayout gLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
@@ -121,7 +126,7 @@ public class GameFrame extends Frame {
 
         // MENU
 
-        bttnMenu = new JButton(imageMenu);
+        bttnMenu = new JButton();
         bttnMenu.setContentAreaFilled(false);
         bttnMenu.setBorderPainted(false);
         bttnMenu.setMargin(new Insets(0,0,0,0));
@@ -176,7 +181,6 @@ public class GameFrame extends Frame {
         bttnsAfterGamePanel.add(bttnReplay, c);
         bttnReplay.setVisible(false);
 
-
         // btn regle-tuto
 
         JPanel panelTopRightIcons = new JPanel();
@@ -196,16 +200,13 @@ public class GameFrame extends Frame {
         bttnHint = new JLabel(imageBulb);
         panelTopRightIcons.add(bttnHint);
 
-
         c.insets = new Insets(0, 0, 0, 0);
         c.anchor = GridBagConstraints.CENTER;
-
 
         //Infos player 1
 
         player1InfoPart = new RoundPanel(35);
         player1InfoPart.setOpaque(false);
-        //player1InfoPart.setBackground(Color.orange);
         c.gridx = 0;
         c.gridy = 1;
         c.weightx = 0.25;
@@ -239,6 +240,7 @@ public class GameFrame extends Frame {
 
         panelImagePlayer1 = new JPanel();
         panelImagePlayer1.setPreferredSize(new Dimension(104, 104));
+        panelImagePlayer1.setBackground(new Color(210,210,210));
         //panelImagePlayer1.setBorder(imagePlayer1Border);
         c.gridx = 0;
         c.gridy = 1 + dec;
@@ -295,7 +297,6 @@ public class GameFrame extends Frame {
 
         gridPanelContainer = new GridPanelContainer(gridPanel, 35);
         gridPanelContainer.setLayout(new GridBagLayout());
-        gridPanelContainer.setColor(new Color(236, 240, 241));
         centerPanel.add(gridPanelContainer);
 
         gridBorderPanel = new JPanel();
@@ -350,6 +351,7 @@ public class GameFrame extends Frame {
 
         panelImagePlayer2 = new JPanel();
         panelImagePlayer2.setPreferredSize(new Dimension(104, 104));
+        panelImagePlayer2.setBackground(new Color(210,210,210));
         //panelImagePlayer2.setBorder(imagePlayer2Border);
         c.gridx = 0;
         c.gridy = 1 + dec;
@@ -391,7 +393,7 @@ public class GameFrame extends Frame {
 
         if(game.isAttackerAI() | game.isDefenderAI()) {
             bttnStatusIa = new Button("Stopper IAs", false, this);
-            bttnStatusIa.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
+            bttnStatusIa.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
             bttnStatusIa.setPreferredSize(new Dimension(160, 40));
             bttnStatusIa.setRoundValue(35);
             c.gridx = 0;
@@ -409,7 +411,7 @@ public class GameFrame extends Frame {
         gLayout.setConstraints(turnPanel, c);
         bgPanel.add(turnPanel);
 
-        labelPreviousTurn = new JLabel(imageArrowLeft);
+        labelPreviousTurn = new JLabel();
         turnPanel.add(labelPreviousTurn);
 
         Border borderIndexTurn = BorderFactory.createEmptyBorder(0, 30, 0 ,30);
@@ -419,7 +421,7 @@ public class GameFrame extends Frame {
         labelIndexTurn.setBorder(borderIndexTurn);
         turnPanel.add(labelIndexTurn);
 
-        labelNextTurn = new JLabel(imageArrowRight);
+        labelNextTurn = new JLabel();
         turnPanel.add(labelNextTurn);
 
         //Undo - Redo
@@ -545,9 +547,12 @@ public class GameFrame extends Frame {
             imageHuman = new ImageIcon(ImageIO.read(new File("assets/images/human.png")));
             imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_left.png")));
             imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow3_right.png")));
+            imageArrowLeft2 = new ImageIcon(ImageIO.read(new File("assets/images/arrow5_left.png")));
+            imageArrowRight2 = new ImageIcon(ImageIO.read(new File("assets/images/arrow5_right.png")));
             imageBook = new ImageIcon(ImageIO.read(new File("assets/images/book.png")));
             imageBulb = new ImageIcon(ImageIO.read(new File("assets/images/bulb.png")));
             imageMenu = new ImageIcon(ImageIO.read(new File( "assets/images/menu_icon.png")));
+            imageMenu2 = new ImageIcon(ImageIO.read(new File( "assets/images/menu_icon2.png")));
             imageBackground = ImageIO.read(new File( "assets/images/backgroundMenu.jpg"));
             imageBackground2 = ImageIO.read(new File( "assets/images/bg_theme_simple.jpg"));
             imageStartE = new ImageIcon(ImageIO.read(new File( "assets/images/startE.png")));
@@ -851,8 +856,18 @@ public class GameFrame extends Frame {
         bttnRedo.setBackgroundColor(COLOR_BUTTON);
         bttnRedo.setTextColor(COLOR_TIMER);
 
+        if(game.isAttackerAI() | game.isDefenderAI()) {
+            bttnStatusIa.setBackgroundColor(COLOR_BUTTON);
+            bttnStatusIa.setTextColor(COLOR_TIMER);
+            bttnStatusIa.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+        }
+
         turnPanel.setColor(COLOR_BUTTON);
         labelIndexTurn.setForeground(COLOR_TIMER);
+        labelPreviousTurn.setIcon(ARROW_LEFT);
+        labelNextTurn.setIcon(ARROW_RIGHT);
+
+        bttnMenu.setIcon(MENU_SWITCH);
 
         updatePlayerStatus();
     }
@@ -867,6 +882,9 @@ public class GameFrame extends Frame {
                 COLOR_TIMER = Color.BLACK;
                 COLOR_BUTTON = Color.WHITE;
                 BG_SWITCH = imageBackground;
+                MENU_SWITCH = imageMenu;
+                ARROW_LEFT = imageArrowLeft;
+                ARROW_RIGHT = imageArrowRight;
                 break;
             default:
                 COLOR_ATTACKER = Color.WHITE;
@@ -876,6 +894,10 @@ public class GameFrame extends Frame {
                 COLOR_TIMER = Color.WHITE;
                 COLOR_BUTTON = new Color(100,130,77);
                 BG_SWITCH = imageBackground2;
+                MENU_SWITCH = imageMenu2;
+                ARROW_LEFT = imageArrowLeft2;
+                ARROW_RIGHT = imageArrowRight2;
+
         }
     }
 
