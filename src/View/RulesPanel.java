@@ -297,7 +297,7 @@ public class RulesPanel extends RoundPanel {
 
         c.insets = new Insets(0, 0, 0, 0);
 
-        JLabel labelCaptureThrone = new JLabel("Tenaille contre le throne");
+        JLabel labelCaptureThrone = new JLabel("Tenaille contre le trône");
         labelCaptureThrone.setFont(fontDialog15);
         c.gridx = 1;
         c.gridy = 4;
@@ -392,7 +392,7 @@ public class RulesPanel extends RoundPanel {
         c.insets = new Insets(0, 0, 0, 0);
         page3.add(labelCaptureKWall, c);
 
-        JLabel labelCaptureKExp = new JLabel("Comme pour les pions, il peut être capturé contre les forteresses et le thrône.");
+        JLabel labelCaptureKExp = new JLabel("Comme pour les pions, il peut être capturé contre les forteresses et le trône.");
         labelCaptureKExp.setFont(fontDialog15);
         c.gridx = 0;
         c.gridy = 3;
