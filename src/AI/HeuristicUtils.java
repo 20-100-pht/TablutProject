@@ -36,6 +36,14 @@ public class HeuristicUtils {
         return value;
     }
 
+    public static int kingWinOneMove(Piece king, Grid grid){
+       ArrayList<Coordinate> pk = king.possibleMoves(grid.board);
+       for(Coordinate pkC:pk){
+           if (grid.isCornerPosition(pkC)) return 100000;
+       }
+       return 0;
+    }
+
     public static int isNextToKing(Piece king, Grid grid){
         int x = king.getCol();
         int y = king.getRow();
@@ -193,9 +201,9 @@ public class HeuristicUtils {
 
     private static int calculateCorner(Coordinate corner1, Coordinate corner2, Coordinate source, Grid grid){
         int result = 0;
-        if(canMoveToSC(corner1, source, grid) ) result++;
+        if(canMoveToSC(corner1, source, grid) ) result +=2;
         if(canMoveToSC(corner2, source, grid) ){
-            if(result == 1) result = 1000;
+            if(result == 2) result = 1000;
             else result ++;
         }
         return result;

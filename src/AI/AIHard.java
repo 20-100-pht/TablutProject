@@ -38,6 +38,7 @@ public class AIHard extends AI {
         double value = 0;
         value += (double) (current.getLogicGrid().getNbPieceAttackerOnGrid()/(current.getLogicGrid().getNbPieceDefenderOnGrid()+1)) * AIConfig.getPieceRatio_A();
         value += HeuristicUtils.canKingGoToCorner(current) * -AIConfig.getKingToCorner_A();
+        value -= HeuristicUtils.kingWinOneMove(current.getLogicGrid().getKing(), current.getLogicGrid().grid);
         //value += HeuristicUtils.canKingGoToValuablePosition(current) * -AIConfig.getKingToValuablePos_A();
         value += HeuristicUtils.isNextToKing(current.getLogicGrid().getKing(), current.getLogicGrid().getGrid()) * AIConfig.getNextToKing_A();
         value += HeuristicUtils.attackerCircleStrategy(current) * AIConfig.getCircleStrat_A();
