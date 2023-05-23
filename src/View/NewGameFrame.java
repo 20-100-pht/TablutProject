@@ -334,7 +334,7 @@ public class NewGameFrame extends Frame {
     public Button createBttnStart(JPanel parent){
         Button bttn = new Button("Lancer la partie", true, this);
         GridBagConstraints c = new GridBagConstraints();
-        bttn.setPreferredSize(new Dimension(200, 55));
+        bttn.setPreferredSize(new Dimension(250, 55));
         bttn.setFont(new Font(Font.DIALOG, Font.BOLD, 23));
         bttn.setRoundValue(40);
         c.gridx = 1;
