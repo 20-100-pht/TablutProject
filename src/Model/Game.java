@@ -382,13 +382,6 @@ public class Game implements Serializable {
     public History getHistoryInstance(){
         return history;
     }
-    
-    public void setGameDefenderAI(boolean isDefenderAI){
-        defenderIsAI = isDefenderAI;
-    }
-    public void setGameAttackerAI(boolean isAttackerAI){
-        attackerIsAI = isAttackerAI;
-    }
 
     public void setAIAttackerDifficulty(AIDifficulty AIDiff){
         attackerTypeAI = AIDiff;
@@ -397,12 +390,10 @@ public class Game implements Serializable {
         defenderTypeAI = AIDiff;
     }
 
-//modif entre les deux (c'était inversé)
     public AIDifficulty getAIDefenderDifficulty (){
         return defenderTypeAI;
     }
     public AIDifficulty getAIAttackerDifficulty (){return attackerTypeAI;}
-    //
 
     public AI getDefenderAI(){
         return defenderAI;
@@ -507,14 +498,6 @@ public class Game implements Serializable {
 
     public int getReviewTurnIndex(){
         return reviewTurnIndex;
-    }
-
-    public void incReviewTurnIndex(){
-        reviewTurnIndex++;
-    }
-
-    public void decReviewTurnIndex(){
-        reviewTurnIndex--;
     }
 
     public boolean anIaThinking(){
