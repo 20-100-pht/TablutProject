@@ -5,10 +5,8 @@ public class AIConfig {
     static double pieceRatio_D = 5;
     static double kingToCorner_D = 20;
     static double nextToKing_D = 10;
-    static double circleStrat_D = 3;
     static double pieceRatio_A = 2;
     static double kingToCorner_A = 10;
-    static double kingToValuablePos_A = 60;
     static double nextToKing_A = 6;
     static double circleStrat_A = 3;
 

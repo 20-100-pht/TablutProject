@@ -1,13 +1,8 @@
 package AI;
 
-import Global.Configuration;
-import Model.*;
-import Structure.Coordinate;
-import Structure.Direction;
-import Structure.Node;
 
-import java.util.ArrayList;
-import java.util.List;
+import Model.*;
+import Structure.Node;
 
 public class AIHard extends AI {
 
