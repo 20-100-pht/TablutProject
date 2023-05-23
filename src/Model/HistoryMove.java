@@ -13,13 +13,17 @@ public class HistoryMove implements Serializable {
     boolean isAttackerMove;
     int turnIndex;
     Coup previousCoup;
+    int defTimeRemainedInMs;
+    int attTimeRemainedInMs;
 
-    public HistoryMove(Coup coup, Vector<Piece> killedPieces, boolean isAttackerMove, int turnIndex, Coup previousCoup){
+    public HistoryMove(Coup coup, Vector<Piece> killedPieces, boolean isAttackerMove, int turnIndex, Coup previousCoup, int defTimeRemainedInMs, int attTimeRemainedInMs){
         this.coup = coup;
         this.killedPieces = killedPieces;
         this.isAttackerMove = isAttackerMove;
         this.turnIndex = turnIndex;
         this.previousCoup = previousCoup;
+        this.defTimeRemainedInMs = defTimeRemainedInMs;
+        this.attTimeRemainedInMs = attTimeRemainedInMs;
     }
 
     public Coup getCoup(){
@@ -33,4 +37,13 @@ public class HistoryMove implements Serializable {
     public int getTurnIndex(){
         return turnIndex;
     }
+
+    public int getDefTimeRemainedInMs() {
+        return defTimeRemainedInMs;
+    }
+
+    public int getAttTimeRemainedInMs() {
+        return attTimeRemainedInMs;
+    }
+
 }

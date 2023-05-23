@@ -25,7 +25,7 @@ class HistoryTest {
         Coordinate init = new Coordinate(0, 0);
         Coordinate dest = new Coordinate(1, 1);
         Coup coup = new Coup(init, dest);
-        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest));
+        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest), 0, 0);
         history.addMove(move);
         assertFalse(history.isEmpty());
         assertEquals(move, history.getLastMove());
@@ -37,7 +37,7 @@ class HistoryTest {
         Coordinate init = new Coordinate(0, 0);
         Coordinate dest = new Coordinate(1, 1);
         Coup coup = new Coup(init, dest);
-        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest));
+        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest), 0, 0);
         history.addMove(move);
         assertFalse(history.isEmpty());
     }
@@ -48,7 +48,7 @@ class HistoryTest {
         Coordinate init = new Coordinate(0, 0);
         Coordinate dest = new Coordinate(1, 1);
         Coup coup = new Coup(init, dest);
-        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest));
+        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest), 0, 0);
         assertFalse(history.canUndo());
         history.addMove(move);
         assertTrue(history.canUndo());
@@ -60,7 +60,7 @@ class HistoryTest {
         Coordinate init = new Coordinate(0, 0);
         Coordinate dest = new Coordinate(1, 1);
         Coup coup = new Coup(init, dest);
-        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest));
+        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest), 0, 0);
         assertFalse(history.canRedo());
         history.addMove(move);
         assertFalse(history.canRedo());
@@ -73,12 +73,12 @@ class HistoryTest {
         Coordinate init1 = new Coordinate(0, 0);
         Coordinate dest1 = new Coordinate(1, 1);
         Coup coup1 = new Coup(init1, dest1);
-        HistoryMove move1 = new HistoryMove(coup1, new Vector<>(), true, 1, new Coup(init1, dest1));
+        HistoryMove move1 = new HistoryMove(coup1, new Vector<>(), true, 1, new Coup(init1, dest1), 0, 0);
         history.addMove(move1);
         Coordinate init2 = new Coordinate(1, 1);
         Coordinate dest2 = new Coordinate(2, 2);
         Coup coup2 = new Coup(init2, dest2);
-        HistoryMove move2 = new HistoryMove(coup2, new Vector<>(), false, 2, new Coup(init2, dest2));
+        HistoryMove move2 = new HistoryMove(coup2, new Vector<>(), false, 2, new Coup(init2, dest2), 0, 0);
         history.addMove(move2);
         assertEquals(move2, history.undo());
         assertEquals(move1, history.undo());
@@ -89,12 +89,12 @@ class HistoryTest {
         Coordinate init1 = new Coordinate(0, 0);
         Coordinate dest1 = new Coordinate(1, 1);
         Coup coup1 = new Coup(init1, dest1);
-        HistoryMove move1 = new HistoryMove(coup1, new Vector<>(), true, 1, new Coup(init1, dest1));
+        HistoryMove move1 = new HistoryMove(coup1, new Vector<>(), true, 1, new Coup(init1, dest1), 0, 0);
         history.addMove(move1);
         Coordinate init2 = new Coordinate(1, 1);
         Coordinate dest2 = new Coordinate(2, 2);
         Coup coup2 = new Coup(init2, dest2);
-        HistoryMove move2 = new HistoryMove(coup2, new Vector<>(), false, 2, new Coup(init2, dest2));
+        HistoryMove move2 = new HistoryMove(coup2, new Vector<>(), false, 2, new Coup(init2, dest2), 0, 0);
         history.addMove(move2);
         history.undo();
         assertEquals(move2, history.redo());
@@ -107,7 +107,7 @@ class HistoryTest {
         Coordinate init = new Coordinate(0, 0);
         Coordinate dest = new Coordinate(1, 1);
         Coup coup = new Coup(init, dest);
-        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest));
+        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest), 0, 0);
         history.addMove(move);
         assertEquals(move, history.getLastMove());
     }
@@ -117,7 +117,7 @@ class HistoryTest {
         Coordinate init = new Coordinate(0, 0);
         Coordinate dest = new Coordinate(1, 1);
         Coup coup = new Coup(init, dest);
-        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest));
+        HistoryMove move = new HistoryMove(coup, new Vector<>(), true, 1, new Coup(init, dest), 0, 0);
         history.addMove(move);
         assertFalse(history.isEmpty());
         history.reset();

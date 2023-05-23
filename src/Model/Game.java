@@ -219,7 +219,8 @@ public class Game implements Serializable {
         gameController.updateViewAfterMove(coup, moveAnimationType);
         if(moveAnimationType == MoveAnimationType.CLASSIC) {
             History history = getHistoryInstance();
-            history.addMove(new HistoryMove(coup, killedPieces, isAttackerTurn(), getTurnIndex(), previousCoup));
+
+            history.addMove(new HistoryMove(coup, killedPieces, isAttackerTurn(), getTurnIndex(), previousCoup, defTimeRemainedMs, attTimeRemainedMs));
             previousCoup = coup;
         }
 
@@ -263,6 +264,9 @@ public class Game implements Serializable {
             setTurnIndex(move.getTurnIndex() - 1);
         }
         previousCoup = move.previousCoup;
+
+        attTimeRemainedMs = move.getAttTimeRemainedInMs();
+        defTimeRemainedMs = move.getDefTimeRemainedInMs();
 
         MoveAnimationType mat = null;
         if(doubleUndo)
@@ -341,10 +345,6 @@ public class Game implements Serializable {
     }
     public LogicGrid getLogicGrid(){
         return logicGrid;
-    }
-
-    public AI getAiMinMax() {
-        return aiMinMax;
     }
 
     public boolean isAttackerAI() {
@@ -426,7 +426,7 @@ public class Game implements Serializable {
 
     public void updatePlayerTurnChrono(int timeElapsed){
 
-        if(!startTimerEnded || reviewMode){
+        if(!startTimerEnded || reviewMode || isEnded()){
             return;
         }
 
