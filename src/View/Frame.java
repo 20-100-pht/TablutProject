@@ -27,7 +27,7 @@ public abstract class Frame extends JComponent {
         animations = new Vector<Animation>();
 
         try{
-            selectorImage = ImageIO.read(new File("assets/images/arrow.png"));
+            selectorImage = ImageIO.read(new File("images/arrow.png"));
             selectorImage= GraphicUtils.resizeImage(selectorImage, 16, 16);
         } catch(IOException exp){
             exp.printStackTrace();
