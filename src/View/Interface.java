@@ -127,7 +127,8 @@ public class Interface {
 
     public void loadAssets(){
         try{
-            imageKing = ImageIO.read(new File("assets/images/king1.png"));
+            System.out.println(ClassLoader.getSystemClassLoader().getResource("images/king1.png").getFile());
+            imageKing = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/king1.png"));
         } catch(IOException exp){
             exp.printStackTrace();
         }

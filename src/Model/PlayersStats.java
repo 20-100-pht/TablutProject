@@ -13,7 +13,7 @@ public class PlayersStats {
     Vector<PlayerStats> playersStats;
 
     public PlayersStats(){
-        File file = new File("assets/"+FILE_NAME);
+        File file = new File(ClassLoader.getSystemClassLoader().getResource(""+FILE_NAME).getFile());
         if(!file.exists()) {
             playersStats = new Vector<PlayerStats>();
         }
@@ -34,7 +34,7 @@ public class PlayersStats {
     }
 
     public void save(){
-        File file = new File("assets/"+FILE_NAME);
+        File file = new File(ClassLoader.getSystemClassLoader().getResource(""+FILE_NAME).getFile());
         try {
             FileOutputStream os = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(os);

@@ -49,7 +49,7 @@ public class WinMessagePanel extends JPanel {
 
     public void loadImages(){
         try {
-            imageVictory = new ImageIcon(ImageIO.read(new File("assets/images/victory.png")));
+            imageVictory = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/victory.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

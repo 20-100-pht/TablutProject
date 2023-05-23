@@ -28,8 +28,8 @@ public class CapturedPiecesPanel extends JPanel {
 
     public void loadAssets(){
         try{
-            imageDefender = ImageIO.read(new File(DEFENDER_ASSET_PATH));
-            imageAttacker = ImageIO.read(new File(ATTACKER_ASSET_PATH));
+            imageDefender = ImageIO.read(ClassLoader.getSystemClassLoader().getResource(DEFENDER_ASSET_PATH));
+            imageAttacker = ImageIO.read(ClassLoader.getSystemClassLoader().getResource(ATTACKER_ASSET_PATH));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -89,12 +89,12 @@ public class CapturedPiecesPanel extends JPanel {
     public void loadThemeFileNames(){
         switch (theme){
             case 1:
-                DEFENDER_ASSET_PATH = "assets/images/defender2.png";
-                ATTACKER_ASSET_PATH ="assets/images/attacker2.png";
+                DEFENDER_ASSET_PATH = "images/defender2.png";
+                ATTACKER_ASSET_PATH = "images/attacker2.png";
                 break;
             default:
-                DEFENDER_ASSET_PATH = "assets/images/theme_1_defender.png";
-                ATTACKER_ASSET_PATH = "assets/images/theme_1_attacker.png";
+                DEFENDER_ASSET_PATH = "images/theme_1_defender.png";
+                ATTACKER_ASSET_PATH = "images/theme_1_attacker.png";
         }
     }
 }

@@ -47,11 +47,11 @@ public class StatsFrame extends Frame {
 
     private void loadAssets() {
         try{
-            imageLeftArrow = new ImageIcon(ImageIO.read(new File("assets/images/arrow4_left.png")));
-            imageRightArrow = new ImageIcon(ImageIO.read(new File("assets/images/arrow4_right.png")));
-            imageCross = new ImageIcon(ImageIO.read(new File("assets/images/cross2.png")));
-            imageVal = new ImageIcon(ImageIO.read(new File("assets/images/val.png")));
-            imageBackground = ImageIO.read(new File("assets/images/backgroundMenu.jpg"));
+            imageLeftArrow = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/arrow4_left.png")));
+            imageRightArrow = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/arrow4_right.png")));
+            imageCross = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/cross2.png")));
+            imageVal = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/val.png")));
+            imageBackground = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/backgroundMenu.jpg"));
         } catch(IOException exp){
             exp.printStackTrace();
         }

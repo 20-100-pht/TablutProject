@@ -577,41 +577,41 @@ public class RulesPanel extends RoundPanel {
 
     public void loadAssets(){
         try{
-            Image imageMovePossiblesT = ImageIO.read(new File("assets/images/movePossibles.png"));
+            Image imageMovePossiblesT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/movePossibles.png"));
             imageMovePossibles = new ImageIcon(imageMovePossiblesT.getScaledInstance(256, 256, Image.SCALE_DEFAULT));
-            Image imageCaptureClassicT = ImageIO.read(new File("assets/images/kill_1.png"));
+            Image imageCaptureClassicT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/kill_1.png"));
             imageCaptureClassic = new ImageIcon(imageCaptureClassicT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
-            Image imageCaptureSeveralT = ImageIO.read(new File("assets/images/kill_2.png"));
+            Image imageCaptureSeveralT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/kill_2.png"));
             imageCaptureSeveral = new ImageIcon(imageCaptureSeveralT.getScaledInstance(256, 173, Image.SCALE_DEFAULT));
-            Image imageCaptureWallT = ImageIO.read(new File("assets/images/kill_3.png"));
+            Image imageCaptureWallT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/kill_3.png"));
             imageCaptureWall = new ImageIcon(imageCaptureWallT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
-            Image imageCaptureCastleT = ImageIO.read(new File("assets/images/kill_4.png"));
+            Image imageCaptureCastleT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/kill_4.png"));
             imageCaptureCastle = new ImageIcon(imageCaptureCastleT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
-            Image imageCaptureSuicideT = ImageIO.read(new File("assets/images/suicide.png"));
+            Image imageCaptureSuicideT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/suicide.png"));
             imageCaptureSuicide = new ImageIcon(imageCaptureSuicideT.getScaledInstance(216, 140, Image.SCALE_DEFAULT));
-            Image imageCaptureThroneT = ImageIO.read(new File("assets/images/kill_5.png"));
+            Image imageCaptureThroneT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/kill_5.png"));
             imageCaptureThrone = new ImageIcon(imageCaptureThroneT.getScaledInstance(330, 90, Image.SCALE_DEFAULT));
-            Image imageGridFortressT = ImageIO.read(new File("assets/images/fortressRules.png"));
+            Image imageGridFortressT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/fortressRules.png"));
             imageGridFortress = new ImageIcon(imageGridFortressT.getScaledInstance(350, 350, Image.SCALE_DEFAULT));
 
-            Image imageCaptureKClassicT = ImageIO.read(new File("assets/images/kill_king1.png"));
+            Image imageCaptureKClassicT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/kill_king1.png"));
             imageCaptureKClassic = new ImageIcon(imageCaptureKClassicT.getScaledInstance(200, 200, Image.SCALE_DEFAULT));
-            Image imageCaptureKWallT = ImageIO.read(new File("assets/images/kill_king3.png"));
+            Image imageCaptureKWallT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/kill_king3.png"));
             imageCaptureKWall = new ImageIcon(imageCaptureKWallT.getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 
-            Image imageDefenderT = ImageIO.read(new File("assets/images/defender2.png"));
+            Image imageDefenderT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/defender2.png"));
             imageDefender = new ImageIcon(imageDefenderT.getScaledInstance(128, 128, Image.SCALE_DEFAULT));
-            Image imageAttackerT = ImageIO.read(new File("assets/images/attacker2.png"));
+            Image imageAttackerT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/attacker2.png"));
             imageAttacker = new ImageIcon(imageAttackerT.getScaledInstance(128, 128, Image.SCALE_DEFAULT));
-            Image imageKingT = ImageIO.read(new File("assets/images/attacker2.png"));
+            Image imageKingT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/attacker2.png"));
             imageKing = new ImageIcon(imageKingT.getScaledInstance(128, 128, Image.SCALE_DEFAULT));
 
-            Image imageCrossT = ImageIO.read(new File("assets/images/cross.png"));
+            Image imageCrossT = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/cross.png"));
             imageCross = new ImageIcon(imageCrossT.getScaledInstance(32, 32, Image.SCALE_DEFAULT));
-            imageArrowLeft = new ImageIcon(ImageIO.read(new File("assets/images/arrow4_left.png")));
-            imageArrowRight = new ImageIcon(ImageIO.read(new File("assets/images/arrow4_right.png")));
-            imagePageIndexF = new ImageIcon(ImageIO.read(new File("assets/images/pageIndexF.png")));
-            imagePageIndexNF = new ImageIcon(ImageIO.read(new File("assets/images/pageIndexNF.png")));
+            imageArrowLeft = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/arrow4_left.png")));
+            imageArrowRight = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/arrow4_right.png")));
+            imagePageIndexF = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/pageIndexF.png")));
+            imagePageIndexNF = new ImageIcon(ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/pageIndexNF.png")));
         } catch(IOException exp){
             exp.printStackTrace();
         }

@@ -145,7 +145,7 @@ public class MenuFrame extends Frame {
 
     public void loadAssets(){
         try{
-            imageBackground = ImageIO.read(new File("assets/images/backgroundMenu.jpg"));
+            imageBackground = ImageIO.read(ClassLoader.getSystemClassLoader().getResource("images/backgroundMenu.jpg"));
         } catch(IOException exp){
             exp.printStackTrace();
         }
@@ -153,9 +153,9 @@ public class MenuFrame extends Frame {
 
     public void loadFonts(){
         try{
-            fontTitle = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/fantasy.otf")).deriveFont(130f);
+            fontTitle = Font.createFont(Font.TRUETYPE_FONT, ClassLoader.getSystemClassLoader().getResourceAsStream("fonts/fantasy.otf")).deriveFont(130f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/fantasy.otf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, ClassLoader.getSystemClassLoader().getResourceAsStream("fonts/fantasy.otf")));
         } catch(IOException | FontFormatException e){
             e.printStackTrace();
         }
@@ -164,7 +164,7 @@ public class MenuFrame extends Frame {
     public File showLoadDialog(){
         File file = null;
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File("./saves"));
+        fileChooser.setCurrentDirectory(new File("./assets/saves"));
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
         }
