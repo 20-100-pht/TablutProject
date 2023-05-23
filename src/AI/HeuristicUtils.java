@@ -35,14 +35,6 @@ public class HeuristicUtils {
         return value;
     }
 
-    public static int kingWinOneMove(Piece king, Grid grid){
-       ArrayList<Coordinate> pk = king.possibleMoves(grid.board);
-       for(Coordinate pkC:pk){
-           if (grid.isCornerPosition(pkC)) return 100000;
-       }
-       return 0;
-    }
-
     public static int isNextToKing(Piece king, Grid grid){
         int x = king.getCol();
         int y = king.getRow();
@@ -104,15 +96,19 @@ public class HeuristicUtils {
 
         //Check if king can go to a border
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 0), grid)) {
+            if(y == 0 || y == 8) return 100000;
             value += canGoTo(n.getLogicGrid().grid, new Coordinate(y, 0), Direction.LEFT);
         }
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 8), grid)) {
+            if(y == 0 || y == 8) return 100000;
             value += canGoTo(n.getLogicGrid().grid, new Coordinate(y, 8), Direction.RIGHT);
         }
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(0, x), grid)) {
+            if(x == 0 || x == 8) return 100000;
             value += canGoTo(n.getLogicGrid().grid, new Coordinate(0, x), Direction.TOP);
         }
         if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(8, x), grid)) {
+            if(x == 0 || x == 8) return 100000;
             value += canGoTo(n.getLogicGrid().grid, new Coordinate(8, x), Direction.BOTTOM);
         }
 
