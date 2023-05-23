@@ -5,7 +5,7 @@ import Model.PieceType;
 import Model.ResultGame;
 import Structure.Node;
 
-public class AIRandom extends AI{
+public class AIEasy extends AI{
 
     @Override
     public double heuristic(Node current, int depth, PieceType maximizingPlayer, PieceType player) {

@@ -69,11 +69,11 @@ public class GameConsoleController extends GameController {
             //TODO à modifier quand il y aura plusieurs difficultées
 
            if(game.isDefenderAI() && !game.isAttackerTurn()){
-               if(game.getAIDefenderDifficulty() == AIDifficulty.RANDOM) coupAI = game.getDefenderAI().playMove(logicGrid, Configuration.getMaxAiRandomDepth(), AiPieces);
+               if(game.getAIDefenderDifficulty() == AIDifficulty.EASY) coupAI = game.getDefenderAI().playMove(logicGrid, Configuration.getMaxAiRandomDepth(), AiPieces);
                else coupAI = game.getDefenderAI().playMove(logicGrid, Configuration.getMaxAiDepth(), AiPieces);
            }
            else if(game.isAttackerAI() && game.isAttackerTurn()){
-               if(game.getAIAttackerDifficulty() == AIDifficulty.RANDOM) coupAI = game.getAttackerAI().playMove(logicGrid, Configuration.getMaxAiRandomDepth(), AiPieces);
+               if(game.getAIAttackerDifficulty() == AIDifficulty.EASY) coupAI = game.getAttackerAI().playMove(logicGrid, Configuration.getMaxAiRandomDepth(), AiPieces);
                else coupAI = game.getAttackerAI().playMove(logicGrid, Configuration.getMaxAiDepth(), AiPieces);
            }
 

@@ -26,14 +26,14 @@ class GameTest {
         assertFalse(game.isAiTurn());
 
         game.attackerIsAI = true;
-        game.setAIAttackerDifficulty(AIDifficulty.RANDOM);
+        game.setAIAttackerDifficulty(AIDifficulty.EASY);
 
         assertTrue(game.isAiTurn());
 
         tearDown();
 
         game.defenderIsAI = true;
-        game.setAIDefenderDifficulty(AIDifficulty.RANDOM);
+        game.setAIDefenderDifficulty(AIDifficulty.EASY);
 
         assertFalse(game.isAiTurn());
     }

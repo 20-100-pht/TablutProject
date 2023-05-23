@@ -353,7 +353,7 @@ public class NewGameFrame extends Frame {
             public void mouseReleased(MouseEvent e) {
                 AIDifficulty defDiff = AIDifficulty.HUMAN;
                 if(rdoEasyDefPart.isSelected()){
-                    defDiff = AIDifficulty.RANDOM;
+                    defDiff = AIDifficulty.EASY;
                 }
                 else if(rdoMediumDefPart.isSelected()){
                     defDiff = AIDifficulty.MID;
@@ -363,7 +363,7 @@ public class NewGameFrame extends Frame {
                 }
                 AIDifficulty attDiff = AIDifficulty.HUMAN;
                 if(rdoEasyAttPart.isSelected()){
-                    attDiff = AIDifficulty.RANDOM;
+                    attDiff = AIDifficulty.EASY;
                 }
                 else if(rdoMediumAttPart.isSelected()){
                     attDiff = AIDifficulty.MID;

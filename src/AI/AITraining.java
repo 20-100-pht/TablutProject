@@ -57,9 +57,7 @@ public class AITraining {
             float nbAtt = 0;
             float nbDef = 0;
 
-            for (int i = 0; i < AIGAMES; i++) {
-
-                //setWeights();
+            for (int i = 0; i < AIGAMES; i++) {;
 
                 Game game = new Game("", "", AiDef, AiAttack, 100);
 

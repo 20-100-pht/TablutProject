@@ -6,7 +6,6 @@ import Structure.Direction;
 import Structure.Node;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HeuristicUtils {
 
@@ -85,71 +84,15 @@ public class HeuristicUtils {
         }
     }
 
-    public static int isNextToKingAndSafe(Piece king, Grid grid) {
-        int x = king.getCol();
-        int y = king.getRow();
-
-        Piece leftPiece = grid.getPieceAtPosition(new Coordinate(y, x - 1));
-        Piece rightPiece = grid.getPieceAtPosition(new Coordinate(y, x + 1));
-        Piece topPiece = grid.getPieceAtPosition(new Coordinate(y - 1, x));
-        Piece bottomPiece = grid.getPieceAtPosition(new Coordinate(y + 1, x));
-
-        int times = 0;
-        if(leftPiece != null && leftPiece.getType() == PieceType.ATTACKER) times += isDefenderNextToIt(leftPiece, grid, 0,1);
-        if(rightPiece != null && rightPiece.getType() == PieceType.ATTACKER) times += isDefenderNextToIt(rightPiece, grid, 0,1);
-        if(topPiece != null && topPiece.getType() == PieceType.ATTACKER) times += isDefenderNextToIt(topPiece, grid, 2,3);
-        if(bottomPiece != null && bottomPiece.getType() == PieceType.ATTACKER) times += isDefenderNextToIt(bottomPiece, grid, 2,3);
-        return times;
-    }
-
-    private static int isDefenderNextToIt(Piece p, Grid grid, int i, int j){
-        PieceType[] tab;
-        if (p != null && p.isAttacker()) {
-            tab = p.piecesNextToIt(grid);
-            if (!(tab[i] == PieceType.DEFENDER ^ tab[j] == PieceType.DEFENDER)){
-                return 1;
-            }
-        }
-        return 0;
-    }
-
     public static int GoToSuicide (Piece p, Grid grid, PieceType adverse){
         int result = 0;
         PieceType[] tab;
         if(p != null){
             tab = p.piecesNextToIt(grid);
-            if( (p.getType() != adverse) && (tab[0] == adverse && tab[1] == adverse)) result += 2;
-            else if ( (p.getType() != adverse) && (tab[2] == adverse && tab[3] == adverse)) result +=2;
+            if( (p.getType() != adverse) && (tab[0] == adverse && tab[1] == adverse)) result += 1;
+            else if ( (p.getType() != adverse) && (tab[2] == adverse && tab[3] == adverse)) result +=1;
         }
         return result;
-        //Tab[0] == en haut
-        //Tab[1] == en bas
-        //Tab[2] == à droite
-        //Tab[3] == à gauche
-    }
-
-    public static int canKingGoToValuablePosition(Node n){
-
-        Grid grid = n.getLogicGrid().getGrid();
-        int x = n.getLogicGrid().getKing().getCol();
-        int y = n.getLogicGrid().getKing().getRow();
-
-        int value = 1;
-
-        if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 1), grid)) {
-            value *=10;
-        }
-        if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(y, 7), grid)) {
-            value *=10;
-        }
-        if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(1, x), grid)) {
-            value *=10;
-        }
-        if (n.getLogicGrid().getKing().canMoveTo(new Coordinate(7, x), grid)) {
-            value *=10;
-        }
-
-        return value;
     }
 
     public static int canKingGoToCorner(Node n){
@@ -228,82 +171,4 @@ public class HeuristicUtils {
 
         return true;
     }
-
-    /**
-     *
-     * Methode with no usage
-     *
-     */
-
-    public static int kingDistanceToCorner(Piece king){
-        int x = king.getCol();
-        int y = king.getRow();
-
-        int center = 4;
-        int border = 8;
-
-        int valX = 0;
-        if(x>=center && x<=border){
-            valX = 4-(x-4);
-        } else if (x<=center && x >=0) {
-            valX = 4-(4-x);
-        }
-
-        int valY = 0;
-        if(y>=center && y<=border){
-            valY = 4-(y-4);
-        } else if (y<=center && y>=0) {
-            valY = 4-(4-y);
-        }
-
-        return (valY+valX);
-    }
-
-    private static int moveToKing(List<Coordinate> pieceCord, Coordinate king){
-        for (Coordinate cord:pieceCord) {
-            if(cord.isSameCoordinate(new Coordinate(king.getRow()-1, king.getCol())) ) return 1;
-            if(cord.isSameCoordinate(new Coordinate(king.getRow()+1, king.getCol())) ) return 1;
-            if(cord.isSameCoordinate(new Coordinate(king.getRow(), king.getCol()-1)) ) return 1;
-            if(cord.isSameCoordinate(new Coordinate(king.getRow(), king.getCol()+1)) ) return 1;
-        }
-        return 0;
-    }
-
-    public static List<Coordinate> getMoves(Piece[][] board, Coordinate coord){
-        List<Coordinate> legalMoves = new ArrayList<>();
-        int x = coord.getCol();
-        int y = coord.getRow();
-
-        for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                if(Math.abs(i) == Math.abs(j) || (i == 0 && j == 0)){
-                    continue;
-                }
-
-                int dx = i;
-                int dy = j;
-                while(x + dx >= 0 && x + dx < board.length && y + dy >= 0 && y + dy < board.length){
-                    if(board[y + dy][x + dx] == null){
-                        legalMoves.add(new Coordinate(x + dx, y + dy));
-                    } else {
-                        break;
-                    }
-
-                    dx += i;
-                    dy += j;
-                }
-            }
-        }
-
-        return legalMoves;
-    }
-
-    public static int isKingAtWalls(Grid grid, Piece King){
-        if (King.getCol() == 0 || King.getCol() == 8 || King.getRow() == 0 || King.getRow() == 8){
-            return 1;
-        }
-        return 0;
-    }
-
-
 }
