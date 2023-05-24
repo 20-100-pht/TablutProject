@@ -68,8 +68,8 @@ public class HeuristicUtils {
             case 1:
                 return 4;
             case 4:
-                return 10;
-            case 10:
+                return 14;
+            case 14:
                 return 10000;
             default:
                 return 0;
