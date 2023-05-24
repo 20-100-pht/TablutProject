@@ -4,6 +4,8 @@ import View.Interface;
 import View.InterfacePage;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Vector;
 
 public class PlayersStats {
@@ -13,29 +15,28 @@ public class PlayersStats {
     Vector<PlayerStats> playersStats;
 
     public PlayersStats(){
-        File file = new File(ClassLoader.getSystemClassLoader().getResource(""+FILE_NAME).getFile());
+        File file = new File(FILE_NAME);
         if(!file.exists()) {
             playersStats = new Vector<PlayerStats>();
+            return;
         }
-        else {
-            try {
-                FileInputStream is = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(is);
+        try {
+            FileInputStream is = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(is);
 
-                playersStats = (Vector<PlayerStats>) ois.readObject();
+            playersStats = (Vector<PlayerStats>) ois.readObject();
 
-                ois.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            ois.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     public void save(){
-        File file = new File(ClassLoader.getSystemClassLoader().getResource(""+FILE_NAME).getFile());
         try {
+            File file = new File(FILE_NAME);
             FileOutputStream os = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(os);
 
