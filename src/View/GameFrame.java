@@ -687,7 +687,7 @@ public class GameFrame extends Frame {
     @Override
     public void adaptWindow(){
         JFrame window = ui.getWindow();
-        window.setMinimumSize(new Dimension(1000, 775));
+        window.setMinimumSize(new Dimension(1000, 815));
 
         Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) (sizeScreen.height);
