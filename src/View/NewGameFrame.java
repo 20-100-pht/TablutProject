@@ -410,6 +410,8 @@ public class NewGameFrame extends Frame {
             tfNameAtt.setBackground(Color.LIGHT_GRAY);
             tfTime.setEnabled(false);
             tfTime.setBackground(Color.LIGHT_GRAY);
+            if (tfNameAtt.getText().length() <= 20)
+                tfNameAtt.setText("");
         } else {
             tfNameAtt.setEnabled(true);
             tfNameAtt.setBackground(Color.WHITE);
@@ -421,6 +423,8 @@ public class NewGameFrame extends Frame {
             tfNameDef.setBackground(Color.LIGHT_GRAY);
             tfTime.setEnabled(false);
             tfTime.setBackground(Color.LIGHT_GRAY);
+            if (tfNameDef.getText().length() <= 20)
+                tfNameDef.setText("");
         } else {
             if(rdoHumanDefPart.isSelected()) {
                 tfNameDef.setBackground(Color.WHITE);
